@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>Poor Man's Empire</title>
+	<style type="text/css">
+		gui {
+			position: fixed;
+			left: 0;
+			top: 0;
+			width: 100%;
+			height: 100%;
+		}
+		body {
+			background-color: #000;
+		}
+	</style>
+</head>
+<body>
+	<gui id="gui">
+	</gui>
+</body>
+
+<script type="text/javascript" src="https://threejs.org/build/three.js"></script>
+<script type="text/javascript" src="https://threejs.org/examples/js/controls/OrbitControls.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/seedrandom/2.3.10/seedrandom.min.js"></script>
+
+<script src="http://mrdoob.github.com/three.js/examples/js/postprocessing/EffectComposer.js"></script>
+<script src="http://mrdoob.github.com/three.js/examples/js/postprocessing/RenderPass.js"></script>
+<script src="http://mrdoob.github.com/three.js/examples/js/postprocessing/MaskPass.js"></script>
+<script src="http://mrdoob.github.com/three.js/examples/js/postprocessing/ShaderPass.js"></script>
+<script>
+
+	//numeric / generation functions and info
+	Math.seedrandom('ooga')
+	const leftarrowcode = 37
+	const uparrowcode = 38
+	const rightarrowcode = 39
+	const downarrowcode = 40
+
+	const camerainitx = 0
+	const camerainity = -5
+	const camerainitz = 5
+
+	const ground_z = -2
+
+	var grid_dict = {}
+
+	function randomInt(min, max) {
+		min = Math.ceil(min);
+		max = Math.floor(max);
+		return Math.floor(Math.random() * (max - min + 1)) + min;
+	}
+
+	function isArrayInArray(arr, item){
+
+		//arr = [[x,y],[] ]
+		//item = [x,y]
+
+		var item_as_string = JSON.stringify(item);
+
+		var contains = arr.some(function(ele){
+		return JSON.stringify(ele) === item_as_string;
+		});
+		return contains;
+	}
+
+	function drawTree(coords, tile){
+		var i = coords[0]
+		var j = coords[1]
+		var xoff = Math.random() - 0.5
+		var yoff = Math.random() - 0.5
+		var rad = 0.2
+		var height = 0.7
+		var geometry = new THREE.ConeGeometry( rad, height, 4 );
+		//geometry = new THREE.BufferGeometry().fromGeometry(geometry)
+		var material = new THREE.MeshBasicMaterial( {color: 0x116611} );
+		/*material.polygonOffset = true;
+		material.depthTest = true
+		material.polygonOffsetFactor = 1;
+		material.polygonOffsetUnits = 0.1;*/
+		var cone = new THREE.Mesh( geometry, material );
+		tile.add( cone );
+		var z_offset = 0
+		//check for mountain / elevated tiles
+		if (tile.geometry.parameters.depth != undefined){
+			z_offset = tile.geometry.parameters.depth / 2
+		}
+		cone.position.set(xoff, yoff, (height/2 + z_offset) )
+		cone.rotation.set(Math.PI/2, 0, 0)
+	}
+
+	function getWaterCol(){
+		col = new THREE.Color(0.3, 0.3, 0.7 + (Math.random() - 0.5)/10)
+		return col
+	}
+
+	function getForestCol(){
+		col = new THREE.Color(0, 0.5 + (Math.random() - 0.5)/15, 0)
+		return col
+	}
+
+	function getTileAt(coords){
+		return grid_dict["tile_" + coords[0] + "_" + coords[1]]
+	}
+
+	function checkValidTile(coords){
+		if (Math.abs(coords[0]) <= xrad && Math.abs(coords[1]) <= yrad){
+			return true
+		}
+		else{
+			return false
+		}
+	}
+
+	function getMountainHeight(diameter, coords){
+		//offset the coords 
+		var x = coords[0]
+		var y = coords[1]
+
+		//the function is as follows: z = (d/4) * 1.2^(-10/d * (x-d/2)^2) * 1.2^(-10/d * (y-d/2)^2)
+		//it generates a sloping hill, shaped like a normal distribution
+		return (diameter / 4) * Math.pow(1.2, (-10 / diameter) * Math.pow((x - diameter/2), 2)) * Math.pow(1.2, (-10 / diameter) * Math.pow((y - diameter/2), 2))
+	}
+
+	//other game functions
+	function center(){
+		//scene.remove(camera)
+		//delete controls
+		//scene.add(camera)
+		camera.position.set(camerainitx, camerainity, camerainitz)
+		//camera.rotation.set(0, 0, 0)
+
+		//var controls = new THREE.TrackballControls(camera, renderer.domElement);
+		controls.rotateSpeed = 1;
+		controls.target = new THREE.Vector3(0, 0, 0)
+		//controls.rotation.set(0, 0, 0)
+	}
+
+	//basic initialization
+	var width = window.innerWidth;
+	var height = window.innerHeight;
+	var camera = new THREE.PerspectiveCamera( 45, width / height, 1, 10000 );
+	var renderer = new THREE.WebGLRenderer({antialias: true});
+	renderer.setSize(width, height);
+	document.getElementById('gui').appendChild(renderer.domElement);
+	var scene = new THREE.Scene({canvas:gui});
+	scene.background = new THREE.Color( 0x333333 );
+	scene.add(camera);
+	var cameravelocity = new Object()
+	cameravelocity.x = 0
+	cameravelocity.y = 0
+	cameravelocity.z = 0
+	//scene.fog = new THREE.Fog(0x888888, 0, 100)
+
+	//get the camera in place
+	camera.position.set(camerainitx, camerainity, camerainitz)
+
+	//TERRAIN GENERATION
+
+	//get the x and y widths
+	var xrad = 50
+	var yrad = 50
+	var structgenrad = 0.9
+
+	//start generating hills / mountains
+	var nummountains = Math.round((Math.random() + 0.5) * 4 * xrad*yrad / (50 * 50))
+	var mountainstarts = []
+	var mountains = {}
+	var mountaindias = []
+
+	for (var mountain = 0; mountain < nummountains; mountain++){
+		mountains[mountain] = []
+		//choose the size of the mountain
+		var mountain_begin_x = randomInt(-xrad*structgenrad, xrad*structgenrad)
+		var mountain_begin_y = randomInt(-yrad*structgenrad, yrad*structgenrad)
+
+		var mountain_begin = [mountain_begin_x, mountain_begin_y]
+		mountainstarts.push(mountain_begin)
+
+		var mountain_dia = Math.round(10*(Math.random()-0.5) + 15)
+		mountaindias.push(mountain_dia)
+
+		if (mountain_dia % 2 == 0){ 
+			mountain_dia += 1 
+		} //easier to generate if the diameter is odd
+
+		for (var x = 0; x < mountain_dia; x++){
+			mountains[mountain].push([])
+			for (var y = 0; y < mountain_dia; y++){
+				var elevation = getMountainHeight(mountain_dia, [x, y])
+				mountains[mountain][x].push(elevation)
+			}
+		}
+	}
+
+	//choose how many water bodies
+	var waterbodies = Math.round(((xrad*yrad)/400) + 4*(Math.random()))
+	var waterbodycoords = []
+	var watercoords = []
+	var wateriterations = 2
+	var wateriterationmult = 1
+	var watersearchmult = wateriterations * wateriterationmult
+
+	//create coords for water bodies
+	for (var i = 0; i < waterbodies; i++){
+		var x = randomInt(-xrad*structgenrad, xrad*structgenrad)
+		var y = randomInt(-yrad*structgenrad, yrad*structgenrad)
+		waterbodycoords.push([x, y])
+		watercoords.push([x, y])
+	}
+
+	//generate the full water bodies
+
+	for (var wateriteration = 1; wateriteration < wateriterations + 1; wateriteration++){
+		//use this to generate new water - we don't want to update the water list while generating water itself
+		var oldwatercoords = []
+		for (var tile = 0; tile < watercoords.length; tile++){
+			oldwatercoords.push(watercoords[tile])
+		}
+		//check for adjacent water tiles and then make new water tiles
+		for (var body = 0; body < waterbodies; body++){
+			for (var i = waterbodycoords[body][0]-(watersearchmult); i <= waterbodycoords[body][0]+(watersearchmult); i++){
+				for (var j = waterbodycoords[body][1]-(watersearchmult); j <= waterbodycoords[body][1]+(watersearchmult); j++){
+					var neartiles = [[i + 1, j], [i - 1, j], [i, j + 1], [i, j - 1], [i + 1, j + 1], [i + 1, j - 1], [i - 1, j + 1],  [i - 1, j - 1]]
+					for (var tile = 0; tile < neartiles.length; tile++){
+						if (isArrayInArray(oldwatercoords, neartiles[tile])){
+							if (Math.random() < (1/wateriteration)){
+								watercoords.push([i, j])
+							}
+							break
+						}
+					}
+				}
+			}
+		}
+	}
+
+	//choose how many forests
+	var numforests = waterbodies * 3
+	var foreststartcoords = []
+	var forestcoords = []
+	var forestsize = 60
+	var forestdensity = 4
+
+	//choose forest starting tiles
+	for (var i = 0; i < numforests; i++){
+		var x = randomInt(-xrad*structgenrad, xrad*structgenrad)
+		var y = randomInt(-yrad*structgenrad, yrad*structgenrad)
+		foreststartcoords.push([x, y])
+		forestcoords.push([x, y])
+	}
+
+	//generate forests
+	for (var forest = 0; forest < numforests; forest++){
+		//more iterations with more forest density
+		for (var dens = 0; dens < forestdensity; dens++){
+			var startx = foreststartcoords[forest][0]
+			var starty = foreststartcoords[forest][1]
+			var curx = startx
+			var cury = starty
+			var movements = [1, 0, -1]
+			//random movement from forest start coords outward
+			for (var walk = 0; walk < forestsize; walk++){
+				curx += movements[Math.floor(Math.random() * movements.length)];
+				cury += movements[Math.floor(Math.random() * movements.length)];
+				forestcoords.push([curx, cury])
+			}
+		}
+	}
+
+	//generate rivers
+	var numrivers = Math.ceil(waterbodies / 2)
+	var rivercoords = [];
+	var widths = [1, 2, 2, 3]
+
+	for (var river = 0; river < numrivers; river++){
+		//start at a water body
+		var startx = waterbodycoords[river][0]
+		var starty = waterbodycoords[river][1]
+		var curx = startx
+		var cury = starty
+
+		//choose a random direction
+		var xdir = Math.random()
+		var direction = [xdir, 1 - xdir]
+
+		//set up the functionality to move in any direction
+		var mods = [1, -1]
+		var xmod = mods[Math.floor(Math.random() * mods.length)];
+		var ymod = mods[Math.floor(Math.random() * mods.length)];
+
+		//choose river width
+		var width = widths[Math.floor(Math.random() * widths.length)];
+
+		while (Math.abs(curx) <= xrad && Math.abs(cury) <= yrad){
+			//randomly change direction by a small amount
+			var xdir = Math.abs(xdir + width*width*(Math.random() - 0.5)/25)
+			var direction = [xdir, 1 - xdir]
+
+			rivercoords.push([curx, cury])
+
+			if (Math.random() < xdir){
+				curx += xmod
+				for (var widthadd = 1; widthadd < width; widthadd++){
+					var curcoords = [curx, cury + ymod*widthadd]
+					rivercoords.push(curcoords)
+				}
+			}
+			else{
+				cury += ymod
+				for (var widthadd = 1; widthadd < width; widthadd++){
+					var curcoords = [curx + ymod*widthadd, cury]
+					rivercoords.push(curcoords)
+				}
+			}
+		}
+	}
+
+	alert("generation done")
+
+
+	//start the controls for moving the camera
+	var controls = new THREE.OrbitControls(camera, renderer.domElement);
+	controls.target = new THREE.Vector3(0, 0, 0)
+	controls.rotateSpeed = 0;
+	//controls.minDistance = 5
+	//controls.maxDistance = 100
+
+	//draw the terrain
+	var drawxrad = 5
+	var drawyrad = 5
+	for (var i = -xrad; i <= xrad; i++){
+		for (var j = -yrad; j <= yrad; j++){
+			var col = new THREE.Color(0.2, 0.6 + (Math.random() - 0.5)/15, 0.2)
+			var type = 'land'
+
+			var geometry = new THREE.PlaneGeometry( 1, 1 );
+			//geometry = new THREE.BufferGeometry().fromGeometry(geometry)
+			var material = new THREE.MeshBasicMaterial( {color: col, side: THREE.DoubleSide} );
+			var plane = new THREE.Mesh( geometry, material );
+			plane.type = type
+			grid_dict["tile_" + i + "_" + j] = plane
+			plane.position.set(i, j, ground_z)
+			plane.lookAt(i, j, 50)
+			scene.add( plane );
+			plane.visible = true
+
+			/*if (Math.abs(i) <= drawxrad && Math.abs(j) <= drawyrad){
+				plane.visible = true
+			}*/
+		}
+	}
+
+	for (var idx = 0; idx < watercoords.length; idx++){
+		if (!checkValidTile(watercoords[idx])){
+			continue
+		}
+		var tile = getTileAt(watercoords[idx])
+		tile.type = 'water'
+		tile.material.color = getWaterCol()
+	}
+
+	for (var idx = 0; idx < rivercoords.length; idx++){
+		if (!checkValidTile(rivercoords[idx])){
+			continue
+		}
+		var tile = getTileAt(rivercoords[idx])
+		tile.type = 'water'
+		tile.material.color = getWaterCol()
+	}
+
+	for (var idx = 0; idx < mountainstarts.length; idx++){
+		var mtn_start_x = mountainstarts[idx][0]
+		var mtn_start_y = mountainstarts[idx][1]
+
+		var mtn_dia = mountaindias[idx]
+
+		for (var x = mtn_start_x; x < mtn_start_x + mtn_dia; x++){
+			for (var y = mtn_start_y; y < mtn_start_y + mtn_dia; y++){
+				if (checkValidTile([x, y])){
+
+				}
+				else{
+					continue
+				}
+				var tile = getTileAt([x, y])
+				if (tile.type != 'water'){
+					var tile_height = mountains[idx][x - mtn_start_x][y - mtn_start_y]
+					tile.position.z += tile_height / 2
+					tile.geometry = new THREE.BoxGeometry(1, 1, tile_height)
+					var gmod = (10 - tile_height) / 10
+					if (gmod < 0){
+						gmod = 0
+					}
+					tile.material.color.g *= gmod
+					tile.mountain = true
+				}
+			}
+		}
+	}
+
+	for (var idx = 0; idx < forestcoords.length; idx++){
+		var tilecoords = forestcoords[idx]
+		var tile = getTileAt(tilecoords)
+		if (!checkValidTile(forestcoords[idx])){
+			continue
+		}
+		tile.type = 'forest'
+		if (!tile.mountain){
+			tile.material.color = getForestCol()
+		}
+		var num = Math.round(2 * Math.random() + 1)
+		for (var iter = 0; iter < num; iter++){
+			drawTree(tilecoords, tile)
+		}
+	}
+
+	alert("drawing done")
+
+	document.onkeypress = function (e) {
+		var code = e.keyCode
+		var letter = String.fromCharCode(code)
+		if (letter == 'c'){
+			center()
+		}
+		//e = e || window.event;
+		// use e.keyCode
+	};
+
+	document.onkeydown = function(e) {
+		var cameramovement = 0.5
+		var code = e.keyCode
+		var realign = false;
+		var velcap = 5
+		if (code == leftarrowcode){
+			cameravelocity.x -= cameramovement
+			//camera.position.x -= cameramovement
+			realign = true
+		}
+		if (code == rightarrowcode){
+			cameravelocity.x += cameramovement
+			//camera.position.x += cameramovement
+			realign = true
+		}
+		if (code == uparrowcode){
+			cameravelocity.y += cameramovement
+			//camera.position.y += cameramovement
+			realign = true
+		}
+		if (code == downarrowcode){
+			cameravelocity.y -= cameramovement
+			//camera.position.y -= cameramovement
+			realign = true
+		}
+		if (cameravelocity.x > velcap){
+			cameravelocity.x = velcap
+		}
+		if (cameravelocity.y > velcap){
+			cameravelocity.y = velcap
+		}
+		if (cameravelocity.x < -velcap){
+			cameravelocity.x = -velcap
+		}
+		if (cameravelocity.y < -velcap){
+			cameravelocity.y = -velcap
+		}
+		if (realign){
+			controls.target = new THREE.Vector3(camera.position.x, camera.position.y - camerainity, camera.position.z - camerainitz)
+		}
+	}
+
+	function animate() {
+		var xcammod = cameravelocity.x * 0.1
+		var ycammod = cameravelocity.y * 0.1
+		camera.position.x += xcammod
+		camera.position.y += ycammod
+		controls.target.x += xcammod
+		controls.target.y += ycammod
+		/*if (cameravelocity.x >= 0){
+			cameravelocity.x -= 0.05
+		}
+		if (cameravelocity.x <= 0){
+			cameravelocity.x += 0.05
+		}
+		if (cameravelocity.y >= 0){
+			cameravelocity.y -= 0.05
+		}
+		if (cameravelocity.y <= 0){
+			cameravelocity.y += 0.05
+		}*/
+		cameravelocity.x /= 1.05
+		cameravelocity.y /= 1.05
+		controls.update();
+		renderer.render( scene, camera );
+	    setTimeout( function() {
+        	requestAnimationFrame( animate );
+    	}, 1000 / 60 );
+    	/*for (var child = 0; child < scene.children.length; child++){
+    		if (child.position.y < camera.position.y && child.visible == true){
+    			child.visible = false
+    		}
+    		if (child.position.y > camera.position.y && child.visible == false){
+    			child.visible = true
+    		}
+    	}*/
+	}
+
+
+	animate();
+
+</script>
+
+</html>
