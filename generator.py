@@ -8,15 +8,25 @@
 import numpy as np
 import random
 import sqlite3
+import os
 
 print("Starting")
 
+SAVES_LISTING = [el for el in os.listdir("saves/") if "map" in el]
+fname = "map" + str(len(SAVES_LISTING) + 1)
+
+print("Generating " + fname + "...")
+
+os.mkdir("saves/" + fname + "/")
 
 '''
 CONSTANTS AND INITIALIZATION ######################################################################
 '''
 
 MAX_WORLD_RADIUS = 500
+
+CENTER_X = 550
+CENTER_Y = 555
 
 WORLD_SEED = round(random.uniform(1, 10) * 10**10)
 
@@ -53,8 +63,6 @@ RIVER_TILE_CODE = 'w,r'
 
 INFO_DELIMITER = "|"
 HEIGHT_DELIMITER = "#"
-
-fname = 'map1'
 
 
 
@@ -134,8 +142,16 @@ def generateWaterBodies(coords1, coords2, water_locations, seed = WATER_BODY_SEE
 			pass
 		else:
 			continue
+
 		body_x = pair[0]
 		body_y = pair[1]
+
+		#make sure a water body doesn't generate on or near the center
+		if (abs(body_x - CENTER_X) < WATER_ITERATIONS + 1 and abs(body_y - CENTER_Y) < WATER_ITERATIONS + 1):
+			#GAME_GRID[tile_y][tile_x] = str(BASE_TILE_HEIGHT) + HEIGHT_DELIMITER + LAND_TILE_CODE + INFO_DELIMITER
+			waterbody_coords.remove([tile_y, tile_x])
+			continue
+
 		GAME_GRID[body_y][body_x] = "0" + HEIGHT_DELIMITER + WATER_BODY_START_TILE_CODE + INFO_DELIMITER
 		#for body_x in water_locations[1]:
 		#create the generator for the individual water body
@@ -160,6 +176,7 @@ def generateWaterBodies(coords1, coords2, water_locations, seed = WATER_BODY_SEE
 				tile_x = body_x + x - WATER_ITERATIONS# + x1
 				if not checkValidTile(tile_x, tile_y):
 					continue
+
 				GAME_GRID[tile_y][tile_x] = "0" + HEIGHT_DELIMITER + WATER_BODY_TILE_CODE + INFO_DELIMITER
 
 
@@ -367,11 +384,11 @@ f.write(str(WORLD_SEED))
 f.close()
 
 f = open("saves/" + fname + "/explored.txt", "w")
-f.write("550,555")
+f.write(str(CENTER_X) +  "," + str(CENTER_Y))
 f.close()
 
 f = open("saves/" + fname + "/units.txt", "w")
-f.write("P~x:550,y:555,n:100,m:5\n")
+f.write("P~x:" + CENTER_X + ",y:" + CENTER_Y + ",n:100,m:5\n")
 f.close()
 
 f = open("saves/" + fname + "/cities.txt", "w")

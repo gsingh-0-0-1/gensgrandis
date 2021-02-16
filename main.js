@@ -72,4 +72,10 @@ app.get("/peopletemplate", (req, res) => {
 	res.send("P~x:xhere,y:yhere,n:nhere,m:mhere")
 })
 
+app.get("/getsaves", (req, res) => {
+	var files = fs.readdirSync("saves");
+	var files = files.filter(file => file.includes("map"));
+	res.send(files)
+})
+
 app.listen(port, host)

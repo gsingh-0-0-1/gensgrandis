@@ -51,6 +51,12 @@
 	</style>
 </head>
 <body>
+
+	<!--
+	Template for a tile on the tile-view for cities
+	-->
+	<input type="button" id="tiletemplate" style="position: fixed; left: 0px; top: 0px; width: 100px; height: 100px; transform: translate(-50%, -50%); background-color: #3a3; display: initial; z-index: 0; box-sizing: border-box" onclick="javascript:selectTileFromTileView(this)">
+
 	<gui id="gui" style="z-index: 1;">
 	</gui>
 
@@ -162,6 +168,29 @@
 
 		</div>
 
+		<div id="city_info_sidebar_view_city_tiles" class="city_sidebar_small_cont" style="top: 60%; left: 7%">
+			View city...
+
+			<div style="padding-left: 20px">
+
+				<input class="button" type="button" value="View >>" style="font-size: 16px; font-family: Courier;background-color: #040; padding: 5px 5px" onclick="javascript:showCityTileView()">
+
+			</div>			
+
+		</div>
+
+		<div id="city_info_sidebar_redirect_food" class="city_sidebar_small_cont" style="top: 75%; left: 7%">
+			Redirect food...
+
+			<div style="padding-left: 20px">
+
+				<input class="button" type="button" value="Redirect >>" style="font-size: 16px; font-family: Courier;background-color: #400; padding: 5px 5px" onclick="javascript:redirectFood()">
+				<input class="button" type="text" style="font-size: 16px; font-family: Courier;background-color: #aae; padding: 5px 5px; color: #111" id="foodRedirectTextInput" placeholder="--Redirect amount--">
+
+			</div>			
+
+		</div>
+
 	</div>
 
 	<div id="city_name_input_container" style="position: fixed; left: 75%; top: 5%; width: 20%; height: 15%; background-color: #4a4aaa; z-index: 0; color: #ddd; font-family: Verdana; font-size: 17px; display: none">
@@ -169,6 +198,9 @@
 			Enter a name for this city:
 		</div>
 		<input type="text" id="city_name_input_box" class="city_name_input" style="position: relative; background-color: rgba(255, 255, 255, 0); border: none; border-bottom: 2px solid white; top: 30%; left: 10%; color: #ddd" onkeypress="javascript:handleCityNameInput(event)" maxlength="20">
+	</div>
+
+	<div id="city_tile_view_screen" style="position: fixed; left: 50%; top: 50%; width: 50%; height: 50%; transform: translate(-50%, -50%); z-index: 0; display: initial; background-color: #333; border: 10px solid #bbb; overflow: scroll">
 	</div>
 
 </body>
@@ -186,6 +218,7 @@
 <script src="https://threejs.org/examples/js/loaders/GLTFLoader.js"></script>
 
 <script src="templates/colors.js"></script>
+<script src="templates/utils.js"></script>
 
 <script>
 
@@ -229,10 +262,21 @@
 								[0.2, -0.22],
 								[0.3, -0.2]]
 	var MAX_CITY_TILE_SIZE = 6
+	var TILE_POP_STEP = 100
 
 
 
-	const FILE = "map1"
+	var FILE = "map1"
+	var filereq = new XMLHttpRequest;
+	filereq.open("GET", "/getsaves")
+	filereq.send()
+	filereq.onreadystatechange = function(){
+		if (this.readyState == 4 && this.status == 200){
+			var files = this.responseText.replace("[", '').replace("]", '').replaceAll('"', '').split(",")
+			var random = Math.floor(Math.random() * files.length);
+			FILE = files[random]
+		}
+	}
 
 	const LAND_TILE_CODE = 'l'
 
@@ -381,105 +425,7 @@
 		return false
 	}
 
-	function isCityCenter(cityID, x, y){
-		if (cities[cityID].center.x == x && cities[cityID].center.y == y){
-			return true
-		}
-		return false
-	}
-
-	function assignCity(x, y, id){
-		grid_dict["tile_" + x + "_" + y].hasCity = true
-		grid_dict["tile_" + x + "_" + y].tileCityID = id
-	}
-
-	function isTileCity(x, y){
-		if (grid_dict["tile_" + x + "_" + y].hasCity == true){
-			return true
-		}
-		return false
-	}
-
-	function tileHasUnit(x, y){
-		if (grid_dict["tile_" + x + "_" + y].hasUnit == true){
-			return true
-		}
-		return false
-	}
-
-	function assignTileUnitStatus(x, y, stat){
-		grid_dict["tile_" + x + "_" + y].hasUnit = stat
-	}
-
-	function isTileAdjacentToWater(x, y){
-		if (isWater(getTileAt(x + 1, y).type)){
-			return true
-		}
-		if (isWater(getTileAt(x - 1, y).type)){
-			return true
-		}
-		if (isWater(getTileAt(x, y + 1).type)){
-			return true
-		}
-		if (isWater(getTileAt(x, y - 1).type)){
-			return true
-		}
-		return false
-	}
-
-	function assignTileFood(x, y){
-		var base = 400
-
-		if (isTileAdjacentToWater(x, y)){
-			base = 650
-		}
-
-		if (isForest(getTileAt(x, y).type)){
-			base = 150
-		}
-
-		var height = getTileAt(x, y).height
-
-		base = base * (MOUNTAIN_STONE_HEIGHT - height) / MOUNTAIN_STONE_HEIGHT
-
-		if (base < 0){
-			base = 0
-		}
-
-		getTileAt(x, y).basefood = base
-	}
-
-	function getNextPopGrowth(availfood, m = 10, f = 1.1){
-		return Math.floor( (2 * m * (1 / (1 + (f ** -availfood)) - 0.5)) )
-	}
-
-	function getHutOffset(x, y, size){
-		/*var xm = ((10 * x) % 100) + 10
-		var ym = ((10 * y) % 100) + 10
-		var sm = (WORLD_SEED % 19) + 1
-
-		var xoff = 1/2.5 * Math.sin(3 * size + sm)
-		var yoff = 1/2.5 * Math.cos(sm * ym * size + sm)*/
-
-		var xoff = (x * size) + (y * WORLD_SEED)
-		var yoff = (y * size) + (x * WORLD_SEED)
-
-		var xm = 131
-		var ym = 92
-		var tol = 0.9
-
-		var xoff = tol * ((xoff % xm) - xm/2) / xm
-		var yoff = tol * ((yoff % ym) - ym/2) / ym
-
-		/*if (Math.abs(xoff) < 0.05){
-			xoff *= 2
-		}
-		if (Math.abs(yoff) < 0.05){
-			yoff *= 2
-		}*/
-
-		return [xoff, yoff]
-	}
+	//removed utils here
 
 	function growTile(x, y, cityidx, center = false){
 		//we can only grow population... if there is population to grow in the first place
@@ -506,7 +452,7 @@
 		}
 		else{
 			cities[cityidx].tiles[x + "_" + y].population += poptoadd
-			if (Math.floor(cities[cityidx].tiles[x + "_" + y].population / 50) > cities[cityidx].tiles[x + "_" + y].pop_size){
+			if (Math.floor(cities[cityidx].tiles[x + "_" + y].population / TILE_POP_STEP) > cities[cityidx].tiles[x + "_" + y].pop_size){
 				cities[cityidx].tiles[x + "_" + y].pop_size += 1
 
 				if (cities[cityidx].tiles[x + "_" + y].pop_size > MAX_CITY_TILE_SIZE){
@@ -910,9 +856,6 @@
 	}
 
 
-
-
-
 	//CITY STUFF
 
 	var viewing_city_sidebar = false
@@ -920,146 +863,126 @@
 	var selectedcitytilex = 'null'
 	var selectedcitytiley = 'null'
 	//var tileoutline = 'null'
-	function showCitySidebar(this_city_ID, tilex, tiley){
-		tilex = Math.round(tilex)
-		tiley = Math.round(tiley)
 
-		viewing_city_sidebar = true
-		selectedcityid = this_city_ID
-		selectedcitytilex = tilex
-		selectedcitytiley = tiley
-		var sidebar = document.getElementById("city_info_sidebar")
-		sidebar.style.display = "initial"
-		sidebar.style.zIndex = 2
+	var in_city_tile_view = false
+	var redirecting_food = false
 
-		tileoutline.visible = true
-		tileoutline.position.set(tilex, tiley, ground_z + getTileAt(tilex, tiley).height)
-		/*if (tileoutline != 'null'){
-			scene.remove(tileoutline)
+	function redirectFood(tileobj = ''){
+		if (!in_city_tile_view){
+			showCityTileView()
 		}
-		tileoutline = new THREE.BoxHelper( getTileAt(selectedcitytilex, selectedcitytiley), 0xaa0000 );
-		scene.add(tileoutline)*/
-
-		//outlinePass.selectedObjects = [getTileAt(selectedcitytilex, selectedcitytiley)];
-		
-		//getTileAt(selectedcitytilex, selectedcitytiley).material.wireframe = true
-		//getTileAt(selectedcitytilex, selectedcitytiley).material.side = THREE.BackSide
-
-		var centerx = cities[this_city_ID].center.x
-		var centery = cities[this_city_ID].center.y
-
-		document.getElementById("city_info_sidebar_name").innerHTML = cities[this_city_ID].name
-
-		document.getElementById("city_info_sidebar_center_loc_x").innerHTML = "X: " + centerx
-		document.getElementById("city_info_sidebar_center_loc_y").innerHTML = "Y: " + centery
-
-		document.getElementById("city_info_sidebar_selected_loc_x").innerHTML = "X: " + tilex
-		document.getElementById("city_info_sidebar_selected_loc_y").innerHTML = "Y: " + tiley
-
-
-		document.getElementById("city_info_sidebar_selected_pop").innerHTML = "Population: "
-		if (centerx == tilex && centery == tiley){
-			document.getElementById("city_info_sidebar_selected_pop").innerHTML += cities[this_city_ID].center.population
+		if (!redirecting_food){
+			redirecting_food = true
+			return
 		}
 		else{
-			document.getElementById("city_info_sidebar_selected_pop").innerHTML += cities[this_city_ID].tiles[tilex + "_" + tiley].population
-		}
-	}
-
-	function hideCitySidebar(){
-		tileoutline.visible = false
-		//scene.remove(tileoutline)
-		//tileoutline = 'null'
-		//outlinePass.selectedObjects = []
-		//getTileAt(selectedcitytilex, selectedcitytiley).material.wireframe = false
-		viewing_city_sidebar = false
-		selectedcityid = 'null'
-		selectedcitytilex = 'null'
-		selectedcitytiley = 'null'
-		var sidebar = document.getElementById("city_info_sidebar")
-		sidebar.style.display = "none"
-		sidebar.style.zIndex = 0
-
-		//document.getElementById("city_info_sidebar_name").innerHTML = ''
-	}
-
-	function handleCityNameInput(event){
-		if (event.keyCode == enterkeycode){
-			let name = document.getElementById("city_name_input_box").value
-			name = name.replaceAll('"', '').replaceAll("'", '').replaceAll(" ", '');
-
-			if (name.length < 1){
+			if (tileobj == ''){
 				return
 			}
-			if (citynames.includes(name)){
-				return
+			else{
+				console.log(selectedcitytilex, selectedcitytiley, tileobj.id)
+				var split = tileobj.id.split("_")
+				var targetx = split[2] * 1
+				var targety = split[3] * 1
+				assignTileFood(selectedcitytilex, selectedcitytiley)
+				assignTileFood(targetx, targety)
+
+				var redirectval = document.getElementById("foodRedirectTextInput").value
+				if (isNaN(redirectval)){
+					return
+				}
+
+				redirectval = redirectval * 1
+
+				if (redirectval < 1){
+					return
+				}
+
+				if (getTileAt(selectedcitytilex, selectedcitytiley).basefood - redirectval < mincitytilepop){
+					return
+				}
+
+				getTileAt(selectedcitytilex, selectedcitytiley).basefood -= redirectval
+				getTileAt(targetx, targety).basefood += redirectval
+				redirecting_food = false
 			}
-			citynames.push(name)
-			current_city.name = name
-			current_city.center.mesh.cityname = name
-			//current_city.center.mesh.cityID = cities.length
-			cities.push(current_city)
-			naming_city = false
-			hideCityNamePanel()
 		}
-		/*else{
-			let val = document.getElementById("city_name_input_box").value
-			if (val.length > 20){
-				document.getElementById("city_name_input_box").value = val.slice(0, -1)
+	}
+
+	function showCityTileView(argCityID = selectedcityid){
+		in_city_tile_view = true
+		var tilescreen = document.getElementById("city_tile_view_screen")
+		tilescreen.textContent = ''
+		tilescreen.style.zIndex = "2"
+		tilescreen.style.display = "initial"
+
+		var this_city = cities[argCityID]
+		var this_city_x = this_city.center.x
+		var this_city_y = this_city.center.y
+
+		var windowheight = tilescreen.clientHeight
+		var windowwidth = tilescreen.clientWidth
+
+		//render the city center
+		var tiles = Object.keys(this_city.tiles)
+		var centertile = this_city_x + "_" + this_city_y
+		tiles.push(centertile)
+
+		for (var citytile of tiles){
+			var tile = document.getElementById("tiletemplate")
+			var tile_clone = tile.cloneNode(true)
+			if (citytile == centertile){
+				var x = 0
+				var y = 0
 			}
-		}*/
-	}
-
-	function showCityNamePanel(){
-		document.getElementById("city_name_input_container").style.display = "initial"
-		document.getElementById("city_name_input_container").style.zIndex = "2"
-		document.getElementById("city_name_input_box").value = ''		
-	}
-
-	function hideCityNamePanel(){
-		document.getElementById("city_name_input_container").style.display = "none"
-		document.getElementById("city_name_input_container").style.zIndex = "0"
-		document.getElementById("city_name_input_box").value = ''
-	}
-
-	function updateCityLabels(){
-		for (var city_iter = 0; city_iter < cities.length; city_iter++){
-			var city = cities[city_iter]
-			var pos = new THREE.Vector3() 
-			pos.x = city.center.mesh.position.x + 0.4
-			pos.y = city.center.mesh.position.y - 0.4
-			pos.z = city.center.mesh.position.z
-
-			var d = document.getElementById("city_" + city.name)
-
-			if (d == null){
-				var d = document.createElement('div')
-				d.id = "city_" + city.name
-
-				document.body.appendChild(d)
-
-				var d = document.getElementById("city_" + city.name)
-				d.style.color = "#222"
-				d.style.fontFamily = "Verdana"
-				d.style.backgroundColor = "#aa7710"
-				d.style.borderRadius = "2px"
-
-				d.style.width = city.name.length * 10 + "px"
-
-				d.style.position = "fixed"
-				d.style.zIndex = 2
-
-				d.innerHTML = city.name
+			else{
+				var x = this_city.tiles[citytile].x - this_city_x
+				var y = this_city.tiles[citytile].y - this_city_y
 			}
 
-			pos.project( camera );
-			pos.x = Math.round(( pos.x + 1) * width / 2);
-			pos.y = Math.round(- ( pos.y - 1) * height / 2);
+			tile_clone.id = this_city.cityID + "_" + this_city.name + "_" + (x + this_city_x) + "_" + (y + this_city_y)
 
-			d.style.left = pos.x + "px"
-			d.style.top = pos.y + "px"
-			//console.log(pos)
+			y = -y
+			tile_clone.style.position = "fixed"
+			tile_clone.style.zIndex = 2
+			tile_clone.style.top = (y*100 + Math.round(windowheight / 2)) + "px"
+			tile_clone.style.left = (x*100 + Math.round(windowwidth / 2)) + "px"
+			tile_clone.style.border = "1px solid white"
+
+			//get the color of the tile
+			if (x == 0 && y == 0){
+				tile_clone.style.backgroundColor = "rgb(140, 20, 20)"
+			}
+			else{
+				var col = getTileAt(this_city.tiles[citytile].x, this_city.tiles[citytile].y).material.color
+				var r = Math.round(col.r * 255)
+				var g = Math.round(col.g * 255)
+				var b = Math.round(col.b * 255)
+
+				tile_clone.style.backgroundColor = "rgb(" + r + ", " + g + ", " + b + ")"
+			}
+
+			document.getElementById("city_tile_view_screen").appendChild(tile_clone)
 		}
+	}
+
+	function selectTileFromTileView(obj){
+		if (redirecting_food){
+			redirectFood(obj)
+			return
+		}
+		//alert("here")
+		var split = obj.id.split("_")
+		var x = split[2] * 1
+		var y = split[3] * 1
+		var id = split[0] * 1
+		showCitySidebar(id, x, y)
+	}
+
+	function hideCityTileView(){
+		in_city_tile_view = false
+		document.getElementById("city_tile_view_screen").style.zIndex = "0"
+		document.getElementById("city_tile_view_screen").style.display = "none"
 	}
 
 
@@ -1163,6 +1086,10 @@
 				cities[selectedcityid].tiles[targetx + "_" + targety].mesh = gltf.scene
 				cities[selectedcityid].tiles[targetx + "_" + targety].population = 50
 				cities[selectedcityid].tiles[targetx + "_" + targety].pop_size = 1
+
+				if (in_city_tile_view){
+					showCityTileView(selectedcityid)
+				}
 			}
 		)
 
@@ -1471,6 +1398,10 @@
 				buildCity()
 			}
 		}
+
+		if (letter == 'v' && selectedcityid != "null"){
+			showCityTileView(selectedcityid)
+		}
 	};
 
 	document.onkeydown = function(e) {
@@ -1488,9 +1419,15 @@
 		if (code == esckeycode){
 			if (selectedunitid != "null"){
 				unSelectUnit(selectedunitid)
+				return
+			}
+			if (in_city_tile_view){
+				hideCityTileView()
+				return
 			}
 			if (viewing_city_sidebar){
 				hideCitySidebar()
+				return
 			}
 		}
 
