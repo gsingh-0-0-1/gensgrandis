@@ -12,9 +12,9 @@ const {URLSearchParams} = require('url')
 
 const app = express()
 const port = 80
-const host = '192.168.86.35'
+const host = '0.0.0.0'
 
-const accesscodes = ['!mgvs0_55lk', "!hjys_6kj3l:"]
+const accesscodes = ['!mgvs0_55lk', "!hjys_6kj3l:", "*srb83:kj_+1"]
 
 function dealWithMalformed(res){
 	//rickroll those hackers
@@ -30,6 +30,12 @@ function checkFileExists(dir, file){
 }
 
 app.use(express.static('public'));
+
+app.get("/*", (req, res, next) => {
+	var ip = req.connection.remoteAddress;
+	console.log("Connection to " + req.url + " at ", new Date(new Date().toUTCString()), " from ", ip)
+	return next();
+})
 
 app.get("/", (req, res) => {
 	res.sendFile("public/templates/landing.html", {root: __dirname})
