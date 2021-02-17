@@ -388,7 +388,7 @@ f.write(str(CENTER_X) +  "," + str(CENTER_Y))
 f.close()
 
 f = open("saves/" + fname + "/units.txt", "w")
-f.write("P~x:" + CENTER_X + ",y:" + CENTER_Y + ",n:100,m:5\n")
+f.write("P~x:" + str(CENTER_X) + ",y:" + str(CENTER_Y) + ",n:100,m:5\n")
 f.close()
 
 f = open("saves/" + fname + "/cities.txt", "w")
