@@ -46,7 +46,7 @@
 			height: 15px; 
 			color: #daa; 
 			font-family: Courier; 
-			font-size: 13px
+			font-size: 18px
 		}
 	</style>
 </head>
@@ -126,6 +126,9 @@
 			<div id="city_info_sidebar_selected_pop" style="padding-left: 20px">
 			</div>
 
+			<div id="city_info_sidebar_selected_food" style="padding-left: 20px">
+			</div>
+
 		</div>
 
 		<div id="city_info_sidebar_expand" class="city_sidebar_small_cont" style="top: 23%; left: 7%">
@@ -136,22 +139,33 @@
 			<div id="city_info_sidebar_selected_loc_x" style="padding-left: 20px">
 
 				&nbsp;&nbsp;
+				<table>
 
-				<input class="button" type="button" value="N" style="font-size: 16px; font-family: Courier; background-color: #8c1a1a; padding: 5px 5px" onclick="javascript:expandCity([0, 1])">
+					<tr>
+						<td></td>
+						<td>
+							<input class="button" type="button" value="N" style="font-size: 16px; font-family: Courier; background-color: #8c1a1a; padding: 5px 5px" onclick="javascript:expandCity([0, 1])">
+						</td>
+						<td></td>
+					</tr>
 
-				<br>
-
-				<input class="button" type="button" value="W" style="font-size: 16px; font-family: Courier;background-color: #8c8c1a; padding: 5px 5px" onclick="javascript:expandCity([-1, 0])">
-
-				&nbsp;
-
-				<input class="button" type="button" value="E" style="font-size: 16px; font-family: Courier;background-color: #1a1a8c; padding: 5px 5px" onclick="javascript:expandCity([1, 0])">	
-
-				<br>			
-
-				&nbsp;&nbsp;
-
-				<input class="button" type="button" value="S" style="font-size: 16px; font-family: Courier;background-color: #1a8c1a; padding: 5px 5px" onclick="javascript:expandCity([0, -1])">
+					<tr>
+						<td>
+							<input class="button" type="button" value="W" style="font-size: 16px; font-family: Courier;background-color: #8c8c1a; padding: 5px 5px" onclick="javascript:expandCity([-1, 0])">
+						</td>
+						<td></td>
+						<td>
+							<input class="button" type="button" value="E" style="font-size: 16px; font-family: Courier;background-color: #1a1a8c; padding: 5px 5px" onclick="javascript:expandCity([1, 0])">	
+						</td>
+					</tr>
+					<tr>
+						<td></td>
+						<td>
+							<input class="button" type="button" value="S" style="font-size: 16px; font-family: Courier;background-color: #1a8c1a; padding: 5px 5px" onclick="javascript:expandCity([0, -1])">
+						</td>
+						<td></td>
+					</tr>
+				</table>
 
 			</div>
 
@@ -264,11 +278,13 @@
 	var MAX_CITY_TILE_SIZE = 6
 	var TILE_POP_STEP = 100
 
-
+	var urlParams = new URLSearchParams(window.location.search);
+	var ACCESSCODE = urlParams.get("accesscode")
+	var ACSTRING = "accesscode=" + ACCESSCODE
 
 	var FILE = "map1"
 	var filereq = new XMLHttpRequest;
-	filereq.open("GET", "/getsaves")
+	filereq.open("GET", "/getsaves?" + ACSTRING)
 	filereq.send()
 	filereq.onreadystatechange = function(){
 		if (this.readyState == 4 && this.status == 200){
@@ -323,7 +339,7 @@
 	const camerainitz = 5
 
 	var req = new XMLHttpRequest;
-	req.open("GET", "/seed?file=" + FILE)
+	req.open("GET", "/seed?file=" + FILE + "&" + ACSTRING)
 	req.send()
 
 	req.onreadystatechange = function(){
@@ -905,6 +921,8 @@
 				getTileAt(selectedcitytilex, selectedcitytiley).basefood -= redirectval
 				getTileAt(targetx, targety).basefood += redirectval
 				redirecting_food = false
+
+				showCitySidebar(selectedcityid, selectedcitytilex, selectedcitytiley)
 			}
 		}
 	}
@@ -1090,6 +1108,8 @@
 				if (in_city_tile_view){
 					showCityTileView(selectedcityid)
 				}
+
+				assignTileFood(targetx, targety)
 			}
 		)
 
@@ -1168,6 +1188,8 @@
 				scene.add( gltf.scene );
 
 				this_city.center.mesh = gltf.scene
+
+				assignTileFood(cityx, cityy)
 			}
 		)
 
@@ -1235,7 +1257,7 @@
 		for (var y = coords1[1]; y < coords2[1]; y++){
 			for (var x = coords1[0]; x < coords2[0]; x++){
 				var req = new XMLHttpRequest;
-				req.open("GET", "/gettile?x=" + x + "&y=" + y + "&file=" + FILE)
+				req.open("GET", "/gettile?x=" + x + "&y=" + y + "&file=" + FILE + "&" + ACSTRING)
 				req.send()
 				req.onreadystatechange = function(){
 					if (this.readyState == 4 && this.status == 200){
@@ -1478,7 +1500,7 @@
 	}
 
 	var explreq = new XMLHttpRequest;
-	explreq.open("GET", "/explored?file=" + FILE)
+	explreq.open("GET", "/explored?file=" + FILE + "&" + ACSTRING)
 	explreq.send()
 
 	explreq.onreadystatechange = function(){
@@ -1495,7 +1517,7 @@
 			fetchAndRender([gamecenterx - 10, gamecentery - 10], [gamecenterx + 10, gamecentery + 10])
 
 			var unitreq = new XMLHttpRequest;
-			unitreq.open("GET", "/units?file=" + FILE)
+			unitreq.open("GET", "/units?file=" + FILE + "&" + ACSTRING)
 			setTimeout( function(){unitreq.send()}, 2000 )
 
 			unitreq.onreadystatechange = function(){
@@ -1528,8 +1550,8 @@
 		camera.position.y += ycammod
 
 
-		cameravelocity.x /= 1.05
-		cameravelocity.y /= 1.05
+		cameravelocity.x += (-cameravelocity.x) * 0.1
+		cameravelocity.y += (-cameravelocity.y) * 0.1
 
 		//controls.update();
 		renderer.render( scene, camera );
