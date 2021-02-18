@@ -33,6 +33,9 @@ app.use(express.static('public'));
 
 app.get("/*", (req, res, next) => {
 	var ip = req.connection.remoteAddress;
+	if (req.url.includes('gettile')){
+		return next();
+	}
 	console.log("Connection to " + req.url + " at ", new Date(new Date().toUTCString()), " from ", ip)
 	return next();
 })
