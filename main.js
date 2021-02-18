@@ -14,7 +14,7 @@ const app = express()
 const port = 80
 const host = '0.0.0.0'
 
-const accesscodes = ['!mgvs0_55lk', "!hjys_6kj3l:", "*srb83:kj_+1"]
+const accesscodes = ['!mgvs0_55lk', "!hjys_6kj3l:", "srb_56kl09"]
 
 function dealWithMalformed(res){
 	//rickroll those hackers
