@@ -10,11 +10,22 @@ var fs = require('fs');
 const sqlite3 = require('sqlite3').verbose();
 const {URLSearchParams} = require('url')
 
-const app = express()
+
+const http = require('http');
+const app = express();
+
+const server = http.createServer(app);
+
+const io = require('socket.io')(server);
+
 const port = 80
-const host = '0.0.0.0'
+const host = ''
+
+server.listen(port, host);
 
 const accesscodes = ['!mgvs0_55lk', "!hjys_6kj3l:", "srb_56kl09"]
+var rooms = []
+var current_clients = new Object();
 
 function dealWithMalformed(res){
 	//rickroll those hackers
@@ -29,8 +40,49 @@ function checkFileExists(dir, file){
 	return false
 }
 
+function getSocket(id, path){
+	var thissocket = io.of(path).sockets.get(id);
+
+	return thissocket
+}
+
+function createRoom(room){
+	io.of("/room/" + room).on("connection", (socket) => {
+
+		socket.on('join', (username) => {
+			socket.emit('join', username)
+			socket.broadcast.emit('join', username)
+
+			if (current_clients[room] == undefined){
+				current_clients[room] = new Object()
+			}
+
+			current_clients[room][socket.id] = username
+			var l = Object.values(current_clients[room])
+			console.log(l)
+
+			socket.emit('userlist', l)
+			socket.broadcast.emit('userlist', l)
+		});
+
+		socket.on('chat message', (msg, username) => {
+			//emit back to the client
+			socket.emit('chat message', msg, username)
+			//broadcast to all with appropriate username
+			socket.broadcast.emit('chat message', msg, username);
+		});
+
+		socket.on('disconnect', () => {
+			delete current_clients[room][socket.id]
+		})
+	});
+}
+
 app.use(express.static('public'));
 
+
+
+//the first catch-all, meant for logging and such
 app.get("/*", (req, res, next) => {
 	var ip = req.connection.remoteAddress;
 	if (req.url.includes('gettile')){
@@ -40,6 +92,8 @@ app.get("/*", (req, res, next) => {
 	return next();
 })
 
+
+//these routes below are exempt from any checks
 app.get("/", (req, res) => {
 	res.sendFile("public/templates/landing.html", {root: __dirname})
 })
@@ -48,17 +102,44 @@ app.get("/access", (req, res) => {
 	res.sendFile("public/templates/access.html", {root: __dirname})
 })
 
+
+//check for access code here, before the rest of the url's
+//currently disabling the need for an access code
 app.get("/*", (req, res, next) => {
+	var baseurl = req.url
 	var url = req.url.split("?")[1];
 	var urlParams = new URLSearchParams(url);
 	var codeparam = urlParams.get("accesscode")
 	if (accesscodes.includes(codeparam)){
 		return next();
 	}
+	else if (baseurl.includes("templates")){
+		return next();
+	}
 	else{
-		dealWithMalformed(res)
+		return next()
+		//dealWithMalformed(res)
 	}
 })
+
+app.get('/room/:id', function(req, res){
+	var room = req.params.id
+	if (isNaN(room)){
+		dealWithMalformed(res)
+		return
+	}
+
+	room = room * 1
+
+
+	//swt up socket function for the room if it doesn't already exist
+	if (!rooms.includes(room)){
+		createRoom(room)
+		rooms.push(room)
+	}
+
+ 	res.sendFile("public/templates/chatroom.html", {root: __dirname})
+});
 
 app.get("/game", (req, res) => {
 	var ip = req.connection.remoteAddress;
@@ -144,4 +225,4 @@ app.get("/getsaves", (req, res) => {
 	res.send(files)
 })
 
-app.listen(port, host)
+//app.listen(port, host)
