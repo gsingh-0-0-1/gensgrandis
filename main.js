@@ -147,10 +147,14 @@ app.get('/room/:id', function(req, res){
 	//set up socket function for the room if it doesn't already exist
 	if (!rooms.includes(room) && room <= approvedrooms && room > 0){
 		createRoom(room)
+		current_clients[room] = new Object()
 		rooms.push(room)
 	}
 
 	if (rooms.includes(room)){
+		if (Object.keys(current_clients[room]).length >= 4){
+			res.redirect("/roomisfull")
+		}
 		res.sendFile("public/templates/chatroom.html", {root: __dirname})
 	}
 	else{
@@ -158,9 +162,19 @@ app.get('/room/:id', function(req, res){
 	}
 });
 
+app.get("/roomisfull", (req, res) => {
+	res.sendFile("public/templates/roomisfull.html", {root: __dirname})
+})
+
+
+
+
+
+app.get("/multiroom", (req, res) => {
+	res.sendFile("public/templates/main.html", {root: __dirname})
+})
+
 app.get("/game", (req, res) => {
-	var ip = req.connection.remoteAddress;
-	console.log("Connection to '/game' at ", new Date(new Date().toUTCString()), " from ", ip)
 	res.sendFile("public/templates/main.html", {root: __dirname})
 })
 
