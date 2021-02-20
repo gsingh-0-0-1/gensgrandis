@@ -76,6 +76,12 @@
       messages.appendChild(item);
     })
 
+    socket.on('leave', function(username) {
+      var item = document.createElement('li');
+      item.textContent = username + " left the chat.";
+      messages.appendChild(item);
+    })
+
     socket.on('userlist', function(userlist){
       nametags.textContent = ''
       for (var user of userlist){

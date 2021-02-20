@@ -46,6 +46,11 @@ function getSocket(id, path){
 	return thissocket
 }
 
+function updateUsers(socket, l){
+	socket.emit('userlist', l)
+	socket.broadcast.emit('userlist', l)
+}
+
 function createRoom(room){
 	io.of("/room/" + room).on("connection", (socket) => {
 
@@ -59,10 +64,8 @@ function createRoom(room){
 
 			current_clients[room][socket.id] = username
 			var l = Object.values(current_clients[room])
-			console.log(l)
+			updateUsers(socket, l)
 
-			socket.emit('userlist', l)
-			socket.broadcast.emit('userlist', l)
 		});
 
 		socket.on('chat message', (msg, username) => {
@@ -73,7 +76,10 @@ function createRoom(room){
 		});
 
 		socket.on('disconnect', () => {
+			socket.broadcast.emit('leave', current_clients[room][socket.id])
 			delete current_clients[room][socket.id]
+			var l = Object.values(current_clients[room])
+			updateUsers(socket, l)
 		})
 	});
 }
