@@ -148,6 +148,9 @@ app.get('/room/:id', function(req, res){
 	if (!rooms.includes(room) && room <= approvedrooms && room > 0){
 		createRoom(room)
 		rooms.push(room)
+	}
+
+	if (rooms.includes(room)){
 		res.sendFile("public/templates/chatroom.html", {root: __dirname})
 	}
 	else{
