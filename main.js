@@ -23,8 +23,9 @@ const host = ''
 
 server.listen(port, host);
 
-const accesscodes = ['!mgvs0_55lk', "!hjys_6kj3l:", "srb_56kl09"]
+const accesscodes = []
 var rooms = []
+var approvedrooms = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
 var current_clients = new Object();
 
 function dealWithMalformed(res){
@@ -129,6 +130,7 @@ app.get("/*", (req, res, next) => {
 })
 
 app.get('/room/:id', function(req, res){
+	res.send("Currently disabled.")
 	var room = req.params.id
 	if (isNaN(room)){
 		dealWithMalformed(res)
@@ -139,7 +141,7 @@ app.get('/room/:id', function(req, res){
 
 
 	//swt up socket function for the room if it doesn't already exist
-	if (!rooms.includes(room)){
+	if (!rooms.includes(room) && approvedrooms.includes(room)){
 		createRoom(room)
 		rooms.push(room)
 	}
