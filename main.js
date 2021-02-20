@@ -25,7 +25,7 @@ server.listen(port, host);
 
 const accesscodes = []
 var rooms = []
-var approvedrooms = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+var approvedrooms = 10
 var current_clients = new Object();
 
 function dealWithMalformed(res){
@@ -109,6 +109,10 @@ app.get("/access", (req, res) => {
 	res.sendFile("public/templates/access.html", {root: __dirname})
 })
 
+app.get("/approvedrooms", (req, res) => {
+	res.send(String(approvedrooms));
+})
+
 
 //check for access code here, before the rest of the url's
 //currently disabling the need for an access code
@@ -130,7 +134,7 @@ app.get("/*", (req, res, next) => {
 })
 
 app.get('/room/:id', function(req, res){
-	res.send("Currently disabled.")
+	//res.send("Currently disabled.")
 	var room = req.params.id
 	if (isNaN(room)){
 		dealWithMalformed(res)
@@ -140,13 +144,15 @@ app.get('/room/:id', function(req, res){
 	room = room * 1
 
 
-	//swt up socket function for the room if it doesn't already exist
-	if (!rooms.includes(room) && approvedrooms.includes(room)){
+	//set up socket function for the room if it doesn't already exist
+	if (!rooms.includes(room) && room <= approvedrooms && room > 0){
 		createRoom(room)
 		rooms.push(room)
+		res.sendFile("public/templates/chatroom.html", {root: __dirname})
 	}
-
- 	res.sendFile("public/templates/chatroom.html", {root: __dirname})
+	else{
+		res.send("Room not authorized.")
+	}
 });
 
 app.get("/game", (req, res) => {

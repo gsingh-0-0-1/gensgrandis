@@ -47,6 +47,10 @@
 
     var username = prompt('Enter username')
 
+    while (username == 'null' || username == ''){
+      var username = prompt('Enter username')
+    }
+
     socket.emit('join', username)
 
     function addUsertag(username){

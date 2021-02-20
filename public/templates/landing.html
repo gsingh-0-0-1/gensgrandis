@@ -18,6 +18,24 @@
 			font-family: Courier;
 			font-size: 20px;
 		}
+		.chatbuttondiv{
+			position: fixed;
+			left: 60%;
+			top: 10%;
+			width: 40%;
+			height: 90%;
+		}
+
+		.input{
+			border: none; 
+			padding: 0.1rem 1rem; 
+			flex-grow: 1; 
+			margin: 0.05rem; 
+		}
+		
+		.input:focus{
+			outline: none; 
+		}
 	</style>
 </head>
 <body>
@@ -52,5 +70,41 @@
 	<form action="/game">
 		<input type="Submit" style="text-indent: 5%; background-color: #88b; color: #fff; padding: 15px 25px; font-size: 20px; font-family: Courier" value="Get Started >>">
 	</form>
+
+
+	<div style="position: fixed; left: 75%; top: 75%">
+		Enter a chat room:<br>
+		Rooms can vary from 1 to <span id="maxrooms"></span><br>
+	    <input type='input' class="input" id="roomnum" onkeypress="javascript:handleInput(event)">
+	</div>
+
 </body>
+<script>
+	function handleInput(event){
+		if (event.keyCode == 13){
+			var room = document.getElementById("roomnum").value
+			if (isNaN(room)){
+				return
+			}
+			var maxrooms = document.getElementById("maxrooms").textContent
+			if (isNaN(maxrooms)){
+				return
+			}
+			if (room*1 > maxrooms*1 || room*1 <= 0){
+				return
+			}
+			var url = window.location.href
+			window.location.replace(url + "room/" + room)
+		}
+	}
+
+	var roomreq = new XMLHttpRequest;
+	roomreq.open("GET", "/approvedrooms")
+	roomreq.send()
+	roomreq.onreadystatechange = function(){
+		if (this.readyState == 4 && this.status == 200){
+			document.getElementById("maxrooms").textContent = this.responseText
+		}
+	}
+</script>
 </html>
