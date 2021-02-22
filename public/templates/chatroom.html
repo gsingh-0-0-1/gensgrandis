@@ -59,6 +59,14 @@
       nametags.appendChild(g)
     }
 
+    function startGame(){
+      alert("Lobby full, game starting in 10 seconds.")
+      var roomid = window.location.url
+      setTimeout(function(){
+        window.location.href = window.location.origin + "/gameroom/"
+      }, 10000)
+    }
+
     form.addEventListener('submit', function(e) {
       e.preventDefault();
       if (input.value) {
@@ -80,6 +88,11 @@
       messages.appendChild(item);
     })
 
+    socket.on('cookie', function(cookie) {
+      console.log(cookie)
+      document.cookie = cookie
+    })
+
     socket.on('leave', function(username) {
       var item = document.createElement('li');
       item.textContent = username + " left the chat.";
@@ -91,6 +104,10 @@
       for (var user of userlist){
         addUsertag(user)
       }
+    })
+
+    socket.on('startgame', function(){
+      startGame()
     })
 
   </script>

@@ -19,7 +19,8 @@ const server = http.createServer(app);
 const io = require('socket.io')(server);
 
 const port = 80
-const host = ''
+const host = process.argv[2]
+console.log(host)
 
 server.listen(port, host);
 
@@ -27,6 +28,8 @@ const accesscodes = []
 var rooms = []
 var approvedrooms = 10
 var current_clients = new Object();
+
+var latest_id = 10000
 
 function dealWithMalformed(res){
 	//rickroll those hackers
@@ -53,32 +56,42 @@ function updateUsers(socket, l){
 }
 
 function createRoom(room){
-	io.of("/room/" + room).on("connection", (socket) => {
+	var cur_namespace = "/room/" + room
+	io.of(cur_namespace).on("connection", (socket) => {
 
 		socket.on('join', (username) => {
-			socket.emit('join', username)
-			socket.broadcast.emit('join', username)
+			var cookieid = latest_id
+			var cookie = "id=" + (cookieid) + ";path=/"
+
+			socket.internalCustomID = cookieid
+
+			latest_id += 1
+			//socket.emit('join', username)
+			//socket.broadcast.emit('join', username)
+			io.of(cur_namespace).emit('join', username)
+
+			socket.emit('cookie', cookie)
 
 			if (current_clients[room] == undefined){
 				current_clients[room] = new Object()
 			}
 
-			current_clients[room][socket.id] = username
+			current_clients[room][socket.internalCustomID] = username
 			var l = Object.values(current_clients[room])
 			updateUsers(socket, l)
 
+			if (l.length == 4){
+				io.of(cur_namespace).emit('startgame')
+			}
 		});
 
 		socket.on('chat message', (msg, username) => {
-			//emit back to the client
-			socket.emit('chat message', msg, username)
-			//broadcast to all with appropriate username
-			socket.broadcast.emit('chat message', msg, username);
+			io.of(cur_namespace).emit('chat message', msg, username)
 		});
 
 		socket.on('disconnect', () => {
-			socket.broadcast.emit('leave', current_clients[room][socket.id])
-			delete current_clients[room][socket.id]
+			socket.broadcast.emit('leave', current_clients[room][socket.internalCustomID])
+			delete current_clients[room][socket.internalCustomID]
 			var l = Object.values(current_clients[room])
 			updateUsers(socket, l)
 		})
@@ -170,7 +183,8 @@ app.get("/roomisfull", (req, res) => {
 
 
 
-app.get("/multiroom", (req, res) => {
+app.get("/gameroom/:id", (req, res) => {
+	var room = req.params.id
 	res.sendFile("public/templates/main.html", {root: __dirname})
 })
 
