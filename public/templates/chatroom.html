@@ -45,6 +45,8 @@
     var input = document.getElementById('input');
     var nametags = document.getElementById('nametags')
 
+    var authid = ''
+
     var username = prompt('Enter username')
 
     while (username == 'null' || username == '' || username == null){
@@ -60,11 +62,11 @@
     }
 
     function startGame(){
-      alert("Lobby full, game starting in 10 seconds.")
-      var roomid = window.location.url
+      var roomid = window.location.href.split("/").slice(-1)
       setTimeout(function(){
-        window.location.href = window.location.origin + "/gameroom/"
-      }, 10000)
+        window.location.replace("/gameroom/" + roomid + "?gameid=" + authid)
+      }, 5000)
+      alert("Lobby full, game starting in 5 seconds.")
     }
 
     form.addEventListener('submit', function(e) {
@@ -88,9 +90,8 @@
       messages.appendChild(item);
     })
 
-    socket.on('cookie', function(cookie) {
-      console.log(cookie)
-      document.cookie = cookie
+    socket.on('gameid', function(id) {
+      authid = id
     })
 
     socket.on('leave', function(username) {
@@ -107,6 +108,7 @@
     })
 
     socket.on('startgame', function(){
+      socket.emit('starting_game', authid, username)
       startGame()
     })
 

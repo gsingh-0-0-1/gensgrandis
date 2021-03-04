@@ -60,9 +60,9 @@
 	<gui id="gui" style="z-index: 1;">
 	</gui>
 
-	<div id="loadingscreen" style="position: fixed; left: 0%; top: 0%; width: 100%; height: 100%; background-color: #000; text-align: center; color: #ddd; font-family: 'Times New Roman'; z-index: 2">
-		<div style="position: relative; top: 50%; font-size: 70px">
-			Loading Game...
+	<div id="loadingscreen" style="position: fixed; left: 0%; top: 0%; width: 100%; height: 100%; background-color: #000; text-align: center; color: #ddd; font-family: 'Times New Roman'; z-index: 3">
+		<div style="position: relative; top: 50%; font-size: 50px">
+			Waiting for your turn...
 		</div>
 	</div>
 
@@ -101,7 +101,6 @@
 	<div id="city_info_sidebar" style="position: fixed; left: 80%; top: 0%; width: 20%; height: 100%; background-color: #4a4aaa; border: 5px solid #d9b0b0; box-sizing: border-box; z-index: 0; display: none;">
 
 		<div id="city_info_sidebar_name" style="position: relative; left: 5%; top: 2%; color: #ddd; font-family: Verdana; font-size: 15px; border-bottom: 2px solid white; height: 20px; width: 80%">
-			Theed
 		</div>
 
 		<div id="city_info_sidebar_center_loc" class="city_sidebar_small_cont" style="top: 5%; left: 7%">
@@ -189,7 +188,7 @@
 
 				<input class="button" type="button" value="View >>" style="font-size: 16px; font-family: Courier;background-color: #040; padding: 5px 5px" onclick="javascript:showCityTileView()">
 
-			</div>			
+			</div>
 
 		</div>
 
@@ -212,6 +211,8 @@
 			Enter a name for this city:
 		</div>
 		<input type="text" id="city_name_input_box" class="city_name_input" style="position: relative; background-color: rgba(255, 255, 255, 0); border: none; border-bottom: 2px solid white; top: 30%; left: 10%; color: #ddd" onkeypress="javascript:handleCityNameInput(event)" maxlength="20">
+
+		<input type="hidden" id="city_naming_id">
 	</div>
 
 	<div id="city_tile_view_screen" style="position: fixed; left: 50%; top: 50%; width: 50%; height: 50%; transform: translate(-50%, -50%); z-index: 0; display: initial; background-color: #333; border: 10px solid #bbb; overflow: scroll">
@@ -231,10 +232,14 @@
 
 <script src="https://threejs.org/examples/js/loaders/GLTFLoader.js"></script>
 
-<script src="templates/colors.js"></script>
-<script src="templates/utils.js"></script>
+<script src="/templates/colors.js"></script>
+<script src="/templates/utils.js"></script>
+
+<script src="/templates/socket.io.js"></script>
 
 <script>
+
+	var socket = io(window.location.pathname);
 
 	//****************************************************************************************//
 	//******************************CONSTANTS AND INITIALIZATION******************************//
@@ -279,20 +284,9 @@
 	var TILE_POP_STEP = 100
 
 	var urlParams = new URLSearchParams(window.location.search);
-	var ACCESSCODE = urlParams.get("accesscode")
-	var ACSTRING = "accesscode=" + ACCESSCODE
-
-	var FILE = "map1"
-	var filereq = new XMLHttpRequest;
-	filereq.open("GET", "/getsaves?" + ACSTRING)
-	filereq.send()
-	filereq.onreadystatechange = function(){
-		if (this.readyState == 4 && this.status == 200){
-			var files = this.responseText.replace("[", '').replace("]", '').replaceAll('"', '').split(",")
-			var random = Math.floor(Math.random() * files.length);
-			FILE = files[random]
-		}
-	}
+	const GAMEID = urlParams.get("gameid")
+	/*var ACCESSCODE = urlParams.get("accesscode")
+	var ACSTRING = "accesscode=" + ACCESSCODE*/
 
 	const LAND_TILE_CODE = 'l'
 
@@ -315,8 +309,9 @@
 
 	var WORLD_SEED = 0
 
+	var activetiles = []
 	var exploredtiles = 'null'
-	var units = 'null'
+	var units = []
 
 	var LOAD_TERRAIN_DIST = 2
 
@@ -325,28 +320,19 @@
 	var MOUNTAIN_SNOWCAP_HEIGHT = 6
 	var MOUNTAIN_SNOW_HEIGHT = 8.5
 
+	var FILE = "map1"
+
 
 	const leaves_material = new THREE.MeshBasicMaterial( {color: 0x116611} );
 
 	var cameralooking = 'front'
 
-
 	var gamecenterx = 550
-	var gamecentery = 550
+	var gamecentery = 555
 
-	const camerainitx = gamecenterx
-	const camerainity = gamecentery
-	const camerainitz = 5
-
-	var req = new XMLHttpRequest;
-	req.open("GET", "/seed?file=" + FILE + "&" + ACSTRING)
-	req.send()
-
-	req.onreadystatechange = function(){
-		if (this.readyState == 4 && this.status == 200){
-			WORLD_SEED = this.responseText * 1
-		}
-	}
+	var camerainitx = gamecenterx
+	var camerainity = gamecentery
+	var camerainitz = 5
 
 	const ground_z = -2
 	const base_tile_height = 0
@@ -419,7 +405,7 @@
 	}
 
 	function checkValidTile(coords){
-		if (Math.abs(coords[0]) <= 2 * WORLD_RAD && Math.abs(coords[1]) <= 2 * WORLD_RAD && coords[0] >= 0 && coords[1] >= 0){
+		if ((Math.abs(coords[0]) <= 2 * WORLD_RAD) && (Math.abs(coords[1]) <= 2 * WORLD_RAD) && (coords[0] >= 0) && (coords[1] >= 0)){
 			return true
 		}
 		else{
@@ -483,18 +469,29 @@
 
 				var loader = new THREE.GLTFLoader();
 
-				loader.load('./resources/hut.glb',
+				loader.load('/resources/hut.glb',
 					// called when the resource is loaded
 					function ( gltf ) {
 
-						gltf.scene.scale.set( 2, 2, 2 );	
+						gltf.scene.scale.set( 1, 1, 1 );	
 						var zoff = getTileAt(x, y).height + base_tile_height
-						gltf.scene.position.set(x + xoff, y + yoff, ground_z + zoff)
 
-						gltf.scene.rotation.x = Math.PI / 2
+						var finalx = x + xoff
+						var finaly = y + yoff
+
+						finalx -= cities[cityidx].tiles[x + "_" + y].mesh.position.x
+						finaly -= cities[cityidx].tiles[x + "_" + y].mesh.position.y
+
+						//gltf.scene.position.set(x + xoff, y + yoff, ground_z + zoff)
+						gltf.scene.position.set(xoff/2, 0, yoff/2)
+						//gltf.scene.position.set(xoff, yoff, zoff / 2)
+
+						//gltf.scene.rotation.x = Math.PI / 2
 						gltf.scene.city = true
 						gltf.scene.cityID = selectedcityid
-						scene.add( gltf.scene );
+						//getTileAt(x, y).add(gltf.scene)
+						cities[cityidx].tiles[x + "_" + y].mesh.add(gltf.scene)
+						//scene.add( gltf.scene );
 					}
 				)
 			}
@@ -548,9 +545,6 @@
 
 	//scene.fog = new THREE.Fog(0x888888, 0, 100)
 
-	//get the camera in place
-	camera.position.set(camerainitx, camerainity, camerainitz)
-
 
 	//TURN BASED EVENTS AND CHANGES
 	function endTurn(){
@@ -577,9 +571,13 @@
 		if (viewing_city_sidebar){
 			showCitySidebar(selectedcityid, selectedcitytilex, selectedcitytiley)
 		}
+
+		socket.emit('turndone')
+
+		waitForTurn()
 	}
 
-	function checkAndLoad(x, y){
+	function checkAndLoad(x, y, explore = true){
 		//check the appropriate tiles for being loaded or not
 		var tiles_to_check = [
 		[x, y],
@@ -601,7 +599,9 @@
 			}
 		}
 		// "explore" at the correct areas
-		exploreAtCoords(x, y)
+		if (explore){
+			exploreAtCoords(x, y)
+		}
 	}
 
 
@@ -659,12 +659,24 @@
 					if (tileHasUnit(targetx, targety)){
 						break
 					}
-
 					if (unitlist[selectedunitid].m == 0){
 					}
 					else{
 						assignTileUnitStatus(unitlist[selectedunitid].mesh.position.x, unitlist[selectedunitid].mesh.position.y, false)
-						assignTileUnitStatus(targetx, targety, true)
+						assignTileUnitStatus(targetx, targety, true, selectedunitid)
+
+						deActivateTilesAtCenter(unitlist[selectedunitid].mesh.position.x, unitlist[selectedunitid].mesh.position.y)
+						activateTilesAtCenter(targetx, targety)
+
+						//hide units that are no longer visible
+						for (var xoff = -1; xoff <= 1; xoff++){
+							for (var yoff = -1; yoff <= 1; yoff++){
+								if (tileHasUnit(unitlist[selectedunitid].mesh.position.x + xoff, unitlist[selectedunitid].mesh.position.y + yoff)){
+									unitlist[getTileAt(unitlist[selectedunitid].mesh.position.x + xoff, unitlist[selectedunitid].mesh.position.y + yoff).hasUnit_ID].mesh.visible = false
+								}
+							}
+						}
+
 						//move the unit
 						unitlist[selectedunitid].mesh.position.x = targetx
 						unitlist[selectedunitid].mesh.position.y = targety 
@@ -674,6 +686,32 @@
 						unitlist[selectedunitid].mesh.position.z = ground_z + unit_z_offset + obj.height
 						unitlist[selectedunitid].m -= 1
 						checkAndLoad(targetx, targety)
+
+						socket.emit('moveunit', selectedunitid, targetx, targety, ground_z + unit_z_offset + obj.height)
+
+						//check for units on adjacent tile
+						for (var xoff = -1; xoff <= 1; xoff++){
+							for (var yoff = -1; yoff <= 1; yoff++){
+								if (tileHasUnit(targetx + xoff, targety + yoff)){
+									unitlist[getTileAt(targetx + xoff, targety + yoff).hasUnit_ID].mesh.visible = true
+								}
+							}
+						}
+
+						//check for cities on adjacent tiles
+						for (var xoff = -1; xoff <= 1; xoff++){
+							for (var yoff = -1; yoff <= 1; yoff++){
+								if (isTileCity(targetx + xoff, targety + yoff)){
+									var id = grid_dict["tile_" + (targetx + xoff) + "_" + (targety + yoff)].tileCityID
+									if (isCityCenter(id, targetx + xoff, targety + yoff)){
+										cities[id].center.mesh.visible = true
+									}
+									else{
+										cities[id].tiles[(targetx + xoff) + "_" + (targety + yoff)].mesh.visible = true
+									}
+								}
+							}
+						}
 					}
 					moving_unit = false
 
@@ -691,7 +729,13 @@
 					if (selectedunitid != 'null'){
 						unSelectUnit(selectedunitid)
 					}
-					selectUnit(obj.unitid)
+
+					if (unitlist[obj.unitid].owner == 'self'){
+						selectUnit(obj.unitid)
+					}
+					else{
+						alert("Not your unit!")
+					}
 				}
 
 				//the object that'll be clicked on will be a portion of a house
@@ -806,7 +850,11 @@
 		document.getElementById("loadingscreen").style.display = "none"
 	}
 
-	function drawPeople(x, y, id){
+	function waitForTurn(){
+		document.getElementById("loadingscreen").style.display = "initial"
+	}
+
+	function drawPeople(x, y, id, vis = true){
 
 		var col = new THREE.Color(0.4, 0.4, 0.4)//0.6, 0, 0.8)
 
@@ -834,7 +882,7 @@
 
 		var loader = new THREE.GLTFLoader();
 
-		loader.load('./resources/people.glb',
+		loader.load('/resources/people.glb',
 			// called when the resource is loaded
 			function ( gltf ) {
 
@@ -854,13 +902,17 @@
 				people.rotation.set(Math.PI / 2, 0, 0)
 
 				people.type = "unit"
+
+				people.visible = vis
 				assignUnitID(people, id)
 				//people.unitid = id
 
 				unitlist[id].mesh = people
 
 				//modify explored tiles
-				exploreAtCoords(x, y)
+				if (vis){
+					exploreAtCoords(x, y)
+				}
 			}
 		)
 
@@ -869,6 +921,25 @@
 			console.log(x, y)
 		}
 
+	}
+
+	function activateTilesAtCenter(x, y){
+		for (var xoff = -1; xoff <= 1; xoff++){
+			for (var yoff = -1; yoff <= 1; yoff++){
+				var tile = (x + xoff) + "," + (y + yoff)
+				if (!activetiles.includes(tile)){
+					activetiles.push(tile)
+				}
+			}
+		}
+	}
+
+	function deActivateTilesAtCenter(x, y){
+		for (var xoff = -1; xoff <= 1; xoff++){
+			for (var yoff = -1; yoff <= 1; yoff++){
+				activetiles.splice(activetiles.indexOf((x + xoff) + "," + (y + yoff)), 1)
+			}
+		}
 	}
 
 
@@ -883,6 +954,11 @@
 	var in_city_tile_view = false
 	var redirecting_food = false
 
+	function reAssignFood(coords1, coords2, amount){
+		getTileAt(coords1[0], coords1[1]).basefood -= amount
+		getTileAt(coords2[0], coords2[1]).basefood += amount
+	}
+
 	function redirectFood(tileobj = ''){
 		if (!in_city_tile_view){
 			showCityTileView()
@@ -896,7 +972,6 @@
 				return
 			}
 			else{
-				console.log(selectedcitytilex, selectedcitytiley, tileobj.id)
 				var split = tileobj.id.split("_")
 				var targetx = split[2] * 1
 				var targety = split[3] * 1
@@ -918,11 +993,14 @@
 					return
 				}
 
-				getTileAt(selectedcitytilex, selectedcitytiley).basefood -= redirectval
-				getTileAt(targetx, targety).basefood += redirectval
+				//getTileAt(selectedcitytilex, selectedcitytiley).basefood -= redirectval
+				//getTileAt(targetx, targety).basefood += redirectval
+				reAssignFood([selectedcitytilex, selectedcitytiley], [targetx, targety], redirectval)
 				redirecting_food = false
 
 				showCitySidebar(selectedcityid, selectedcitytilex, selectedcitytiley)
+
+				socket.emit('redirectfood', selectedcitytilex, selectedcitytiley, targetx, targety, redirectval)
 			}
 		}
 	}
@@ -1033,13 +1111,28 @@
 	}
 
 
-	function expandCity(dir){
-		var targetx = selectedcitytilex + dir[0]
-		var targety = selectedcitytiley + dir[1]
+	function expandCity(dir, argx='', argy='', argid='', self = true){
+		var x = argx
+		var y = argy
+		var id = argid
+
+		if (isNaN(argx) || isNaN(argy) || isNaN(argid) || argx === '' || argy === '' || argid === ''){
+			var x = selectedcitytilex
+			var y = selectedcitytiley
+			var id = selectedcityid
+		}
+
+		var targetx = x + (1*dir[0])
+		var targety = y + (1*dir[1])
 		var targetpop = 50
 
-		//ensure that tile is valid and explored
-		if (!checkValidTile([targetx, targety]) || !exploredtiles.includes(targetx + "," + targety)){
+		//ensure that tile is valid
+		if (!checkValidTile([targetx, targety])){
+			return
+		}
+
+		//if self, tile must be explored
+		if (!exploredtiles.includes(targetx + "," + targety) && self){
 			return
 		}
 
@@ -1055,7 +1148,7 @@
 
 		//check if tile is already in current city
 		//(cities[selectedcityid].center.x == targetx && cities[selectedcityid].center.y == targety)
-		if (isCityCenter(selectedcityid, targetx, targety) || cities[selectedcityid].tiles[targetx + "_" + targety] != undefined){
+		if (isCityCenter(id, targetx, targety) || cities[id].tiles[targetx + "_" + targety] != undefined){
 			return
 		}
 
@@ -1066,25 +1159,26 @@
 
 		//ensure that there is enough population for expansion to occur
 		//first check for city center
-		if (isCityCenter(selectedcityid, selectedcitytilex, selectedcitytiley)){
-			if (cities[selectedcityid].center.population - targetpop < mincitytilepop){
+		if (isCityCenter(id, x, y)){
+			if (cities[id].center.population - targetpop < mincitytilepop){
 				return
 			}
-			cities[selectedcityid].center.population -= targetpop
+			cities[id].center.population -= targetpop
 		}
 		else{
 			//and now check for other tiles
-			if (cities[selectedcityid].tiles[selectedcitytilex + "_" + selectedcitytiley].population - targetpop < mincitytilepop){
+			if (cities[id].tiles[x + "_" + y].population - targetpop < mincitytilepop){
+				alert("Not enough population to expand!")
 				return
 			}
-			cities[selectedcityid].tiles[selectedcitytilex + "_" + selectedcitytiley].population -= targetpop
+			cities[id].tiles[x + "_" + y].population -= targetpop
 		}
 
-		cities[selectedcityid].tiles[targetx + "_" + targety] = new Object()
+		cities[id].tiles[targetx + "_" + targety] = new Object()
 
 		var loader = new THREE.GLTFLoader();
 
-		loader.load('./resources/hut.glb',
+		loader.load('/resources/hut.glb',
 			// called when the resource is loaded
 			function ( gltf ) {
 
@@ -1092,21 +1186,31 @@
 				var zoff = getTileAt(targetx, targety).height + base_tile_height
 				gltf.scene.position.set(targetx, targety, ground_z + zoff)
 
-				assignCity(targetx, targety, selectedcityid)
+				assignCity(targetx, targety, id)
 
 				gltf.scene.rotation.x = Math.PI / 2
 				gltf.scene.city = true
-				gltf.scene.cityID = selectedcityid
+				gltf.scene.cityID = id
+				gltf.scene.visible = false
+
+				if (activetiles.includes(targetx + "," + targety) || self){
+					gltf.scene.visible = true
+				}
+
 				scene.add( gltf.scene );
 
-				cities[selectedcityid].tiles[targetx + "_" + targety].x = targetx
-				cities[selectedcityid].tiles[targetx + "_" + targety].y = targety
-				cities[selectedcityid].tiles[targetx + "_" + targety].mesh = gltf.scene
-				cities[selectedcityid].tiles[targetx + "_" + targety].population = 50
-				cities[selectedcityid].tiles[targetx + "_" + targety].pop_size = 1
+				cities[id].tiles[targetx + "_" + targety].x = targetx
+				cities[id].tiles[targetx + "_" + targety].y = targety
+				cities[id].tiles[targetx + "_" + targety].mesh = gltf.scene
+				cities[id].tiles[targetx + "_" + targety].population = 50
+				cities[id].tiles[targetx + "_" + targety].pop_size = 1
+
+				if (self){
+					activateTilesAtCenter(targetx, targety)
+				}
 
 				if (in_city_tile_view){
-					showCityTileView(selectedcityid)
+					showCityTileView(id)
 				}
 
 				assignTileFood(targetx, targety)
@@ -1121,9 +1225,15 @@
 			}
 		}
 
-		checkAndLoad(targetx, targety)
+		checkAndLoad(targetx, targety, self)
 
-		showCitySidebar(selectedcityid, selectedcitytilex, selectedcitytiley)
+		if (self){
+			showCitySidebar(id, x, y)
+		}
+
+		if (self){
+			socket.emit('expandcity', dir[0], dir[1], x, y, id)
+		}
 		//exploreAtCoords(targetx, targety)
 	}
 
@@ -1133,35 +1243,48 @@
 	var citynames = []
 	var naming_city = false
 	var current_city = ''
-	function buildCity(){
-		if (selectedunitid == 'null'){
+	function buildCity(id, name=''){
+		if (id == 'null'){
 			return
 		}
-		if (unitlist[selectedunitid].type != "P"){
+		if (unitlist[id].type != "P"){
 			return
 		}
-		if (unitlist[selectedunitid].m <= 0){
+		if (unitlist[id].m <= 0){
 			return
 		}
 
-		var cityx = unitlist[selectedunitid].x * 1
-		var cityy = unitlist[selectedunitid].y * 1
+		var already_named = false
+		if (name != ''){
+			if (name.length > 20){
+				return
+			}
+			else{
+				already_named = true
+			}
+		}
+
+		var cityx = unitlist[id].x * 1
+		var cityy = unitlist[id].y * 1
 
 		if (isTileCity(cityx, cityy)){
 			return
 		}
 
-		var citypop = unitlist[selectedunitid].n * 1
+		var citypop = unitlist[id].n * 1
 
 
 		naming_city = true
+		if (already_named){
+			naming_city = false
+		}
 
-		scene.remove(unitlist[selectedunitid].mesh)
+		scene.remove(unitlist[id].mesh)
 
 		assignTileUnitStatus(cityx, cityy, false)
 
 		//keep this id temporarily since both pop and unselect will get rid of it
-		var temp_id = selectedunitid
+		var temp_id = id
 
 		unSelectUnit(temp_id)
 
@@ -1172,7 +1295,7 @@
 
 		var loader = new THREE.GLTFLoader();
 
-		loader.load('./resources/city_center.glb',
+		loader.load('/resources/city_center.glb',
 			// called when the resource is loaded
 			function ( gltf ) {
 
@@ -1185,11 +1308,27 @@
 
 				gltf.scene.rotation.x = Math.PI / 2
 				gltf.scene.city = true
+				gltf.scene.visible = false
+
+				if (activetiles.includes(cityx + "," + cityy)){
+					gltf.scene.visible = true
+				}
+
 				scene.add( gltf.scene );
 
 				this_city.center.mesh = gltf.scene
 
+				if (already_named){
+					citynames.push(name)
+					current_city.name = name
+					current_city.center.mesh.cityname = name
+					current_city.cityID = cities.length
+					cities.push(current_city)
+				}
+
 				assignTileFood(cityx, cityy)
+
+				//activateTilesAtCenter(cityx, cityy)
 			}
 		)
 
@@ -1209,16 +1348,21 @@
 
 		current_city = this_city
 
-		showCityNamePanel()
+		if (!already_named){
+			showCityNamePanel(id)
+		}
 	}
 
 
 	unitlist = []
 
-	function drawUnits(i){
+	function drawUnits(i, emit = true){
 		//for (var i = 0; i < units.length; i++){
 			if (units[i] == ''){
 				return
+			}
+			if (emit){
+				socket.emit('unitcreated', units[i])
 			}
 			var info = units[i].split("~")
 			var unittype = info[0]
@@ -1232,11 +1376,26 @@
 				var val = spl[1]
 				thisunit[key] = val
 			}
+
+			if (emit){
+				thisunit.owner = 'self'
+				activateTilesAtCenter(thisunit.x, thisunit.y)
+			}
+			else{
+				thisunit.owner = 'notself'
+			}
+
 			unitlist.push(thisunit)
 			if (unittype == "P"){
-				assignTileUnitStatus(thisunit.x, thisunit.y, true)
+				assignTileUnitStatus(thisunit.x, thisunit.y, true, i)
 				//fetchAndRender([thisunit.x * 1, thisunit.y * 1], [thisunit.x*1 + 1, thisunit.y*1 + 1])
-				drawPeople(thisunit.x, thisunit.y, thisunit.unitid)
+				if (activetiles.includes(thisunit.x + "," + thisunit.y)){
+					var vis = true
+				}
+				else{
+					var vis = false
+				}
+				drawPeople(thisunit.x, thisunit.y, thisunit.unitid, vis)
 			}
 		//}
 	}
@@ -1257,7 +1416,7 @@
 		for (var y = coords1[1]; y < coords2[1]; y++){
 			for (var x = coords1[0]; x < coords2[0]; x++){
 				var req = new XMLHttpRequest;
-				req.open("GET", "/gettile?x=" + x + "&y=" + y + "&file=" + FILE + "&" + ACSTRING)
+				req.open("GET", "/gettile?x=" + x + "&y=" + y + "&file=" + FILE)
 				req.send()
 				req.onreadystatechange = function(){
 					if (this.readyState == 4 && this.status == 200){
@@ -1417,7 +1576,7 @@
 
 		if (letter == 'b' && selectedunitid != 'null'){
 			if (unitlist[selectedunitid].type == "P"){
-				buildCity()
+				buildCity(selectedunitid)
 			}
 		}
 
@@ -1499,50 +1658,6 @@
 		}
 	}
 
-	var explreq = new XMLHttpRequest;
-	explreq.open("GET", "/explored?file=" + FILE + "&" + ACSTRING)
-	explreq.send()
-
-	explreq.onreadystatechange = function(){
-		if (this.readyState == 4 && this.status == 200){
-			exploredtiles = this.responseText
-			exploredtiles = exploredtiles.split("\n")
-
-			for (var expltile of exploredtiles){
-				var tx = expltile.split(",")[0] * 1
-				var ty = expltile.split(",")[1] * 1
-				fetchAndRender([tx - 2, ty - 2], [tx + 3, ty + 3])
-			}
-
-			fetchAndRender([gamecenterx - 5, gamecentery - 5], [gamecenterx + 5, gamecentery + 5])
-
-			var unitreq = new XMLHttpRequest;
-			unitreq.open("GET", "/units?file=" + FILE + "&" + ACSTRING)
-			setTimeout( function(){unitreq.send()}, 2000 )
-
-			unitreq.onreadystatechange = function(){
-				if (this.readyState == 4 && this.status == 200){
-					units = this.responseText
-					units = units.split("\n")
-					units.pop()
-					for (var i = 0; i < units.length; i++){
-						drawUnits(i)
-					}
-					hideLoadingScreen()
-				}
-			}				
-		}
-	}	
-
-
-	window.addEventListener( 'click', onMouseClick, false );
-	//fetchAndRender([100, 0])
-
-
-	camera.lookAt(camerainitx, camerainity + 5, camerainitz - 5)
-
-	//renderer.gammaOutput = true
-
 	function animate() {
 		var xcammod = cameravelocity.x * 0.1
 		var ycammod = cameravelocity.y * 0.1
@@ -1560,9 +1675,209 @@
 		updateCityLabels()
 	}
 
+	var done_init = false
+	function initialize(centerx, centery, spawnlocs){
 
-	animate();
+		activateTilesAtCenter(centerx, centery)
 
+		gamecenterx = centerx
+		gamecentery = centery
+
+		camerainitx = gamecenterx
+		camerainity = gamecentery - 5
+		camerainitz = 5
+
+		camera.position.set(camerainitx, camerainity, camerainitz)
+
+		var filereq = new XMLHttpRequest;
+
+		var multi = false
+
+		if (window.location.pathname.includes("gameroom")){
+			multi = true
+		}
+
+		if (multi){
+			var room = window.location.href.split("/").slice(-1)
+			filereq.open("GET", "/gamefile/" + room)
+		}
+		else{
+			filereq.open("GET", "/numsaves")
+		}
+
+		filereq.send()
+		filereq.onreadystatechange = function(){
+			if (this.readyState == 4 && this.status == 200){
+
+				if (multi){
+					FILE = this.responseText
+				}
+				else{
+					FILE = "map" + String(Math.ceil(Math.random() * (this.responseText * 1)))
+				}
+
+				var seedreq = new XMLHttpRequest;
+				seedreq.open("GET", "/seed?file=" + FILE)
+				seedreq.send()
+
+				seedreq.onreadystatechange = function(){
+					if (this.readyState == 4 && this.status == 200){
+						WORLD_SEED = this.responseText * 1
+
+
+						/*var explreq = new XMLHttpRequest;
+						explreq.open("GET", "/explored?file=" + FILE)
+						explreq.send()*/
+
+						//explreq.onreadystatechange = function(){
+							//if (this.readyState == 4 && this.status == 200){
+								exploredtiles = centerx + "," + centery //this.responseText
+								exploredtiles = exploredtiles.split("\n")
+
+								for (var expltile of exploredtiles){
+									var tx = expltile.split(",")[0] * 1
+									var ty = expltile.split(",")[1] * 1
+									//checkAndLoad(tx, ty)
+									fetchAndRender([tx - 2, ty - 2], [tx + 3, ty + 3])
+								}
+
+								//fetchAndRender([gamecenterx - 3, gamecentery - 3], [gamecenterx + 3, gamecentery + 3])
+
+								for (var loc of spawnlocs){
+									var nloc = loc.split(",")
+									//checkAndLoad(nloc[0]*1, nloc[1]*1)
+									fetchAndRender([nloc[0]*1 - 1, nloc[1]*1 - 1], [nloc[0]*1 + 2, nloc[1]*1 + 2])
+								}
+
+								var unitreq = new XMLHttpRequest;
+								unitreq.open("GET", "/units?file=" + FILE)
+								setTimeout( function(){unitreq.send()}, 2000 )
+
+								unitreq.onreadystatechange = function(){
+									if (this.readyState == 4 && this.status == 200){
+										let init_ind = units.length
+										if (init_ind < 0){
+											init_ind = 0
+										}
+										let temp = this.responseText
+										temp = temp.split("\n")
+										temp.pop()
+										temp[0] = temp[0].replace("xhere", centerx).replace("yhere", centery)
+										units.push(...temp)
+										//console.log(temp, units)
+										for (var i = 0; i < units.length; i++){
+											//console.log(i)
+											if (i < init_ind){
+												drawUnits(i, false)
+											}
+											else{
+												drawUnits(i, true)
+											}
+										}
+										endTurn()
+										//hideLoadingScreen()
+									}
+								}			
+							//}
+						//}
+					}
+				}
+			}
+		}
+
+
+		window.addEventListener( 'click', onMouseClick, false );
+		//fetchAndRender([100, 0])
+
+
+		camera.lookAt(camerainitx, camerainity + 5, camerainitz - 5)
+
+		//renderer.gammaOutput = true
+
+
+		animate();
+	}
+
+	//initialize()
+
+
+	//SOCKET HANDLING AND SUCH
+	socket.on('whoareyou', function(){
+		socket.emit('i_am', GAMEID)
+	})
+
+	socket.on('yourturn', function(playernum){
+		if (!done_init){
+			var room = window.location.href.split("/").slice(-1)
+			var spawnlocreq = new XMLHttpRequest;
+			spawnlocreq.open("GET", "/spawnlocs/" + room)
+			spawnlocreq.send()
+			spawnlocreq.onreadystatechange = function (){
+				if (this.readyState == 4 && this.status == 200){
+					var locs = this.responseText.split("\n")
+					locs.pop()
+					//console.log(locs)
+					loc = locs[playernum]
+					loc = loc.split(",")
+					let x = loc[0] * 1
+					let y = loc[1] * 1
+					initialize(x, y, locs)
+					done_init = true
+				}
+			}
+		}
+		else{
+			hideLoadingScreen()
+		}
+		//myturn = true
+	})
+
+	//SOCKET GAME MECHANICS
+	socket.on('unitcreated', function(unit){
+		//console.log("here", unit)
+		units.push(unit)
+		if (done_init){
+			drawUnits(units.length - 1, false)
+		}
+	})
+
+	socket.on('moveunit', function(id, x, y, z){
+		if (id > unitlist.length - 1){
+			return
+		}
+
+		checkAndLoad(x, y, false)
+
+		//if (exploredtiles.includes(unitlist[id].mesh.position.x + "," + unitlist[id].mesh.position.y)){
+		assignTileUnitStatus(unitlist[id].mesh.position.x, unitlist[id].mesh.position.y, false)
+		//}
+
+		//if (exploredtiles.includes(x + "," + y)){
+		assignTileUnitStatus(x, y, true, id)
+		//}
+		unitlist[id].mesh.position.set(x, y, z)
+		unitlist[id].x = x * 1
+		unitlist[id].y = y * 1
+
+		if (activetiles.includes(x + "," + y)){
+			unitlist[id].mesh.visible = true
+		}
+		else{
+			unitlist[id].mesh.visible = false
+		}
+	})
+
+	socket.on('buildcity', function(id, name){
+		buildCity(id, name)
+	})
+
+	socket.on('expandcity', function(dir0, dir1, x, y, id){
+		expandCity([dir0, dir1], x, y, id, false)
+	})
+
+	socket.on('redirectfood', function(x1, x2, y1, y2, amt){
+		reAssignFood([x1*1, y1*1], [x2*1, y2*1], amt*1)
+	})
 
 </script>
 

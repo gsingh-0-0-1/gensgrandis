@@ -34,14 +34,20 @@ function isTileCity(x, y){
 }
 
 function tileHasUnit(x, y){
+	if (grid_dict["tile_" + x + "_" + y] == undefined){
+		return false
+	}
 	if (grid_dict["tile_" + x + "_" + y].hasUnit == true){
 		return true
 	}
 	return false
 }
 
-function assignTileUnitStatus(x, y, stat){
-	grid_dict["tile_" + x + "_" + y].hasUnit = stat
+function assignTileUnitStatus(x, y, stat, id='null'){
+	var tile = "tile_" + x + "_" + y
+	var gtile = grid_dict[tile]
+	gtile.hasUnit = stat
+	gtile.hasUnit_ID = id
 }
 
 function assignTileFood(x, y){
@@ -192,10 +198,11 @@ function handleCityNameInput(event){
 		current_city.name = name
 		current_city.center.mesh.cityname = name
 		current_city.cityID = cities.length
-		//current_city.center.mesh.cityID = cities.length
 		cities.push(current_city)
+
 		naming_city = false
 		hideCityNamePanel()
+		socket.emit('buildcity', document.getElementById("city_naming_id").value, name)
 	}
 	/*else{
 		let val = document.getElementById("city_name_input_box").value
@@ -205,10 +212,11 @@ function handleCityNameInput(event){
 	}*/
 }
 
-function showCityNamePanel(){
+function showCityNamePanel(id){
 	document.getElementById("city_name_input_container").style.display = "initial"
 	document.getElementById("city_name_input_container").style.zIndex = "2"
-	document.getElementById("city_name_input_box").value = ''		
+	document.getElementById("city_name_input_box").value = ''
+	document.getElementById("city_naming_id").value = id
 }
 
 function hideCityNamePanel(){
@@ -217,9 +225,22 @@ function hideCityNamePanel(){
 	document.getElementById("city_name_input_box").value = ''
 }
 
-function updateCityLabels(){
+function updateCityLabels(show=false){
 	for (var city_iter = 0; city_iter < cities.length; city_iter++){
 		var city = cities[city_iter]
+
+		if (show){
+			console.log(city)
+		}
+
+		if (city.center.mesh.visible == false){
+			continue
+		}
+
+		if (show){
+			console.log("here")
+		}
+
 		var pos = new THREE.Vector3() 
 		pos.x = city.center.mesh.position.x + 0.4
 		pos.y = city.center.mesh.position.y - 0.4

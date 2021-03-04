@@ -93,8 +93,8 @@
 			if (room*1 > maxrooms*1 || room*1 <= 0){
 				return
 			}
-			var url = window.location.href
-			window.location.href = url + "room/" + room
+			window.location.href += "room/" + room
+			return false;
 		}
 	}
 

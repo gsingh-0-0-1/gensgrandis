@@ -388,7 +388,8 @@ f.write(str(CENTER_X) +  "," + str(CENTER_Y))
 f.close()
 
 f = open("saves/" + fname + "/units.txt", "w")
-f.write("P~x:" + str(CENTER_X) + ",y:" + str(CENTER_Y) + ",n:100,m:5\n")
+#f.write("P~x:" + str(CENTER_X) + ",y:" + str(CENTER_Y) + ",n:100,m:5\n")
+f.write("P~x:xhere,y:yhere,n:100,m:5\n")
 f.close()
 
 f = open("saves/" + fname + "/cities.txt", "w")
@@ -433,3 +434,22 @@ for ycoord in range(0, MAX_WORLD_RADIUS * 2, 100):
 		conn.commit()
 		#np.savetxt('saves/' + fname + '/chunk_' + str(xcoord) + "_" + str(ycoord) + ".txt", GAME_GRID[ycoord:ycoord+100, xcoord:xcoord+100], fmt="%s", delimiter=" ")
 		print("Features done and saved " + str(pair1))
+
+
+
+spawnlocs = [[500, 500], [550, 500], [550, 550], [500, 550]]
+
+for pair in spawnlocs:
+	i = 1
+	while isTileWater(GAME_GRID[pair[1]][pair[0]].split(HEIGHT_DELIMITER)[1].split(INFO_DELIMITER)[0]):
+		pair[1] -= i
+		pair[0] -= 1
+		i += 1
+
+f = open('saves/' + fname + "/spawnlocs.txt", "w")
+for pair in spawnlocs:
+	f.write(str(pair[0]) + "," + str(pair[1]) + "\n")
+
+f.close()
+
+print("Spawn locations generated.")
