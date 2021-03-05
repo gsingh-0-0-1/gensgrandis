@@ -437,7 +437,7 @@ for ycoord in range(0, MAX_WORLD_RADIUS * 2, 100):
 
 
 
-spawnlocs = [[500, 500], [550, 500], [550, 550], [500, 550]]
+spawnlocs = [[500, 500], [510, 500], [510, 510], [500, 510]]
 
 for pair in spawnlocs:
 	i = 1
