@@ -838,6 +838,8 @@
 						break
 					}
 					else{
+						socket.emit('moveunit', selectedunitid, targetx, targety, ground_z + unit_z_offset + obj.height)
+						
 						assignTileUnitStatus(unitlist[selectedunitid].mesh.position.x, unitlist[selectedunitid].mesh.position.y, false)
 						assignTileUnitStatus(targetx, targety, true, selectedunitid)
 
@@ -862,8 +864,6 @@
 						unitlist[selectedunitid].mesh.position.z = ground_z + unit_z_offset + obj.height
 						unitlist[selectedunitid].m -= 1
 						checkAndLoad(targetx, targety)
-
-						socket.emit('moveunit', selectedunitid, targetx, targety, ground_z + unit_z_offset + obj.height)
 
 						//check for units on adjacent tile
 						for (var xoff = -1; xoff <= 1; xoff++){
