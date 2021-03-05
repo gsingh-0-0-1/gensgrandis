@@ -38,6 +38,13 @@ var gameroom_clients = new Object();
 
 var chatroom_maxes = new Object();
 
+var ready_for_reset = new Object();
+
+var chatroom_in_game = new Object();
+
+var basegameroomprops = ["map", "current_turn"]
+basegameroomprops.sort()
+
 var latest_id = 10000
 
 var files = fs.readdirSync("saves");
@@ -76,6 +83,16 @@ function updateUsers(socket, l){
 	socket.broadcast.emit('userlist', l)
 }
 
+function sendUserCountsUpdate(room){
+	if (chatroom_in_game[room] == true){
+		var s = "I-G"
+	}
+	else{
+		var s = Object.keys(current_clients[room]).length
+	}
+	io.of("/").emit('roomupdate', room, s)
+}
+
 function createRoom(room){
 	var cur_namespace = "/room/" + room
 	io.of(cur_namespace).on("connection", (socket) => {
@@ -104,6 +121,8 @@ function createRoom(room){
 			if (l.length >= chatroom_maxes[room]){
 				io.of(cur_namespace).emit('startgame')
 			}
+
+			sendUserCountsUpdate(room)
 		});
 
 		socket.on('chat message', (msg, username) => {
@@ -113,6 +132,7 @@ function createRoom(room){
 		socket.on('starting_game', (authid, username) => {
 			var l = Object.values(current_clients[room])
 			if (l.length >= chatroom_maxes[room]){
+				chatroom_in_game[room] = true
 				authid = String(authid)
 				username = String(username)
 				if (Object.keys(current_clients[room]).includes(authid)){
@@ -121,6 +141,11 @@ function createRoom(room){
 						gameroom_clients[room] = new Object()
 						gamerooms.push(room)
 						gameroom_clients[room].map = Math.ceil(num_maps * Math.random())
+					}
+					if (gamerooms.includes(room) && ready_for_reset[room] == true){
+						gameroom_clients[room] = new Object()
+						gameroom_clients[room].map = Math.ceil(num_maps * Math.random())
+						ready_for_reset[room] = false
 					}
 
 					gameroom_clients[room][authid] = new Object()
@@ -132,9 +157,10 @@ function createRoom(room){
 
 		socket.on('disconnect', () => {
 			socket.broadcast.emit('leave', current_clients[room][socket.internalCustomID])
-			//delete current_clients[room][socket.internalCustomID]
+			delete current_clients[room][socket.internalCustomID]
 			var l = Object.values(current_clients[room])
 			updateUsers(socket, l)
+			sendUserCountsUpdate(room)
 		})
 	});
 }
@@ -175,8 +201,19 @@ function createGameRoom(room){
 		})
 
 		socket.on('disconnect', () => {
-			delete current_clients[room][socket.internalCustomID]
+			socket.broadcast.emit('endgame')
 			delete gameroom_clients[room][socket.internalCustomID]
+			var sortedkeys = Object.keys(gameroom_clients[room])
+			sortedkeys.sort()
+			if (sortedkeys.includes(...basegameroomprops) && sortedkeys.length == basegameroomprops.length){
+				for (var user of Object.keys(current_clients[room])){
+					delete current_clients[room][user]
+					sendUserCountsUpdate(room)
+				}
+				ready_for_reset[room] = true
+				chatroom_in_game = false
+				sendUserCountsUpdate(room)
+			}
 		})
 
 
@@ -211,7 +248,7 @@ app.use(express.static('public'));
 //the first catch-all, meant for logging and such
 app.get("/*", (req, res, next) => {
 	var ip = req.connection.remoteAddress;
-	if (req.url.includes('gettile')){
+	if (req.url.includes('gettile') || req.url.includes('maxplayers') || req.url.includes('numcurrentplayers')){
 		return next();
 	}
 	var text = "Connection to " + req.url + " at " + new Date(new Date().toUTCString()) + " from " + ip
@@ -272,7 +309,7 @@ app.get('/room/:id', function(req, res){
 		rooms.push(room)
 		res.sendFile("public/templates/chatroom.html", {root: __dirname})
 	}
-	else if (rooms.includes(room)){
+	else if (rooms.includes(room) && chatroom_in_game[room] != true){
 		if (Object.keys(current_clients[room]).length >= chatroom_maxes[room]){
 			res.redirect("/roomisfull")
 		}
@@ -301,6 +338,24 @@ app.get("/gamefile/:id", (req, res) => {
 
 app.get("/numsaves", (req, res) => {
 	res.send(String(num_maps))
+})
+
+app.get("/maxplayers/:room", (req, res) => {
+	var room = req.params.room
+	res.send(String(MAX_PLAYERS))
+})
+
+app.get("/numcurrentplayers/:room", (req, res) => {
+	var room = req.params.room
+	if (chatroom_in_game[room] == true){
+		res.send("I-G")
+	}
+	else if (current_clients[room] == undefined){
+		res.send("0")
+	}
+	else{
+		res.send(String(Object.keys(current_clients[room]).length))
+	}
 })
 
 app.get("/gameroom/:id", (req, res) => {
@@ -355,6 +410,17 @@ app.get("/spawnlocs/:room", (req, res) => {
 
 	res.sendFile("saves/map" + file + "/spawnlocs.txt", {root: __dirname})	
 
+})
+
+app.get("/spawnlocsbyfile/:file", (req, res) => {
+	var file = req.params.file
+
+	if (!checkFileExists("saves/", file)){
+		dealWithMalformed(res)
+		return
+	}
+
+	res.sendFile("saves/" + file + "/spawnlocs.txt", {root: __dirname})
 })
 
 app.get("/gettile", (req, res) => {

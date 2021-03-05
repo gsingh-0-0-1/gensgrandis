@@ -36,50 +36,75 @@
 		.input:focus{
 			outline: none; 
 		}
+
+		.multibuttons > span:nth-of-type(1n) {background-color: #bb8181;}
+		.multibuttons > span:nth-of-type(2n) {background-color: #81bb81;}
+		.multibuttons{
+			text-align: center;
+		}
+
+		.roombutton:focus{
+			filter: brightness(110%);
+			outline: none;
+		}
 	</style>
 </head>
 <body>
-	Welcome to Gēns Grandis!
-	<br>
-	<br>
-	If you're reading this, you've likely been given an access code to the game. Thanks for helping playtest!
-	<br>
-	<br>
-	The goal of the game is simple: expand. You'll start out on some terrain with a "People" unit, and you'll get to move around and explore the terrain.
-	<br>
-	Your point of view starts of looking north - you can hit "S" to look south, and "W" to look back north. To move your point of view around, use the arrow keys.
-	<br>
-	To move a unit, press "G" and then click on a tile that's one tile away - your unit will move there. If you want to get your "People" to settle down, press "B" to make a city.
-	<br><br>
-	Units have a limited amount of movement per "turn" - to end your turn and start taking the next, just press "T".
-	<br><br>
-	Cities are the core of the game right now - each turn, it might gain or lose population. Cities start off on one tile, though, by clicking on the city, you can access a menu to expand them to nearby tiles using 50 population - and leaving 50 behind on the current tile. 
-	<br><br>
-	Based on where the tile is - and consequently, how much food it has, it'll grow to a different population. Grassland tiles have a nice supply of food, whereas forests have less. Tiles next to water - like lakes or rivers - get a boost, and as tile elevation increases, food supply decreases.
-	<br><br>
-	Now, say you want to redirect food supply from one tile to another. That might come in handy if you're trying to expand into a forest up north, but there's a river down south that your city has access to. Those tiles near the river provide a lot of food, so you can redirect the food from those tiles further north in your city to help your expansion. To preview a 2-D view of your city, hit the "View >>" button on the sidebar after selecting any tile in your city. You can then select the tile you want to move from, enter the amount of food you want to move into the text box below the "Redirect >>" button, hit the "Redirect >>" button, and click on the tile you want to move that food to.
-	<br><br>
-	Eventually, you might want to create another city, further out from where your first one is. To do this, you can click on any tile and hit the "Break >>" button. This will use 100 population to create a "People" unit - and you already know what to do with that. Go on out, explore, and start another city!
-	<br><br>
-	Remember, whenever you do something like expand a city, redirect food, or create a "People" unit, you have to leave behind 50 people - and thus, 50 food. You won't be able to do so if you don't have that amount left over to spare.
-	<br>
+	<span class="roombutton" type="button" id="buttontemplate" style="display: none; color: #222; font-family: Courier; font-size: 20px; border: none; padding: 5px 5px; position: relative;" onclick="javascript:handleButton(this)">
+	</span>
+	<div style="width: 60%">
+		<span style="font-size: 30px; color: #aa9191">Welcome to Gēns Grandis!</span>
+		<br>
+		<br>
+		The goal of the game is simple: expand. You'll start out on some terrain with a "People" unit, and you'll get to move around and explore the terrain.
+		<br><br>
+		Your point of view starts of looking north - you can hit "S" to look south, and "W" to look back north. To move your point of view around, use the arrow keys.
+		<br>
+		To move a unit, click the unit to select it. Press "G" and then click on a tile that's one tile away - your unit will move there. If you want to get your "People" to settle down, press "B" to make a city.
+		<br><br>
+		Units have a limited amount of movement per "turn" - to end your turn and start taking the next, just press "T".
+		<br><br>
+		Cities are the core of the game right now - each turn, it might gain or lose population. Cities start off on one tile, though, by clicking on the city, you can access a menu to expand them to nearby tiles using 50 population - and leaving 50 behind on the current tile. 
+		<br><br>
+		Based on where the tile is - and consequently, how much food it has, it'll grow to a different population. Grassland tiles have a nice supply of food, whereas forests have less. Tiles next to water - like lakes or rivers - get a boost, and as tile elevation increases, food supply decreases.
+		<br><br>
+		Now, say you want to redirect food supply from one tile to another. That might come in handy if you're trying to expand into a forest up north, but there's a river down south that your city has access to. Those tiles near the river provide a lot of food, so you can redirect the food from those tiles further north in your city to help your expansion. To preview a 2-D view of your city, hit the "View >>" button on the sidebar after selecting any tile in your city. You can then select the tile you want to move from, enter the amount of food you want to move into the text box below the "Redirect >>" button, hit the "Redirect >>" button, and click on the tile you want to move that food to.
+		<br><br>
+		Eventually, you might want to create another city, further out from where your first one is. To do this, you can click on any tile and hit the "Break >>" button. This will use 100 population to create a "People" unit - and you already know what to do with that. Go on out, explore, and start another city!
+		<br><br>
+		Remember, whenever you do something like expand a city, redirect food, or create a "People" unit, you have to leave behind 50 people - and thus, 50 food. You won't be able to do so if you don't have that amount left over to spare.
+		<br>
+	</div>
 
 	<br>
 	<br>
 
 	<form action="/game">
-		<input type="Submit" style="text-indent: 5%; background-color: #88b; color: #fff; padding: 15px 25px; font-size: 20px; font-family: Courier" value="Play Singleplayer >>">
+		<input type="Submit" style="display: inline-block; background-color: #88b; color: #fff; padding: 15px 15px; font-size: 20px; font-family: Courier" value="Play Singleplayer >>">
 	</form>
 
 
-	<div style="position: fixed; left: 75%; top: 75%">
-		Join a multiplayer lobby:<br>
-		Rooms can vary from 1 to <span id="maxrooms"></span><br>
-	    <input type='input' class="input" id="roomnum" onkeypress="javascript:handleInput(event)">
+	<div style="position: fixed; left: 70%; top: 10%; text-align: center">
+		<span style="font-size: 25px; color: #9191aa">-- Join a multiplayer lobby --</span>
+		<br>
+		Available Rooms: 1 to <span id="maxrooms"></span><br><br>
+		<div id="multibuttons" class="multibuttons">
+		</div>
 	</div>
 
 </body>
+
+<script src="/templates/socket.io.js"></script>
+
 <script>
+
+	var socket = io("/")
+
+	socket.on('roomupdate', function(room, numusers){
+		console.log(room, numusers)
+		document.getElementById(room + "_plct").textContent = numusers
+	})
+
 	function handleInput(event){
 		if (event.keyCode == 13){
 			var room = document.getElementById("roomnum").value
@@ -98,12 +123,73 @@
 		}
 	}
 
+	function handleButton(obj){
+		window.location.href += "room/" + (obj.textContent.split(" ")[1] * 1)
+	}
+
+	function initRoomPlayerVals(room){
+		var req = new XMLHttpRequest;
+		req.open("GET", "/maxplayers/" + room)
+		req.send()
+
+		req.onreadystatechange = function(){
+			if (this.readyState == 4 && this.status == 200){
+				document.getElementById(room + "_maxpl").textContent = this.responseText
+			}
+		}
+
+		var cur_pl_req = new XMLHttpRequest;
+		cur_pl_req.open("GET", "/numcurrentplayers/" + room)
+		cur_pl_req.send()
+
+		cur_pl_req.onreadystatechange = function(){
+			if (this.readyState == 4 && this.status == 200){
+				document.getElementById(room + "_plct").textContent = this.responseText
+			}
+		}
+	}
+
 	var roomreq = new XMLHttpRequest;
 	roomreq.open("GET", "/approvedrooms")
 	roomreq.send()
 	roomreq.onreadystatechange = function(){
 		if (this.readyState == 4 && this.status == 200){
-			document.getElementById("maxrooms").textContent = this.responseText
+			var rooms = this.responseText * 1
+			document.getElementById("maxrooms").textContent = rooms
+
+			var roomstrlength = String(rooms).length
+
+			var origbutton = document.getElementById("buttontemplate")
+
+			for (var i = 1; i <= rooms; i++){
+				var b = origbutton.cloneNode(true)
+				b.style.display = "inline"
+
+				var roomnum = String(i)
+
+				while (roomnum.length < roomstrlength){
+					roomnum = "0" + roomnum
+				}
+
+				b.innerHTML = "Room " + roomnum 
+				b.innerHTML += " [<span id='" + i + "_plct'></span>/<span id='" + i + "_maxpl'></span>]"
+
+				initRoomPlayerVals(i)
+
+				if (i % 2 == 0){
+					b.style.left = "5%"
+				}
+
+				if (i % 2 == 1){
+					b.style.left = "-5%"
+				}
+				document.getElementById("multibuttons").appendChild(b)
+				if (i % 2 == 0){
+					for (var j = 0; j < 2; j++){
+						document.getElementById("multibuttons").appendChild(document.createElement('br'))
+					}
+				}
+			}
 		}
 	}
 </script>

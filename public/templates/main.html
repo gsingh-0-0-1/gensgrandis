@@ -241,6 +241,12 @@
 
 	var socket = io(window.location.pathname);
 
+	var multi = false
+
+	if (window.location.pathname.includes("gameroom")){
+		multi = true
+	}
+
 	//****************************************************************************************//
 	//******************************CONSTANTS AND INITIALIZATION******************************//
 	//****************************************************************************************//
@@ -574,7 +580,9 @@
 
 		socket.emit('turndone')
 
-		waitForTurn()
+		if (multi){
+			waitForTurn()
+		}
 	}
 
 	function checkAndLoad(x, y, explore = true){
@@ -660,6 +668,7 @@
 						break
 					}
 					if (unitlist[selectedunitid].m == 0){
+						break
 					}
 					else{
 						assignTileUnitStatus(unitlist[selectedunitid].mesh.position.x, unitlist[selectedunitid].mesh.position.y, false)
@@ -699,26 +708,14 @@
 						}
 
 						//check for cities on adjacent tiles
-						for (var xoff = -1; xoff <= 1; xoff++){
-							for (var yoff = -1; yoff <= 1; yoff++){
-								if (isTileCity(targetx + xoff, targety + yoff)){
-									var id = grid_dict["tile_" + (targetx + xoff) + "_" + (targety + yoff)].tileCityID
-									if (isCityCenter(id, targetx + xoff, targety + yoff)){
-										cities[id].center.mesh.visible = true
-									}
-									else{
-										cities[id].tiles[(targetx + xoff) + "_" + (targety + yoff)].mesh.visible = true
-									}
-								}
-							}
-						}
+						checkForAdjacentCities(targetx, targety)
 					}
 					moving_unit = false
 
 					updateUnitBar(selectedunitid)
-					break
 				}
 			}
+			return
 		}
 
 
@@ -1229,6 +1226,7 @@
 
 		if (self){
 			showCitySidebar(id, x, y)
+			checkForAdjacentCities(targetx, targety)
 		}
 
 		if (self){
@@ -1320,10 +1318,10 @@
 
 				if (already_named){
 					citynames.push(name)
-					current_city.name = name
-					current_city.center.mesh.cityname = name
-					current_city.cityID = cities.length
-					cities.push(current_city)
+					this_city.name = name
+					this_city.center.mesh.cityname = name
+					this_city.cityID = cities.length
+					cities.push(this_city)
 				}
 
 				assignTileFood(cityx, cityy)
@@ -1348,7 +1346,11 @@
 
 		current_city = this_city
 
+		if (already_named){
+			this_city.owner = 'notself'
+		}
 		if (!already_named){
+			this_city.owner = 'self'
 			showCityNamePanel(id)
 		}
 	}
@@ -1691,12 +1693,6 @@
 
 		var filereq = new XMLHttpRequest;
 
-		var multi = false
-
-		if (window.location.pathname.includes("gameroom")){
-			multi = true
-		}
-
 		if (multi){
 			var room = window.location.href.split("/").slice(-1)
 			filereq.open("GET", "/gamefile/" + room)
@@ -1713,7 +1709,7 @@
 					FILE = this.responseText
 				}
 				else{
-					FILE = "map" + String(Math.ceil(Math.random() * (this.responseText * 1)))
+					//FILE = "map" + String(Math.ceil(Math.random() * (this.responseText * 1)))
 				}
 
 				var seedreq = new XMLHttpRequest;
@@ -1743,10 +1739,12 @@
 
 								//fetchAndRender([gamecenterx - 3, gamecentery - 3], [gamecenterx + 3, gamecentery + 3])
 
-								for (var loc of spawnlocs){
-									var nloc = loc.split(",")
-									//checkAndLoad(nloc[0]*1, nloc[1]*1)
-									fetchAndRender([nloc[0]*1 - 1, nloc[1]*1 - 1], [nloc[0]*1 + 2, nloc[1]*1 + 2])
+								if (multi){
+									for (var loc of spawnlocs){
+										var nloc = loc.split(",")
+										//checkAndLoad(nloc[0]*1, nloc[1]*1)
+										fetchAndRender([nloc[0]*1 - 1, nloc[1]*1 - 1], [nloc[0]*1 + 2, nloc[1]*1 + 2])
+									}
 								}
 
 								var unitreq = new XMLHttpRequest;
@@ -1775,7 +1773,9 @@
 											}
 										}
 										endTurn()
-										//hideLoadingScreen()
+										if (!multi){
+											hideLoadingScreen()
+										}
 									}
 								}			
 							//}
@@ -1798,6 +1798,31 @@
 		animate();
 	}
 
+
+
+	if (!multi){
+		var filereq = new XMLHttpRequest;
+		filereq.open("GET", "/numsaves")
+		filereq.send()
+		filereq.onreadystatechange = function(){
+			if (this.readyState == 4 && this.status == 200){
+				FILE = "map" + String(Math.ceil(Math.random() * (this.responseText * 1)))
+				var spawnlocreq = new XMLHttpRequest;
+				spawnlocreq.open("GET", "/spawnlocsbyfile/" + FILE)
+				spawnlocreq.send()
+				spawnlocreq.onreadystatechange = function(){
+					if (this.readyState == 4 && this.status == 200){
+						var locs = this.responseText.split("\n")
+						loc = locs[0]
+						loc = loc.split(",")
+						let x = loc[0] * 1
+						let y = loc[1] * 1
+						initialize(x, y, locs)
+					}
+				}
+			}
+		}
+	}
 	//initialize()
 
 
@@ -1830,6 +1855,19 @@
 			hideLoadingScreen()
 		}
 		//myturn = true
+	})
+
+
+	var ending_game = false
+	socket.on('endgame', function(){
+		if (ending_game){
+			return
+		}
+		ending_game = true
+		setTimeout(function(){
+			window.location.replace("/")
+		}, 2000)
+		alert("A player left the game. Ending game, redircting back home...")
 	})
 
 	//SOCKET GAME MECHANICS

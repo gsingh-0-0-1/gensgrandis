@@ -115,6 +115,10 @@ function getHutOffset(x, y, size){
 
 
 function showCitySidebar(this_city_ID, tilex, tiley){
+	if (cities[this_city_ID].owner != 'self'){
+		alert("Not your city!")
+		return
+	}
 	tilex = Math.round(tilex)
 	tiley = Math.round(tiley)
 
@@ -210,6 +214,22 @@ function handleCityNameInput(event){
 			document.getElementById("city_name_input_box").value = val.slice(0, -1)
 		}
 	}*/
+}
+
+function checkForAdjacentCities(targetx, targety){
+	for (var xoff = -1; xoff <= 1; xoff++){
+		for (var yoff = -1; yoff <= 1; yoff++){
+			if (isTileCity(targetx + xoff, targety + yoff)){
+				var id = grid_dict["tile_" + (targetx + xoff) + "_" + (targety + yoff)].tileCityID
+				if (isCityCenter(id, targetx + xoff, targety + yoff)){
+					cities[id].center.mesh.visible = true
+				}
+				else{
+					cities[id].tiles[(targetx + xoff) + "_" + (targety + yoff)].mesh.visible = true
+				}
+			}
+		}
+	}
 }
 
 function showCityNamePanel(id){
