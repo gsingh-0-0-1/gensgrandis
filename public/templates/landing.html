@@ -14,7 +14,7 @@
 	<style>
 		body{
 			background-color: #222;
-			color: #b5b5b5;
+			color: #ccc;
 			font-family: Courier;
 			font-size: 20px;
 		}
@@ -47,13 +47,50 @@
 			filter: brightness(110%);
 			outline: none;
 		}
+
+
+		ul {
+			font-family: Times;
+			position: relative;
+			list-style-type: none;
+			margin: 0;
+			padding: 0;
+			overflow: hidden;
+			background-color: #333;
+			z-index: 3;
+		}
+
+		li {
+			float: left;
+		}
+
+		li a {
+			display: block;
+			color: white;
+			text-align: center;
+			padding: 14px 16px;
+			text-decoration: none;
+		}
+
+		li a:hover {
+			background-color: #111;
+		}
+
 	</style>
 </head>
 <body>
+
+	<ul>
+		<li><a class="active" href="/">Home</a></li>
+		<li><a href="/funds">Funds</a></li>
+	</ul>
+
+	<br>
+
 	<span class="roombutton" type="button" id="buttontemplate" style="display: none; color: #222; font-family: Courier; font-size: 20px; border: none; padding: 5px 5px; position: relative;" onclick="javascript:handleButton(this)">
 	</span>
 	<div style="width: 60%">
-		<span style="font-size: 30px; color: #aa9191">Welcome to Gēns Grandis!</span>
+		<span style="font-size: 30px; color: #bb9191">Welcome to Gēns Grandis!</span>
 		<br>
 		<br>
 		Thanks for playing! This game was inspired both by Minecraft and Civilization IV, and aims to combine elements of both to create a strategy-oriented but also sandbox-style game.
@@ -62,9 +99,14 @@
 		<br><br>
 		If you've never played the game before, go ahead and start with Singleplayer - it'll give you a tutorial of how the game works. From there, you can keep playing singleplayer, or move to multiplayer if you've got some friends to play with.
 		<br><br>
-		And, last but not least, I'd like to mention - this game is very much under development. If you've got experience with Blender or frontend/UI design, or if you think you can contribute in any way to this effort, please feel free to join our discord (<a href="https://discord.gg/47QQtwFeYu"></a>) or shoot me an email (gurmehar@gmail.com). Who knows, maybe you'll get a cut of that sweet ad revenue &#128521;.
+		And, last but not least, I'd like to mention - this game is very much under development. There might be some bugs here and there - after all, this is effectively a public beta - but I've run as many tests as I can, and I'm confident that it should be relatively stable. Additionally, as this expands, I won't be able to do everything by myself - if you've got experience with Blender or frontend/UI design, or if you think you can contribute in any way to this effort, please feel free to join our discord (<a href="https://discord.gg/47QQtwFeYu" style="color: #9999a1" target="_blank">https://discord.gg/47QQtwFeYu</a>) or shoot me an email. Who knows, maybe you'll get a cut of that sweet ad revenue &#128521;.
 		<br><br>
 		Thanks again, and I hope you enjoy the game!
+	</div>
+
+	<div style="position: fixed; font-size: 20px; color: #999; bottom: 1%; right: 1%; font-family: Courier;">
+		Developed by: Gurmehar Singh<br>
+		(gurmehar@gmail.com)
 	</div>
 
 	<br>

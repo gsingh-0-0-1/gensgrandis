@@ -196,7 +196,13 @@ function createGameRoom(room){
 
 				var nextplayer_authid = Object.keys(gameroom_clients[room])[gameroom_clients[room].current_turn]
 
-				io.of(cur_namespace).sockets.get(gameroom_clients[room][nextplayer_authid].socketid).emit('yourturn', gameroom_clients[room].current_turn)
+				if (io.of(cur_namespace).sockets.get(gameroom_clients[room][nextplayer_authid].socketid) == undefined){
+					io.of(cur_namespace).emit('endgame')
+					delete gameroom_clients[room][nextplayer_authid]
+				}
+				else{
+					io.of(cur_namespace).sockets.get(gameroom_clients[room][nextplayer_authid].socketid).emit('yourturn', gameroom_clients[room].current_turn)
+				}
 			}
 		})
 
@@ -261,6 +267,10 @@ app.get("/*", (req, res, next) => {
 //these routes below are exempt from any checks
 app.get("/", (req, res) => {
 	res.sendFile("public/templates/landing.html", {root: __dirname})
+})
+
+app.get("/funds", (req, res) => {
+	res.sendFile("public/templates/funds.html", {root: __dirname})
 })
 
 app.get("/access", (req, res) => {
