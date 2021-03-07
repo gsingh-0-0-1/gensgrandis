@@ -110,7 +110,7 @@ GENERATION FUNCTIONS ###########################################################
 
 def getMountainHeight(x, y, d):
 	z = (d/2) * 1.2**(-10/d * (x-d/2)**2) * 1.2**(-10/d * (y-d/2)**2)
-	z = 1.5 * (z ** (1/2))
+	z = 1.7 * (z ** (1/2))
 	return z
 
 def checkValidTile(x, y):

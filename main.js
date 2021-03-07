@@ -150,7 +150,7 @@ function createRoom(room){
 
 					gameroom_clients[room][authid] = new Object()
 					gameroom_clients[room][authid].user = username
-					gameroom_clients[room][authid].playernum = Object.keys(gameroom_clients[room]).length - 2
+					gameroom_clients[room][authid].playernum = Object.keys(gameroom_clients[room]).length - basegameroomprops.length
 				}
 			}
 		})
@@ -158,6 +158,9 @@ function createRoom(room){
 		socket.on('disconnect', () => {
 			socket.broadcast.emit('leave', current_clients[room][socket.internalCustomID])
 			delete current_clients[room][socket.internalCustomID]
+			if (Object.keys(current_clients[room]).length == 0){
+				deleteGameRoom(room)
+			}
 			var l = Object.values(current_clients[room])
 			updateUsers(socket, l)
 			sendUserCountsUpdate(room)
@@ -198,7 +201,8 @@ function createGameRoom(room){
 
 				if (io.of(cur_namespace).sockets.get(gameroom_clients[room][nextplayer_authid].socketid) == undefined){
 					io.of(cur_namespace).emit('endgame')
-					delete gameroom_clients[room][nextplayer_authid]
+					deleteGameRoom(room)
+					//delete gameroom_clients[room][nextplayer_authid]
 				}
 				else{
 					io.of(cur_namespace).sockets.get(gameroom_clients[room][nextplayer_authid].socketid).emit('yourturn', gameroom_clients[room].current_turn)
@@ -208,18 +212,7 @@ function createGameRoom(room){
 
 		socket.on('disconnect', () => {
 			socket.broadcast.emit('endgame')
-			delete gameroom_clients[room][socket.internalCustomID]
-			var sortedkeys = Object.keys(gameroom_clients[room])
-			sortedkeys.sort()
-			if (sortedkeys.includes(...basegameroomprops) && sortedkeys.length == basegameroomprops.length){
-				for (var user of Object.keys(current_clients[room])){
-					delete current_clients[room][user]
-					sendUserCountsUpdate(room)
-				}
-				ready_for_reset[room] = true
-				chatroom_in_game = false
-				sendUserCountsUpdate(room)
-			}
+			deleteGameRoom(room)
 		})
 
 
@@ -245,6 +238,22 @@ function createGameRoom(room){
 		})
 
 	})
+}
+
+
+function deleteGameRoom(room){
+	//delete gameroom_clients[room][socket.internalCustomID]
+	var sortedkeys = Object.keys(gameroom_clients[room])
+	sortedkeys.sort()
+	//if (sortedkeys.includes(...basegameroomprops) && sortedkeys.length == basegameroomprops.length){
+	for (var user of Object.keys(current_clients[room])){
+		delete current_clients[room][user]
+		sendUserCountsUpdate(room)
+	}
+	ready_for_reset[room] = true
+	chatroom_in_game = false
+	sendUserCountsUpdate(room)
+	//}
 }
 
 app.use(express.static('public'));
