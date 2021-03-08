@@ -96,10 +96,10 @@ FOREST_SIZE = 60
 FOREST_DENSITY = 4
 FOREST_DENS_MOD_LIMIT = 2
 
-MOUNTAIN_NUM = round(WATER_BODIES_NUM * 0.65)
-MOUNTAIN_BASE_DIAMETER = 15
-MOUNTAIN_DIAM_VAR = 1.7
-MOUNTAIN_HEIGHT_VAR_MAX = 0.1
+MOUNTAIN_NUM = round(WATER_BODIES_NUM * 0.7)
+MOUNTAIN_BASE_DIAMETER_LIST = [15]
+MOUNTAIN_DIAM_VAR = 5
+MOUNTAIN_HEIGHT_VAR_MAX = 0.05
 
 BASE_TILE_HEIGHT = 0.2
 
@@ -110,7 +110,7 @@ GENERATION FUNCTIONS ###########################################################
 
 def getMountainHeight(x, y, d):
 	z = (d/2) * 1.2**(-10/d * (x-d/2)**2) * 1.2**(-10/d * (y-d/2)**2)
-	z = 1.7 * (z ** (1/2))
+	z = 1.35 * (z ** (1/2))
 	return z
 
 def checkValidTile(x, y):
@@ -147,10 +147,10 @@ def generateWaterBodies(coords1, coords2, water_locations, seed = WATER_BODY_SEE
 		body_y = pair[1]
 
 		#make sure a water body doesn't generate on or near the center
-		if (abs(body_x - CENTER_X) < WATER_ITERATIONS + 1 and abs(body_y - CENTER_Y) < WATER_ITERATIONS + 1):
-			#GAME_GRID[tile_y][tile_x] = str(BASE_TILE_HEIGHT) + HEIGHT_DELIMITER + LAND_TILE_CODE + INFO_DELIMITER
-			waterbody_coords.remove([tile_y, tile_x])
-			continue
+		#if (abs(body_x - CENTER_X) < WATER_ITERATIONS + 1 and abs(body_y - CENTER_Y) < WATER_ITERATIONS + 1):
+		#	#GAME_GRID[tile_y][tile_x] = str(BASE_TILE_HEIGHT) + HEIGHT_DELIMITER + LAND_TILE_CODE + INFO_DELIMITER
+		#	waterbody_coords.remove([tile_y, tile_x])
+		#	continue
 
 		GAME_GRID[body_y][body_x] = "0" + HEIGHT_DELIMITER + WATER_BODY_START_TILE_CODE + INFO_DELIMITER
 		#for body_x in water_locations[1]:
@@ -250,7 +250,7 @@ def generateMountains(coords1, coords2, mountain_locations, seed = MOUNTAIN_SEED
 
 		#this_mountain_diameter = MOUNTAIN_BASE_DIAMETER + this_mountain_generator.integers(-MOUNTAIN_DIAM_VAR, MOUNTAIN_DIAM_VAR)
 
-		this_mountain_diameter = round(this_mountain_generator.normal(MOUNTAIN_BASE_DIAMETER, MOUNTAIN_DIAM_VAR))
+		this_mountain_diameter = round(this_mountain_generator.normal(this_mountain_generator.choice(MOUNTAIN_BASE_DIAMETER_LIST), MOUNTAIN_DIAM_VAR))
 
 		for cur_y in range(start_y, start_y + this_mountain_diameter):
 			for cur_x in range(start_x, start_x + this_mountain_diameter):

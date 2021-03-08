@@ -278,9 +278,9 @@ app.get("/", (req, res) => {
 	res.sendFile("public/templates/landing.html", {root: __dirname})
 })
 
-app.get("/funds", (req, res) => {
+/*app.get("/funds", (req, res) => {
 	res.sendFile("public/templates/funds.html", {root: __dirname})
-})
+})*/
 
 app.get("/access", (req, res) => {
 	res.sendFile("public/templates/access.html", {root: __dirname})
