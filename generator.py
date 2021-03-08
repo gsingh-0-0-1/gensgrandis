@@ -9,6 +9,7 @@ import numpy as np
 import random
 import sqlite3
 import os
+import sys
 
 print("Starting")
 
@@ -28,7 +29,10 @@ MAX_WORLD_RADIUS = 500
 CENTER_X = 550
 CENTER_Y = 555
 
-WORLD_SEED = round(random.uniform(1, 10) * 10**10)
+if sys.argv[1].isnumeric():
+	WORLD_SEED = sys.argv[1]
+else:
+	WORLD_SEED = round(random.uniform(1, 10) * 10**10)
 
 TOP_LEVEL_GENERATOR = np.random.default_rng(WORLD_SEED)
 
@@ -100,6 +104,8 @@ MOUNTAIN_NUM = round(WATER_BODIES_NUM * 0.7)
 MOUNTAIN_BASE_DIAMETER_LIST = [15]
 MOUNTAIN_DIAM_VAR = 5
 MOUNTAIN_HEIGHT_VAR_MAX = 0.05
+
+MOUNTAIN_STONE_HEIGHT = 5
 
 BASE_TILE_HEIGHT = 0.2
 
@@ -441,7 +447,7 @@ spawnlocs = [[500, 500], [510, 500], [510, 510], [500, 510]]
 
 for pair in spawnlocs:
 	i = 1
-	while isTileWater(GAME_GRID[pair[1]][pair[0]].split(HEIGHT_DELIMITER)[1].split(INFO_DELIMITER)[0]):
+	while isTileWater(GAME_GRID[pair[1]][pair[0]].split(HEIGHT_DELIMITER)[1].split(INFO_DELIMITER)[0]) or float(GAME_GRID[pair[1]][pair[0]].split(HEIGHT_DELIMITER)[0]) > MOUNTAIN_STONE_HEIGHT:
 		pair[1] -= i
 		pair[0] -= 1
 		i += 1
