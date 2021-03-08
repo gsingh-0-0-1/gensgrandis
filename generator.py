@@ -30,7 +30,7 @@ CENTER_X = 550
 CENTER_Y = 555
 
 if sys.argv[1].isnumeric():
-	WORLD_SEED = sys.argv[1]
+	WORLD_SEED = int(sys.argv[1])
 else:
 	WORLD_SEED = round(random.uniform(1, 10) * 10**10)
 
