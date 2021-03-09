@@ -20,6 +20,22 @@ function isTileAdjacentToWater(x, y){
 	return false
 }
 
+function isTileAdjacentToSelfCity(x, y){
+	for (var yoff = -1; yoff <= 1; yoff ++){
+		for (var xoff = -1; xoff <= 1; xoff++){
+			if (getTileAt(x + xoff, y + yoff) == undefined){
+				continue
+			}
+			if (getTileAt(x + xoff, y + yoff).hasCity){
+				if (cities[getTileAt(x + xoff, y + yoff).tileCityID].owner == 'self'){
+					return true
+				}
+			}
+		}
+	}
+	return false
+}
+
 function isCityCenter(cityID, x, y){
 	if (cities[cityID].center.x == x && cities[cityID].center.y == y){
 		return true

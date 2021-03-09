@@ -892,6 +892,9 @@
 									if (unitlist[getTileAt(unitlist[selectedunitid].mesh.position.x + xoff, unitlist[selectedunitid].mesh.position.y + yoff).hasUnit_ID].owner == 'self'){
 										continue
 									}
+									if (activetiles.includes((unitlist[selectedunitid].mesh.position.x + xoff) + "," + (unitlist[selectedunitid].mesh.position.y + yoff))){
+										continue
+									}
 									unitlist[getTileAt(unitlist[selectedunitid].mesh.position.x + xoff, unitlist[selectedunitid].mesh.position.y + yoff).hasUnit_ID].mesh.visible = false
 								}
 							}
@@ -1083,6 +1086,9 @@
 		y = y * 1
 		for (var xoff = -1; xoff <= 1; xoff++){
 			for (var yoff = -1; yoff <= 1; yoff++){
+				if (isTileAdjacentToSelfCity(x + xoff, y + yoff)){
+					continue
+				}
 				activetiles.splice(activetiles.indexOf((x + xoff) + "," + (y + yoff)), 1)
 			}
 		}
