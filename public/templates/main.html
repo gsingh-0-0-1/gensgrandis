@@ -200,7 +200,7 @@
 
 		</div>
 
-		<div id="city_info_sidebar_view_city_tiles" class="city_sidebar_small_cont" style="top: 60%; left: 7%">
+		<div id="city_info_sidebar_view_city_tiles" class="city_sidebar_small_cont" style="top: 55%; left: 7%">
 			View city...
 
 			<div style="padding-left: 20px">
@@ -211,7 +211,7 @@
 
 		</div>
 
-		<div id="city_info_sidebar_redirect_food" class="city_sidebar_small_cont" style="top: 75%; left: 7%">
+		<div id="city_info_sidebar_redirect_food" class="city_sidebar_small_cont" style="top: 65%; left: 7%">
 			Redirect food...
 
 			<div style="padding-left: 20px">
@@ -220,6 +220,22 @@
 				<input class="button" type="text" style="font-size: 16px; font-family: Courier;background-color: #aae; padding: 5px 5px; color: #111" id="foodRedirectTextInput" placeholder="--Redirect amount--">
 
 			</div>			
+
+		</div>
+
+		<div id="city_info_sidebar_produce_unit" class="city_sidebar_small_cont" style="top: 75%; left: 7%">
+			Produce unit...
+
+			<select id="select_unit_to_produce">
+				<option value="">-Select a unit-</option>
+				<option value="RB">Riverboat</option>
+			</select>
+
+			<button id="producebutton" onclick="javascript:changeCityProduction()">Produce</button>
+
+			<br>
+
+			[ <span id="city_info_sidebar_people_turns"></span> / <span id="city_info_sidebar_prod_target"></span> ] -- <span id="city_info_sidebar_prod_unit"></span>
 
 		</div>
 
@@ -429,12 +445,20 @@
 	const endturnkeycode = 84
 	const enterkeycode = 13
 
-	var unit_corresponds = {"P" : "People"}
-	var unit_movements = {"P" : 5}
-	var unit_commands = {"P" : "B: Build city"}
+	var unit_corresponds = {"P" : "People", 
+							"RB" : "Riverboat"}
+	var unit_movements = {"P" : 5, "RB" : 10}
+	var unit_commands = {"P" : "B: Build city",
+						"RB" : ""}
+
+	var unit_produce_times = {"RB" : 1200}
+
+	var unit_z_offsets = {"P" : 0.7,
+						"RB" : 0}
 
 	//unit templates
 	var people_template = "P~x:xhere,y:yhere,n:100,m:" + unit_movements["P"]
+	var riverboat_template = "RB~x:xhere,y:yhere,m:" + unit_movements["RB"]
 
 	var moving_unit = false;
 	var expanding_city = false;
@@ -732,12 +756,21 @@
 		//update city populations
 		var numcities = cities.length
 		for (var cityidx = 0; cityidx < numcities; cityidx++){
-			//cities[cityidx].center.population += 10
+			cities[cityidx].people_turns += getTotalPop(cityidx)
+
+			if (cities[cityidx].people_turns >= unit_produce_times[cities[cityidx].producing]){
+				if (cities[cityidx].producing == "RB"){
+					addRiverboat(cities[cityidx].center.x, cities[cityidx].center.y)
+				}
+
+				cities[cityidx].producing = null
+				cities[cityidx].people_turns = 0				
+			}
+
 			growTile(cities[cityidx].center.x, cities[cityidx].center.y, cityidx, true)
 			var numtiles = cities[cityidx].tiles.length
 			for (var tile of Object.keys(cities[cityidx].tiles)){
 				growTile(cities[cityidx].tiles[tile].x, cities[cityidx].tiles[tile].y, cityidx)
-				//cities[cityidx].tiles[tile].population += 10
 			}
 		}
 
@@ -804,8 +837,11 @@
 			//moveUnit()
 			//this is the code to move a unit
 			//for (var i = 0; i < intersects.length; i++){
-			for (var i = 0; i < 1; i++){
+			for (var i = 0; i < intersects.length; i++){
 				var obj = intersects[i].object
+				if (obj.visible != true){
+					continue
+				}
 				if (obj.istile){
 					//check if the tile is adjacent
 					var initx = unitlist[selectedunitid].mesh.position.x
@@ -825,7 +861,10 @@
 					if (Math.abs(targety - inity) > 1){
 						break
 					}
-					if (isWater(obj.type)){
+					if (isWater(obj.type) && unitlist[selectedunitid].naval != true){
+						break
+					}
+					if (!isWater(obj.type) && unitlist[selectedunitid].naval == true){
 						break
 					}
 					if (obj.height > MOUNTAIN_STONE_HEIGHT){
@@ -838,7 +877,7 @@
 						break
 					}
 					else{
-						socket.emit('moveunit', selectedunitid, targetx, targety, ground_z + unit_z_offset + obj.height)
+						socket.emit('moveunit', selectedunitid, targetx, targety, ground_z + unit_z_offsets[unitlist[selectedunitid].type] + obj.height)
 
 						assignTileUnitStatus(unitlist[selectedunitid].mesh.position.x, unitlist[selectedunitid].mesh.position.y, false)
 						assignTileUnitStatus(targetx, targety, true, selectedunitid)
@@ -850,6 +889,9 @@
 						for (var xoff = -1; xoff <= 1; xoff++){
 							for (var yoff = -1; yoff <= 1; yoff++){
 								if (tileHasUnit(unitlist[selectedunitid].mesh.position.x + xoff, unitlist[selectedunitid].mesh.position.y + yoff)){
+									if (unitlist[getTileAt(unitlist[selectedunitid].mesh.position.x + xoff, unitlist[selectedunitid].mesh.position.y + yoff).hasUnit_ID].owner == 'self'){
+										continue
+									}
 									unitlist[getTileAt(unitlist[selectedunitid].mesh.position.x + xoff, unitlist[selectedunitid].mesh.position.y + yoff).hasUnit_ID].mesh.visible = false
 								}
 							}
@@ -861,7 +903,7 @@
 						unitlist[selectedunitid].x = targetx
 						unitlist[selectedunitid].y = targety
 						
-						unitlist[selectedunitid].mesh.position.z = ground_z + unit_z_offset + obj.height
+						unitlist[selectedunitid].mesh.position.z = ground_z + unit_z_offsets[unitlist[selectedunitid].type] + obj.height
 						unitlist[selectedunitid].m -= 1
 						checkAndLoad(targetx, targety)
 
@@ -880,6 +922,8 @@
 					moving_unit = false
 
 					updateUnitBar(selectedunitid)
+
+					break
 				}
 			}
 			return
@@ -990,7 +1034,10 @@
 	function updateUnitBar(id){
 		document.getElementById("unit_desc").style.display = "initial"
 		document.getElementById("unit_desc").style.zIndex = "2"
-		document.getElementById("unit_desc_name").innerHTML = unit_corresponds[unitlist[id].type] + " (" + unitlist[id].n + ")"	
+		document.getElementById("unit_desc_name").innerHTML = unit_corresponds[unitlist[id].type]
+		if (unitlist[id].n != undefined){
+			document.getElementById("unit_desc_name").innerHTML += " (" + unitlist[id].n + ")"	
+		}
 		document.getElementById("unit_desc_x").innerHTML = "X: " + unitlist[id].x
 		document.getElementById("unit_desc_y").innerHTML = "Y: " + unitlist[id].y
 		document.getElementById("unit_desc_m").innerHTML = "Movement: " + unitlist[id].m
@@ -1016,75 +1063,6 @@
 
 	function waitForTurn(){
 		document.getElementById("loadingscreen").style.display = "initial"
-	}
-
-	function drawPeople(x, y, id, vis = true){
-
-		var col = new THREE.Color(0.4, 0.4, 0.4)//0.6, 0, 0.8)
-
-		/*var peoplegeo = new THREE.ConeGeometry(0.2, 1, 8)
-		//var peoplemat = new THREE.MeshBasicMaterial( {color: col} )
-		var people = new THREE.Mesh(peoplegeo)//, peoplemat)
-
-		var headgeo = new THREE.SphereGeometry(0.23, 8, 8)
-		//var headmat = new THREE.MeshBasicMaterial( {color: col} )
-		var head = new THREE.Mesh(headgeo)//, headmat)
-
-		var biggeo = new THREE.Geometry();
-
-		head.position.set(0, 0.3, 0)
-		people.add(head)
-
-		people.updateMatrix(); // as needed
-		biggeo.merge(people.geometry, people.matrix);
-
-		head.updateMatrix(); // as needed
-		biggeo.merge(head.geometry, head.matrix);
-
-		var mat = new THREE.MeshBasicMaterial( {color: col} )
-		var people = new THREE.Mesh(biggeo, mat)*/
-
-		var loader = new THREE.GLTFLoader();
-
-		loader.load('/resources/people.glb',
-			// called when the resource is loaded
-			function ( gltf ) {
-
-				gltf.scene.scale.set( 1, 1, 1 );	
-
-				gltf.scene.position.set(x, y, ground_z + 1)
-
-				//gltf.scene.children[2].position = new THREE.Vector3(x, y, ground_z + 1)
-
-				//gltf.scene.rotation.x = Math.PI / 2
-				var people = gltf.scene//.children[2]
-				scene.add( people );
-
-				var hoffset = getTileAt(x, y).height
-
-				people.position.set(x, y, ground_z + hoffset + 1)
-				people.rotation.set(Math.PI / 2, 0, 0)
-
-				people.type = "unit"
-
-				people.visible = vis
-				assignUnitID(people, id)
-				//people.unitid = id
-
-				unitlist[id].mesh = people
-
-				//modify explored tiles
-				if (vis){
-					exploreAtCoords(x, y)
-				}
-			}
-		)
-
-		//get the height of the tile and offset the unit by that
-		if (getTileAt(x, y) == undefined){
-			console.log(x, y)
-		}
-
 	}
 
 	function activateTilesAtCenter(x, y){
@@ -1411,6 +1389,29 @@
 	}
 
 
+	function getTotalPop(cityID){
+		var pop = 0
+
+		pop += cities[cityID].center.population
+
+		for (var tile of Object.keys(cities[cityID].tiles)){
+			pop += cities[cityID].tiles[tile].population
+		}
+
+		return pop
+	}
+
+	function changeCityProduction(){
+		if (isNaN(selectedcityid) || selectedcityid === ''){
+			return
+		}
+		cities[selectedcityid].producing = document.getElementById("select_unit_to_produce").value
+		cities[selectedcityid].people_turns = 0
+
+		showCitySidebar(selectedcityid, selectedcitytilex, selectedcitytiley)
+	}
+
+
 	var city_x_offset = 0
 	var cities = []
 	var citynames = []
@@ -1465,6 +1466,16 @@
 
 		var this_city = new Object()
 		this_city.center = new Object()
+
+		if (isTileAdjacentToWater(cityx, cityy)){
+			this_city.coastal = true
+		}
+		else{
+			this_city.coastal = false
+		}
+
+		this_city.producing = null
+		this_city.people_turns = 0
 
 		var loader = new THREE.GLTFLoader();
 
@@ -1563,16 +1574,21 @@
 			}
 
 			unitlist.push(thisunit)
+			assignTileUnitStatus(thisunit.x, thisunit.y, true, i)
+			if (activetiles.includes(thisunit.x + "," + thisunit.y)){
+				var vis = true
+			}
+			else{
+				var vis = false
+			}
+
+
 			if (unittype == "P"){
-				assignTileUnitStatus(thisunit.x, thisunit.y, true, i)
 				//fetchAndRender([thisunit.x * 1, thisunit.y * 1], [thisunit.x*1 + 1, thisunit.y*1 + 1])
-				if (activetiles.includes(thisunit.x + "," + thisunit.y)){
-					var vis = true
-				}
-				else{
-					var vis = false
-				}
 				drawPeople(thisunit.x, thisunit.y, thisunit.unitid, vis)
+			}
+			if (unittype == "RB"){
+				drawRiverboat(thisunit.x, thisunit.y, thisunit.unitid, vis)
 			}
 		//}
 	}
@@ -1583,8 +1599,107 @@
 		drawUnits(units.length - 1)
 	}
 
+	function drawPeople(x, y, id, vis = true){
+
+		var col = new THREE.Color(0.4, 0.4, 0.4)//0.6, 0, 0.8)
+
+		var loader = new THREE.GLTFLoader();
+
+		loader.load('/resources/people.glb',
+			// called when the resource is loaded
+			function ( gltf ) {
+
+				gltf.scene.scale.set( 1, 1, 1 );	
+
+				gltf.scene.position.set(x, y, ground_z + 1)
+
+				//gltf.scene.children[2].position = new THREE.Vector3(x, y, ground_z + 1)
+
+				//gltf.scene.rotation.x = Math.PI / 2
+				var people = gltf.scene//.children[2]
+				scene.add( people );
+
+				var hoffset = getTileAt(x, y).height
+
+				people.position.set(x, y, ground_z + hoffset + 1)
+				people.rotation.set(Math.PI / 2, 0, 0)
+
+				people.type = "unit"
+
+				people.visible = vis
+				assignUnitID(people, id)
+				//people.unitid = id
+
+				unitlist[id].mesh = people
+				unitlist[id].naval = false
+
+				//modify explored tiles
+				if (vis){
+					exploreAtCoords(x, y)
+				}
+			}
+		)
+
+		//get the height of the tile and offset the unit by that
+		if (getTileAt(x, y) == undefined){
+			console.log(x, y)
+		}
+
+	}
 
 
+	function addRiverboat(x, y){
+		units.push(riverboat_template.replace("xhere", x).replace("yhere", y))
+		drawUnits(units.length - 1)
+	}
+
+	function drawRiverboat(x, y, id, vis = true){
+
+		var col = new THREE.Color(0.4, 0.4, 0.4)//0.6, 0, 0.8)
+
+		var loader = new THREE.GLTFLoader();
+
+		loader.load('/resources/riverboat.glb',
+			// called when the resource is loaded
+			function ( gltf ) {
+
+				gltf.scene.scale.set( 0.07, 0.07, 0.07 );	
+
+				gltf.scene.position.set(x, y, ground_z + 0.2)
+
+				//gltf.scene.children[2].position = new THREE.Vector3(x, y, ground_z + 1)
+
+				//gltf.scene.rotation.x = Math.PI / 2
+				var boat = gltf.scene//.children[2]
+				scene.add( boat );
+
+				var hoffset = getTileAt(x, y).height
+
+				boat.position.set(x, y, ground_z + hoffset + 0.2)
+				boat.rotation.set(Math.PI / 2, Math.PI / 2, 0)
+
+				boat.type = "unit"
+
+				boat.visible = vis
+				assignUnitID(boat, id)
+				//people.unitid = id
+
+				unitlist[id].mesh = boat
+				unitlist[id].naval = true
+
+				//modify explored tiles
+				if (vis){
+					exploreAtCoords(x, y)
+				}
+			}
+		)
+
+		//get the height of the tile and offset the unit by that
+		if (getTileAt(x, y) == undefined){
+			console.log(x, y)
+		}
+
+	}
 
 
 	//TILE FETCHING AND DRAWING CODE

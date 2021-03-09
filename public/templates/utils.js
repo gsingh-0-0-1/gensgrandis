@@ -163,6 +163,21 @@ function showCitySidebar(this_city_ID, tilex, tiley){
 	document.getElementById("city_info_sidebar_selected_food").innerHTML = "Tile Food: " + getTileAt(selectedcitytilex, selectedcitytiley).basefood
 
 	document.getElementById("city_info_sidebar_selected_pop").innerHTML = "Population: "
+
+
+	//[ <span id="city_info_sidebar_people_turns"></span> / <span id="city_info_sidebar_prod_target"></span> ] -- <span id="city_info_sidebar_prod_unit"></span>
+
+	if (cities[this_city_ID].producing != null){
+		document.getElementById("city_info_sidebar_people_turns").textContent = cities[this_city_ID].people_turns
+		document.getElementById("city_info_sidebar_prod_target").textContent = unit_produce_times[cities[this_city_ID].producing]
+		document.getElementById("city_info_sidebar_prod_unit").textContent = unit_corresponds[cities[this_city_ID].producing]
+	}
+	else{
+		document.getElementById("city_info_sidebar_people_turns").textContent = 0
+		document.getElementById("city_info_sidebar_prod_target").textContent = 0
+		document.getElementById("city_info_sidebar_prod_unit").textContent = ''		
+	}
+
 	if (centerx == tilex && centery == tiley){
 		document.getElementById("city_info_sidebar_selected_pop").innerHTML += cities[this_city_ID].center.population
 	}

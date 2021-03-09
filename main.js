@@ -327,12 +327,14 @@ app.get('/room/:id', function(req, res){
 		//current_clients[room] = new Object()
 		rooms.push(room)
 		res.sendFile("public/templates/chatroom.html", {root: __dirname})
+		return
 	}
 	else if (rooms.includes(room) && chatroom_in_game[room] != true){
 		if (Object.keys(current_clients[room]).length >= chatroom_maxes[room]){
 			res.redirect("/roomisfull")
 		}
 		res.sendFile("public/templates/chatroom.html", {root: __dirname})
+		return
 	}
 	else{
 		dealWithNoAuth(res)

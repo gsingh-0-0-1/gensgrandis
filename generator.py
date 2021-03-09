@@ -29,9 +29,10 @@ MAX_WORLD_RADIUS = 500
 CENTER_X = 550
 CENTER_Y = 555
 
-if sys.argv[1].isnumeric():
-	WORLD_SEED = int(sys.argv[1])
-else:
+try:
+	if sys.argv[1].isnumeric():
+		WORLD_SEED = int(sys.argv[1])
+except IndexError:
 	WORLD_SEED = round(random.uniform(1, 10) * 10**10)
 
 TOP_LEVEL_GENERATOR = np.random.default_rng(WORLD_SEED)
