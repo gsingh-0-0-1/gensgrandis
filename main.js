@@ -158,9 +158,9 @@ function createRoom(room){
 		socket.on('disconnect', () => {
 			socket.broadcast.emit('leave', current_clients[room][socket.internalCustomID])
 			delete current_clients[room][socket.internalCustomID]
-			if (Object.keys(current_clients[room]).length == 0){
+			/*if (Object.keys(current_clients[room]).length == 0){
 				deleteGameRoom(room)
-			}
+			}*/
 			var l = Object.values(current_clients[room])
 			updateUsers(socket, l)
 			sendUserCountsUpdate(room)
@@ -171,15 +171,22 @@ function createRoom(room){
 function createGameRoom(room){
 	var cur_namespace = "/gameroom/" + room
 
+	var got_initial_connect = false
+
+	setTimeout(function(){
+		if (!got_initial_connect){
+			deleteGameRoom(room)
+		}
+	}, 7500)
+
 	io.of(cur_namespace).on('connection', (socket) => {
 
 		socket.emit('whoareyou')
 
-		socket.on('join', (username) => {
-
-		})
-
 		socket.on('i_am', (authid) => {
+			if (!got_initial_connect){
+				got_initial_connect = true
+			}
 			socket.internalCustomID = authid//gameroom_clients[room][authid]
 			var playernum = gameroom_clients[room][authid].playernum
 			socket.internalPlayerID = playernum
@@ -251,7 +258,7 @@ function deleteGameRoom(room){
 		sendUserCountsUpdate(room)
 	}
 	ready_for_reset[room] = true
-	chatroom_in_game = false
+	chatroom_in_game[room] = false
 	sendUserCountsUpdate(room)
 	//}
 }
@@ -368,6 +375,7 @@ app.get("/maxplayers/:room", (req, res) => {
 
 app.get("/numcurrentplayers/:room", (req, res) => {
 	var room = req.params.room
+	console.log(chatroom_in_game)
 	if (chatroom_in_game[room] == true){
 		res.send("I-G")
 	}
