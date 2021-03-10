@@ -267,29 +267,50 @@
 
 
 
-	<div id="music_holder" style="position: fixed; left: 5%; top: 5%; width: 20%; height: 20%; background-color: #555; border: 2px solid #999; z-index: 3; color: #999; font-family: Verdana">
+	<div id="music_holder" style="position: fixed; left: 3%; top: 5%; width: 25%; height: 20%; background-color: #555; border: 2px solid #999; z-index: 3; color: #999; font-family: Verdana">
 		<div style="position: relative; padding: 5px 5px; background-color: #333;">
 			Game Soundtrack
 		</div>
 
-		<span id="gg_1">
+		<span id="audio_template" style="display: none">
+			<audio id="">
+				<source src="">
+			</audio>
+
+			<div style="padding: 5px 5px; font-size: 2vh">
+
+				<span id=""></span> -- 
+				<button class="playerbutton" style="background-color: #5a5" onclick="this.parentNode.parentNode.children[0].play(); this.parentNode.children[7].style.display = 'initial'"><i class="material-icons">play_arrow</i></button> 
+				<button class="playerbutton" style="background-color: #a55" onclick="this.parentNode.parentNode.children[0].pause(); this.parentNode.children[7].style.display = 'none'"><i class="material-icons">pause</i></button> 
+
+
+				<button class="playerbutton" style="background-color: #33d" onclick="this.parentNode.parentNode.children[0].currentTime = 0"><i class="material-icons">replay</i></button> 
+				<button class="playerbutton" style="background-color: #bb3" onclick="this.parentNode.parentNode.children[0].currentTime -= 10"><i class="material-icons">fast_rewind</i></button> 
+				<button class="playerbutton" style="background-color: #bb3" onclick="this.parentNode.parentNode.children[0].currentTime += 10"><i class="material-icons">fast_forward</i></button> 
+				<button class="playerbutton" style="background-color: #bbb" onclick="javascript:loopAudio(this)"><i class="material-icons">loop</i></button> 
+				<i class="material-icons" style="display: none">volume_up</i>
+			</div>
+		</span>
+
+
+		<!--<span id="gg_1">
 			<audio id="gg_1_player">
 				<source src="/sounds/gg_1.mp3">
 			</audio>
 
-			<div style="padding: 5px 5px; font-size: 20px">
+			<div style="padding: 5px 5px; font-size: 2vh">
 
-				1.
-				<button class="playerbutton" style="background-color: #5a5" onclick="document.getElementById('gg_1_player').play()"><i class="material-icons">play_arrow</i></button> 
-				<button class="playerbutton" style="background-color: #a55" onclick="document.getElementById('gg_1_player').pause()"><i class="material-icons">pause</i></button> 
+				<span id="gg_1_songname">"Beginnings"</span> -- 
+				<button class="playerbutton" style="background-color: #5a5" onclick="this.parentNode.parentNode.children[0].play()"><i class="material-icons">play_arrow</i></button> 
+				<button class="playerbutton" style="background-color: #a55" onclick="this.parentNode.parentNode.children[0].pause()"><i class="material-icons">pause</i></button> 
 
 
-				<button class="playerbutton" style="background-color: #33d" onclick="document.getElementById('gg_1_player').currentTime = 0"><i class="material-icons">replay</i></button> 
-				<button class="playerbutton" style="background-color: #bb3" onclick="document.getElementById('gg_1_player').currentTime -= 10"><i class="material-icons">fast_rewind</i></button> 
-				<button class="playerbutton" style="background-color: #bb3" onclick="document.getElementById('gg_1_player').currentTime += 10"><i class="material-icons">fast_forward</i></button> 
+				<button class="playerbutton" style="background-color: #33d" onclick="this.parentNode.parentNode.children[0].currentTime = 0"><i class="material-icons">replay</i></button> 
+				<button class="playerbutton" style="background-color: #bb3" onclick="this.parentNode.parentNode.children[0].currentTime -= 10"><i class="material-icons">fast_rewind</i></button> 
+				<button class="playerbutton" style="background-color: #bb3" onclick="this.parentNode.parentNode.children[0].currentTime += 10"><i class="material-icons">fast_forward</i></button> 
 				<button class="playerbutton" style="background-color: #bbb" onclick="javascript:loopAudio(this)"><i class="material-icons">loop</i></button> 
 			</div>
-		</span>
+		</span>-->
 
 	</div>
 
