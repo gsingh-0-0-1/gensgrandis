@@ -67,10 +67,20 @@
 			padding: 10px 10px; 
 			display: none
 		}
+
+		.playerbutton{
+			padding: 0 0 ;
+			text-align: center;
+			border: none;
+		}
+
+		.playerbutton:focus{
+			outline: none;
+		}
 	</style>
 </head>
 <body>
-
+	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 	<!--
 	Template for a tile on the tile-view for cities
 	-->
@@ -253,6 +263,38 @@
 	<div id="city_tile_view_screen" style="position: fixed; left: 50%; top: 50%; width: 50%; height: 50%; transform: translate(-50%, -50%); z-index: 0; display: initial; background-color: #333; border: 10px solid #bbb; overflow: scroll">
 	</div>
 
+
+
+
+	<div id="music_holder" style="position: fixed; left: 5%; top: 5%; width: 20%; height: 20%; background-color: #555; border: 2px solid #999; z-index: 3; color: #999; font-family: Verdana">
+		<div style="position: relative; padding: 5px 5px; background-color: #333;">
+			Game Soundtrack
+		</div>
+
+		<span id="gg_1">
+			<audio id="gg_1_player">
+				<source src="/sounds/gg_1.mp3">
+			</audio>
+
+			<div style="padding: 5px 5px; font-size: 20px">
+
+				1.
+				<button class="playerbutton" style="background-color: #5a5" onclick="document.getElementById('gg_1_player').play()"><i class="material-icons">play_arrow</i></button> 
+				<button class="playerbutton" style="background-color: #a55" onclick="document.getElementById('gg_1_player').pause()"><i class="material-icons">pause</i></button> 
+
+
+				<button class="playerbutton" style="background-color: #33d" onclick="document.getElementById('gg_1_player').currentTime = 0"><i class="material-icons">replay</i></button> 
+				<button class="playerbutton" style="background-color: #bb3" onclick="document.getElementById('gg_1_player').currentTime -= 10"><i class="material-icons">fast_rewind</i></button> 
+				<button class="playerbutton" style="background-color: #bb3" onclick="document.getElementById('gg_1_player').currentTime += 10"><i class="material-icons">fast_forward</i></button> 
+				<button class="playerbutton" style="background-color: #bbb" onclick="javascript:loopAudio(this)"><i class="material-icons">loop</i></button> 
+			</div>
+		</span>
+
+	</div>
+
+
+
+
 	<div id="tutorial_ask" class="tutorialpanel">
 		Welcome to singleplayer! Would you like to start the tutorial?
 		<input class="button" type="button" style="position: fixed; background-color: #88b488; color: #555; font-family: Courier; top: 65%; left: 40%; transform: translate(-50%, 0%); padding: 7px 7px" value="Yes" onclick="javascript:startTutorial()">
@@ -413,6 +455,7 @@
 <script src="/templates/colors.js"></script>
 <script src="/templates/utils.js"></script>
 <script src="/templates/tutorial.js"></script>
+<script src="/templates/audioutils.js"></script>
 
 <script src="/templates/socket.io.js"></script>
 
