@@ -375,7 +375,6 @@ app.get("/maxplayers/:room", (req, res) => {
 
 app.get("/numcurrentplayers/:room", (req, res) => {
 	var room = req.params.room
-	console.log(chatroom_in_game)
 	if (chatroom_in_game[room] == true){
 		res.send("I-G")
 	}
