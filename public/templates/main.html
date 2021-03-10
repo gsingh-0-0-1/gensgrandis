@@ -60,12 +60,13 @@
 			background-color: #4a4aaa; 
 			z-index: 2; 
 			border: 2px solid #999; 
-			font-size: 20px; 
+			font-size: 2vh; 
 			color: #bbb; 
 			text-align: center; 
 			font-family: Courier; 
 			padding: 10px 10px; 
-			display: none
+			display: none;
+			overflow: auto;
 		}
 
 		.playerbutton{
@@ -304,138 +305,144 @@
 
 
 	<div id="tutorial_1" class="tutorialpanel">
-		You've just spawned into the game - and you have one "People" unit. Try clicking on it - it should light up and you'll see some info in the bottom left corner of the screen.
+		You've just spawned into the game - and you have one "People" unit. Try clicking on it - it should light up and you'll see some info in the bottom left corner of the screen.<br>
 
-		<input class="button" type="button" style="position: fixed; background-color: #88b488; color: #555; font-family: Courier; top: 65%; left: 40%; transform: translate(-50%, 0%); padding: 7px 7px" value="Continue" onclick="javascript:nextTutorial(this)">
+		<input class="button" type="button" style="position: relative; background-color: #88b488; color: #555; font-family: Courier; padding: 7px 7px" value="Continue" onclick="javascript:nextTutorial(this)">
 
-		<input class="button" type="button" style="position: fixed; background-color: #b48888; color: #555; font-family: Courier; top: 65%; left: 60%; transform: translate(-50%, 0%); padding: 7px 7px" value="Exit" onclick="javascript:endTutorial(this)">
+		<input class="button" type="button" style="position: relative; background-color: #b48888; color: #555; font-family: Courier; padding: 7px 7px" value="Exit" onclick="javascript:endTutorial(this)">
 
 	</div>
 
 
 	<div id="tutorial_2" class="tutorialpanel">
-		To move your camera around, use the arrow keys. To move up and down, use SPACE and "Z". Also, you're currently looking north - to look south, use "S", and to look back north, use "W".
-		<input class="button" type="button" style="position: fixed; background-color: #88b488; color: #555; font-family: Courier; top: 65%; left: 40%; transform: translate(-50%, 0%); padding: 7px 7px" value="Continue" onclick="javascript:nextTutorial(this)">
+		To move your camera around, use the arrow keys. To move up and down, use SPACE and "Z". Also, you're currently looking north - to look south, use "S", and to look back north, use "W".<br>
 
-		<input class="button" type="button" style="position: fixed; background-color: #b48888; color: #555; font-family: Courier; top: 65%; left: 60%; transform: translate(-50%, 0%); padding: 7px 7px" value="Exit" onclick="javascript:endTutorial(this)">
+		<input class="button" type="button" style="position: relative; background-color: #88b488; color: #555; font-family: Courier; padding: 7px 7px" value="Continue" onclick="javascript:nextTutorial(this)">
+
+		<input class="button" type="button" style="position: relative; background-color: #b48888; color: #555; font-family: Courier; padding: 7px 7px" value="Exit" onclick="javascript:endTutorial(this)">
 
 	</div>
 
 
 	<div id="tutorial_3" class="tutorialpanel">
-		Great! Now, press the "G" key. You should see that the unit is now in "moving" mode. Click on any of the 8 tiles around the unit to move the unit to that tile.
+		Great! Now, press the "G" key. You should see that the unit is now in "moving" mode. Click on any of the 8 tiles around the unit to move the unit to that tile.<br>
 
-		<input class="button" type="button" style="position: fixed; background-color: #88b488; color: #555; font-family: Courier; top: 65%; left: 40%; transform: translate(-50%, 0%); padding: 7px 7px" value="Continue" onclick="javascript:nextTutorial(this)">
+		<input class="button" type="button" style="position: relative; background-color: #88b488; color: #555; font-family: Courier; padding: 7px 7px" value="Continue" onclick="javascript:nextTutorial(this)">
 
-		<input class="button" type="button" style="position: fixed; background-color: #b48888; color: #555; font-family: Courier; top: 65%; left: 60%; transform: translate(-50%, 0%); padding: 7px 7px" value="Exit" onclick="javascript:endTutorial(this)">
+		<input class="button" type="button" style="position: relative; background-color: #b48888; color: #555; font-family: Courier; padding: 7px 7px" value="Exit" onclick="javascript:endTutorial(this)">
 
 	</div>
 
 	<div id="tutorial_4" class="tutorialpanel">
-		When you moved the unit, you might have noticed that the "Movement" of the unit decreased by 1. You have a limited amount of movement each "turn" for each unit.
+		When you moved the unit, you might have noticed that the "Movement" of the unit decreased by 1. You have a limited amount of movement each "turn" for each unit.<br>
 
-		<input class="button" type="button" style="position: fixed; background-color: #88b488; color: #555; font-family: Courier; top: 65%; left: 40%; transform: translate(-50%, 0%); padding: 7px 7px" value="Continue" onclick="javascript:nextTutorial(this)">
+		<input class="button" type="button" style="position: relative; background-color: #88b488; color: #555; font-family: Courier; padding: 7px 7px" value="Continue" onclick="javascript:nextTutorial(this)">
 
-		<input class="button" type="button" style="position: fixed; background-color: #b48888; color: #555; font-family: Courier; top: 65%; left: 60%; transform: translate(-50%, 0%); padding: 7px 7px" value="Exit" onclick="javascript:endTutorial(this)">
+		<input class="button" type="button" style="position: relative; background-color: #b48888; color: #555; font-family: Courier; padding: 7px 7px" value="Exit" onclick="javascript:endTutorial(this)">
 
 	</div>
 
 	<div id="tutorial_5" class="tutorialpanel">
-		Keep exploring around until your unit's movement runs out. When that happens, press "T" to end your turn. Also, take a look at the bottom-center panel for some more info.
+		Keep exploring around until your unit's movement runs out. When that happens, press "T" to end your turn. Also, take a look at the bottom-center panel for some more info.<br>
 
-		<input class="button" type="button" style="position: fixed; background-color: #88b488; color: #555; font-family: Courier; top: 65%; left: 40%; transform: translate(-50%, 0%); padding: 7px 7px" value="Continue" onclick="javascript:nextTutorial(this)">
+		<input class="button" type="button" style="position: relative; background-color: #88b488; color: #555; font-family: Courier; padding: 7px 7px" value="Continue" onclick="javascript:nextTutorial(this)">
 
-		<input class="button" type="button" style="position: fixed; background-color: #b48888; color: #555; font-family: Courier; top: 65%; left: 60%; transform: translate(-50%, 0%); padding: 7px 7px" value="Exit" onclick="javascript:endTutorial(this)">
+		<input class="button" type="button" style="position: relative; background-color: #b48888; color: #555; font-family: Courier; padding: 7px 7px" value="Exit" onclick="javascript:endTutorial(this)">
 
 	</div>
 
 	<div id="tutorial_6" class="tutorialpanel">
-		Now that you've got the basics of unit movement down, select your unit again if you don't already have it selected. Press "B" to build a city, and name it whatever you'd like.
+		Now that you've got the basics of unit movement down, select your unit again if you don't already have it selected. Press "B" to build a city, and name it whatever you'd like.<br>
 
-		<input class="button" type="button" style="position: fixed; background-color: #88b488; color: #555; font-family: Courier; top: 65%; left: 40%; transform: translate(-50%, 0%); padding: 7px 7px" value="Continue" onclick="javascript:nextTutorial(this)">
+		<input class="button" type="button" style="position: relative; background-color: #88b488; color: #555; font-family: Courier; padding: 7px 7px" value="Continue" onclick="javascript:nextTutorial(this)">
 
-		<input class="button" type="button" style="position: fixed; background-color: #b48888; color: #555; font-family: Courier; top: 65%; left: 60%; transform: translate(-50%, 0%); padding: 7px 7px" value="Exit" onclick="javascript:endTutorial(this)">
-
+		<input class="button" type="button" style="position: relative; background-color: #b48888; color: #555; font-family: Courier; padding: 7px 7px" value="Exit" onclick="javascript:endTutorial(this)">
 	</div>
 
 	<div id="tutorial_7" class="tutorialpanel">
-		Go ahead and click your city tile. You should see a sidebar pop up on the right - let's go through it together.
-		<input class="button" type="button" style="position: fixed; background-color: #88b488; color: #555; font-family: Courier; top: 65%; left: 40%; transform: translate(-50%, 0%); padding: 7px 7px" value="Continue" onclick="javascript:nextTutorial(this)">
+		Go ahead and click your city tile. You should see a sidebar pop up on the right - let's go through it together.<br>
 
-		<input class="button" type="button" style="position: fixed; background-color: #b48888; color: #555; font-family: Courier; top: 65%; left: 60%; transform: translate(-50%, 0%); padding: 7px 7px" value="Exit" onclick="javascript:endTutorial(this)">
+		<input class="button" type="button" style="position: relative; background-color: #88b488; color: #555; font-family: Courier; padding: 7px 7px" value="Continue" onclick="javascript:nextTutorial(this)">
+
+		<input class="button" type="button" style="position: relative; background-color: #b48888; color: #555; font-family: Courier; padding: 7px 7px" value="Exit" onclick="javascript:endTutorial(this)">
 
 	</div>
 
 	<div id="tutorial_8" class="tutorialpanel">
-		The first few lines should be self-explanatory - they show the location of the center of the selected city, the location of the selected tile, and the tile's population and food.
-		<input class="button" type="button" style="position: fixed; background-color: #88b488; color: #555; font-family: Courier; top: 65%; left: 40%; transform: translate(-50%, 0%); padding: 7px 7px" value="Continue" onclick="javascript:nextTutorial(this)">
+		The first few lines should be self-explanatory - they show the location of the center of the selected city, the location of the selected tile, and the tile's population and food.<br>
 
-		<input class="button" type="button" style="position: fixed; background-color: #b48888; color: #555; font-family: Courier; top: 65%; left: 60%; transform: translate(-50%, 0%); padding: 7px 7px" value="Exit" onclick="javascript:endTutorial(this)">
+		<input class="button" type="button" style="position: relative; background-color: #88b488; color: #555; font-family: Courier; padding: 7px 7px" value="Continue" onclick="javascript:nextTutorial(this)">
+
+		<input class="button" type="button" style="position: relative; background-color: #b48888; color: #555; font-family: Courier; padding: 7px 7px" value="Exit" onclick="javascript:endTutorial(this)">
 
 	</div>
 
 	<div id="tutorial_9" class="tutorialpanel">
-		The population of any tile will grow up to just about the amount of food it has - no more. Grass tiles have a good amount of food, forest tiles have less. Tiles next to water have more food, and tiles on higher elevations have less food.
-		<input class="button" type="button" style="position: fixed; background-color: #88b488; color: #555; font-family: Courier; top: 73%; left: 40%; transform: translate(-50%, 0%); padding: 7px 7px" value="Continue" onclick="javascript:nextTutorial(this)">
+		The population of any tile will grow up to just about the amount of food it has - no more. Grass tiles have a good amount of food, forest tiles have less. Tiles next to water have more food, and tiles on higher elevations have less food.<br>
 
-		<input class="button" type="button" style="position: fixed; background-color: #b48888; color: #555; font-family: Courier; top: 73%; left: 60%; transform: translate(-50%, 0%); padding: 7px 7px" value="Exit" onclick="javascript:endTutorial(this)">
+		<input class="button" type="button" style="position: relative; background-color: #88b488; color: #555; font-family: Courier; padding: 7px 7px" value="Continue" onclick="javascript:nextTutorial(this)">
+
+		<input class="button" type="button" style="position: relative; background-color: #b48888; color: #555; font-family: Courier; padding: 7px 7px" value="Exit" onclick="javascript:endTutorial(this)">
 
 	</div>
 
 	<div id="tutorial_10" class="tutorialpanel">
-		Below those details, you'll see a menu called "Expand City". If, on any tile, you have 100 or more people, 50 of those people can move to an adjacent tile, leaving 50 or more behind. Try it!
-		<input class="button" type="button" style="position: fixed; background-color: #88b488; color: #555; font-family: Courier; top: 65%; left: 40%; transform: translate(-50%, 0%); padding: 7px 7px" value="Continue" onclick="javascript:nextTutorial(this)">
+		Below those details, you'll see a menu called "Expand City". If, on any tile, you have 100 or more people, 50 of those people can move to an adjacent tile, leaving 50 or more behind. Try it!<br>
 
-		<input class="button" type="button" style="position: fixed; background-color: #b48888; color: #555; font-family: Courier; top: 65%; left: 60%; transform: translate(-50%, 0%); padding: 7px 7px" value="Exit" onclick="javascript:endTutorial(this)">
+		<input class="button" type="button" style="position: relative; background-color: #88b488; color: #555; font-family: Courier; padding: 7px 7px" value="Continue" onclick="javascript:nextTutorial(this)">
 
+		<input class="button" type="button" style="position: relative; background-color: #b48888; color: #555; font-family: Courier; padding: 7px 7px" value="Exit" onclick="javascript:endTutorial(this)">
 	</div>
 
 	<div id="tutorial_11" class="tutorialpanel">
-		Next, you'll see a button called "Break >>". If you have 150 or more people on a tile, this button takes 100 of those people to create another "People" unit. You can use this unit to explore or create more cities.
-		<input class="button" type="button" style="position: fixed; background-color: #88b488; color: #555; font-family: Courier; top: 75%; left: 40%; transform: translate(-50%, 0%); padding: 7px 7px" value="Continue" onclick="javascript:nextTutorial(this)">
+		Next, you'll see a button called "Break >>". If you have 150 or more people on a tile, this button takes 100 of those people to create another "People" unit. You can use this unit to explore or create more cities.<br>
 
-		<input class="button" type="button" style="position: fixed; background-color: #b48888; color: #555; font-family: Courier; top: 75%; left: 60%; transform: translate(-50%, 0%); padding: 7px 7px" value="Exit" onclick="javascript:endTutorial(this)">
+		<input class="button" type="button" style="position: relative; background-color: #88b488; color: #555; font-family: Courier; padding: 7px 7px" value="Continue" onclick="javascript:nextTutorial(this)">
+
+		<input class="button" type="button" style="position: relative; background-color: #b48888; color: #555; font-family: Courier; padding: 7px 7px" value="Exit" onclick="javascript:endTutorial(this)">
 
 	</div>
 
 	<div id="tutorial_12" class="tutorialpanel">
-		And lastly, you'll see the "View >>" and "Redirect >>" buttons. Go ahead and click on the "View >>" button - it'll show you a 2-D view of the tiles in your currently selected city. Hit ESC to close the view.
-		<input class="button" type="button" style="position: fixed; background-color: #88b488; color: #555; font-family: Courier; top: 65%; left: 40%; transform: translate(-50%, 0%); padding: 7px 7px" value="Continue" onclick="javascript:nextTutorial(this)">
+		And lastly, you'll see the "View >>" and "Redirect >>" buttons. Go ahead and click on the "View >>" button - it'll show you a 2-D view of the tiles in your currently selected city. Hit ESC to close the view.<br>
 
-		<input class="button" type="button" style="position: fixed; background-color: #b48888; color: #555; font-family: Courier; top: 65%; left: 60%; transform: translate(-50%, 0%); padding: 7px 7px" value="Exit" onclick="javascript:endTutorial(this)">
+		<input class="button" type="button" style="position: relative; background-color: #88b488; color: #555; font-family: Courier; padding: 7px 7px" value="Continue" onclick="javascript:nextTutorial(this)">
 
+		<input class="button" type="button" style="position: relative; background-color: #b48888; color: #555; font-family: Courier; padding: 7px 7px" value="Exit" onclick="javascript:endTutorial(this)">
 	</div>
 
 
 	<div id="tutorial_13" class="tutorialpanel">
-		Now, say your city has some tiles with a lot of food, but you want to expand elsewhere. You can redirect food from one tile to another. First, select the tile that you want to take food from.
-		<input class="button" type="button" style="position: fixed; background-color: #88b488; color: #555; font-family: Courier; top: 65%; left: 40%; transform: translate(-50%, 0%); padding: 7px 7px" value="Continue" onclick="javascript:nextTutorial(this)">
+		Now, say your city has some tiles with a lot of food, but you want to expand elsewhere. You can redirect food from one tile to another. First, select the tile that you want to take food from.<br>
 
-		<input class="button" type="button" style="position: fixed; background-color: #b48888; color: #555; font-family: Courier; top: 65%; left: 60%; transform: translate(-50%, 0%); padding: 7px 7px" value="Exit" onclick="javascript:endTutorial(this)">
+		<input class="button" type="button" style="position: relative; background-color: #88b488; color: #555; font-family: Courier; padding: 7px 7px" value="Continue" onclick="javascript:nextTutorial(this)">
+
+		<input class="button" type="button" style="position: relative; background-color: #b48888; color: #555; font-family: Courier; padding: 7px 7px" value="Exit" onclick="javascript:endTutorial(this)">
 
 	</div>
 
 	<div id="tutorial_14" class="tutorialpanel">
-		Type the amount of food you want to redirect into the text box below the "Redirect >>" button. Click the "Redirect >>" button - it'll open up the 2-D view. Here, select the tile that you want to redirect the food to.
-		<input class="button" type="button" style="position: fixed; background-color: #88b488; color: #555; font-family: Courier; top: 75%; left: 40%; transform: translate(-50%, 0%); padding: 7px 7px" value="Continue" onclick="javascript:nextTutorial(this)">
+		Type the amount of food you want to redirect into the text box below the "Redirect >>" button. Click the "Redirect >>" button - it'll open up the 2-D view. Here, select the tile that you want to redirect the food to.<br>
 
-		<input class="button" type="button" style="position: fixed; background-color: #b48888; color: #555; font-family: Courier; top: 75%; left: 60%; transform: translate(-50%, 0%); padding: 7px 7px" value="Exit" onclick="javascript:endTutorial(this)">
+		<input class="button" type="button" style="position: relative; background-color: #88b488; color: #555; font-family: Courier; padding: 7px 7px" value="Continue" onclick="javascript:nextTutorial(this)">
+
+		<input class="button" type="button" style="position: relative; background-color: #b48888; color: #555; font-family: Courier; padding: 7px 7px" value="Exit" onclick="javascript:endTutorial(this)">
 
 	</div>
 
 	<div id="tutorial_15" class="tutorialpanel">
-		Hit ESC to close the 2-D view. You should see the sidebar update for the tile you initially selected, and if you click on the tile that you redirected food to, you should see that it has more food now.
-		<input class="button" type="button" style="position: fixed; background-color: #88b488; color: #555; font-family: Courier; top: 65%; left: 40%; transform: translate(-50%, 0%); padding: 7px 7px" value="Continue" onclick="javascript:nextTutorial(this)">
+		Hit ESC to close the 2-D view. You should see the sidebar update for the tile you initially selected, and if you click on the tile that you redirected food to, you should see that it has more food now.<br>
 
-		<input class="button" type="button" style="position: fixed; background-color: #b48888; color: #555; font-family: Courier; top: 65%; left: 60%; transform: translate(-50%, 0%); padding: 7px 7px" value="Exit" onclick="javascript:endTutorial(this)">
+		<input class="button" type="button" style="position: relative; background-color: #88b488; color: #555; font-family: Courier; padding: 7px 7px" value="Continue" onclick="javascript:nextTutorial(this)">
+
+		<input class="button" type="button" style="position: relative; background-color: #b48888; color: #555; font-family: Courier; padding: 7px 7px" value="Exit" onclick="javascript:endTutorial(this)">
 
 	</div>
 
 	<div id="tutorial_16" class="tutorialpanel">
-		That's it for now! If that was a lot of info, don't worry - you'll get the hang of it soon enough. If you have any questions, you can find the link to our discord on the home page. Thanks for playing!
+		That's it for now! If that was a lot of info, don't worry - you'll get the hang of it soon enough. If you have any questions, you can find the link to our discord on the home page. Thanks for playing!<br>
 
-		<input class="button" type="button" style="position: fixed; background-color: #b48888; color: #555; font-family: Courier; top: 75%; left: 50%; transform: translate(-50%, 0%); padding: 7px 7px" value="Close" onclick="javascript:endTutorial(this)">
-
+		<input class="button" type="button" style="position: relative; background-color: #b48888; color: #555; font-family: Courier; padding: 7px 7px" value="Exit" onclick="javascript:endTutorial(this)">
 	</div>
 
 </body>
