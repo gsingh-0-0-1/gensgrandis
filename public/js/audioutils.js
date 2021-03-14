@@ -58,7 +58,7 @@ function addSong(id, name, cont){
 			n.style.display = "initial"
 
 			cont.appendChild(n)
-			cont.appendChild(document.createElement('br'))
+			//cont.appendChild(document.createElement('br'))
 
 		}
 	}
