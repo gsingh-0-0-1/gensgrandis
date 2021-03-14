@@ -12,15 +12,15 @@
 
 		<div style="padding: 5px 5px; font-size: 2vh">
 
-			<span id=""></span> -- 
-			<button class="playerbutton" style="background-color: #5a5" onclick="this.parentNode.parentNode.children[0].play(); this.parentNode.children[7].style.display = 'initial'"><i class="material-icons">play_arrow</i></button> 
-			<button class="playerbutton" style="background-color: #a55" onclick="this.parentNode.parentNode.children[0].pause(); this.parentNode.children[7].style.display = 'none'"><i class="material-icons">pause</i></button> 
+			<span id=""></span>
+			<button class="playerbutton" style="background-color: #5a5; float: right; margin-left: 2px" onclick="this.parentNode.parentNode.children[0].play(); this.parentNode.children[7].style.display = 'initial'"><i class="material-icons">play_arrow</i></button> 
+			<button class="playerbutton" style="background-color: #a55; float: right; margin-left: 2px" onclick="this.parentNode.parentNode.children[0].pause(); this.parentNode.children[7].style.display = 'none'"><i class="material-icons">pause</i></button> 
 
 
-			<button class="playerbutton" style="background-color: #33d" onclick="this.parentNode.parentNode.children[0].currentTime = 0"><i class="material-icons">replay</i></button> 
-			<button class="playerbutton" style="background-color: #bb3" onclick="this.parentNode.parentNode.children[0].currentTime -= 10"><i class="material-icons">fast_rewind</i></button> 
-			<button class="playerbutton" style="background-color: #bb3" onclick="this.parentNode.parentNode.children[0].currentTime += 10"><i class="material-icons">fast_forward</i></button> 
-			<button class="playerbutton" style="background-color: #bbb" onclick="javascript:loopAudio(this)"><i class="material-icons">loop</i></button> 
+			<button class="playerbutton" style="background-color: #33d; float: right; margin-left: 2px" onclick="this.parentNode.parentNode.children[0].currentTime = 0"><i class="material-icons">replay</i></button> 
+			<button class="playerbutton" style="background-color: #bb3; float: right; margin-left: 2px" onclick="this.parentNode.parentNode.children[0].currentTime -= 10"><i class="material-icons">fast_rewind</i></button> 
+			<button class="playerbutton" style="background-color: #bb3; float: right; margin-left: 2px" onclick="this.parentNode.parentNode.children[0].currentTime += 10"><i class="material-icons">fast_forward</i></button> 
+			<button class="playerbutton" style="background-color: #bbb; float: right; margin-left: 2px" onclick="javascript:loopAudio(this);"><i class="material-icons">loop</i></button> 
 			<i class="material-icons" style="display: none">volume_up</i>
 		</div>
 	</span>

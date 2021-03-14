@@ -1,9 +1,9 @@
-var template = `<span id="audio_template" style="display: none">
+/*var template = `<span id="audio_template" style="display: none">
 				<audio id="">
 					<source src="">
 				</audio>
 
-				<div style="padding: 5px 5px; font-size: 2vh">
+				<div style="padding: 5px 5px; font-size: 1vh">
 
 					<span id=""></span> -- 
 					<button class="playerbutton" style="background-color: #5a5" onclick="this.parentNode.parentNode.children[0].play(); this.parentNode.children[7].style.display = 'initial'"><i class="material-icons">play_arrow</i></button> 
@@ -17,7 +17,7 @@ var template = `<span id="audio_template" style="display: none">
 					<i class="material-icons" style="display: none">volume_up</i>
 				</div>
 			</span>`
-
+*/
 
 
 
@@ -58,6 +58,7 @@ function addSong(id, name, cont){
 			n.style.display = "initial"
 
 			cont.appendChild(n)
+			cont.appendChild(document.createElement('br'))
 
 		}
 	}
