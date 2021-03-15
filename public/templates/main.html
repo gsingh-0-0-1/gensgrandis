@@ -1919,14 +1919,18 @@
 		}
 	};
 
+	var velcap = 5
+	var leftarrowdown = false
+	var rightarrowdown = false
+	var uparrowdown = false
+	var downarrowdown = false
 	document.onkeydown = function(e) {
 		if (naming_city){
 			return
 		}
-		var cameramovement = 0.5
+		var cameramovement = 0.6
 		var code = e.keyCode
 		var realign = false;
-		var velcap = 5
 		if (cameralooking == 'back'){
 			cameramovement *= -1
 		}
@@ -1951,24 +1955,24 @@
 		}
 
 		if (code == leftarrowcode){
-			cameravelocity.x -= cameramovement
+			leftarrowdown = true
+			//cameravelocity.x -= cameramovement
 			//camera.position.x -= cameramovement
-			realign = true
 		}
 		if (code == rightarrowcode){
-			cameravelocity.x += cameramovement
+			rightarrowdown = true
+			//cameravelocity.x += cameramovement
 			//camera.position.x += cameramovement
-			realign = true
 		}
 		if (code == uparrowcode){
-			cameravelocity.y += cameramovement
+			uparrowdown = true
+			//cameravelocity.y += cameramovement
 			//camera.position.y += cameramovement
-			realign = true
 		}
 		if (code == downarrowcode){
-			cameravelocity.y -= cameramovement
+			downarrowdown = true
+			//cameravelocity.y -= cameramovement
 			//camera.position.y -= cameramovement
-			realign = true
 		}
 
 		if (code == spacekeycode){
@@ -1992,15 +1996,87 @@
 		}
 	}
 
+	document.onkeyup = function(event){
+		var code = event.keyCode
+		
+		if (code == leftarrowcode){
+			leftarrowdown = false
+			//camera.position.x -= cameramovement
+		}
+		if (code == rightarrowcode){
+			rightarrowdown = false
+			//camera.position.x += cameramovement
+		}
+		if (code == uparrowcode){
+			uparrowdown = false
+			//camera.position.y += cameramovement
+		}
+		if (code == downarrowcode){
+			downarrowdown = false
+			//camera.position.y -= cameramovement
+		}
+	}
+
+	var decel_amt = 0.05
 	function animate() {
+
+		var cameramovement = 0.15
+
+		if (cameralooking == 'back'){
+			cameramovement *= -1
+		}
+
+		if (leftarrowdown){
+			cameravelocity.x -= cameramovement
+			//camera.position.x -= cameramovement
+		}
+		if (rightarrowdown){
+			cameravelocity.x += cameramovement
+			//camera.position.x += cameramovement
+		}
+		if (uparrowdown){
+			cameravelocity.y += cameramovement
+			//camera.position.y += cameramovement
+		}
+		if (downarrowdown){
+			cameravelocity.y -= cameramovement
+			//camera.position.y -= cameramovement
+		}
+
+
 		var xcammod = cameravelocity.x * 0.1
 		var ycammod = cameravelocity.y * 0.1
 		camera.position.x += xcammod
 		camera.position.y += ycammod
 
 
-		cameravelocity.x += (-cameravelocity.x) * 0.1
-		cameravelocity.y += (-cameravelocity.y) * 0.1
+		//deal with deceleration of camera
+		var x_vel_sign = 1
+		var y_vel_sign = 1
+		if (cameravelocity.x != 0){
+			x_vel_sign = cameravelocity.x / Math.abs(cameravelocity.x)
+		}
+		if (cameravelocity.y != 0){
+			y_vel_sign = cameravelocity.y / Math.abs(cameravelocity.y)
+		}
+
+		var x_temp_vel = Math.abs(cameravelocity.x) - decel_amt
+		var y_temp_vel = Math.abs(cameravelocity.y) - decel_amt
+
+		if (x_temp_vel < 0){
+			x_temp_vel = 0
+		}
+
+		if (y_temp_vel < 0){
+			y_temp_vel = 0
+		}
+
+		cameravelocity.x = x_temp_vel * x_vel_sign
+		cameravelocity.y = y_temp_vel * y_vel_sign
+
+
+		//cameravelocity.x += (-cameravelocity.x) * 0.1
+		//cameravelocity.y += (-cameravelocity.y) * 0.1
 
 		//controls.update();
 		renderer.render( scene, camera );
