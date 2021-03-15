@@ -734,6 +734,8 @@
 
 	//other game functions
 	function center(){
+		cameravelocity.x = 0
+		cameravelocity.y = 0
 		camera.position.set(camerainitx, camerainity, camerainitz)
 		camera.lookAt(camerainitx, camerainity + 5, camerainitz - 5)
 	}
