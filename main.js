@@ -136,10 +136,11 @@ function createRoom(room){
 				authid = String(authid)
 				username = String(username)
 				if (Object.keys(current_clients[room]).includes(authid)){
+
 					if (!gamerooms.includes(room) && room <= approvedrooms && room > 0){
+						gamerooms.push(room)
 						createGameRoom(room)
 						gameroom_clients[room] = new Object()
-						gamerooms.push(room)
 						gameroom_clients[room].map = Math.ceil(num_maps * Math.random())
 					}
 					if (gamerooms.includes(room) && ready_for_reset[room] == true){
@@ -151,8 +152,11 @@ function createRoom(room){
 					gameroom_clients[room][authid] = new Object()
 					gameroom_clients[room][authid].user = username
 					gameroom_clients[room][authid].playernum = Object.keys(gameroom_clients[room]).length - basegameroomprops.length
+
+
 				}
 			}
+			//console.log(gameroom_clients)
 		})
 
 		socket.on('disconnect', () => {
@@ -318,6 +322,16 @@ app.get("/*", (req, res, next) => {
 })
 
 app.get('/room/:id', function(req, res){
+
+
+	/*console.log(current_clients)
+
+	console.log("--------------")
+
+	console.log(gameroom_clients)
+
+	console.log("--------------")*/
+
 	var room = req.params.id
 
 	if (isNaN(room)){
@@ -337,7 +351,12 @@ app.get('/room/:id', function(req, res){
 		return
 	}
 	else if (rooms.includes(room) && chatroom_in_game[room] != true){
-		if (Object.keys(current_clients[room]).length >= chatroom_maxes[room]){
+
+		if (current_clients[room] == undefined){
+
+		}
+
+		else if (Object.keys(current_clients[room]).length >= chatroom_maxes[room]){
 			res.redirect("/roomisfull")
 		}
 		res.sendFile("public/templates/chatroom.html", {root: __dirname})
