@@ -136,6 +136,67 @@ function getHutOffset(x, y, size){
 }
 
 
+function updateCityCenterTradingPanel(){
+	var citycentertrading = document.getElementById("city_center_trading")
+	citycentertrading.style.display = "initial"
+	citycentertrading.style.zIndex = 2
+	citycentertrading.textContent = ''
+
+	for (var city of cities){
+		//for (var i = 0; i < 10; i++){
+			var centertile = city.center.x + "," + city.center.y
+			if (!exploredtiles.includes(centertile)){
+				continue
+			}
+			var c_el = document.createElement('div')
+			c_el.textContent = city.name
+
+			var rd_button = document.createElement('input')
+			rd_button.type = "button"
+			rd_button.value = "Send >>"
+			rd_button.style.float = "right"
+			rd_button.onclick = function(){
+				redirectFood('', true, city.center.x, city.center.y)
+				return false
+			}
+			c_el.appendChild(rd_button)
+			/*c_el.style.position = "relative"
+			c_el.style.width = "100%"
+			c_el.style.left = "0%"
+			c_el.style.color = "#bbb"
+			c_el.style.fontSize = "1.6vh"
+			c_el.style.padding = "2px 2px"
+			c_el.style.fontFamily = "Verdana"*/
+			citycentertrading.appendChild(c_el)
+		//}
+	}
+
+	var ti = document.createElement('input')
+	ti.id = "citycentertrading_input"
+	ti.style.position = "fixed"
+	ti.style.border = "none"
+	ti.style.left = "calc(60% + 5px)"
+	ti.style.bottom = "calc(80% + 5px)"
+	ti.style.height = "2%"
+	ti.style.width = "calc(20% - 5px)"
+	ti.placeholder = "Send Food (amount) >>"
+	ti.style.color = "#000"
+	ti.style.backgroundColor = "#aad"
+	citycentertrading.appendChild(ti)
+
+	var refresh = document.createElement('input')
+	refresh.type = 'button'
+	refresh.value = 'Refresh List'
+	refresh.style.position = "fixed"
+	refresh.style.right = "calc(20% + 5px)"
+	refresh.style.bottom = "calc(80% + 5px)"
+	refresh.onclick = function(){
+		updateCityCenterTradingPanel()
+	}
+	citycentertrading.appendChild(refresh)
+}
+
+
 function showCitySidebar(this_city_ID, tilex, tiley){
 	if (cities[this_city_ID].owner != 'self'){
 		alert("Not your city!")
@@ -151,6 +212,8 @@ function showCitySidebar(this_city_ID, tilex, tiley){
 	var sidebar = document.getElementById("city_info_sidebar")
 	sidebar.style.display = "initial"
 	sidebar.style.zIndex = 2
+
+	updateCityCenterTradingPanel()
 
 	tileoutline.visible = true
 	tileoutline.position.set(tilex, tiley, ground_z + getTileAt(tilex, tiley).height)
@@ -168,7 +231,7 @@ function showCitySidebar(this_city_ID, tilex, tiley){
 	var centerx = cities[this_city_ID].center.x
 	var centery = cities[this_city_ID].center.y
 
-	document.getElementById("city_info_sidebar_name").innerHTML = cities[this_city_ID].name
+	document.getElementById("city_info_sidebar_name").innerHTML = cities[this_city_ID].name + " (Pop: " + getTotalPop(this_city_ID) + ")"
 
 	document.getElementById("city_info_sidebar_center_loc_x").innerHTML = "X: " + centerx
 	document.getElementById("city_info_sidebar_center_loc_y").innerHTML = "Y: " + centery
@@ -221,6 +284,10 @@ function hideCitySidebar(){
 	sidebar.style.display = "none"
 	sidebar.style.zIndex = 0
 
+	var citycentertrading = document.getElementById("city_center_trading")
+	citycentertrading.style.display = "initial"
+	citycentertrading.style.zIndex = 0
+
 	//document.getElementById("city_info_sidebar_name").innerHTML = ''
 }
 
@@ -260,6 +327,9 @@ function checkForAdjacentCities(targetx, targety){
 				var id = grid_dict["tile_" + (targetx + xoff) + "_" + (targety + yoff)].tileCityID
 				if (isCityCenter(id, targetx + xoff, targety + yoff)){
 					cities[id].center.mesh.visible = true
+					if (viewing_city_sidebar){
+						showCitySidebar(selectedcityid, selectedcitytilex, selectedcitytiley)
+					}
 				}
 				else{
 					cities[id].tiles[(targetx + xoff) + "_" + (targety + yoff)].mesh.visible = true

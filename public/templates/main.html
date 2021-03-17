@@ -42,11 +42,11 @@
 
 		.city_sidebar_small_cont{
 			position: relative;
-			width: 50%; 
+			width: 80%; 
 			height: 15px; 
 			color: #daa; 
 			font-family: Courier; 
-			font-size: 18px
+			font-size: 1.6vh
 		}
 
 		.tutorialpanel{
@@ -78,6 +78,14 @@
 		.playerbutton:focus{
 			outline: none;
 		}
+
+		input:focus{
+			outline: none;
+		}
+
+		#city_center_trading > div {position: relative; width: 100%; left: 0%; color: #bbb; font-size: 1.6vh; padding: 2px 2px; font-family: Verdana;}
+		#city_center_trading > div:nth-child(odd) {background-color: #222;}
+		#city_center_trading > div:nth-child(even) {background-color: #777;}
 	</style>
 </head>
 <body>
@@ -128,6 +136,10 @@
 	</div>
 
 
+	<div id="city_center_trading" style="position: fixed; left: 60%; top: 0%; width: 20%; height: 20%; box-sizing: border-box; border-left: 5px solid #d9b0b0; border-top: 5px solid #d9b0b0; border-bottom: 5px solid #d9b0b0; background-color: #444; z-index: 0; display: none; overflow: auto">
+	</div>
+
+
 	<div id="city_info_sidebar" style="position: fixed; left: 80%; top: 0%; width: 20%; height: 100%; background-color: #4a4aaa; border: 5px solid #d9b0b0; box-sizing: border-box; z-index: 0; display: none;">
 
 		<div id="city_info_sidebar_name" style="position: relative; left: 5%; top: 2%; color: #ddd; font-family: Verdana; font-size: 15px; border-bottom: 2px solid white; height: 20px; width: 80%">
@@ -165,7 +177,7 @@
 
 			<br><br>
 
-			<div id="city_info_sidebar_selected_loc_x" style="padding-left: 20px">
+			<div id="" style="padding-left: 20px">
 
 				&nbsp;&nbsp;
 				<table>
@@ -227,7 +239,8 @@
 
 			<div style="padding-left: 20px">
 
-				<input class="button" type="button" value="Redirect >>" style="font-size: 16px; font-family: Courier;background-color: #400; padding: 5px 5px" onclick="javascript:redirectFood()">
+				<input class="button" type="button" value="Redirect >>" style="font-size: 16px; font-family: Courier;background-color: #400; padding: 5px 5px" onclick="javascript:redirectFood();">
+				<br>
 				<input class="button" type="text" style="font-size: 16px; font-family: Courier;background-color: #aae; padding: 5px 5px; color: #111" id="foodRedirectTextInput" placeholder="--Redirect amount--">
 
 			</div>			
@@ -235,11 +248,12 @@
 		</div>
 
 		<div id="city_info_sidebar_produce_unit" class="city_sidebar_small_cont" style="top: 75%; left: 7%">
-			Produce unit...
+			Produce unit...<br>
 
 			<select id="select_unit_to_produce">
 				<option value="">-Select a unit-</option>
 				<option value="RB">Riverboat</option>
+				<option value="L">Legion</option>
 			</select>
 
 			<button id="producebutton" onclick="javascript:changeCityProduction()">Produce</button>
@@ -444,6 +458,7 @@
 <script src="/js/utils.js"></script>
 <script src="/js/tutorial.js"></script>
 <script src="/js/audioutils.js"></script>
+<script src="/js/unitdraws.js"></script>
 
 <script src="/js/socket.io.js"></script>
 
@@ -482,19 +497,28 @@
 	const enterkeycode = 13
 
 	var unit_corresponds = {"P" : "People", 
-							"RB" : "Riverboat"}
-	var unit_movements = {"P" : 5, "RB" : 10}
-	var unit_commands = {"P" : "B: Build city",
-						"RB" : ""}
+							"RB" : "Riverboat",
+							"L" : "Legion"}
 
-	var unit_produce_times = {"RB" : 1200}
+	var unit_movements = {"P" : 5, 
+							"RB" : 10, 
+							"L" : 3}
+
+	var unit_commands = {"P" : "B: Build city",
+						"RB" : "",
+						"L" : ""}
+
+	var unit_produce_times = {"RB" : 3000,
+								"L" : 1500}
 
 	var unit_z_offsets = {"P" : 0.7,
-						"RB" : 0}
+						"RB" : 0,
+						"L" : 0.7}
 
 	//unit templates
 	var people_template = "P~x:xhere,y:yhere,n:100,m:" + unit_movements["P"]
 	var riverboat_template = "RB~x:xhere,y:yhere,m:" + unit_movements["RB"]
+	var legion_template = "L~x:xhere,y:yhere,m:" + unit_movements["L"]
 
 	var moving_unit = false;
 	var expanding_city = false;
@@ -743,13 +767,13 @@
 	//basic initialization
 	var width = window.innerWidth;
 	var height = window.innerHeight;
-	var camera = new THREE.PerspectiveCamera( 45, width / height, 1, 70 );
+	var camera = new THREE.PerspectiveCamera( 45, width / height, 1, 50 );
 	//camera.rotation.order = 'ZYX'
 	var renderer = new THREE.WebGLRenderer({antialias: true});
 	renderer.setSize(width, height);
 	document.getElementById('gui').appendChild(renderer.domElement);
 	var scene = new THREE.Scene({canvas:gui});
-	scene.background = new THREE.Color( 0x191919 );
+	scene.background = new THREE.Color( 0x000000 );
 	scene.add(camera);
 	var cameravelocity = new Object()
 	cameravelocity.x = 0
@@ -796,9 +820,18 @@
 		for (var cityidx = 0; cityidx < numcities; cityidx++){
 			cities[cityidx].people_turns += getTotalPop(cityidx)
 
+
+			//DEAL WITH UNIT PRODUCTION
 			if (cities[cityidx].people_turns >= unit_produce_times[cities[cityidx].producing]){
-				if (cities[cityidx].producing == "RB"){
-					addRiverboat(cities[cityidx].center.x, cities[cityidx].center.y)
+				var curprod = cities[cityidx].producing
+				var targetx = cities[cityidx].center.x
+				var targety = cities[cityidx].center.y
+
+				if (curprod == "RB"){
+					addRiverboat(targetx, targety)
+				}
+				if (curprod == "L"){
+					addLegion(targetx, targety)
 				}
 
 				cities[cityidx].producing = null
@@ -1145,30 +1178,51 @@
 	var redirecting_food = false
 
 	function reAssignFood(coords1, coords2, amount){
+		console.log(coords1, coords2, amount)
 		getTileAt(coords1[0], coords1[1]).basefood -= amount
 		getTileAt(coords2[0], coords2[1]).basefood += amount
+		if (viewing_city_sidebar){
+			if ((selectedcitytilex == coords1[0] && selectedcitytiley == coords1[1]) || (selectedcitytilex == coords2[0] && selectedcitytiley == coords2[1])){
+				showCitySidebar(selectedcityid, selectedcitytilex, selectedcitytiley)
+			}
+		}
 	}
 
-	function redirectFood(tileobj = ''){
-		if (!in_city_tile_view){
+	function redirectFood(tileobj = '', citycenter = false, x = '', y = ''){
+		if (!in_city_tile_view && !citycenter){
 			showCityTileView()
 		}
-		if (!redirecting_food){
+		if (!redirecting_food && !citycenter){
 			redirecting_food = true
 			return
 		}
 		else{
-			if (tileobj == ''){
+			if (tileobj == '' && !citycenter){
 				return
 			}
 			else{
-				var split = tileobj.id.split("_")
-				var targetx = split[2] * 1
-				var targety = split[3] * 1
+				if (!citycenter){
+					var split = tileobj.id.split("_")
+					var targetx = split[2] * 1
+					var targety = split[3] * 1
+				}
+				else{
+					var targetx = x * 1
+					var targety = y * 1
+				}
 				assignTileFood(selectedcitytilex, selectedcitytiley)
 				assignTileFood(targetx, targety)
 
-				var redirectval = document.getElementById("foodRedirectTextInput").value
+					
+				if (!citycenter){
+					var redirectval = document.getElementById("foodRedirectTextInput").value
+					document.getElementById("foodRedirectTextInput").value = ''
+				}
+				else{
+					var redirectval = document.getElementById("citycentertrading_input").value
+					document.getElementById("citycentertrading_input").value = ''
+				}
+
 				if (isNaN(redirectval)){
 					return
 				}
@@ -1189,7 +1243,7 @@
 				reAssignFood([selectedcitytilex, selectedcitytiley], [targetx, targety], redirectval)
 				redirecting_food = false
 
-				showCitySidebar(selectedcityid, selectedcitytilex, selectedcitytiley)
+				//showCitySidebar(selectedcityid, selectedcitytilex, selectedcitytiley)
 
 				socket.emit('redirectfood', selectedcitytilex, selectedcitytiley, targetx, targety, redirectval)
 			}
@@ -1401,6 +1455,7 @@
 
 				if (self){
 					activateTilesAtCenter(targetx, targety)
+					showCitySidebar(id, x, y)
 				}
 
 				if (in_city_tile_view){
@@ -1422,7 +1477,6 @@
 		checkAndLoad(targetx, targety, self)
 
 		if (self){
-			showCitySidebar(id, x, y)
 			checkForAdjacentCities(targetx, targety)
 		}
 
@@ -1634,115 +1688,10 @@
 			if (unittype == "RB"){
 				drawRiverboat(thisunit.x, thisunit.y, thisunit.unitid, vis)
 			}
+			if (unittype == "L"){
+				drawLegion(thisunit.x, thisunit.y, thisunit.unitid, vis)
+			}
 		//}
-	}
-
-	function addPeople(x, y){
-		//console.log(units)
-		units.push(people_template.replace("xhere", x).replace("yhere", y))
-		drawUnits(units.length - 1)
-	}
-
-	function drawPeople(x, y, id, vis = true){
-
-		var col = new THREE.Color(0.4, 0.4, 0.4)//0.6, 0, 0.8)
-
-		var loader = new THREE.GLTFLoader();
-
-		loader.load('/resources/people.glb',
-			// called when the resource is loaded
-			function ( gltf ) {
-
-				gltf.scene.scale.set( 1, 1, 1 );	
-
-				gltf.scene.position.set(x, y, ground_z + 1)
-
-				//gltf.scene.children[2].position = new THREE.Vector3(x, y, ground_z + 1)
-
-				//gltf.scene.rotation.x = Math.PI / 2
-				var people = gltf.scene//.children[2]
-				scene.add( people );
-
-				var hoffset = getTileAt(x, y).height
-
-				people.position.set(x, y, ground_z + hoffset + 1)
-				people.rotation.set(Math.PI / 2, 0, 0)
-
-				people.type = "unit"
-
-				people.visible = vis
-				assignUnitID(people, id)
-				//people.unitid = id
-
-				unitlist[id].mesh = people
-				unitlist[id].naval = false
-
-				//modify explored tiles
-				if (vis){
-					exploreAtCoords(x, y)
-				}
-			}
-		)
-
-		//get the height of the tile and offset the unit by that
-		if (getTileAt(x, y) == undefined){
-			console.log(x, y)
-		}
-
-	}
-
-
-	function addRiverboat(x, y){
-		units.push(riverboat_template.replace("xhere", x).replace("yhere", y))
-		drawUnits(units.length - 1)
-	}
-
-	function drawRiverboat(x, y, id, vis = true){
-
-		var col = new THREE.Color(0.4, 0.4, 0.4)//0.6, 0, 0.8)
-
-		var loader = new THREE.GLTFLoader();
-
-		loader.load('/resources/riverboat.glb',
-			// called when the resource is loaded
-			function ( gltf ) {
-
-				gltf.scene.scale.set( 0.07, 0.07, 0.07 );	
-
-				gltf.scene.position.set(x, y, ground_z + 0.2)
-
-				//gltf.scene.children[2].position = new THREE.Vector3(x, y, ground_z + 1)
-
-				//gltf.scene.rotation.x = Math.PI / 2
-				var boat = gltf.scene//.children[2]
-				scene.add( boat );
-
-				var hoffset = getTileAt(x, y).height
-
-				boat.position.set(x, y, ground_z + hoffset + 0.2)
-				boat.rotation.set(Math.PI / 2, Math.PI / 2, 0)
-
-				boat.type = "unit"
-
-				boat.visible = vis
-				assignUnitID(boat, id)
-				//people.unitid = id
-
-				unitlist[id].mesh = boat
-				unitlist[id].naval = true
-
-				//modify explored tiles
-				if (vis){
-					exploreAtCoords(x, y)
-				}
-			}
-		)
-
-		//get the height of the tile and offset the unit by that
-		if (getTileAt(x, y) == undefined){
-			console.log(x, y)
-		}
-
 	}
 
 
@@ -2323,7 +2272,8 @@
 		expandCity([dir0, dir1], x, y, id, false)
 	})
 
-	socket.on('redirectfood', function(x1, x2, y1, y2, amt){
+	socket.on('redirectfood', function(x1, y1, x2, y2, amt){
+		console.log(x1, x2, y1, y2, amt)
 		reAssignFood([x1*1, y1*1], [x2*1, y2*1], amt*1)
 	})
 
