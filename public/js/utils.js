@@ -145,7 +145,7 @@ function updateCityCenterTradingPanel(){
 	for (var city of cities){
 		//for (var i = 0; i < 10; i++){
 			var centertile = city.center.x + "," + city.center.y
-			if (!exploredtiles.includes(centertile)){
+			if (city.center.mesh.visible != true){
 				continue
 			}
 			var c_el = document.createElement('div')
