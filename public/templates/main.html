@@ -9,6 +9,10 @@
 <html lang="en">
 <head>
 	<title>Gēns Grandis</title>
+
+	<link rel="preconnect" href="https://fonts.gstatic.com">
+	<link href="https://fonts.googleapis.com/css2?family=Lato:wght@300&display=swap" rel="stylesheet">
+
 	<style type="text/css">
 
 		gui {
@@ -41,11 +45,11 @@
 		}
 
 		.city_sidebar_small_cont{
-			position: relative;
+			position: absolute;
 			width: 80%; 
 			height: 15px; 
 			color: #daa; 
-			font-family: Courier; 
+			font-family: Lato; 
 			font-size: 1.6vh
 		}
 
@@ -86,6 +90,43 @@
 		#city_center_trading > div {position: relative; width: 100%; left: 0%; color: #bbb; font-size: 1.6vh; padding: 2px 2px; font-family: Verdana;}
 		#city_center_trading > div:nth-child(odd) {background-color: #222;}
 		#city_center_trading > div:nth-child(even) {background-color: #777;}
+
+		#tile_level_table > tbody {background-color: #111;}
+
+		#tile_level_table > tbody > tr > td{
+			border: 2vh solid #bc8f8f;
+			box-sizing: border-box;
+		}
+
+		/*#tile_level_table > tbody > tr:first-child > td:first-child{
+			border-left: 2vh solid transparent;
+			border-top: 2vh solid transparent;
+		}
+		#tile_level_table > tbody > tr:first-child > td:last-child{
+			border-right: 2vh solid transparent;
+			border-top: 2vh solid transparent;
+		}
+		#tile_level_table > tbody > tr:last-child > td:first-child{
+			border-left: 2vh solid transparent;
+			border-bottom: 2vh solid transparent;
+		}
+		#tile_level_table > tbody > tr:last-child > td:last-child{
+			border-right: 2vh solid transparent;
+			border-bottom: 2vh solid transparent;
+		}
+
+		#tile_level_table > tbody > tr:first-child > td{
+			border-top: 2vh solid transparent;
+		}
+		#tile_level_table > tbody > tr > td:first-child{
+			border-left: 2vh solid transparent;
+		}
+		#tile_level_table > tbody > tr > td:last-child{
+			border-right: 2vh solid transparent;
+		}
+		#tile_level_table > tbody >tr:last-child > td{
+			border-bottom: 2vh solid transparent;
+		}*/
 	</style>
 </head>
 <body>
@@ -145,7 +186,7 @@
 		<div id="city_info_sidebar_name" style="position: relative; left: 5%; top: 2%; color: #ddd; font-family: Verdana; font-size: 15px; border-bottom: 2px solid white; height: 20px; width: 80%">
 		</div>
 
-		<div id="city_info_sidebar_center_loc" class="city_sidebar_small_cont" style="top: 5%; left: 7%">
+		<div id="city_info_sidebar_center_loc" class="city_sidebar_small_cont" style="top: 7%; left: 7%">
 			Center Location:
 
 			<div id="city_info_sidebar_center_loc_x" style="padding-left: 20px">
@@ -155,7 +196,7 @@
 			</div>
 		</div>
 
-		<div id="city_info_sidebar_selected_loc" class="city_sidebar_small_cont" style="top: 12%; left: 7%">
+		<div id="city_info_sidebar_selected_loc" class="city_sidebar_small_cont" style="top: 14%; left: 7%">
 			Selected Tile:
 
 			<div id="city_info_sidebar_selected_loc_x" style="padding-left: 20px">
@@ -172,10 +213,10 @@
 
 		</div>
 
-		<div id="city_info_sidebar_expand" class="city_sidebar_small_cont" style="top: 23%; left: 7%">
+		<div id="city_info_sidebar_expand" class="city_sidebar_small_cont" style="top: 25%; left: 7%">
 			Expand City...
 
-			<br><br>
+			<br>
 
 			<div id="" style="padding-left: 20px">
 
@@ -185,24 +226,24 @@
 					<tr>
 						<td></td>
 						<td>
-							<input class="button" type="button" value="N" style="font-size: 16px; font-family: Courier; background-color: #8c1a1a; padding: 5px 5px" onclick="javascript:expandCity([0, 1])">
+							<input class="button" type="button" value="N" style="font-size: 16px; font-family: Lato; background-color: #8c1a1a; padding: 5px 5px" onclick="javascript:expandCity([0, 1])">
 						</td>
 						<td></td>
 					</tr>
 
 					<tr>
 						<td>
-							<input class="button" type="button" value="W" style="font-size: 16px; font-family: Courier;background-color: #8c8c1a; padding: 5px 5px" onclick="javascript:expandCity([-1, 0])">
+							<input class="button" type="button" value="W" style="font-size: 16px; font-family: Lato;background-color: #8c8c1a; padding: 5px 5px" onclick="javascript:expandCity([-1, 0])">
 						</td>
 						<td></td>
 						<td>
-							<input class="button" type="button" value="E" style="font-size: 16px; font-family: Courier;background-color: #1a1a8c; padding: 5px 5px" onclick="javascript:expandCity([1, 0])">	
+							<input class="button" type="button" value="E" style="font-size: 16px; font-family: Lato;background-color: #1a1a8c; padding: 5px 5px" onclick="javascript:expandCity([1, 0])">	
 						</td>
 					</tr>
 					<tr>
 						<td></td>
 						<td>
-							<input class="button" type="button" value="S" style="font-size: 16px; font-family: Courier;background-color: #1a8c1a; padding: 5px 5px" onclick="javascript:expandCity([0, -1])">
+							<input class="button" type="button" value="S" style="font-size: 16px; font-family: Lato;background-color: #1a8c1a; padding: 5px 5px" onclick="javascript:expandCity([0, -1])">
 						</td>
 						<td></td>
 					</tr>
@@ -212,59 +253,97 @@
 
 		</div>
 
-		<div id="city_info_sidebar_breakoff_people" class="city_sidebar_small_cont" style="top: 45%; left: 7%">
+		<div class="city_sidebar_small_cont" style="top: 45%; left: 7%">
+			<input class="button" type="button" value="Tile Level Interface >>" style="font-size: 16px; font-family: Lato; background-color: #777; padding: 5px 5px" onclick="javascript:showTileLevelInterface()">
+		</div>
+
+		<div id="city_info_sidebar_breakoff_people" class="city_sidebar_small_cont" style="top: 50%; left: 7%">
 			Break city off into people...
 
 			<div style="padding-left: 20px">
 
-				<input class="button" type="button" value="Break >>" style="font-size: 16px; font-family: Courier;background-color: #111; padding: 5px 5px" onclick="javascript:breakCity()">
+				<input class="button" type="button" value="Break >>" style="font-size: 16px; font-family: Lato; background-color: #111; padding: 5px 5px" onclick="javascript:breakCity()">
 
 			</div>
 
 		</div>
 
-		<div id="city_info_sidebar_view_city_tiles" class="city_sidebar_small_cont" style="top: 55%; left: 7%">
+		<div id="city_info_sidebar_view_city_tiles" class="city_sidebar_small_cont" style="top: 60%; left: 7%">
 			View city...
 
 			<div style="padding-left: 20px">
 
-				<input class="button" type="button" value="View >>" style="font-size: 16px; font-family: Courier;background-color: #040; padding: 5px 5px" onclick="javascript:showCityTileView()">
+				<input class="button" type="button" value="View >>" style="font-size: 16px; font-family: Lato; background-color: #040; padding: 5px 5px" onclick="javascript:showCityTileView()">
 
 			</div>
 
 		</div>
 
-		<div id="city_info_sidebar_redirect_food" class="city_sidebar_small_cont" style="top: 65%; left: 7%">
+		<div id="city_info_sidebar_redirect_food" class="city_sidebar_small_cont" style="top: 67%; left: 7%">
 			Redirect food...
 
 			<div style="padding-left: 20px">
 
-				<input class="button" type="button" value="Redirect >>" style="font-size: 16px; font-family: Courier;background-color: #400; padding: 5px 5px" onclick="javascript:redirectFood();">
+				<input class="button" type="button" value="Redirect >>" style="font-size: 16px; font-family: Lato; background-color: #400; padding: 5px 5px" onclick="javascript:redirectFood();">
 				<br>
-				<input class="button" type="text" style="font-size: 16px; font-family: Courier;background-color: #aae; padding: 5px 5px; color: #111" id="foodRedirectTextInput" placeholder="--Redirect amount--">
+				<input class="button" type="text" style="font-size: 16px; font-family: Lato; background-color: #aae; padding: 5px 5px; color: #111" id="foodRedirectTextInput" placeholder="--Redirect amount--">
 
 			</div>			
 
 		</div>
 
-		<div id="city_info_sidebar_produce_unit" class="city_sidebar_small_cont" style="top: 75%; left: 7%">
-			Produce unit...<br>
+		<div id="city_info_sidebar_produce_reg" class="city_sidebar_small_cont" style="top: 80%; left: 7%">
+			Produce unit:<br>Regular<br>
 
-			<select id="select_unit_to_produce">
+			<select id="select_unit_to_produce_reg">
 				<option value="">-Select a unit-</option>
 				<option value="RB">Riverboat</option>
-				<option value="L">Legion</option>
 			</select>
-
-			<button id="producebutton" onclick="javascript:changeCityProduction()">Produce</button>
 
 			<br>
 
-			[ <span id="city_info_sidebar_people_turns"></span> / <span id="city_info_sidebar_prod_target"></span> ] -- <span id="city_info_sidebar_prod_unit"></span>
+			<button onclick="javascript:changeCityProduction('reg')">Produce</button>
+
+			<br>
+
+			[ <span id="city_info_sidebar_progress_reg"></span> / <span id="city_info_sidebar_prod_target_reg"></span> ] 
+
+			<br>
+
+			<span id="city_info_sidebar_prod_unit_reg"></span>
+
+		</div>
+
+
+		<div id="city_info_sidebar_produce_mil" class="city_sidebar_small_cont" style="top: 80%; left: 57%">
+			Produce unit:<br>Military<br>
+
+			<select id="select_unit_to_produce_mil">
+				<option value="">-Select a unit-</option>
+				<option value="L">Legion</option>
+			</select>
+
+			<br>
+
+			<button onclick="javascript:changeCityProduction('mil')">Produce</button>
+
+			<br>
+
+			[ <span id="city_info_sidebar_progress_mil"></span> / <span id="city_info_sidebar_prod_target_mil"></span> ]
+
+			<br>
+
+			<span id="city_info_sidebar_prod_unit_mil"></span>
 
 		</div>
 
 	</div>
+
+
+
+
+
+
 
 	<div id="city_name_input_container" style="position: fixed; left: 75%; top: 5%; width: 20%; height: 15%; background-color: #4a4aaa; z-index: 0; color: #ddd; font-family: Verdana; font-size: 17px; display: none; border: 2px solid #aaaac5">
 		<div style="position: relative; top: 10%; left: 5%;">
@@ -281,11 +360,122 @@
 
 
 
+
+	<div id="tile_level_interface" style="position: fixed; left: 0%; top: 0%; width: 100%; height: 100%; z-index: 0; display: initial; background-color: #222">
+		<input class="button" type="button" style="position: absolute; top: 0%; left: 0%; background-color: #bb6666; padding: 7px 10px" value="X" onclick="javascript:hideTileLevelInterface()">
+
+		<input class="button" type="button" style="position: absolute; top: 95%; left: 90%; background-color: #bb6666; padding: 7px 10px" value="Apply Changes" onclick="javascript:applyTileGridChanges()">
+
+		<div id="tile_level_canvas">
+		</div>
+
+		<table id="tile_level_table" style="position: absolute; left: 50%; top: 50%; height: 100vh; width: 100vh; transform: translate(-50%, -50%); border-spacing: 0vh 0vh; border-collapse: collapse;">
+			<tr>
+				<td id="subtile_A1" style="position: relative;">
+				</td>
+
+				<td id="subtile_A2" style="position: relative;">
+				</td>
+
+				<td id="subtile_A3" style="position: relative;">
+				</td>
+
+				<td id="subtile_A4" style="position: relative;">
+				</td>
+
+				<td id="subtile_A5" style="position: relative;">
+				</td>
+			</tr>
+
+			<tr>
+				<td id="subtile_B1" style="position: relative;">
+				</td>
+
+				<td id="subtile_B2" style="position: relative;">
+				</td>
+
+				<td id="subtile_B3" style="position: relative;">
+				</td>
+
+				<td id="subtile_B4" style="position: relative;">
+				</td>
+
+				<td id="subtile_B5" style="position: relative;">
+				</td>
+			</tr>
+
+			<tr>
+				<td id="subtile_C1" style="position: relative;">
+				</td>
+
+				<td id="subtile_C2" style="position: relative;">
+				</td>
+
+				<td id="subtile_C3" style="position: relative;">
+				</td>
+
+				<td id="subtile_C4" style="position: relative;">
+				</td>
+
+				<td id="subtile_C5" style="position: relative;">
+				</td>
+			</tr>
+
+			<tr>
+				<td id="subtile_D1" style="position: relative;">
+				</td>
+
+				<td id="subtile_D2" style="position: relative;">
+				</td>
+
+				<td id="subtile_D3" style="position: relative;">
+				</td>
+
+				<td id="subtile_D4" style="position: relative;">
+				</td>
+
+				<td id="subtile_D5" style="position: relative;">
+				</td>
+			</tr>
+
+			<tr>
+				<td id="subtile_E1" style="position: relative;">
+				</td>
+
+				<td id="subtile_E2" style="position: relative;">
+				</td>
+
+				<td id="subtile_E3" style="position: relative;">
+				</td>
+
+				<td id="subtile_E4" style="position: relative;">
+				</td>
+
+				<td id="subtile_E5" style="position: relative;">
+				</td>
+			</tr>
+		</table>
+
+	</div>
+
+
+
+
 	<div id="music_holder" style="position: fixed; left: 3%; top: 5%; width: 25%; height: 20%; background-color: #555; border: 2px solid #999; z-index: 3; color: #999; font-family: Verdana">
 		<div style="position: relative; padding: 5px 5px; background-color: #333; font-size: 1.9vh">
 			Game Soundtrack
 		</div>
 
+	</div>
+
+	<div id="game_options" style="position: fixed; left: 3%; top: 30%; width: 25%; height: 20%; background-color: #555; border: 2px solid #999; z-index: 3; color: #999; font-family: Verdana">
+		<div style="position: relative; padding: 5px 5px; background-color: #333; font-size: 1.9vh">
+			Game Options
+		</div>
+
+		<button id="play_or_pause" class="button" style="position: relative; background-color: #b48888; color: #555; font-family: Verdana; top: 5%; left: 5%; transform: translate(0%, 0%); padding: 7px 7px" onclick="javascript:pauseOrPlayGame()">
+			Pause Game
+		</button>
 	</div>
 
 
@@ -462,6 +652,7 @@
 <script src="/js/unitutils.js"></script>
 <script src="/js/initialization.js"></script>
 <script src="/js/mousehandler.js"></script>
+<script src="/js/tilelevelutils.js"></script>
 
 <script src="/js/socket.io.js"></script>
 
@@ -471,7 +662,7 @@
 
 	addSong("gg_1", "Beginnings", cont)
 	addSong("gg_2", "Sailing", cont)
-	addSong("gg_3", "March of the Legion", cont)
+	//addSong("gg_3", "March of the Legion", cont)
 
 	var socket = io(window.location.pathname);
 
@@ -500,6 +691,8 @@
 	const endturnkeycode = 84
 	const enterkeycode = 13
 
+	var unit_types = ["reg", "mil"]
+
 	var unit_corresponds = {"P" : "People", 
 							"RB" : "Riverboat",
 							"L" : "Legion"}
@@ -512,8 +705,8 @@
 						"RB" : "",
 						"L" : ""}
 
-	var unit_produce_times = {"RB" : 3000,
-								"L" : 1500}
+	var unit_produce_times = {"RB" : 500,
+								"L" : 250}
 
 	var unit_z_offsets = {"P" : 0.7,
 						"RB" : 0,
@@ -604,14 +797,13 @@
 	//****************************************************************************************//
 	//****************************************************************************************//
 
-
-
 	//other game functions
 	function center(){
 		cameravelocity.x = 0
 		cameravelocity.y = 0
 		camera.position.set(camerainitx, camerainity, camerainitz)
 		camera.lookAt(camerainitx, camerainity + 5, camerainitz - 5)
+		cameralooking = 'front'
 	}
 
 	//basic initialization
@@ -620,6 +812,7 @@
 	var camera = new THREE.PerspectiveCamera( 45, width / height, 1, 50 );
 	//camera.rotation.order = 'ZYX'
 	var renderer = new THREE.WebGLRenderer({antialias: true});
+	//renderer.physicallyCorrectLights = true
 	renderer.setSize(width, height);
 	document.getElementById('gui').appendChild(renderer.domElement);
 	var scene = new THREE.Scene({canvas:gui});
@@ -637,6 +830,19 @@
 	tileoutline.visible = false
 	scene.add( tileoutline );
 
+	var light_z_offset = 4
+	var directionalLight_fromSouth = new THREE.DirectionalLight( 0xffffff, 1.5 );
+	directionalLight_fromSouth.position.set(camerainitx, camerainity, ground_z + light_z_offset)
+	directionalLight_fromSouth.target.position.set(camerainitx, camerainity + 5, ground_z)
+	scene.add(directionalLight_fromSouth);
+	scene.add(directionalLight_fromSouth.target)
+
+
+	/*var directionalLight_fromNorth = new THREE.DirectionalLight( 0xffffff, 0.75 );
+	directionalLight_fromNorth.position.set(camerainitx, camerainity, ground_z + 3)
+	directionalLight_fromNorth.target.position.set(camerainitx, camerainity - 5, ground_z)
+	scene.add(directionalLight_fromNorth);
+	scene.add(directionalLight_fromNorth.target)*/
 
 	/*var composer = new THREE.EffectComposer(renderer)
 	var outlinePass = new THREE.OutlinePass(new THREE.Vector2(window.innerWidth, window.innerHeight), scene, camera);
@@ -655,6 +861,40 @@
 	//scene.fog = new THREE.Fog(0x888888, 0, 100)
 
 
+	function getTileBuildingBoosts(id, x, y, center = false){
+		if (getTileAt(x, y).tile_grid == undefined){
+			return [0, 0, 0]
+		}
+		if (center){
+			var population = cities[id].center.population
+		}
+		else{
+			var population = cities[id].tiles[x + "_" + y].population
+		}
+		num_armories = 0
+		num_forges = 0
+		num_barracks = 0
+		for (var subtile of SUBTILE_LIST){
+			let building = getTileAt(x, y).tile_grid[subtile].building
+			if (building == "AM"){
+				num_armories += 1
+			}
+			if (building == "FO"){
+				num_forges += 1
+			}
+			if (building == "BA"){
+				num_barracks += 1
+			}
+		}
+
+		var armories_boost = num_armories * 0.04 * population
+		var forges_boost = num_forges * 0.04 * population
+		var barracks_boost = num_barracks * 0.04 * population
+
+		return [Math.round(armories_boost, 1), Math.round(barracks_boost, 1), Math.round(forges_boost, 1)]
+	}
+
+
 	//TURN BASED EVENTS AND CHANGES
 	function endTurn(){
 		//update unit movements
@@ -668,10 +908,11 @@
 		//update city populations
 		var numcities = cities.length
 		for (var cityidx = 0; cityidx < numcities; cityidx++){
-			cities[cityidx].people_turns += getTotalPop(cityidx)
+
+			//cities[cityidx].people_turns += getTotalPop(cityidx)
 
 
-			//DEAL WITH UNIT PRODUCTION
+			/*//DEAL WITH UNIT PRODUCTION
 			if (cities[cityidx].people_turns >= unit_produce_times[cities[cityidx].producing]){
 				var curprod = cities[cityidx].producing
 				var targetx = cities[cityidx].center.x
@@ -686,10 +927,60 @@
 
 				cities[cityidx].producing = null
 				cities[cityidx].people_turns = 0				
+			}*/
+
+			//calculate building numbers
+			var buildingBoosts = [0, 0, 0]
+
+			var centerBuildingBoosts = getTileBuildingBoosts(cityidx, cities[cityidx].center.x, cities[cityidx].center.y, true)
+
+			buildingBoosts[0] += centerBuildingBoosts[0]
+			buildingBoosts[1] += centerBuildingBoosts[1]
+			buildingBoosts[2] += centerBuildingBoosts[2]
+
+			for (var tile of Object.keys(cities[cityidx].tiles)){
+				var tileBuildingBoosts = getTileBuildingBoosts(cityidx, cities[cityidx].tiles[tile].x, cities[cityidx].tiles[tile].y, false)
+
+				buildingBoosts[0] += tileBuildingBoosts[0]
+				buildingBoosts[1] += tileBuildingBoosts[1]
+				buildingBoosts[2] += tileBuildingBoosts[2]				
+			}
+
+			var armories_boost = buildingBoosts[0]
+			var barracks_boost = buildingBoosts[1]
+			var forges_boost = buildingBoosts[2]
+
+			var mil_boost = barracks_boost + (armories_boost / 2) + (forges_boost / 4)
+			var reg_boost = forges_boost + (armories_boost / 2)
+
+			if (cities[cityidx].producing["mil"] != null){
+				cities[cityidx].production_progress["mil"] += mil_boost
+			}
+			if (cities[cityidx].producing["reg"] != null){
+				cities[cityidx].production_progress["reg"] += reg_boost
+			}
+
+			for (var type of unit_types){
+				if (cities[cityidx].producing[type] != null || cities[cityidx].producing[type] != undefined){
+					if (cities[cityidx].production_progress[type] > unit_produce_times[cities[cityidx].producing[type]]){
+						var prod = cities[cityidx].producing[type]
+						var targetx = cities[cityidx].center.x
+						var targety = cities[cityidx].center.y
+						if (prod == "L"){
+							addLegion(targetx, targety)
+						}
+						if (prod == "RB"){
+							addRiverboat(targetx, targety)
+						}
+						cities[cityidx].production_progress[type] -= unit_produce_times[cities[cityidx].producing[type]]
+
+						cities[cityidx].producing[type] = null
+					}
+				}
 			}
 
 			growTile(cities[cityidx].center.x, cities[cityidx].center.y, cityidx, true)
-			var numtiles = cities[cityidx].tiles.length
+
 			for (var tile of Object.keys(cities[cityidx].tiles)){
 				growTile(cities[cityidx].tiles[tile].x, cities[cityidx].tiles[tile].y, cityidx)
 			}
@@ -1053,47 +1344,51 @@
 
 		cities[id].tiles[targetx + "_" + targety] = new Object()
 
-		var loader = new THREE.GLTFLoader();
+		//var loader = new THREE.GLTFLoader();
 
-		loader.load('/resources/hut.glb',
+		//loader.load('/resources/buildings/townhall.glb',
 			// called when the resource is loaded
-			function ( gltf ) {
+			//function ( gltf ) {
 
-				gltf.scene.scale.set( 2, 2, 2 );	
-				var zoff = getTileAt(targetx, targety).height + base_tile_height
-				gltf.scene.position.set(targetx, targety, ground_z + zoff)
 
-				assignCity(targetx, targety, id)
+		var texture = TOWN_HALL_TEXTURE.clone()
 
-				gltf.scene.rotation.x = Math.PI / 2
-				gltf.scene.city = true
-				gltf.scene.cityID = id
-				gltf.scene.visible = false
+		//texture.scale.set( 1, 1, 1 );
+		//gltf.scene.children[1].children[0].distance = 0.5
+		var zoff = getTileAt(targetx, targety).height + base_tile_height
+		texture.position.set(targetx, targety, ground_z + zoff)
 
-				if (activetiles.includes(targetx + "," + targety) || self){
-					gltf.scene.visible = true
-				}
+		assignCity(targetx, targety, id)
 
-				scene.add( gltf.scene );
+		texture.rotation.x = Math.PI / 2
+		texture.city = true
+		texture.cityID = id
+		texture.visible = false
 
-				cities[id].tiles[targetx + "_" + targety].x = targetx
-				cities[id].tiles[targetx + "_" + targety].y = targety
-				cities[id].tiles[targetx + "_" + targety].mesh = gltf.scene
-				cities[id].tiles[targetx + "_" + targety].population = 50
-				cities[id].tiles[targetx + "_" + targety].pop_size = 1
+		if (activetiles.includes(targetx + "," + targety) || self){
+			texture.visible = true
+		}
 
-				if (self){
-					activateTilesAtCenter(targetx, targety)
-					showCitySidebar(id, x, y)
-				}
+		scene.add( texture );
 
-				if (in_city_tile_view){
-					showCityTileView(id)
-				}
+		cities[id].tiles[targetx + "_" + targety].x = targetx
+		cities[id].tiles[targetx + "_" + targety].y = targety
+		cities[id].tiles[targetx + "_" + targety].mesh = texture
+		cities[id].tiles[targetx + "_" + targety].population = 50
+		cities[id].tiles[targetx + "_" + targety].pop_size = 1
 
-				assignTileFood(targetx, targety)
-			}
-		)
+		if (self){
+			activateTilesAtCenter(targetx, targety)
+			showCitySidebar(id, x, y)
+		}
+
+		if (in_city_tile_view){
+			showCityTileView(id)
+		}
+
+		assignTileFood(targetx, targety)
+			//}
+		//)
 
 		var tile = getTileAt(targetx, targety)
 		var l = tile.children.length
@@ -1128,12 +1423,18 @@
 		return pop
 	}
 
-	function changeCityProduction(){
+	function changeCityProduction(type){
 		if (isNaN(selectedcityid) || selectedcityid === ''){
 			return
 		}
-		cities[selectedcityid].producing = document.getElementById("select_unit_to_produce").value
-		cities[selectedcityid].people_turns = 0
+
+		if (document.getElementById("select_unit_to_produce_" + type).value == ''){
+			cities[selectedcityid].producing[type] = null
+		}
+		else{
+			cities[selectedcityid].producing[type] = document.getElementById("select_unit_to_produce_" + type).value
+			//cities[selectedcityid].production_progress[type] = 0
+		}
 
 		showCitySidebar(selectedcityid, selectedcitytilex, selectedcitytiley)
 	}
@@ -1201,47 +1502,57 @@
 			this_city.coastal = false
 		}
 
-		this_city.producing = null
-		this_city.people_turns = 0
+		this_city.producing = new Object()
+		for (var type of unit_types){
+			this_city.producing[type] = null
+		}
+		this_city.production_progress = new Object()
+		for (var type of unit_types){
+			this_city.production_progress[type] = 0
+		}
 
-		var loader = new THREE.GLTFLoader();
+		//var loader = new THREE.GLTFLoader();
 
-		loader.load('/resources/city_center.glb',
+		//loader.load('/resources/buildings/cityhall.glb',
 			// called when the resource is loaded
-			function ( gltf ) {
+			//function ( gltf ) {
 
-				gltf.scene.scale.set( 2, 2, 2 );	
-				var zoff = getTileAt(cityx, cityy).height + base_tile_height
-				gltf.scene.position.set(cityx + city_x_offset, cityy, ground_z + zoff)
-				gltf.scene.cityID = cities.length
+				//var texture = gltf.scene
+		var texture = CITY_HALL_TEXTURE.clone()
 
-				assignCity(cityx, cityy, cities.length)
+		//texture.scale.set( 1, 1, 1 );
+		//gltf.scene.children[1].children[0].distance = 0.5
+		var zoff = getTileAt(cityx, cityy).height + base_tile_height
+		texture.position.set(cityx + city_x_offset, cityy, ground_z + zoff)
+		texture.cityID = cities.length
 
-				gltf.scene.rotation.x = Math.PI / 2
-				gltf.scene.city = true
-				gltf.scene.visible = false
+		assignCity(cityx, cityy, cities.length)
 
-				if (activetiles.includes(cityx + "," + cityy)){
-					gltf.scene.visible = true
-				}
+		texture.rotation.x = Math.PI / 2
+		texture.city = true
+		texture.visible = false
 
-				scene.add( gltf.scene );
+		if (activetiles.includes(cityx + "," + cityy)){
+			texture.visible = true
+		}
 
-				this_city.center.mesh = gltf.scene
+		scene.add( texture );
 
-				if (already_named){
-					citynames.push(name)
-					this_city.name = name
-					this_city.center.mesh.cityname = name
-					this_city.cityID = cities.length
-					cities.push(this_city)
-				}
+		this_city.center.mesh = texture
 
-				assignTileFood(cityx, cityy)
+		if (already_named){
+			citynames.push(name)
+			this_city.name = name
+			this_city.center.mesh.cityname = name
+			this_city.cityID = cities.length
+			cities.push(this_city)
+		}
+
+		assignTileFood(cityx, cityy)
 
 				//activateTilesAtCenter(cityx, cityy)
-			}
-		)
+			//}
+		//)
 
 		var tile = getTileAt(cityx, cityy)
 		var l = tile.children.length
@@ -1516,6 +1827,13 @@
 		}
 
 		if (code == esckeycode){
+			if (in_tile_level_interface){
+				return
+			}
+			if (redirecting_food){
+				redirecting_food = false
+				return
+			}
 			if (selectedunitid != "null"){
 				unSelectUnit(selectedunitid)
 				return
@@ -1597,7 +1915,32 @@
 		}
 	}
 
+	function pauseGame(){
+		paused = true
+		var b = document.getElementById("play_or_pause")
+		b.textContent = "Play Game"
+		b.style.backgroundColor = "#88b488"
+	}
+
+	function playGame(){
+		paused = false
+		var b = document.getElementById("play_or_pause")
+		b.textContent = "Pause Game"
+		b.style.backgroundColor = "#b48888"
+	}
+
+	function pauseOrPlayGame(){
+		if (paused){
+			playGame()
+			requestAnimationFrame(animate)
+		}
+		else if (!paused){
+			pauseGame()
+		}
+	}
+
 	var decel_amt = 0.05
+	var paused = false
 	function animate() {
 
 		var cameramovement = 0.15
@@ -1659,10 +2002,24 @@
 		//cameravelocity.y += (-cameravelocity.y) * 0.1
 
 		//controls.update();
+
+		directionalLight_fromSouth.position.set(camera.position.x, camera.position.y, ground_z + light_z_offset)
+		if (cameralooking == 'front'){
+			directionalLight_fromSouth.target.position.set(camera.position.x, camera.position.y + 5, ground_z)
+		}
+		else{
+			directionalLight_fromSouth.target.position.set(camera.position.x, camera.position.y - 5, ground_z)
+		}
+		//scene.add(directionalLight_fromSouth);
+		//scene.add(directionalLight_fromSouth.target)
+
 		renderer.render( scene, camera );
-		requestAnimationFrame( animate );
 
 		updateCityLabels()
+
+		if (!paused){
+			requestAnimationFrame( animate );
+		}
 	}
 
 	var done_init = false

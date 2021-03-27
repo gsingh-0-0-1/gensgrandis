@@ -156,7 +156,7 @@ function updateCityCenterTradingPanel(){
 			rd_button.value = "Send >>"
 			rd_button.style.float = "right"
 			rd_button.onclick = function(){
-				redirectFood('', true, city.center.x, city.center.y)
+				redirectFood('', true, city.center.x, city.center.y);
 				return false
 			}
 			c_el.appendChild(rd_button)
@@ -191,7 +191,8 @@ function updateCityCenterTradingPanel(){
 	refresh.style.right = "calc(20% + 5px)"
 	refresh.style.bottom = "calc(80% + 5px)"
 	refresh.onclick = function(){
-		updateCityCenterTradingPanel()
+		updateCityCenterTradingPanel();
+		return false
 	}
 	citycentertrading.appendChild(refresh)
 }
@@ -239,29 +240,37 @@ function showCitySidebar(this_city_ID, tilex, tiley){
 	document.getElementById("city_info_sidebar_selected_loc_x").innerHTML = "X: " + tilex
 	document.getElementById("city_info_sidebar_selected_loc_y").innerHTML = "Y: " + tiley
 
-	document.getElementById("city_info_sidebar_selected_food").innerHTML = "Tile Food: " + getTileAt(selectedcitytilex, selectedcitytiley).basefood
+	document.getElementById("city_info_sidebar_selected_food").innerHTML = "Tile Food: " + Math.round(getTileAt(selectedcitytilex, selectedcitytiley).basefood, 2)
 
 	document.getElementById("city_info_sidebar_selected_pop").innerHTML = "Population: "
 
 
 	//[ <span id="city_info_sidebar_people_turns"></span> / <span id="city_info_sidebar_prod_target"></span> ] -- <span id="city_info_sidebar_prod_unit"></span>
 
-	if (cities[this_city_ID].producing != null){
-		document.getElementById("city_info_sidebar_people_turns").textContent = cities[this_city_ID].people_turns
-		document.getElementById("city_info_sidebar_prod_target").textContent = unit_produce_times[cities[this_city_ID].producing]
-		document.getElementById("city_info_sidebar_prod_unit").textContent = unit_corresponds[cities[this_city_ID].producing]
+	document.getElementById("city_info_sidebar_progress_reg").textContent =    0
+	document.getElementById("city_info_sidebar_prod_target_reg").textContent = 0
+	document.getElementById("city_info_sidebar_prod_unit_reg").textContent =   ''
+
+	document.getElementById("city_info_sidebar_progress_mil").textContent =    0
+	document.getElementById("city_info_sidebar_prod_target_mil").textContent = 0
+	document.getElementById("city_info_sidebar_prod_unit_mil").textContent =   ''
+
+	if (cities[this_city_ID].producing["reg"] != null){
+		document.getElementById("city_info_sidebar_progress_reg").textContent = cities[this_city_ID].production_progress["reg"]
+		document.getElementById("city_info_sidebar_prod_target_reg").textContent = unit_produce_times[cities[this_city_ID].producing["reg"]]
+		document.getElementById("city_info_sidebar_prod_unit_reg").textContent = unit_corresponds[cities[this_city_ID].producing["reg"]]
 	}
-	else{
-		document.getElementById("city_info_sidebar_people_turns").textContent = 0
-		document.getElementById("city_info_sidebar_prod_target").textContent = 0
-		document.getElementById("city_info_sidebar_prod_unit").textContent = ''		
+	if (cities[this_city_ID].producing["mil"] != null){
+		document.getElementById("city_info_sidebar_progress_mil").textContent = cities[this_city_ID].production_progress["mil"]
+		document.getElementById("city_info_sidebar_prod_target_mil").textContent = unit_produce_times[cities[this_city_ID].producing["mil"]]
+		document.getElementById("city_info_sidebar_prod_unit_mil").textContent = unit_corresponds[cities[this_city_ID].producing["mil"]]
 	}
 
 	if (centerx == tilex && centery == tiley){
-		document.getElementById("city_info_sidebar_selected_pop").innerHTML += cities[this_city_ID].center.population
+		document.getElementById("city_info_sidebar_selected_pop").innerHTML += Math.round(cities[this_city_ID].center.population)
 	}
 	else{
-		document.getElementById("city_info_sidebar_selected_pop").innerHTML += cities[this_city_ID].tiles[tilex + "_" + tiley].population
+		document.getElementById("city_info_sidebar_selected_pop").innerHTML += Math.round(cities[this_city_ID].tiles[tilex + "_" + tiley].population)
 	}
 
 	if (in_city_tile_view){
@@ -406,150 +415,125 @@ function updateCityLabels(show=false){
 }
 
 
-	function drawTree(coords, tileheight, num){
-		var i = coords[0]
-		var j = coords[1]
+function drawTree(coords, tileheight, num){
+	var i = coords[0]
+	var j = coords[1]
 
-		var xoff = (( Math.pow(tileheight + num*j, num) * WORLD_SEED * i * j) % 2000) - 1000
-		var yoff = (( Math.pow(tileheight + num*i, num) * WORLD_SEED / i / j) % 2000) - 1000
+	var xoff = (( Math.pow(tileheight + num*j, num) * WORLD_SEED * i * j) % 2000) - 1000
+	var yoff = (( Math.pow(tileheight + num*i, num) * WORLD_SEED / i / j) % 2000) - 1000
 
-		xoff /= 2000
-		yoff /= 2000
+	xoff /= 2000
+	yoff /= 2000
 
-		var rad = 0.05
-		var height = 0.2
+	var rad = 0.05
+	var height = 0.2
 
-		var trunkheight = height * 0.2
-		var trunkrad = rad * 0.5
+	var trunkheight = height * 0.2
+	var trunkrad = rad * 0.5
 
-		var leavesheight = height// * 0.8
-		var leavesrad = rad
+	var leavesheight = height// * 0.8
+	var leavesrad = rad
 
-		/*var trunk_geometry = new THREE.CylinderGeometry(trunkrad, trunkrad, trunkheight, 8)
-		var trunk_material = new THREE.MeshBasicMaterial( {color: 0x654321} )
-		var trunk = new THREE.Mesh( trunk_geometry, trunk_material)*/
+	/*var trunk_geometry = new THREE.CylinderGeometry(trunkrad, trunkrad, trunkheight, 8)
+	var trunk_material = new THREE.MeshBasicMaterial( {color: 0x654321} )
+	var trunk = new THREE.Mesh( trunk_geometry, trunk_material)*/
 
-		var leaves_geometry = new THREE.BufferGeometry().fromGeometry(new THREE.ConeGeometry( leavesrad, leavesheight, 3 ));
-		var leaves = new THREE.Mesh( leaves_geometry, leaves_material );
+	var leaves_geometry = new THREE.BufferGeometry().fromGeometry(new THREE.ConeGeometry( leavesrad, leavesheight, 3 ));
+	var leaves = new THREE.Mesh( leaves_geometry, leaves_material );
 
-		//trunk.add(leaves)
-		//leaves.position.set(0, trunkheight / 2 + leavesheight / 2, 0)
+	//trunk.add(leaves)
+	//leaves.position.set(0, trunkheight / 2 + leavesheight / 2, 0)
 
-		//var tree = trunk
+	//var tree = trunk
 
-		//tile.add(trunk);
-		//tile.add(leaves)
-		var z_offset = 0
-		//check for mountain / elevated tiles
-		/*if (tile.geometry.parameters.depth != undefined){
-			z_offset = tile.geometry.parameters.depth / 2
-		}*/
+	//tile.add(trunk);
+	//tile.add(leaves)
+	var z_offset = 0
+	//check for mountain / elevated tiles
+	/*if (tile.geometry.parameters.depth != undefined){
+		z_offset = tile.geometry.parameters.depth / 2
+	}*/
 
-		//leaves.position.set(i + xoff, j + yoff, (ground_z + height/2 + tileheight) )
-		leaves.position.set(xoff, yoff, tileheight / 2 + height / 2)
-		leaves.rotation.set(Math.PI/2, 0, 0)
-		leaves.tree = true
-		tile = getTileAt(i, j)
-		tile.add(leaves)
-		//scene.add(leaves)
+	//leaves.position.set(i + xoff, j + yoff, (ground_z + height/2 + tileheight) )
+	leaves.position.set(xoff, yoff, tileheight / 2 + height / 2)
+	leaves.rotation.set(Math.PI/2, 0, 0)
+	leaves.tree = true
+	tile = getTileAt(i, j)
+	tile.add(leaves)
+	//scene.add(leaves)
+}
+
+function getTileAt(x, y){
+	//return scene.getObjectByName("tile_" + coords[0] + "_" + coords[1]) 
+	return grid_dict["tile_" + x + "_" + y]
+}
+
+function checkValidTile(coords){
+	if ((Math.abs(coords[0]) <= 2 * WORLD_RAD) && (Math.abs(coords[1]) <= 2 * WORLD_RAD) && (coords[0] >= 0) && (coords[1] >= 0)){
+		return true
 	}
-
-	function getTileAt(x, y){
-		//return scene.getObjectByName("tile_" + coords[0] + "_" + coords[1]) 
-		return grid_dict["tile_" + x + "_" + y]
-	}
-
-	function checkValidTile(coords){
-		if ((Math.abs(coords[0]) <= 2 * WORLD_RAD) && (Math.abs(coords[1]) <= 2 * WORLD_RAD) && (coords[0] >= 0) && (coords[1] >= 0)){
-			return true
-		}
-		else{
-			return false
-		}
-	}
-
-	function isWater(type){
-		if (type == WATER_BODY_TILE_CODE || type == WATER_BODY_START_TILE_CODE || type == RIVER_TILE_CODE || type == RIVER_START_TILE_CODE){
-			return true
-		}
+	else{
 		return false
 	}
+}
 
-	function isForest(type){
-		if (type == FOREST_TILE_CODE || type == FOREST_START_TILE_CODE){
-			return true
-		}
-		return false
+function isWater(type){
+	if (type == WATER_BODY_TILE_CODE || type == WATER_BODY_START_TILE_CODE || type == RIVER_TILE_CODE || type == RIVER_START_TILE_CODE){
+		return true
+	}
+	return false
+}
+
+function isForest(type){
+	if (type == FOREST_TILE_CODE || type == FOREST_START_TILE_CODE){
+		return true
+	}
+	return false
+}
+
+//removed utils here
+
+function growTile(x, y, cityidx, center = false){
+	//we can only grow population... if there is population to grow in the first place
+	if (!isTileCity(x, y)){
+		return
 	}
 
-	//removed utils here
+	if (getTileAt(x, y).basefood == undefined){
+		assignTileFood(x, y)
+	}
 
-	function growTile(x, y, cityidx, center = false){
-		//we can only grow population... if there is population to grow in the first place
-		if (!isTileCity(x, y)){
-			return
-		}
+	var thistile = getTileAt(x, y)
 
-		if (getTileAt(x, y).basefood == undefined){
-			assignTileFood(x, y)
-		}
+	thistile.farmfood = 0
 
-		var thistile = getTileAt(x, y)
-		if (center){
-			thistile.availfood = thistile.basefood - cities[cityidx].center.population
-		}
-		else{
-			thistile.availfood = thistile.basefood - cities[cityidx].tiles[x + "_" + y].population
-		}
+	if (thistile.tile_grid == undefined){
 
-		var poptoadd = getNextPopGrowth(thistile.availfood)
-
-		if (center){
-			cities[cityidx].center.population += poptoadd
-		}
-		else{
-			cities[cityidx].tiles[x + "_" + y].population += poptoadd
-			if (Math.floor(cities[cityidx].tiles[x + "_" + y].population / TILE_POP_STEP) > cities[cityidx].tiles[x + "_" + y].pop_size){
-				cities[cityidx].tiles[x + "_" + y].pop_size += 1
-
-				if (cities[cityidx].tiles[x + "_" + y].pop_size > MAX_CITY_TILE_SIZE){
-					return
-				}
-
-				//var xoff = city_tile_hut_locs[cities[cityidx].tiles[x + "_" + y].pop_size - 1][0]
-				//var yoff = city_tile_hut_locs[cities[cityidx].tiles[x + "_" + y].pop_size - 1][1]
-				var offsets = getHutOffset(x, y, cities[cityidx].tiles[x + "_" + y].pop_size)
-				var xoff = offsets[0]
-				var yoff = offsets[1]
-
-				var loader = new THREE.GLTFLoader();
-
-				loader.load('/resources/hut.glb',
-					// called when the resource is loaded
-					function ( gltf ) {
-
-						gltf.scene.scale.set( 1, 1, 1 );	
-						var zoff = getTileAt(x, y).height + base_tile_height
-
-						var finalx = x + xoff
-						var finaly = y + yoff
-
-						finalx -= cities[cityidx].tiles[x + "_" + y].mesh.position.x
-						finaly -= cities[cityidx].tiles[x + "_" + y].mesh.position.y
-
-						//gltf.scene.position.set(x + xoff, y + yoff, ground_z + zoff)
-						gltf.scene.position.set(xoff/2, 0, yoff/2)
-						//gltf.scene.position.set(xoff, yoff, zoff / 2)
-
-						//gltf.scene.rotation.x = Math.PI / 2
-						gltf.scene.city = true
-						gltf.scene.cityID = selectedcityid
-						//getTileAt(x, y).add(gltf.scene)
-						cities[cityidx].tiles[x + "_" + y].mesh.add(gltf.scene)
-						//scene.add( gltf.scene );
-					}
-				)
+	}
+	else{
+		for (var subtile of Object.keys(thistile.tile_grid)){
+			if (thistile.tile_grid[subtile].building == "FA"){
+				thistile.farmfood += 0.03 * thistile.basefood
 			}
 		}
 	}
+
+	thistile.availfood = thistile.farmfood
+
+	if (center){
+		thistile.availfood += thistile.basefood - cities[cityidx].center.population
+	}
+	else{
+		thistile.availfood += thistile.basefood - cities[cityidx].tiles[x + "_" + y].population
+	}
+
+	var poptoadd = getNextPopGrowth(thistile.availfood)
+
+	if (center){
+		cities[cityidx].center.population += poptoadd
+	}
+	else{
+		cities[cityidx].tiles[x + "_" + y].population += poptoadd
+	}
+}
 

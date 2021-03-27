@@ -2,6 +2,9 @@ function onMouseClick( event ) {
 	if (naming_city){
 		return
 	}
+	if (in_tile_level_interface){
+		return
+	}
 	var mouse = new THREE.Vector2()
 	var raycaster = new THREE.Raycaster();
 	mouse.x = ( event.clientX / window.innerWidth ) * 2 - 1;
@@ -130,14 +133,21 @@ function onMouseClick( event ) {
 				}
 			}
 
-			//the object that'll be clicked on will be a portion of a house
-			//so the obj.parent will be that house
-			//the parent of THAT will be the GLTF/GLB scene
-			//so the city property of the parent of the parent of the object will be true
+			//the object that'll be clicked on will be a portion of a building
+			//so the obj.parent will be that building
+			//the parent of THAT will be the GLTF/GLB scene of the building
+			//so the city property of the parent of the parent of the object will be true, if it is a city center or tile center
 			if (obj.parent != undefined){
 				if (obj.parent.parent != undefined){
 					if (obj.parent.parent.city == true){
 						showCitySidebar(obj.parent.parent.cityID, obj.parent.parent.position.x, obj.parent.parent.position.y)
+					}
+
+					//or, if it's not a center building, then we look for the next parent up
+					if (obj.parent.parent.parent != undefined){
+						if (obj.parent.parent.parent.city == true){
+							showCitySidebar(obj.parent.parent.parent.cityID, obj.parent.parent.parent.position.x, obj.parent.parent.parent.position.y)
+						}
 					}
 				}
 			}

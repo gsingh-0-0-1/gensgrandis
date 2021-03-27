@@ -116,11 +116,17 @@ function createRoom(room){
 
 			current_clients[room][socket.internalCustomID] = username
 			var l = Object.values(current_clients[room])
-			updateUsers(socket, l)
 
-			if (l.length >= chatroom_maxes[room]){
+			if (l.length == chatroom_maxes[room]){
 				io.of(cur_namespace).emit('startgame')
 			}
+			if (l.length > chatroom_maxes[room]){
+				delete current_clients[room][socket.internalCustomID]
+				socket.disconnect(0)
+				return
+			}
+
+			updateUsers(socket, l)
 
 			sendUserCountsUpdate(room)
 		});

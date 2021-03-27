@@ -1,3 +1,36 @@
+var loader = new THREE.GLTFLoader();
+
+var PEOPLE_LOADED_MESH = null
+
+loader.load('/resources/units/people.glb',
+	// called when the resource is loaded
+	function ( gltf ) {
+		PEOPLE_LOADED_MESH = gltf.scene
+	}
+)
+
+
+var RIVERBOAT_LOADED_MESH = null
+
+loader.load('/resources/units/riverboat.glb',
+	// called when the resource is loaded
+	function ( gltf ) {
+		RIVERBOAT_LOADED_MESH = gltf.scene
+	}
+)
+
+
+
+var LEGION_LOADED_MESH = null
+
+loader.load('/resources/units/legion.glb',
+	// called when the resource is loaded
+	function ( gltf ) {
+		LEGION_LOADED_MESH = gltf.scene
+	}
+)
+
+
 //PEOPLE
 function addPeople(x, y){
 	//console.log(units)
@@ -9,42 +42,44 @@ function drawPeople(x, y, id, vis = true){
 
 	var col = new THREE.Color(0.4, 0.4, 0.4)//0.6, 0, 0.8)
 
-	var loader = new THREE.GLTFLoader();
+	//var loader = new THREE.GLTFLoader();
 
-	loader.load('/resources/people.glb',
+	//loader.load('/resources/people.glb',
 		// called when the resource is loaded
-		function ( gltf ) {
+		//function ( gltf ) {
 
-			gltf.scene.scale.set( 1, 1, 1 );	
+			//gltf.scene.scale.set( 1, 1, 1 );	
 
-			gltf.scene.position.set(x, y, ground_z + 1)
+			//gltf.scene.position.set(x, y, ground_z + 1)
 
-			//gltf.scene.children[2].position = new THREE.Vector3(x, y, ground_z + 1)
+	var people = PEOPLE_LOADED_MESH.clone()
 
-			//gltf.scene.rotation.x = Math.PI / 2
-			var people = gltf.scene//.children[2]
-			scene.add( people );
+	people.scale.set(1, 1, 1)
+	people.position.set(x, y, ground_z + 1)
 
-			var hoffset = getTileAt(x, y).height
+	//var people = gltf.scene
+	scene.add( people );
 
-			people.position.set(x, y, ground_z + hoffset + 1)
-			people.rotation.set(Math.PI / 2, 0, 0)
+	var hoffset = getTileAt(x, y).height
 
-			people.type = "unit"
+	people.position.set(x, y, ground_z + hoffset + 1)
+	people.rotation.set(Math.PI / 2, 0, 0)
 
-			people.visible = vis
-			assignUnitID(people, id)
-			//people.unitid = id
+	people.type = "unit"
 
-			unitlist[id].mesh = people
-			unitlist[id].naval = false
+	people.visible = vis
+	assignUnitID(people, id)
+	//people.unitid = id
 
-			//modify explored tiles
-			if (vis){
-				exploreAtCoords(x, y)
-			}
-		}
-	)
+	unitlist[id].mesh = people
+	unitlist[id].naval = false
+
+	//modify explored tiles
+	if (vis){
+		exploreAtCoords(x, y)
+	}
+		//}
+	//)
 
 	//get the height of the tile and offset the unit by that
 	if (getTileAt(x, y) == undefined){
@@ -66,18 +101,21 @@ function drawRiverboat(x, y, id, vis = true){
 
 	var loader = new THREE.GLTFLoader();
 
-	loader.load('/resources/riverboat.glb',
+	//loader.load('/resources/riverboat.glb',
 		// called when the resource is loaded
-		function ( gltf ) {
+		//function ( gltf ) {
 
-			gltf.scene.scale.set( 0.07, 0.07, 0.07 );	
+			//gltf.scene.scale.set( 0.07, 0.07, 0.07 );	
 
-			gltf.scene.position.set(x, y, ground_z + 0.2)
+			//gltf.scene.position.set(x, y, ground_z + 0.2)
 
-			//gltf.scene.children[2].position = new THREE.Vector3(x, y, ground_z + 1)
+			var boat = RIVERBOAT_LOADED_MESH.clone()
 
-			//gltf.scene.rotation.x = Math.PI / 2
-			var boat = gltf.scene//.children[2]
+			boat.scale.set(0.07, 0.07, 0.07)
+			boat.position.set(x, y, ground_z + 0.2)
+
+
+			//var boat = gltf.scene
 			scene.add( boat );
 
 			var hoffset = getTileAt(x, y).height
@@ -97,8 +135,8 @@ function drawRiverboat(x, y, id, vis = true){
 			if (vis){
 				exploreAtCoords(x, y)
 			}
-		}
-	)
+		//}
+	//)
 
 	//get the height of the tile and offset the unit by that
 	if (getTileAt(x, y) == undefined){
@@ -118,18 +156,22 @@ function addLegion(x, y){
 function drawLegion(x, y, id, vis = true){
 	var loader = new THREE.GLTFLoader();
 
-	loader.load('/resources/legion.glb',
+	//loader.load('/resources/legion.glb',
 		// called when the resource is loaded
-		function ( gltf ) {
+		//function ( gltf ) {
 
-			gltf.scene.scale.set( 1, 1, 1 );	
+			//gltf.scene.scale.set( 1, 1, 1 );	
 
-			gltf.scene.position.set(x, y, ground_z + 1)
+			//gltf.scene.position.set(x, y, ground_z + 1)
 
-			//gltf.scene.children[2].position = new THREE.Vector3(x, y, ground_z + 1)
+			var legion = LEGION_LOADED_MESH.clone()
 
-			//gltf.scene.rotation.x = Math.PI / 2
-			var legion = gltf.scene//.children[2]
+			legion.scale.set(1, 1, 1)
+
+			legion.position.set(x, y, ground_z + 1)
+
+
+			//var legion = gltf.scene
 			scene.add( legion );
 
 			var hoffset = getTileAt(x, y).height
@@ -149,8 +191,8 @@ function drawLegion(x, y, id, vis = true){
 			if (vis){
 				exploreAtCoords(x, y)
 			}
-		}
-	)
+		//}
+	//)
 
 	//get the height of the tile and offset the unit by that
 	if (getTileAt(x, y) == undefined){
