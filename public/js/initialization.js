@@ -106,7 +106,7 @@ function initialize(centerx, centery, spawnlocs){
 	}
 
 
-	window.addEventListener( 'click', onMouseClick, false );
+	gui.addEventListener( 'click', onMouseClick, false );
 	//fetchAndRender([100, 0])
 
 

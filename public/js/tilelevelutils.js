@@ -6,9 +6,13 @@ loader = new THREE.GLTFLoader()
 
 var CITY_HALL_TEXTURE = null
 
+var CODE_TEXTURE_DICT = {}
+
 loader.load('/resources/buildings/cityhall.glb',
 	function(gltf){
 		CITY_HALL_TEXTURE = gltf.scene
+		CITY_HALL_TEXTURE.texturename = "cityhall"
+		CODE_TEXTURE_DICT["cityhall"] = CITY_HALL_TEXTURE
 	}
 )
 
@@ -18,6 +22,8 @@ var TOWN_HALL_TEXTURE = null
 loader.load('/resources/buildings/townhall.glb',
 	function (gltf){
 		TOWN_HALL_TEXTURE = gltf.scene
+		TOWN_HALL_TEXTURE.texturename = 'townhall'
+		CODE_TEXTURE_DICT['townhall'] = TOWN_HALL_TEXTURE
 	}
 )
 
@@ -27,6 +33,8 @@ var FARM_TEXTURE = null
 loader.load('/resources/buildings/farm.glb',
 	function (gltf){
 		FARM_TEXTURE = gltf.scene
+		FARM_TEXTURE.texturename = "FA"
+		CODE_TEXTURE_DICT["FA"] = FARM_TEXTURE
 	}
 )
 
@@ -36,6 +44,8 @@ var BARRACKS_TEXTURE = null
 loader.load('/resources/buildings/barracks.glb',
 	function (gltf){
 		BARRACKS_TEXTURE = gltf.scene
+		BARRACKS_TEXTURE.texturename = "BA"
+		CODE_TEXTURE_DICT["BA"] = BARRACKS_TEXTURE
 	}
 )
 
@@ -45,6 +55,8 @@ var FORGE_TEXTURE = null
 loader.load('/resources/buildings/forge.glb',
 	function (gltf){
 		FORGE_TEXTURE = gltf.scene
+		FORGE_TEXTURE.texturename = "FO"
+		CODE_TEXTURE_DICT["FO"] = FORGE_TEXTURE
 	}
 )
 
@@ -53,6 +65,8 @@ var ARMORY_TEXTURE = null
 loader.load('/resources/buildings/armory.glb',
 	function (gltf){
 		ARMORY_TEXTURE = gltf.scene
+		ARMORY_TEXTURE.texturename = "AM"
+		CODE_TEXTURE_DICT["AM"] = ARMORY_TEXTURE
 	}
 )
 
@@ -129,6 +143,39 @@ var subtile_building_offsets = {
 	"E3" : [0,    0.4],
 	"E4" : [0.2,  0.4],
 	"E5" : [0.4,  0.4],
+}
+
+
+var subtile_building_mesh_array = {
+	"A1" : null,
+	"A2" : null,
+	"A3" : null,
+	"A4" : null,
+	"A5" : null,
+
+	"B1" : null,
+	"B2" : null,
+	"B3" : null,
+	"B4" : null,
+	"B5" : null,
+
+	"C1" : null,
+	"C2" : null,
+	"C3" : null,
+	"C4" : null,
+	"C5" : null,
+
+	"D1" : null,
+	"D2" : null,
+	"D3" : null,
+	"D4" : null,
+	"D5" : null,
+
+	"E1" : null,
+	"E2" : null,
+	"E3" : null,
+	"E4" : null,
+	"E5" : null,
 }
 
 var subtile_unlocks = {
@@ -209,31 +256,58 @@ function createTileGrid(x, y, center = false){
 
 function showTileLevelInterface(){
 
-	pauseOrPlayGame()
+	//pauseOrPlayGame()
+
+	pauseGame()
 
 	if (isCityCenter(selectedcityid, selectedcitytilex, selectedcitytiley)){
 		var population = cities[selectedcityid].center.population
+		renderBuildingInSubtileView(CITY_HALL_TEXTURE, "C3")
 	}
 	else{
 		var population = cities[selectedcityid].tiles[selectedcitytilex + "_" + selectedcitytiley].population
+		renderBuildingInSubtileView(TOWN_HALL_TEXTURE, "C3")
 	}
 
 	var unlockedtiles = subtile_unlocks[Math.floor(population / 100) * 100]
 
-	console.log(unlockedtiles)
-	
 	in_tile_level_interface = true
-	var tbody = document.getElementById("tile_level_table").children[0]
+
+	for (var subtile of SUBTILE_LIST){
+		if (subtile == "C3"){
+			continue
+		}
+		tile_level_scene.remove(subtile_building_mesh_array[subtile])
+		subtile_building_mesh_array[subtile] = null
+	}
+
+
+	for (var tile of tile_level_interface_tile_list){
+		let unlocked = checkUnlockedSubTile(population, tile.subtileName)
+
+		if (unlocked){
+			tile.unlocked = true
+		}
+		if (unlocked || tile.subtileName == "C3"){
+			tile.material.color = new THREE.Color(getTileAt(selectedcitytilex, selectedcitytiley).material.color)
+		}
+		else{
+			tile.unlocked = false
+			tile.material.color = new THREE.Color(0x444444)
+		}
+	}
+
+
+	/*var tbody = document.getElementById("tile_level_table").children[0]
 
 	var col = getTileAt(selectedcitytilex, selectedcitytiley).material.color
 	var r = Math.round(col.r * 255)
 	var g = Math.round(col.g * 255)
 	var b = Math.round(col.b * 255)
 
-	tbody.style.backgroundColor = "rgb(" + r + ", " + g + ", " + b + ")"
+	tbody.style.backgroundColor = "rgb(" + r + ", " + g + ", " + b + ")"*/
 
-	document.getElementById("tile_level_interface").style.display = "initial"
-	document.getElementById("tile_level_interface").style.zIndex = "4"
+	unSelectSubtile()
 
 	if (getTileAt(selectedcitytilex, selectedcitytiley).tile_grid == undefined){
 		if (isCityCenter(selectedcityid, selectedcitytilex, selectedcitytiley)){
@@ -249,6 +323,17 @@ function showTileLevelInterface(){
 	var grid = maintile.tile_grid
 
 	for (var subtile of Object.keys(grid)){
+		if (grid[subtile].building == undefined){
+			continue
+		}
+		renderBuildingInSubtileView(CODE_TEXTURE_DICT[grid[subtile].building], subtile)
+	}
+
+	document.getElementById("tile_level_interface").style.display = "initial"
+	document.getElementById("tile_level_interface").style.zIndex = "4"
+
+
+	/*for (var subtile of Object.keys(grid)){
 		if (grid[subtile].building == undefined){
 			grid[subtile].building = "X"
 		}
@@ -273,11 +358,11 @@ function showTileLevelInterface(){
 				sel.style.display = "none"
 			}
 		}
-	}
+	}*/
 }
 
 function hideTileLevelInterface(){
-	pauseOrPlayGame()
+	playGame()
 	in_tile_level_interface = false
 	document.getElementById("tile_level_interface").style.display = "none"
 	document.getElementById("tile_level_interface").style.zIndex = "0"
@@ -308,20 +393,31 @@ function applyTileGridChanges(){
 		if (subtile == "C3"){
 			continue
 		}
-		var current_selected = document.getElementById("subtile_" + subtile).children[0].name
+		else{
+			if (subtile_building_mesh_array[subtile] == null || subtile_building_mesh_array[subtile] == undefined){
+				var current_selected = null
+			}
+			else{
+				var current_selected = subtile_building_mesh_array[subtile].texturename //document.getElementById("subtile_" + subtile).children[0].name
+			}
+		}
 
 		//skip if the building is the same
 		if (current_selected == grid[subtile].building){
 			continue
 		}
 
-		if (grid[subtile].building != "X"){
+		//check if building has been removed
+		if ((grid[subtile].building != null && grid[subtile].building != undefined) && (current_selected == null || current_selected == undefined)){
 			removeBuilding(subtile)
+			continue
 		}
 
 		grid[subtile].building = current_selected
 
 		renderBuilding(current_selected, subtile)
+
+		//subtile_building_mesh_array[subtile] = null
 	}
 }
 
@@ -384,7 +480,7 @@ function removeBuilding(subtile_code){
 }
 
 
-
+/*
 //add selectors to each subtile grid cell
 var sel = document.createElement('div')
 sel.style.position = "absolute"
@@ -475,16 +571,143 @@ for (var letter of letters){
 	}
 }
 
+*/
 
-/*var tile_level_scene = new THREE.Scene({canvas : tile_level_canvas})
-tile_level_scene.background = THREE.Color(0xddddcc)
+function subtileMouseClick(event){
+	var mouse = new THREE.Vector2()
+	var raycaster = new THREE.Raycaster();
+	var rect = tile_level_renderer.domElement.getBoundingClientRect();
+	mouse.x = ( (event.clientX - rect.left) / window.innerHeight ) * 2 - 1;
+	mouse.y = - ( event.clientY / window.innerHeight ) * 2 + 1;
 
-var tile_level_camera = new THREE.PerspectiveCamera( 45, width / height, 1, 50 );
+	// update the picking ray with the camera and mouse position
+	raycaster.setFromCamera( mouse, tile_level_camera );
+
+	// calculate objects intersecting the picking ray
+	var intersects = raycaster.intersectObjects( tile_level_scene.children, true );
+
+	for (var intersect of intersects){
+		if (intersect.object.subtileName != undefined && intersect.object.unlocked == true){
+			selectSubtile(intersect.object)
+		}
+	}
+
+}
+
+function selectSubtile(obj){
+	selectedsubtile = obj.subtileName
+	subtileoutline.position.x = obj.position.x//-subtile_building_offsets[selectedsubtile][0] * 5
+	subtileoutline.position.y = obj.position.y//-subtile_building_offsets[selectedsubtile][1] * 5
+	subtileoutline.visible = true
+}
+
+function unSelectSubtile(){
+	selectedsubtile = null
+	subtileoutline.visible = false
+}
+
+function renderBuildingInSubtileView(b_texture, subtile_code = ''){
+
+	if (b_texture == null || b_texture == undefined){
+		return
+	}
+
+	if (subtile_code == ''){
+		if (selectedsubtile == null || selectedsubtile == undefined){
+			return
+		}
+		subtile_code = selectedsubtile
+	}
+
+	removeBuildingInSubtileView(subtile_code)
+
+	var texture = b_texture.clone()
+	texture.texturename = b_texture.texturename
+
+	//texture.rotation.set(Math.PI / 2, 0, 0)
+
+	texture.scale.set(5, 5, 5)
+
+	texture.position.x = subtile_building_offsets[subtile_code][0] * 5
+	texture.position.y = -subtile_building_offsets[subtile_code][1] * 5
+
+	texture.rotation.set(Math.PI / 2, 0, 0)
+
+	tile_level_scene.add(texture)
+
+	subtile_building_mesh_array[subtile_code] = texture
+}
+
+function removeBuildingInSubtileView(subtile_code = ''){
+	if (subtile_code == ''){
+		subtile_code = selectedsubtile
+	}
+
+	if (subtile_building_mesh_array[subtile_code] != null){
+		tile_level_scene.remove(subtile_building_mesh_array[subtile_code])
+		subtile_building_mesh_array[subtile_code] = null
+	}
+
+}
+
+var tile_level_scene = new THREE.Scene({canvas : tile_level_canvas})
+tile_level_scene.background = new THREE.Color(0xddddcc)
+
+var tile_level_camera = new THREE.PerspectiveCamera( 45, 1, 1, 50 );
 var tile_level_renderer = new THREE.WebGLRenderer({antialias: true});
 
-renderer.setSize(width, height);
-document.getElementById('tile_level_canvas').appendChild(renderer.domElement);*/
+tile_level_camera.lookAt(0, 0, 0)
+tile_level_camera.position.set(0, 0, 10)
+
+tile_level_camera.lookAt(0, 10, 0)
+tile_level_camera.position.set(0, -6, 6)
+
+var geometry = new THREE.TorusGeometry( 0.5 * Math.sqrt(2, 1/2), 0.02, 8, 4 );
+var material = new THREE.MeshBasicMaterial( { color: 0xaa0000 } );
+var subtileoutline = new THREE.Mesh( geometry, material );
+subtileoutline.rotation.set(0, 0, Math.PI / 4)
+subtileoutline.visible = false
+tile_level_scene.add( subtileoutline );
 
 
+var subtile_light = new THREE.DirectionalLight( 0xffffff, 1.5 );
+subtile_light.position.set(0, -6, 6)
+subtile_light.target.position.set(0, 10, 0)
+tile_level_scene.add(subtile_light);
+tile_level_scene.add(subtile_light.target)
+
+var subtile_buildings_change_buffer = [[null, null, null, null, null], [null, null, null, null, null], [null, null, null, null, null], [null, null, null, null, null], [null, null, null, null, null]]
+
+var selectedsubtile = null
 
 
+tile_level_renderer.setSize(window.innerHeight, window.innerHeight);
+document.getElementById('tile_level_canvas').appendChild(tile_level_renderer.domElement);
+
+document.getElementById('tile_level_canvas').addEventListener('click', subtileMouseClick)
+
+var geometry = new THREE.PlaneGeometry(1, 1)
+var edges = new THREE.EdgesGeometry(geometry)
+var line = new THREE.LineSegments( edges, new THREE.LineBasicMaterial( { color: 0xffffff } ) );
+
+
+tile_level_interface_tile_list = []
+
+for (var y = -2; y <= 2; y++){
+	for (var x = -2; x <= 2; x++){
+		var subtile_index = ((x + 2) + ((-y + 2) * 5))
+
+		var tilematerial = new THREE.MeshBasicMaterial( {color: 0x228822} )
+		var mesh = new THREE.Mesh(geometry, tilematerial)
+		mesh.subtileName = SUBTILE_LIST[subtile_index]
+
+		mesh.position.set(x, y, 0)
+		tile_level_scene.add(mesh)
+
+		tile_level_interface_tile_list.push(mesh)
+
+		line.position.set(x, y, 0)
+		tile_level_scene.add(line.clone())
+
+	}
+}

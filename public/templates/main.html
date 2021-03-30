@@ -67,7 +67,7 @@
 			font-size: 2vh; 
 			color: #bbb; 
 			text-align: center; 
-			font-family: Courier; 
+			font-family: Lato; 
 			padding: 10px 10px; 
 			display: none;
 			overflow: auto;
@@ -362,99 +362,65 @@
 
 
 	<div id="tile_level_interface" style="position: fixed; left: 0%; top: 0%; width: 100%; height: 100%; z-index: 0; display: initial; background-color: #222">
+
+		<span style="position: absolute; left: 12.5%; top: 25%; width: auto; font-size: 2vh; font-family: Lato; color: #ffefef; transform: translate(-50%, 0);">Add Buildings</span>
+
+		<input class="button" type="button" id="subtile_building_select_FA" style="position: absolute; left: 12.5%; top: 30%; width: 50px; height: 50px; padding: 7px 10px; transform: translate(-50%, 0); background-size: 100%; background-image: url('/resources/building_icons/FA.png')" onclick="javascript:renderBuildingInSubtileView(FARM_TEXTURE)">
+
+		<input class="button" type="button" id="subtile_building_select_BA" style="position: absolute; left: 12.5%; top: 40%; width: 50px; height: 50px; padding: 7px 10px; transform: translate(-50%, 0); background-size: 100%; background-image: url('/resources/building_icons/BA.png')" onclick="javascript:renderBuildingInSubtileView(BARRACKS_TEXTURE)">
+
+		<input class="button" type="button" id="subtile_building_select_AM" style="position: absolute; left: 12.5%; top: 50%; width: 50px; height: 50px; padding: 7px 10px; transform: translate(-50%, 0); background-size: 100%; background-image: url('/resources/building_icons/AM.png')" onclick="javascript:renderBuildingInSubtileView(ARMORY_TEXTURE)">
+
+		<input class="button" type="button" id="subtile_building_select_FO" style="position: absolute; left: 12.5%; top: 60%; width: 50px; height: 50px; padding: 7px 10px; transform: translate(-50%, 0); background-size: 100%; background-image: url('/resources/building_icons/FO.png')" onclick="javascript:renderBuildingInSubtileView(FORGE_TEXTURE)">
+
+		<input class="button" type="button" id="subtile_building_select_FO" style="position: absolute; left: 12.5%; top: 70%; width: 50px; height: 50px; padding: 7px 10px; transform: translate(-50%, 0); background-size: 100%; background-image: url('/resources/building_icons/X.png')" onclick="javascript:removeBuildingInSubtileView()">
+
 		<input class="button" type="button" style="position: absolute; top: 0%; left: 0%; background-color: #bb6666; padding: 7px 10px" value="X" onclick="javascript:hideTileLevelInterface()">
 
-		<input class="button" type="button" style="position: absolute; top: 95%; left: 90%; background-color: #bb6666; padding: 7px 10px" value="Apply Changes" onclick="javascript:applyTileGridChanges()">
+		<input class="button" type="button" style="position: absolute; top: 95%; left: 93%; background-color: #bb6666; padding: 7px 10px; font-size: 1.1vh" value="Apply Changes" onclick="javascript:applyTileGridChanges()">
 
-		<div id="tile_level_canvas">
+
+		<div id="tile_level_info" style="position: absolute; top: 50%; left: 80%; width: 10%; height: auto; transform: translate(0%, -50%); font-family: Lato; color: #ffefef; font-size: 1.4vh; overflow: auto">
+
+			This is the tile-level management screen. Here, you can add buildings to your tile. Based on how much population your tile has, you will be able to add buildings to more of these "sub-tiles" - below is an explanation of the buildings you can add.<br><br>
+
+
+			<span style="font-size: 2vh">
+				<input class="button" type="button" style="width: 50px; height: 50px; padding: 7px 10px; background-size: 100%; background-image: url('/resources/building_icons/FA.png')">
+				<br>
+				Farm
+			</span><br>
+
+			&nbsp;&nbsp;&nbsp;&nbsp;Each farm allows your population to grow an additional 4% beyond what it would usually grow to, provided just the food from the tile.<br><br>
+
+			<span style="font-size: 2vh">
+				<input class="button" type="button" style="width: 50px; height: 50px; padding: 7px 10px; background-size: 100%; background-image: url('/resources/building_icons/BA.png')">
+				<br>
+				Barracks
+			</span><br>
+
+			&nbsp;&nbsp;&nbsp;&nbsp;Each Barracks employs 4% of your tile's population to contribute to the production of military units.<br><br>
+
+			<span style="font-size: 2vh">
+				<input class="button" type="button" style="width: 50px; height: 50px; padding: 7px 10px; background-size: 100%; background-image: url('/resources/building_icons/AM.png')">
+				<br>
+				Armory
+			</span><br>
+
+			&nbsp;&nbsp;&nbsp;&nbsp;Each Armory employs 2% of your tile's population to contribute to the production of regular (non-military) units, and 2% to contribute to the production of military units.<br><br>
+
+			<span style="font-size: 2vh">
+				<input class="button" type="button" style="width: 50px; height: 50px; padding: 7px 10px; background-size: 100%; background-image: url('/resources/building_icons/FO.png')">
+				<br>
+				Forge
+			</span><br>
+
+			&nbsp;&nbsp;&nbsp;&nbsp;Each Forge employs 3% of your tile's population to contribute to the production of regular (non-military) units, and 1% to contribute to the production of military units.<br><br>
+
 		</div>
 
-		<table id="tile_level_table" style="position: absolute; left: 50%; top: 50%; height: 100vh; width: 100vh; transform: translate(-50%, -50%); border-spacing: 0vh 0vh; border-collapse: collapse;">
-			<tr>
-				<td id="subtile_A1" style="position: relative;">
-				</td>
-
-				<td id="subtile_A2" style="position: relative;">
-				</td>
-
-				<td id="subtile_A3" style="position: relative;">
-				</td>
-
-				<td id="subtile_A4" style="position: relative;">
-				</td>
-
-				<td id="subtile_A5" style="position: relative;">
-				</td>
-			</tr>
-
-			<tr>
-				<td id="subtile_B1" style="position: relative;">
-				</td>
-
-				<td id="subtile_B2" style="position: relative;">
-				</td>
-
-				<td id="subtile_B3" style="position: relative;">
-				</td>
-
-				<td id="subtile_B4" style="position: relative;">
-				</td>
-
-				<td id="subtile_B5" style="position: relative;">
-				</td>
-			</tr>
-
-			<tr>
-				<td id="subtile_C1" style="position: relative;">
-				</td>
-
-				<td id="subtile_C2" style="position: relative;">
-				</td>
-
-				<td id="subtile_C3" style="position: relative;">
-				</td>
-
-				<td id="subtile_C4" style="position: relative;">
-				</td>
-
-				<td id="subtile_C5" style="position: relative;">
-				</td>
-			</tr>
-
-			<tr>
-				<td id="subtile_D1" style="position: relative;">
-				</td>
-
-				<td id="subtile_D2" style="position: relative;">
-				</td>
-
-				<td id="subtile_D3" style="position: relative;">
-				</td>
-
-				<td id="subtile_D4" style="position: relative;">
-				</td>
-
-				<td id="subtile_D5" style="position: relative;">
-				</td>
-			</tr>
-
-			<tr>
-				<td id="subtile_E1" style="position: relative;">
-				</td>
-
-				<td id="subtile_E2" style="position: relative;">
-				</td>
-
-				<td id="subtile_E3" style="position: relative;">
-				</td>
-
-				<td id="subtile_E4" style="position: relative;">
-				</td>
-
-				<td id="subtile_E5" style="position: relative;">
-				</td>
-			</tr>
-		</table>
+		<div id="tile_level_canvas" style="position: fixed; left: 50%; top: 50%; height: 100vh; width: 100vh; transform: translate(-50%, -50%)">
+		</div>
 
 	</div>
 
@@ -653,6 +619,7 @@
 <script src="/js/initialization.js"></script>
 <script src="/js/mousehandler.js"></script>
 <script src="/js/tilelevelutils.js"></script>
+<script src="/js/borderutils.js"></script>
 
 <script src="/js/socket.io.js"></script>
 
@@ -951,7 +918,7 @@
 			var forges_boost = buildingBoosts[2]
 
 			var mil_boost = barracks_boost + (armories_boost / 2) + (forges_boost / 4)
-			var reg_boost = forges_boost + (armories_boost / 2)
+			var reg_boost = (forges_boost * 3 / 4) + (armories_boost / 2)
 
 			if (cities[cityidx].producing["mil"] != null){
 				cities[cityidx].production_progress["mil"] += mil_boost
@@ -1398,6 +1365,8 @@
 			}
 		}
 
+		modifyTileBordersOnExpand(x, y, targetx, targety, self)
+
 		checkAndLoad(targetx, targety, self)
 
 		if (self){
@@ -1577,6 +1546,8 @@
 			this_city.owner = 'self'
 			showCityNamePanel(id)
 		}
+
+		drawTileBorders(this_city.center.x, this_city.center.y, [1, 2, 3, 4], !already_named)
 	}
 
 
@@ -1819,8 +1790,15 @@
 		if (naming_city){
 			return
 		}
-		var cameramovement = 0.6
+
 		var code = e.keyCode
+
+		if (in_tile_level_interface){
+			unSelectSubtile()
+			return
+		}
+
+		var cameramovement = 0.6
 		var realign = false;
 		if (cameralooking == 'back'){
 			cameramovement *= -1
@@ -1942,84 +1920,87 @@
 	var decel_amt = 0.05
 	var paused = false
 	function animate() {
-
-		var cameramovement = 0.15
-
-		if (cameralooking == 'back'){
-			cameramovement *= -1
-		}
-
-		if (leftarrowdown){
-			cameravelocity.x -= cameramovement
-			//camera.position.x -= cameramovement
-		}
-		if (rightarrowdown){
-			cameravelocity.x += cameramovement
-			//camera.position.x += cameramovement
-		}
-		if (uparrowdown){
-			cameravelocity.y += cameramovement
-			//camera.position.y += cameramovement
-		}
-		if (downarrowdown){
-			cameravelocity.y -= cameramovement
-			//camera.position.y -= cameramovement
-		}
-
-
-		var xcammod = cameravelocity.x * 0.1
-		var ycammod = cameravelocity.y * 0.1
-		camera.position.x += xcammod
-		camera.position.y += ycammod
-
-
-		//deal with deceleration of camera
-		var x_vel_sign = 1
-		var y_vel_sign = 1
-		if (cameravelocity.x != 0){
-			x_vel_sign = cameravelocity.x / Math.abs(cameravelocity.x)
-		}
-		if (cameravelocity.y != 0){
-			y_vel_sign = cameravelocity.y / Math.abs(cameravelocity.y)
-		}
-
-		var x_temp_vel = Math.abs(cameravelocity.x) - decel_amt
-		var y_temp_vel = Math.abs(cameravelocity.y) - decel_amt
-
-		if (x_temp_vel < 0){
-			x_temp_vel = 0
-		}
-
-		if (y_temp_vel < 0){
-			y_temp_vel = 0
-		}
-
-		cameravelocity.x = x_temp_vel * x_vel_sign
-		cameravelocity.y = y_temp_vel * y_vel_sign
-
-
-		//cameravelocity.x += (-cameravelocity.x) * 0.1
-		//cameravelocity.y += (-cameravelocity.y) * 0.1
-
-		//controls.update();
-
-		directionalLight_fromSouth.position.set(camera.position.x, camera.position.y, ground_z + light_z_offset)
-		if (cameralooking == 'front'){
-			directionalLight_fromSouth.target.position.set(camera.position.x, camera.position.y + 5, ground_z)
-		}
-		else{
-			directionalLight_fromSouth.target.position.set(camera.position.x, camera.position.y - 5, ground_z)
-		}
-		//scene.add(directionalLight_fromSouth);
-		//scene.add(directionalLight_fromSouth.target)
-
-		renderer.render( scene, camera );
-
-		updateCityLabels()
-
 		if (!paused){
-			requestAnimationFrame( animate );
+			var cameramovement = 0.15
+
+			if (cameralooking == 'back'){
+				cameramovement *= -1
+			}
+
+			if (leftarrowdown){
+				cameravelocity.x -= cameramovement
+				//camera.position.x -= cameramovement
+			}
+			if (rightarrowdown){
+				cameravelocity.x += cameramovement
+				//camera.position.x += cameramovement
+			}
+			if (uparrowdown){
+				cameravelocity.y += cameramovement
+				//camera.position.y += cameramovement
+			}
+			if (downarrowdown){
+				cameravelocity.y -= cameramovement
+				//camera.position.y -= cameramovement
+			}
+
+
+			var xcammod = cameravelocity.x * 0.1
+			var ycammod = cameravelocity.y * 0.1
+			camera.position.x += xcammod
+			camera.position.y += ycammod
+
+
+			//deal with deceleration of camera
+			var x_vel_sign = 1
+			var y_vel_sign = 1
+			if (cameravelocity.x != 0){
+				x_vel_sign = cameravelocity.x / Math.abs(cameravelocity.x)
+			}
+			if (cameravelocity.y != 0){
+				y_vel_sign = cameravelocity.y / Math.abs(cameravelocity.y)
+			}
+
+			var x_temp_vel = Math.abs(cameravelocity.x) - decel_amt
+			var y_temp_vel = Math.abs(cameravelocity.y) - decel_amt
+
+			if (x_temp_vel < 0){
+				x_temp_vel = 0
+			}
+
+			if (y_temp_vel < 0){
+				y_temp_vel = 0
+			}
+
+			cameravelocity.x = x_temp_vel * x_vel_sign
+			cameravelocity.y = y_temp_vel * y_vel_sign
+
+
+			//cameravelocity.x += (-cameravelocity.x) * 0.1
+			//cameravelocity.y += (-cameravelocity.y) * 0.1
+
+			//controls.update();
+
+			directionalLight_fromSouth.position.set(camera.position.x, camera.position.y, ground_z + light_z_offset)
+			if (cameralooking == 'front'){
+				directionalLight_fromSouth.target.position.set(camera.position.x, camera.position.y + 5, ground_z)
+			}
+			else{
+				directionalLight_fromSouth.target.position.set(camera.position.x, camera.position.y - 5, ground_z)
+			}
+			//scene.add(directionalLight_fromSouth);
+			//scene.add(directionalLight_fromSouth.target)
+
+			renderer.render( scene, camera );
+
+			updateCityLabels()
 		}
+
+		if (in_tile_level_interface){
+			tile_level_renderer.render( tile_level_scene, tile_level_camera)
+		}
+
+		requestAnimationFrame( animate );
 	}
 
 	var done_init = false
