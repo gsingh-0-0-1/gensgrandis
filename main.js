@@ -295,6 +295,22 @@ app.get("/", (req, res) => {
 	res.sendFile("public/templates/landing.html", {root: __dirname})
 })
 
+app.get("/about", (req, res) => {
+	res.sendFile("public/templates/about.html", {root: __dirname})
+})
+
+app.get("/dev", (req, res) => {
+	res.sendFile("public/templates/dev.html", {root: __dirname})
+})
+
+app.get("/changelog", (req, res) => {
+	res.sendFile("public/templates/changelog.html", {root: __dirname})
+})
+
+app.get("/gitlog", (req, res) => {
+	res.sendFile("gitlog.txt", {root: __dirname})
+})
+
 /*app.get("/funds", (req, res) => {
 	res.sendFile("public/templates/funds.html", {root: __dirname})
 })*/
