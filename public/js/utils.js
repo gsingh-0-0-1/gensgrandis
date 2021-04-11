@@ -303,7 +303,14 @@ function hideCitySidebar(){
 function handleCityNameInput(event){
 	if (event.keyCode == enterkeycode){
 		let name = document.getElementById("city_name_input_box").value
-		name = name.replaceAll('"', '').replaceAll("'", '').replaceAll(" ", '');
+		name = name.replaceAll('"', '').replaceAll("'", '');
+
+		if (name.replaceAll(" ", '') === ''){
+			return
+		}
+		if (name[0] == ''){
+			return
+		}
 
 		if (name.length < 1){
 			return
@@ -396,7 +403,7 @@ function updateCityLabels(show=false){
 			d.style.backgroundColor = "#aa7710"
 			d.style.borderRadius = "2px"
 
-			d.style.width = city.name.length * 10 + "px"
+			d.style.width = "auto"
 
 			d.style.position = "fixed"
 			d.style.zIndex = 1

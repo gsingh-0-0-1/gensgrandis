@@ -1,0 +1,173 @@
+<!-- Copyright (C) Gurmehar Singh 2020 - All Rights Reserved
+/* Unauthorized copying or distribution of this file, via any medium is strictly prohibited
+/* Proprietary and confidential
+/* Written by Gurmehar Singh <gurmehar@gmail.com>
+/-->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta name="google-site-verification" content="Wm67db8wTj_MDhFfzwgS_BhR0QvqpNc2fhla6nQm51w" />
+	<meta charset="UTF-8">
+
+	<title>Gēns Grandis</title>
+
+	<link href="https://fonts.googleapis.com/css2?family=Lato:wght@300&display=swap" rel="stylesheet">
+
+	<style>
+		body{
+			background-color: #222;
+			color: #ccc;
+			font-family: Lato;
+			font-size: 20px;
+		}
+		.chatbuttondiv{
+			position: fixed;
+			left: 60%;
+			top: 10%;
+			width: 40%;
+			height: 90%;
+		}
+
+		.input{
+			border: none; 
+			padding: 0.1rem 1rem; 
+			flex-grow: 1; 
+			margin: 0.05rem; 
+		}
+
+		.input:focus{
+			outline: none; 
+		}
+
+		.multibuttons > span:nth-of-type(1n) {background-color: #bb8181;}
+		.multibuttons > span:nth-of-type(2n) {background-color: #81bb81;}
+		.multibuttons{
+			text-align: center;
+		}
+
+		.roombutton:focus{
+			filter: brightness(110%);
+			outline: none;
+		}
+
+
+		ul {
+			font-family: Times;
+			position: relative;
+			list-style-type: none;
+			margin: 0;
+			padding: 0;
+			overflow: hidden;
+			background-color: #333;
+			z-index: 3;
+		}
+
+		li {
+			float: left;
+		}
+
+		li a {
+			display: block;
+			color: white;
+			text-align: center;
+			padding: 14px 16px;
+			text-decoration: none;
+		}
+
+		li a:hover {
+			background-color: #111;
+		}
+
+		/* width */
+		::-webkit-scrollbar {
+			width: 10px;
+		}
+
+		/* Track */
+		::-webkit-scrollbar-track {
+			background: #555;
+		}
+
+		/* Handle */
+		::-webkit-scrollbar-thumb {
+			background: #999;
+		}
+
+		/* Handle on hover */
+		::-webkit-scrollbar-thumb:hover {
+			background: #9f9f9f;
+		}
+
+		.descriptioncontainer{
+			position: absolute;
+			font-size: 2vh;
+			padding: 1.1vh 1.1vh;
+			border-radius: 1.1vh;
+		}
+	</style>
+</head>
+<body>
+
+	<ul>
+		<li><a href="/">Home</a></li>
+		<li><a href="/about" style="background-color: #777">About</a></li>
+		<li><a href="/dev">Development</a></li>
+		<li><a href="/changelog">Changelog</a></li>
+	</ul>
+
+	<br>
+
+	</span>
+	<div style="position: absolute; width: 100%; height: 100%; overflow: auto; left: 50%; top: 10%; transform: translate(-50%, 0); font-size: 2.1vh">
+		<span style="position: absolute; left: 50%; transform: translate(-50%, 0); background-color: #8b8; color: #000; padding: 1vh 1vh">
+			So, what exactly is this game?
+		</span>
+
+		<span class="descriptioncontainer" style="left: 30%; top: 7%; transform: translate(-50%, 0); background-color: #b88; color: #000; width: 15%">
+			Well, it's like a sandbox game - but it involves planning and strategy to achieve some goals.
+		</span>
+
+		<span class="descriptioncontainer" style="left: 70%; top: 12%; transform: translate(-50%, 0); background-color: #88b; color: #000; width: 15%">
+			Your people start off in a world full of grasslands, forests, hills, and rivers. You'll explore, and maybe settle down to create a city.
+		</span>
+			
+		<span class="descriptioncontainer" style="left: 15%; top: 30%; transform: translate(-50%, 0); background-color: #8b8; color: #000; width: 15%">
+			As you create more units and gain population, and as your city expands, you'll explore more of your world.
+		</span>
+
+		<span class="descriptioncontainer" style="left: 85%; top: 35%; transform: translate(-50%, 0); background-color: #b88; color: #000; width: 15%">
+			You might encounter other players; you might create new cities, trade with others, and guard your borders.
+		</span>
+
+		<span class="descriptioncontainer" style="left: 15%; top: 55%; transform: translate(-50%, 0); background-color: #88b; color: #000; width: 15%">
+			You'll also customize your tiles, adding buildings to make them better at one thing or another.
+		</span>
+
+		<span class="descriptioncontainer" style="left: 50%; top: 75%; transform: translate(-50%, 0); background-color: #88b; color: #000; width: 15%">
+			But from there, it's sort of up to you! And as the game continues to develop, you'll be able to do more and more both in singleplayer and multiplayer.
+		</span>
+
+		<div style="position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); background-image: url('resources/screenshots/ss1.png'); background-size: 100%">
+			<img src="resources/screenshots/ss1.png" style="visibility: hidden; max-width: 100%; height: auto; width: auto\9" />
+		</div>
+	</div>
+
+	<div style="position: absolute; width: 80%; height: 10%; top: 110%; left: 50%; transform: translate(-50%, 0); background-color: transparent;">
+	</div>
+
+	<div style="position: absolute; font-size: 20px; color: #999; top: 8.5%; right: 1%; font-family: Lato;">
+		Developed by: Gurmehar Singh<br>
+		(gensgrandis@gmail.com)
+	</div>
+
+	<br>
+	<br>
+
+</body>
+
+<script src="/js/socket.io.js"></script>
+
+<script>
+</script>
+</html>

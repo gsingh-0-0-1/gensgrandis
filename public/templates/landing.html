@@ -12,11 +12,13 @@
 
 	<title>Gēns Grandis</title>
 
+	<link href="https://fonts.googleapis.com/css2?family=Lato:wght@300&display=swap" rel="stylesheet">
+
 	<style>
 		body{
 			background-color: #222;
 			color: #ccc;
-			font-family: Courier;
+			font-family: Lato;
 			font-size: 20px;
 		}
 		.chatbuttondiv{
@@ -82,8 +84,10 @@
 <body>
 
 	<ul>
-		<li><a class="active" href="/">Home</a></li>
-		<!--<li><a href="/funds">Funds</a></li>-->
+		<li><a href="/" style="background-color: #777">Home</a></li>
+		<li><a href="/about">About</a></li>
+		<li><a href="/dev">Development</a></li>
+		<li><a href="/changelog">Changelog</a></li>
 	</ul>
 
 	<br>
@@ -91,21 +95,21 @@
 	<span class="roombutton" type="button" id="buttontemplate" style="display: none; color: #222; font-family: Courier; font-size: 20px; border: none; padding: 5px 5px; position: relative;" onclick="javascript:handleButton(this)">
 	</span>
 	<div style="width: 60%">
-		<span style="font-size: 30px; color: #bb9191">Welcome to Gēns Grandis!</span>
+		<span style="font-size: 30px; color: #bb9191">Welcome to Gens Grandis!</span>
 		<br>
 		<br>
-		Thanks for playing! This game was inspired both by Minecraft and Civilization IV, and aims to combine elements of both to create a strategy-oriented but also sandbox-style game.
+		Hi there, great to see you here! Gens Grandis is a strategy-oriented and sandbox-style game that runs entirely in your browser.
 		<br><br>
-		We aren't running ads just yet - our goal is to get a critical mass of users using the website, at which point we can enable ads. <!--Half of all the ad revenue this game makes will be donated to various charities and initiatives - you can see a list of charities that we plan to donate to on our "Funds" page.-->
+		If you've never played the game before, go ahead and start with Singleplayer - it'll give you a short tutorial of how the game basics. From there, you can keep exploring the game interface in singleplayer, or move to multiplayer with some friends.
 		<br><br>
-		If you've never played the game before, go ahead and start with Singleplayer - it'll give you a tutorial of how the game works. From there, you can keep playing singleplayer, or move to multiplayer if you've got some friends to play with.
+		I hope you'll consider giving the <a href="/about" style="color: #88b">About</a> page a look - there's some information there you'll be interested in.
 		<br><br>
-		And, last but not least, I'd like to mention - this game is very much under development. There might be some bugs here and there - after all, this is effectively a public beta - but I've run as many tests as I can, and I'm confident that it should be relatively stable. Additionally, as this expands, I won't be able to do everything by myself - if you've got experience with Blender or frontend/UI design, or if you think you can contribute in any way to this effort, please feel free to join our discord (<a href="https://discord.gg/47QQtwFeYu" style="color: #9999a1" target="_blank">https://discord.gg/47QQtwFeYu</a>) or shoot me an email. Who knows, maybe you'll get a cut of that sweet ad revenue &#128521;.
+		And, last but not least, I'd like to mention - this game is very much under development. There might be some bugs here and there - after all, this is effectively a public beta - but I've run as many tests as I can, and I'm confident that it should be relatively stable. Additionally, as this expands, I won't be able to do everything by myself - if you've got experience with Blender or frontend/UI design, or if you think you can contribute in any way to this effort, please feel free to join our discord (<a href="https://discord.gg/47QQtwFeYu" style="color: #9999a1" target="_blank">https://discord.gg/47QQtwFeYu</a>) or shoot me an email. Who knows, maybe you'll get a cut of that sweet ad revenue. &#128521;
 		<br><br>
-		Thanks again, and I hope you enjoy the game!
+		Thanks again - I hope you enjoy the game!
 	</div>
 
-	<div style="position: fixed; font-size: 20px; color: #999; bottom: 1%; right: 1%; font-family: Courier;">
+	<div style="position: fixed; font-size: 20px; color: #999; bottom: 1%; right: 1%; font-family: Lato;">
 		Developed by: Gurmehar Singh<br>
 		(gensgrandis@gmail.com)
 	</div>
@@ -114,7 +118,7 @@
 	<br>
 
 	<form action="/game">
-		<input type="Submit" style="display: inline-block; background-color: #88b; color: #fff; padding: 15px 15px; font-size: 20px; font-family: Courier" value="Play Singleplayer >>">
+		<input type="Submit" style="display: inline-block; background-color: #88b; color: #fff; padding: 15px 15px; font-size: 20px; font-family: Lato" value="Play Singleplayer >>">
 	</form>
 
 

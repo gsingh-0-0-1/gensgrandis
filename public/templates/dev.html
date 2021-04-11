@@ -1,0 +1,214 @@
+<!-- Copyright (C) Gurmehar Singh 2020 - All Rights Reserved
+/* Unauthorized copying or distribution of this file, via any medium is strictly prohibited
+/* Proprietary and confidential
+/* Written by Gurmehar Singh <gurmehar@gmail.com>
+/-->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta name="google-site-verification" content="Wm67db8wTj_MDhFfzwgS_BhR0QvqpNc2fhla6nQm51w" />
+	<meta charset="UTF-8">
+
+	<title>Gēns Grandis</title>
+
+	<link rel="preconnect" href="https://fonts.gstatic.com">
+	<link href="https://fonts.googleapis.com/css2?family=Lato:wght@300&display=swap" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css2?family=Source+Code+Pro:wght@300&display=swap" rel="stylesheet">
+
+	<style>
+		body{
+			background-color: #222;
+			color: #ccc;
+			font-family: Lato;
+			font-size: 20px;
+		}
+		.chatbuttondiv{
+			position: fixed;
+			left: 60%;
+			top: 10%;
+			width: 40%;
+			height: 90%;
+		}
+
+		.input{
+			border: none; 
+			padding: 0.1rem 1rem; 
+			flex-grow: 1; 
+			margin: 0.05rem; 
+		}
+
+		.input:focus{
+			outline: none; 
+		}
+
+		.multibuttons > span:nth-of-type(1n) {background-color: #bb8181;}
+		.multibuttons > span:nth-of-type(2n) {background-color: #81bb81;}
+		.multibuttons{
+			text-align: center;
+		}
+
+		.roombutton:focus{
+			filter: brightness(110%);
+			outline: none;
+		}
+
+
+		ul {
+			font-family: Times;
+			position: relative;
+			list-style-type: none;
+			margin: 0;
+			padding: 0;
+			overflow: hidden;
+			background-color: #333;
+			z-index: 3;
+		}
+
+		li {
+			float: left;
+		}
+
+		li a {
+			display: block;
+			color: white;
+			text-align: center;
+			padding: 14px 16px;
+			text-decoration: none;
+		}
+
+		li a:hover {
+			background-color: #111;
+		}
+
+		/* width */
+		::-webkit-scrollbar {
+			width: 10px;
+		}
+
+		/* Track */
+		::-webkit-scrollbar-track {
+			background: #555;
+		}
+
+		/* Handle */
+		::-webkit-scrollbar-thumb {
+			background: #999;
+		}
+
+		/* Handle on hover */
+		::-webkit-scrollbar-thumb:hover {
+			background: #9f9f9f;
+		}
+
+		.spacer{
+			position: relative; 
+			width: 20%; 
+			left: 50%; 
+			height: auto; 
+			transform: translate(-50%, 0); 
+			background-color: transparent; 
+			color: transparent;
+		}
+	</style>
+</head>
+<body>
+
+	<ul>
+		<li><a href="/">Home</a></li>
+		<li><a href="/about">About</a></li>
+		<li><a href="/dev" style="background-color: #777">Development</a></li>
+		<li><a href="/changelog">Changelog</a></li>
+	</ul>
+
+	<br>
+
+	<div class="spacer" style="font-size: 3vh">
+		Filler
+	</div>
+
+	<div id="whytext" style="position: relative; width: 20%; left: 50%; height: auto; transform: translate(-50%, 0); font-size: 1.7vw; background-color: #8888de; color: #444; text-align: center; padding: 1vh 1vh; font-family: Source Code Pro">
+		001010101101010101
+	</div>
+
+	<div class="spacer" style="font-size: 3vh">
+		Filler
+	</div>
+
+	<div style="position: relative; width: 50%; left: 50%; height: auto; transform: translate(-50%, 0); font-size: 1.8vh; background-color: #99d; color: #000; padding: 1.5vh 1.5vh">
+		It's definitely going to be a common question - why develop this game?
+		<br><br>
+		Well, I've had the idea for quite some time - since I was around 11 or 12. But I didn't pick up the necessary skills to implement a functional, usable version until recently.
+		<br><br>
+		In addition, I wanted to create the game in a way that would prevent extreme centralization and allow users to have more control over the game's functionality.
+		<br><br>
+		Thus, I've chosen to put the majority of the game handling code is client-side, which allows the game's servers to host a much larger number of clients than it would be able to otherwise.
+		<br><br>
+		However, the unique part about this is that the client-side nature of the game logic won't actually compromise multiplayer gameplay - using the server as a middle-man, game clients can communicate and verify game data by themselves, without the need of the server.
+		<br><br>
+		This, again, allows the game to be served to a large number of clients while keeping server-side load relatively low.
+	</div>
+
+	<div class="spacer" style="font-size: 3vh">
+		Filler
+	</div>
+
+	<div style="position: relative; width: 50%; left: 50%; height: auto; transform: translate(-50%, 0); font-size: 1.8vh; background-color: #77ad77; color: #000; padding: 1.5vh 1.5vh">
+		The most important part, though, is that this serves as a demonstration that games of decent complexity can be served to clients without them having to do anything - you don't have to download a file or install dependencies; you don't have to care about what OS you're using; you just need to type <a href="/">gensgrandis.com</a> into your browser.
+		<br><br>
+		And above all, the game's logic is all available to clients - if you want to modify the game in any way - adding units, modiyfing bonuses - all you have to do is write that code, host it somewhere, and load it in through your browser's console. And you can do this both with singleplayer and multiplayer, all without compromising the integrity of the game's data!
+	</div>
+
+	<div style="position: absolute; font-size: 20px; color: #999; top: 8.5%; right: 1%; font-family: Lato;">
+		Developed by: Gurmehar Singh<br>
+		(gensgrandis@gmail.com)
+	</div>
+
+	<br>
+	<br>
+
+</body>
+<script>
+	var whytextdiv = document.getElementById("whytext")
+
+	var init_whytext = '001010101101010101'
+
+	var whytexts = {
+		0 : init_whytext,
+		1 : '00101011010101',
+		2 : '001010w10101',
+		3 : '0101.0h010',
+		4 : '010.wh010',
+		5 : '01..why0',
+		6 : '0.0why1',
+		7 : '0..why?',
+		8 : '...why?',
+	}
+
+	var whytextdelays = {
+		0 : 150,
+		1 : 150,
+		2 : 120,
+		3 : 100,
+		4 : 90,
+		5 : 60,
+		6 : 30,
+		7 : 10,
+		8 : 1
+	}
+
+	function revealText(i){
+		whytextdiv.textContent = whytexts[i]
+		if (i + 1 > 8){
+			return
+		}
+		setTimeout(function(){
+			revealText(i + 1)
+		}, whytextdelays[i])
+	}
+
+	revealText(0)
+
+
+</script>
+</html>
