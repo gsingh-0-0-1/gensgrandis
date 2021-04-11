@@ -211,9 +211,12 @@
 			<div id="city_info_sidebar_selected_food" style="padding-left: 20px">
 			</div>
 
+			<div id="city_info_sidebar_selected_farm_food" style="padding-left: 20px">
+			</div>
+
 		</div>
 
-		<div id="city_info_sidebar_expand" class="city_sidebar_small_cont" style="top: 25%; left: 7%">
+		<div id="city_info_sidebar_expand" class="city_sidebar_small_cont" style="top: 27%; left: 7%">
 			Expand City...
 
 			<br>
@@ -226,24 +229,24 @@
 					<tr>
 						<td></td>
 						<td>
-							<input class="button" type="button" value="N" style="font-size: 16px; font-family: Lato; background-color: #8c1a1a; padding: 5px 5px" onclick="javascript:expandCity([0, 1])">
+							<input class="button" type="button" value="N" style="font-size: 1vh; font-family: Lato; background-color: #8c1a1a; padding: 0.4vh 0.4vh" onclick="javascript:expandCity([0, 1])">
 						</td>
 						<td></td>
 					</tr>
 
 					<tr>
 						<td>
-							<input class="button" type="button" value="W" style="font-size: 16px; font-family: Lato;background-color: #8c8c1a; padding: 5px 5px" onclick="javascript:expandCity([-1, 0])">
+							<input class="button" type="button" value="W" style="font-size: 1vh; font-family: Lato;background-color: #8c8c1a; padding: 0.4vh 0.4vh" onclick="javascript:expandCity([-1, 0])">
 						</td>
 						<td></td>
 						<td>
-							<input class="button" type="button" value="E" style="font-size: 16px; font-family: Lato;background-color: #1a1a8c; padding: 5px 5px" onclick="javascript:expandCity([1, 0])">	
+							<input class="button" type="button" value="E" style="font-size: 1vh; font-family: Lato;background-color: #1a1a8c; padding: 0.4vh 0.4vh" onclick="javascript:expandCity([1, 0])">	
 						</td>
 					</tr>
 					<tr>
 						<td></td>
 						<td>
-							<input class="button" type="button" value="S" style="font-size: 16px; font-family: Lato;background-color: #1a8c1a; padding: 5px 5px" onclick="javascript:expandCity([0, -1])">
+							<input class="button" type="button" value="S" style="font-size: 1vh; font-family: Lato;background-color: #1a8c1a; padding: 0.4vh 0.4vh" onclick="javascript:expandCity([0, -1])">
 						</td>
 						<td></td>
 					</tr>
@@ -380,7 +383,7 @@
 		<input class="button" type="button" style="position: absolute; top: 95%; left: 93%; background-color: #bb6666; padding: 7px 10px; font-size: 1.1vh" value="Apply Changes" onclick="javascript:applyTileGridChanges()">
 
 
-		<div id="tile_level_info" style="position: absolute; top: 50%; left: 80%; width: 10%; height: auto; transform: translate(0%, -50%); font-family: Lato; color: #ffefef; font-size: 1.4vh; overflow: auto">
+		<div id="tile_level_info" style="position: absolute; top: 50%; left: 80%; width: 10%; height: auto; transform: translate(0%, -50%); font-family: Lato; color: #ffefef; font-size: 1.2vh; overflow: auto">
 
 			This is the tile-level management screen. Here, you can add buildings to your tile. Based on how much population your tile has, you will be able to add buildings to more of these "sub-tiles" - below is an explanation of the buildings you can add.<br><br>
 
@@ -1916,6 +1919,25 @@
 		else if (!paused){
 			pauseGame()
 		}
+	}
+
+
+	window.addEventListener( 'resize', onWindowResize, false );
+
+	var resize_timeout;
+
+	function onWindowResize(){
+
+		clearTimeout(resize_timeout)
+
+		resize_timeout = setTimeout(function(){
+		    tile_level_renderer.setSize( window.innerHeight, window.innerHeight );
+
+		    camera.aspect = window.innerWidth / window.innerHeight;
+		    camera.updateProjectionMatrix();
+
+		    renderer.setSize( window.innerWidth, window.innerHeight )
+		}, 150)
 	}
 
 	var decel_amt = 0.05

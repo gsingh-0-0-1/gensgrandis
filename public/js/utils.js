@@ -241,6 +241,7 @@ function showCitySidebar(this_city_ID, tilex, tiley){
 	document.getElementById("city_info_sidebar_selected_loc_y").innerHTML = "Y: " + tiley
 
 	document.getElementById("city_info_sidebar_selected_food").innerHTML = "Tile Food: " + Math.round(getTileAt(selectedcitytilex, selectedcitytiley).basefood, 2)
+	document.getElementById("city_info_sidebar_selected_farm_food").innerHTML = "Farm Food: " + Math.round(getTileFarmFood(selectedcitytilex, selectedcitytiley), 2)
 
 	document.getElementById("city_info_sidebar_selected_pop").innerHTML = "Population: "
 
@@ -412,8 +413,8 @@ function updateCityLabels(show=false){
 		}
 
 		pos.project( camera );
-		pos.x = Math.round(( pos.x + 1) * width / 2);
-		pos.y = Math.round(- ( pos.y - 1) * height / 2);
+		pos.x = Math.round(( pos.x + 1) * window.innerWidth / 2);
+		pos.y = Math.round(- ( pos.y - 1) * window.innerHeight / 2);
 
 		d.style.left = pos.x + "px"
 		d.style.top = pos.y + "px"
@@ -500,6 +501,24 @@ function isForest(type){
 
 //removed utils here
 
+function getTileFarmFood(x, y){
+	var tile = getTileAt(x, y)
+	var grid = tile.tile_grid
+	var food = 0
+	if (grid == undefined){
+		return 0
+	}
+	else{
+		for (var subtile of Object.keys(grid)){
+			if (grid[subtile].building == "FA"){
+				food += 0.03 * tile.basefood
+			}
+		}
+	}
+
+	return food
+}
+
 function growTile(x, y, cityidx, center = false){
 	//we can only grow population... if there is population to grow in the first place
 	if (!isTileCity(x, y)){
@@ -512,9 +531,9 @@ function growTile(x, y, cityidx, center = false){
 
 	var thistile = getTileAt(x, y)
 
-	thistile.farmfood = 0
+	thistile.farmfood = getTileFarmFood(x, y)
 
-	if (thistile.tile_grid == undefined){
+/*	if (thistile.tile_grid == undefined){
 
 	}
 	else{
@@ -523,7 +542,7 @@ function growTile(x, y, cityidx, center = false){
 				thistile.farmfood += 0.03 * thistile.basefood
 			}
 		}
-	}
+	}*/
 
 	thistile.availfood = thistile.farmfood
 
