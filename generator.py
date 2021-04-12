@@ -116,8 +116,9 @@ GENERATION FUNCTIONS ###########################################################
 '''
 
 def getMountainHeight(x, y, d):
-	z = (d/2) * 1.2**(-10/d * (x-d/2)**2) * 1.2**(-10/d * (y-d/2)**2)
-	z = 1.35 * (z ** (1/2))
+	#z = (d/2) * 1.2**(-10/d * (x-d/2)**2) * 1.2**(-10/d * (y-d/2)**2)
+	#z = 1.35 * (z ** (1/2))
+	z = (d / 7) * (( ( np.sin((2 * np.pi * x / d) - (np.pi / 2)) + 1 ) * ( np.sin((2 * np.pi * y / d) - (np.pi / 2)) + 1 ) ) ** (1 / 2))
 	return z
 
 def checkValidTile(x, y):
