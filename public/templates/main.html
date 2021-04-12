@@ -1329,8 +1329,6 @@
 		var zoff = getTileAt(targetx, targety).height + base_tile_height
 		texture.position.set(targetx, targety, ground_z + zoff)
 
-		assignCity(targetx, targety, id)
-
 		texture.rotation.x = Math.PI / 2
 		texture.city = true
 		texture.cityID = id
@@ -1341,6 +1339,8 @@
 		}
 
 		scene.add( texture );
+
+		assignCity(targetx, targety, id, texture)
 
 		cities[id].tiles[targetx + "_" + targety].x = targetx
 		cities[id].tiles[targetx + "_" + targety].y = targety
@@ -1381,6 +1381,8 @@
 			socket.emit('expandcity', dir[0], dir[1], x, y, id)
 		}
 		//exploreAtCoords(targetx, targety)
+
+		createTileGrid(targetx, targety, false)
 	}
 
 
@@ -1499,8 +1501,6 @@
 		texture.position.set(cityx + city_x_offset, cityy, ground_z + zoff)
 		texture.cityID = cities.length
 
-		assignCity(cityx, cityy, cities.length)
-
 		texture.rotation.x = Math.PI / 2
 		texture.city = true
 		texture.visible = false
@@ -1512,6 +1512,7 @@
 		scene.add( texture );
 
 		this_city.center.mesh = texture
+		assignCity(cityx, cityy, cities.length, texture)
 
 		if (already_named){
 			citynames.push(name)
@@ -1552,6 +1553,8 @@
 		}
 
 		drawTileBorders(this_city.center.x, this_city.center.y, [1, 2, 3, 4], !already_named)
+
+		createTileGrid(this_city.center.x, this_city.center.y, true)
 	}
 
 
@@ -2147,6 +2150,14 @@
 	socket.on('redirectfood', function(x1, y1, x2, y2, amt){
 		console.log(x1, x2, y1, y2, amt)
 		reAssignFood([x1*1, y1*1], [x2*1, y2*1], amt*1)
+	})
+
+	socket.on('addbuilding', function(subtile, texturename, x, y, id){
+		renderBuilding(texturename, subtile, x, y, id, false)
+	})
+
+	socket.on('removebuilding', function(subtile, x, y, id){
+		removeBuilding(subtile_code, x, y, id)
 	})
 
 </script>

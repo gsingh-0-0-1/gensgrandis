@@ -19,7 +19,7 @@ function isSameCity(x1, y1, x2, y2){
 }
 
 function removeOutline(x, y, i){
-	var tile = getTileAt(x, y)
+	var tile = getTileAt(x, y).cityMesh
 	tile.remove(tile["outline" + i])
 	tile["outline" + i] = undefined
 }
@@ -32,24 +32,28 @@ function drawOutline(tilemesh, num, self = true){
 		var outline = notself_outline_template.clone()
 	}
 	
-	var zcoord = tilemesh.height / 2 + 0.0001
+	var zcoord = 0.0001//tilemesh.height / 2 + 0.0001
+
 	if (num == 1){
-		outline.position.set(0.5 - outlinewidth/2, 0, zcoord)
+		outline.position.set(0.5 - outlinewidth/2, zcoord, 0)
 	}
 	else if (num == 2){
-		outline.position.set(-0.5 + outlinewidth/2, 0, zcoord)
+		outline.position.set(-0.5 + outlinewidth/2, zcoord, 0)
 	}
 	else if (num == 3){
-		outline.position.set(0, 0.5 - outlinewidth/2, zcoord)
-		outline.rotation.set(0, 0, Math.PI / 2)
+		outline.position.set(0, zcoord, -0.5 + outlinewidth/2)
+		outline.rotation.z = Math.PI / 2
 	}
 	else if (num == 4){
-		outline.position.set(0, -0.5 + outlinewidth/2, zcoord)
-		outline.rotation.set(0, 0, Math.PI / 2)
+		outline.position.set(0, zcoord, 0.5 - outlinewidth/2)
+		outline.rotation.z = Math.PI / 2
 	}
 	else{
 		return undefined
 	}
+
+	outline.rotation.x = Math.PI / 2
+
 	tilemesh.add(outline)
 
 	return outline
@@ -57,7 +61,7 @@ function drawOutline(tilemesh, num, self = true){
 
 
 function drawTileBorders(x, y, i_list = [1, 2, 3, 4], self = true){
-	var tilemesh = getTileAt(x, y)
+	var tilemesh = getTileAt(x, y).cityMesh
 
 	for (var i of i_list){
 		tilemesh["outline" + i] = drawOutline(tilemesh, i, self)
@@ -69,31 +73,39 @@ function removeAdjacentTileBorders(x, y){
 	var thistile = getTileAt(x, y)
 
 	//check east
-	var easttile = getTileAt(x + 1, y)
-	if (easttile.outline2 != undefined && isSameCity(x, y, x + 1, y)){
-		removeOutline(x, y, 1)
-		removeOutline(x + 1, y, 2)
+	var easttile = getTileAt(x + 1, y).cityMesh
+	if (easttile != undefined){
+		if (easttile.outline2 != undefined && isSameCity(x, y, x + 1, y)){
+			removeOutline(x, y, 1)
+			removeOutline(x + 1, y, 2)
+		}
 	}
 
 	//check west
-	var westtile = getTileAt(x - 1, y)
-	if (westtile.outline1 != undefined && isSameCity(x, y, x - 1, y)){
-		removeOutline(x, y, 2)
-		removeOutline(x - 1, y, 1)
+	var westtile = getTileAt(x - 1, y).cityMesh
+	if (westtile != undefined){
+		if (westtile.outline1 != undefined && isSameCity(x, y, x - 1, y)){
+			removeOutline(x, y, 2)
+			removeOutline(x - 1, y, 1)
+		}
 	}
 
 	//check north
-	var northtile = getTileAt(x, y + 1)
-	if (northtile.outline4 != undefined && isSameCity(x, y, x, y + 1)){
-		removeOutline(x, y, 3)
-		removeOutline(x, y + 1, 4)
+	var northtile = getTileAt(x, y + 1).cityMesh
+	if (northtile != undefined){
+		if (northtile.outline4 != undefined && isSameCity(x, y, x, y + 1)){
+			removeOutline(x, y, 3)
+			removeOutline(x, y + 1, 4)
+		}
 	}
 
 	//check south
-	var southtile = getTileAt(x, y - 1)
-	if (southtile.outline3 != undefined && isSameCity(x, y, x, y - 1)){
-		removeOutline(x, y, 4)
-		removeOutline(x, y - 1, 3)
+	var southtile = getTileAt(x, y - 1).cityMesh
+	if (southtile != undefined){
+		if (southtile.outline3 != undefined && isSameCity(x, y, x, y - 1)){
+			removeOutline(x, y, 4)
+			removeOutline(x, y - 1, 3)
+		}
 	}
 }
 

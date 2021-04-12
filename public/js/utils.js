@@ -43,9 +43,10 @@ function isCityCenter(cityID, x, y){
 	return false
 }
 
-function assignCity(x, y, id){
+function assignCity(x, y, id, mesh){
 	grid_dict["tile_" + x + "_" + y].hasCity = true
 	grid_dict["tile_" + x + "_" + y].tileCityID = id
+	grid_dict["tile_" + x + "_" + y].cityMesh = mesh
 }
 
 function isTileCity(x, y){

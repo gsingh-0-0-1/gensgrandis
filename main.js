@@ -254,6 +254,13 @@ function createGameRoom(room){
 			socket.broadcast.emit('redirectfood', x1, y1, x2, y2, amt)
 		})
 
+		socket.on('addbuilding', (subtile, texturename, x, y, id) => {
+			socket.broadcast.emit('addbuilding', subtile, texturename, x, y, id)
+		})
+
+		socket.on('removebuilding', (subtile, x, y, id) => {
+			socket.broadcast.emit('removebuilding', subtile, x, y, id)
+		})
 	})
 }
 

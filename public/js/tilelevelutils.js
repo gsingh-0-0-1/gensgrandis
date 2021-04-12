@@ -410,6 +410,7 @@ function applyTileGridChanges(){
 		//check if building has been removed
 		if ((grid[subtile].building != null && grid[subtile].building != undefined) && (current_selected == null || current_selected == undefined)){
 			removeBuilding(subtile)
+			socket.emit('addbuilding', subtile, "X", selectedcitytilex, selectedcitytiley, selectedcityid)
 			continue
 		}
 
@@ -421,25 +422,33 @@ function applyTileGridChanges(){
 	}
 }
 
-function renderBuilding(building_code, subtile_code){
+function renderBuilding(building_code, subtile_code, x = null, y = null, id = null, self = true){
+	removeBuilding(subtile_code, x, y, id)
 	if (building_code == "FA"){
-		addBuilding(subtile_code, FARM_TEXTURE)
+		addBuilding(subtile_code, FARM_TEXTURE, x, y, id, self)
 	}
 	if (building_code == "BA"){
-		addBuilding(subtile_code, BARRACKS_TEXTURE)
+		addBuilding(subtile_code, BARRACKS_TEXTURE, x, y, id, self)
 	}
 	if (building_code == "FO"){
-		addBuilding(subtile_code, FORGE_TEXTURE)
+		addBuilding(subtile_code, FORGE_TEXTURE, x, y, id, self)
 	}
 	if (building_code == "AM"){
-		addBuilding(subtile_code, ARMORY_TEXTURE)
+		addBuilding(subtile_code, ARMORY_TEXTURE, x, y, id, self)
 	}
 	if (building_code == "X"){
-		removeBuilding(subtile_code)
+		removeBuilding(subtile_code, x, y, id)
 	}
 }
 
-function addBuilding(subtile_code, building_texture){
+function addBuilding(subtile_code, building_texture, x = null, y = null, id = null, self = true){
+
+	if (x == null || y == null || id == null){
+		x = selectedcitytilex
+		y = selectedcitytiley
+		id = selectedcityid
+	}
+
 	var offsets = subtile_building_offsets[subtile_code]
 
 	var texture = building_texture.clone()
@@ -451,32 +460,46 @@ function addBuilding(subtile_code, building_texture){
 
 	var targetmesh = null
 
-	if (isCityCenter(selectedcityid, selectedcitytilex, selectedcitytiley)){
-		targetmesh = cities[selectedcityid].center.mesh
+	if (isCityCenter(id, x, y)){
+		targetmesh = cities[id].center.mesh
 	}
 	else{
-		targetmesh = cities[selectedcityid].tiles[selectedcitytilex + "_" + selectedcitytiley].mesh
+		targetmesh = cities[id].tiles[x + "_" + y].mesh
 	}
 
 	targetmesh.add(texture)
 
-	getTileAt(selectedcitytilex, selectedcitytiley).tile_grid[subtile_code].mesh = texture
+	getTileAt(x, y).tile_grid[subtile_code].mesh = texture
+	getTileAt(x, y).tile_grid[subtile_code].building = building_texture.texturename
+
+	console.log(x, y, id)
+
+	if (self){
+		socket.emit('addbuilding', subtile_code, building_texture.texturename, x, y, id)
+	}
 }
 
-function removeBuilding(subtile_code){
+function removeBuilding(subtile_code, x = null, y = null, id = null){
+
+	if (x == null || y == null || id == null){
+		x = selectedcitytilex
+		y = selectedcitytiley
+		id = selectedcityid
+	}
+
 	var targetmesh = null
 
-	if (isCityCenter(selectedcityid, selectedcitytilex, selectedcitytiley)){
-		targetmesh = cities[selectedcityid].center.mesh
+	if (isCityCenter(id, x, y)){
+		targetmesh = cities[id].center.mesh
 	}
 	else{
-		targetmesh = cities[selectedcityid].tiles[selectedcitytilex + "_" + selectedcitytiley].mesh
+		targetmesh = cities[id].tiles[x + "_" + y].mesh
 	}
 
-	targetmesh.remove(getTileAt(selectedcitytilex, selectedcitytiley).tile_grid[subtile_code].mesh)
+	targetmesh.remove(getTileAt(x, y).tile_grid[subtile_code].mesh)
 
-	getTileAt(selectedcitytilex, selectedcitytiley).tile_grid[subtile_code].mesh = null
-	getTileAt(selectedcitytilex, selectedcitytiley).tile_grid[subtile_code].building = "X"
+	getTileAt(x, y).tile_grid[subtile_code].mesh = null
+	getTileAt(x, y).tile_grid[subtile_code].building = "X"
 }
 
 
