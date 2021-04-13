@@ -451,7 +451,7 @@ function addBuilding(subtile_code, building_texture, x = null, y = null, id = nu
 
 	var offsets = subtile_building_offsets[subtile_code]
 
-	var texture = building_texture.clone()
+	var texture = THREE.SkeletonUtils.clone(building_texture) //building_texture.clone()
 
 	//texture.city = true
 	//texture.cityID = selectedcityid
@@ -676,7 +676,7 @@ function removeBuildingInSubtileView(subtile_code = ''){
 var tile_level_scene = new THREE.Scene({canvas : tile_level_canvas})
 tile_level_scene.background = new THREE.Color(0xddddcc)
 
-var tile_level_camera = new THREE.PerspectiveCamera( 45, 1, 1, 50 );
+var tile_level_camera = new THREE.PerspectiveCamera( 45, 1, 1, 15 );
 var tile_level_renderer = new THREE.WebGLRenderer({antialias: true});
 
 tile_level_camera.lookAt(0, 0, 0)

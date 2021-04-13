@@ -423,6 +423,7 @@ function updateCityLabels(show=false){
 	}
 }
 
+//var leaves_geometry = new THREE.BufferGeometry().fromGeometry(new THREE.ConeGeometry( leavesrad, leavesheight, 3 ));
 
 function drawTree(coords, tileheight, num){
 	var i = coords[0]
@@ -433,30 +434,18 @@ function drawTree(coords, tileheight, num){
 
 	xoff /= 2000
 	yoff /= 2000
-
-	var rad = 0.05
-	var height = 0.2
-
-	var trunkheight = height * 0.2
-	var trunkrad = rad * 0.5
-
-	var leavesheight = height// * 0.8
-	var leavesrad = rad
-
 	/*var trunk_geometry = new THREE.CylinderGeometry(trunkrad, trunkrad, trunkheight, 8)
 	var trunk_material = new THREE.MeshBasicMaterial( {color: 0x654321} )
 	var trunk = new THREE.Mesh( trunk_geometry, trunk_material)*/
 
-	var leaves_geometry = new THREE.BufferGeometry().fromGeometry(new THREE.ConeGeometry( leavesrad, leavesheight, 3 ));
-	var leaves = new THREE.Mesh( leaves_geometry, leaves_material );
+	//var leaves_geometry = LEAF_GEO//new THREE.BufferGeometry().fromGeometry(new THREE.ConeGeometry( leavesrad, leavesheight, 3 ));
+	var height = 0.2
+	var leaves = LEAVES_MESH.clone()//new THREE.Mesh( leaves_geometry, leaves_material );
 
 	//trunk.add(leaves)
 	//leaves.position.set(0, trunkheight / 2 + leavesheight / 2, 0)
 
 	//var tree = trunk
-
-	//tile.add(trunk);
-	//tile.add(leaves)
 	var z_offset = 0
 	//check for mountain / elevated tiles
 	/*if (tile.geometry.parameters.depth != undefined){
@@ -512,7 +501,7 @@ function getTileFarmFood(x, y){
 	else{
 		for (var subtile of Object.keys(grid)){
 			if (grid[subtile].building == "FA"){
-				food += 0.03 * tile.basefood
+				food += 0.04 * tile.basefood
 			}
 		}
 	}
