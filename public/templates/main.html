@@ -34,10 +34,16 @@
 			display: inline-block;
 			margin: 4px 2px;
 			cursor: pointer;
+			font-family: Lato;
 		}
 
 		.button:focus{
 			outline: none;
+		}
+
+		.button.addbuilding{
+			font-size: 1.5vh;
+			padding: 10px 10px;
 		}
 
 		.city_name_input:focus{
@@ -366,7 +372,9 @@
 
 	<div id="tile_level_interface" style="position: fixed; left: 0%; top: 0%; width: 100%; height: 100%; z-index: 0; display: initial; background-color: #222">
 
-		<span style="position: absolute; left: 12.5%; top: 25%; width: auto; font-size: 2vh; font-family: Lato; color: #ffefef; transform: translate(-50%, 0);">Add Buildings</span>
+		<input class="button" type="button" style="position: absolute; top: 0%; left: 0%; background-color: #bb6666; padding: 7px 10px" value="X" onclick="javascript:hideTileLevelInterface()">
+
+		<!--<span style="position: absolute; left: 12.5%; top: 25%; width: auto; font-size: 2vh; font-family: Lato; color: #ffefef; transform: translate(-50%, 0);">Add Buildings</span>
 
 		<input class="button" type="button" id="subtile_building_select_FA" style="position: absolute; left: 12.5%; top: 30%; width: 50px; height: 50px; padding: 7px 10px; transform: translate(-50%, 0); background-size: 100%; background-image: url('/resources/building_icons/FA.png')" onclick="javascript:renderBuildingInSubtileView(FARM_TEXTURE)">
 
@@ -376,30 +384,30 @@
 
 		<input class="button" type="button" id="subtile_building_select_FO" style="position: absolute; left: 12.5%; top: 60%; width: 50px; height: 50px; padding: 7px 10px; transform: translate(-50%, 0); background-size: 100%; background-image: url('/resources/building_icons/FO.png')" onclick="javascript:renderBuildingInSubtileView(FORGE_TEXTURE)">
 
-		<input class="button" type="button" id="subtile_building_select_FO" style="position: absolute; left: 12.5%; top: 70%; width: 50px; height: 50px; padding: 7px 10px; transform: translate(-50%, 0); background-size: 100%; background-image: url('/resources/building_icons/X.png')" onclick="javascript:removeBuildingInSubtileView()">
-
-		<input class="button" type="button" style="position: absolute; top: 0%; left: 0%; background-color: #bb6666; padding: 7px 10px" value="X" onclick="javascript:hideTileLevelInterface()">
+		<input class="button" type="button" id="subtile_building_select_FO" style="position: absolute; left: 12.5%; top: 70%; width: 50px; height: 50px; padding: 7px 10px; transform: translate(-50%, 0); background-size: 100%; background-image: url('/resources/building_icons/X.png')" onclick="javascript:removeBuildingInSubtileView()">-->
 
 		<input class="button" type="button" style="position: absolute; top: 95%; left: 93%; background-color: #bb6666; padding: 7px 10px; font-size: 1.1vh" value="Apply Changes" onclick="javascript:applyTileGridChanges()">
 
 
-		<div id="tile_level_info" style="position: absolute; top: 50%; left: 80%; width: 10%; height: auto; transform: translate(0%, -50%); font-family: Lato; color: #ffefef; font-size: 1.2vh; overflow: auto">
+		<div id="tile_level_info" style="position: absolute; top: 50%; left: 70%; width: 25%; height: auto; transform: translate(0%, -50%); font-family: Lato; color: #ffefef; font-size: 1.7vh; overflow: auto">
 
 			This is the tile-level management screen. Here, you can add buildings to your tile. Based on how much population your tile has, you will be able to add buildings to more of these "sub-tiles" - below is an explanation of the buildings you can add.<br><br>
 
 			Each building gives a 4% boost to a certain sector of your city - see below for specifics.<br><br>
 
 
-			<span style="font-size: 2vh">
-				<input class="button" type="button" style="width: 50px; height: 50px; padding: 7px 10px; background-size: 100%; background-image: url('/resources/building_icons/FA.png')">
+			<div style="font-size: 2vh">
+				<input class="button" type="button" style="width: 5vh; height: 5vh; background-size: 100%; background-image: url('/resources/building_icons/FA.png'); vertical-align: top">
+				<input class="button addbuilding" type="button" style="width: auto; height: 5vh; background-color: #b66; text-align: left; vertical-align: top;" value="+ Add Building" onclick="javascript:renderBuildingInSubtileView(FARM_TEXTURE)">
 				<br>
 				Farm
-			</span><br>
+			</div>
 
 			&nbsp;&nbsp;&nbsp;&nbsp;Farms apply their boost to tile food, allowing your population to grow more.<br><br>
 
 			<span style="font-size: 2vh">
-				<input class="button" type="button" style="width: 50px; height: 50px; padding: 7px 10px; background-size: 100%; background-image: url('/resources/building_icons/BA.png')">
+				<input class="button" type="button" style="width: 5vh; height: 5vh; padding: 7px 10px; background-size: 100%; background-image: url('/resources/building_icons/BA.png')">
+				<input class="button addbuilding" type="button" style="width: auto; height: 5vh; background-color: #b66; text-align: left; vertical-align: top;" value="+ Add Building" onclick="javascript:renderBuildingInSubtileView(BARRACKS_TEXTURE)">
 				<br>
 				Barracks
 			</span><br>
@@ -407,7 +415,8 @@
 			&nbsp;&nbsp;&nbsp;&nbsp;A barracks applies its boost to hiring some of your population to produce military units.<br><br>
 
 			<span style="font-size: 2vh">
-				<input class="button" type="button" style="width: 50px; height: 50px; padding: 7px 10px; background-size: 100%; background-image: url('/resources/building_icons/AM.png')">
+				<input class="button" type="button" style="width: 5vh; height: 5vh; padding: 7px 10px; background-size: 100%; background-image: url('/resources/building_icons/AM.png')">
+				<input class="button addbuilding" type="button" style="width: auto; height: 5vh; background-color: #b66; text-align: left; vertical-align: top;" value="+ Add Building" onclick="javascript:renderBuildingInSubtileView(ARMORY_TEXTURE)">
 				<br>
 				Armory
 			</span><br>
@@ -415,16 +424,23 @@
 			&nbsp;&nbsp;&nbsp;&nbsp;An armory splits its boost between hiring people to produce military units and to produce regular units.<br><br>
 
 			<span style="font-size: 2vh">
-				<input class="button" type="button" style="width: 50px; height: 50px; padding: 7px 10px; background-size: 100%; background-image: url('/resources/building_icons/FO.png')">
+				<input class="button" type="button" style="width: 5vh; height: 5vh; padding: 7px 10px; background-size: 100%; background-image: url('/resources/building_icons/FO.png')">
+				<input class="button addbuilding" type="button" style="width: auto; height: 5vh; background-color: #b66; text-align: left; vertical-align: top;" value="+ Add Building" onclick="javascript:renderBuildingInSubtileView(FORGE_TEXTURE)">
 				<br>
 				Forge
 			</span><br>
 
 			&nbsp;&nbsp;&nbsp;&nbsp;Forges work a bit like armories, but they use more of their boost to produce regular units than military units.<br><br>
 
+			<br><br><br>
+
+			<input class="button" type="button" id="subtile_building_select_FO" style="width: 50px; height: 50px; background-size: 100%; background-image: url('/resources/building_icons/X.png'); margin: 0px 0px; padding: 0px 0px" onclick="javascript:removeBuildingInSubtileView()">
+			<input class="button addbuilding" type="button" style="width: auto; height: 50px; background-color: #000; text-align: left; vertical-align: top; margin: 0px 0px" value="Remove Building" onclick="javascript:removeBuildingInSubtileView()">
+
+
 		</div>
 
-		<div id="tile_level_canvas" style="position: fixed; left: 50%; top: 50%; height: 100vh; width: 100vh; transform: translate(-50%, -50%)">
+		<div id="tile_level_canvas" style="position: fixed; left: 35%; top: 50%; height: 100vh; width: 100vh; transform: translate(-50%, -50%)">
 		</div>
 
 	</div>
@@ -758,7 +774,7 @@
 
 	var leavesheight = height// * 0.8
 	var leavesrad = rad
-	
+
 	const leaves_material = new THREE.MeshBasicMaterial( {color: 0x116611} );
 	const leaves_geometry = new THREE.BufferGeometry().fromGeometry(new THREE.ConeGeometry( leavesrad, leavesheight, 3 ));
 	const LEAVES_MESH = new THREE.Mesh( leaves_geometry, leaves_material );
