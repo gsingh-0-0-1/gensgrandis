@@ -180,6 +180,14 @@
 		var dur = document.getElementById(song).duration
 		var min = Math.floor(dur / 60)
 		var sec = Math.floor((dur - (min * 60)))
+
+		if (isNaN(min) || isNaN(dur)){
+			setTimeout(function(){
+				addDurationText(song)
+			}, 500)
+			return
+		}
+
 		if (String(sec).length < 2){
 			sec = "0" + sec
 		}
