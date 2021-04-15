@@ -53,13 +53,16 @@
 		<source style="display: none" src="sounds/gg_1.mp3" />
 	</audio>
 	<audio id="gg_2">
-		<source style="display: none" src="sounds/gg_2.mp3" />
+		<source style="display: none" src="sounds/gg_2.mp3"/>
 	</audio>
 	<audio id="gg_4">
-		<source style="display: none" src="sounds/gg_4.mp3" />
+		<source style="display: none" src="sounds/gg_4.mp3"/>
 	</audio>
 	<audio id="gg_5">
-		<source style="display: none" src="sounds/gg_5.mp3" />
+		<source style="display: none" src="sounds/gg_5.mp3"/>
+	</audio>
+	<audio id="gg_6">
+		<source style="display: none" src="sounds/gg_6.mp3"/>
 	</audio>
 	
 	<div style="position: fixed; left: 50%; top: 10%; width: 40%; height: 60%; transform: translate(-50%, 0); overflow-y: scroll;">
@@ -126,13 +129,30 @@
 			<div style="position: absolute; top: 50%; right: 3vw; list-style: 100%; transform: translate(0, -50%);" id="gg_5_dur">
 			</div>
 		</div>
+
+		<div class="songcont">
+
+			<div style="position: absolute; left: 1vw; top: 50%; height: 2vh; width: 2vh; transform: translate(0, -50%)">
+				<svg id="gg_6_button" height="2vh" width="2vh" viewBox="0 0 100 100" onclick="playsong(this)">
+				 	<polygon points="0,0 100,50 0,100" style="fill: #ddd;" />
+				</svg>
+			</div>
+
+			<div style="position: absolute; top: 50%; left: 2.5vw; line-height: 100%; transform: translate(0, -50%)">
+				Sly
+			</div>
+
+			<div style="position: absolute; top: 50%; right: 3vw; list-style: 100%; transform: translate(0, -50%);" id="gg_6_dur">
+			</div>
+		</div>
+
 	</div>
 
 	<audio style="position: fixed; left: 50%; bottom: 2.5%; width: 50%; height: 5%; transform: translate(-50%, -50%);" id="songplayer" controls controlsList="nodownload">
 		<source id="songsource" src="" />
 	</audio>
 
-	<div style="position: absolute; left: 50%; bottom: 10%; height: 2vh; width: 35%; background-color: #234; transform: translate(-50%, -50%); padding: 1vh 1vw; font-size: 1.5vh">
+	<div style="position: absolute; left: 50%; bottom: 10%; height: 2vh; width: 35%; background-color: #456; transform: translate(-50%, -50%); padding: 1vh 1vw; font-size: 1.5vh">
 		<span id="currentlyplaying" style="position: absolute; left: 23%; top: 50%; height: auto; transform: translate(-50%, -50%)">
 			---
 		</span>
@@ -151,20 +171,24 @@
 		"gg_1" : "Beginnings",
 		"gg_2" : "Sailing",
 		"gg_4" : "Exploring",
-		"gg_5" : "Gens Grandis"
+		"gg_5" : "Gens Grandis",
+		"gg_6" : "Sly"
 	}
 
-	function addDurationText(song){	
-		document.getElementById(song).onloadedmetadata = function(){
-			var dur = document.getElementById(song).duration
-			var min = Math.floor(dur / 60)
-			var sec = Math.floor((dur - (min * 60)))
-			document.getElementById(song + "_dur").textContent = min + ":" + sec
-		}
+	function addDurationText(song){
+		//document.getElementById(song).onloadedmetadata = function(){
 		var dur = document.getElementById(song).duration
 		var min = Math.floor(dur / 60)
 		var sec = Math.floor((dur - (min * 60)))
+		if (String(sec).length < 2){
+			sec = "0" + sec
+		}
 		document.getElementById(song + "_dur").textContent = min + ":" + sec
+		//}
+		/*var dur = document.getElementById(song).duration
+		var min = Math.floor(dur / 60)
+		var sec = Math.floor((dur - (min * 60)))
+		document.getElementById(song + "_dur").textContent = min + ":" + sec*/
 	}
 
 	for (var song of Object.keys(sourcetonames)){
