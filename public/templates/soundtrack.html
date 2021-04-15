@@ -41,6 +41,10 @@
 		#songplayer:focus{
 			outline: none;
 		}
+
+		button:focus{
+			outline: none;
+		}
 	</style>
 </head>
 <body>
@@ -105,17 +109,19 @@
 	</div>
 
 	<audio style="position: fixed; left: 50%; bottom: 2.5%; width: 50%; height: 5%; transform: translate(-50%, -50%);" id="songplayer" controls controlsList="nodownload">
-		<source id="songsource" src="sounds/gg_5.mp3" />
+		<source id="songsource" src="" />
 	</audio>
 
-	<div style="position: absolute; left: 50%; bottom: 10%; height: 2vh; width: 25%; background-color: #234; transform: translate(-50%, -50%); padding: 1vh 1vw; font-size: 1.5vh">
-		<span id="currentlyplaying" style="position: absolute; left: 25%; top: 50%; height: auto; transform: translate(-50%, -50%)">
+	<div style="position: absolute; left: 50%; bottom: 10%; height: 2vh; width: 35%; background-color: #234; transform: translate(-50%, -50%); padding: 1vh 1vw; font-size: 1.5vh">
+		<span id="currentlyplaying" style="position: absolute; left: 23%; top: 50%; height: auto; transform: translate(-50%, -50%)">
 			---
 		</span>
 
-		<span id="anim" style="position: absolute; left: 75%; top: 50%; height: auto; transform: translate(-50%, -50%); font-family: Courier">
+		<span id="anim" style="position: absolute; left: 55%; top: 50%; height: auto; transform: translate(-50%, -50%); font-family: Courier">
 			<span id="anim_0">\</span><span id="anim_1">-</span><span id="anim_2">-</span><span id="anim_3">-</span>
 		</span>
+
+		<button id="loopbutton" style="position: absolute; left: 78%; top: 50%; transform: translate(-50%, -50%); background-color: transparent; border: none" onclick="javascript:loopSong();"><i class="material-icons">loop</i></button> 
 	</div>
 </body>
 <script src="js/navutils.js"></script>
@@ -184,6 +190,7 @@
 	var songplayer = document.getElementById("songplayer")
 	var songsource = document.getElementById("songsource")
 	var currentlyplaying = document.getElementById("currentlyplaying")
+	var loopbutton = document.getElementById("loopbutton")
 
 	songplayer.onplay = function(){
 		clearTimeout(animatetimeout)
@@ -223,6 +230,16 @@
 		}
 		else{
 			songplayer.play()
+		}
+	}
+
+	function loopSong(){
+		songplayer.loop = !songplayer.loop
+		if (songplayer.loop){
+			loopbutton.style.backgroundColor = "#999"
+		}
+		else{
+			loopbutton.style.backgroundColor = "transparent"
 		}
 	}
 
