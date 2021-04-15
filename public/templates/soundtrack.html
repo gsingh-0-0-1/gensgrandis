@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Gēns Grandis</title>
+
+	<link rel="preconnect" href="https://fonts.gstatic.com">
+	<link href="https://fonts.googleapis.com/css2?family=Lato:wght@300&display=swap" rel="stylesheet">
+
+	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+	<link href="css/navbar.css" rel="stylesheet">
+
+	<style>
+		body{
+			background-color: #222;
+		}
+		.songcont{
+			position: relative;
+			height: auto;
+			font-size: 1.8vh;
+			background-color: #335;
+			border: 2px solid #666;
+			text-indent: 0vw;
+			padding: 2.5vh 1vw;
+			margin-bottom: 0.5vh;
+			color: #aaa;
+			font-family: Lato;
+		}
+
+		.arrow-right {
+		  width: 0; 
+		  height: 0;
+		  border-top: 1vh solid transparent;
+		  border-bottom: 1vh solid transparent;
+		  
+		  border-left: 1.7vh solid #ddd;
+		}
+
+		#songplayer:focus{
+			outline: none;
+		}
+	</style>
+</head>
+<body>
+
+	<source style="display: none" id="gg_1" src="sounds/gg_1.mp3" />
+	<source style="display: none" id="gg_2" src="sounds/gg_2.mp3" />
+	<source style="display: none" id="gg_4" src="sounds/gg_4.mp3" />
+	<source style="display: none" id="gg_5" src="sounds/gg_5.mp3" />
+
+	<div style="position: fixed; left: 50%; top: 10%; width: 40%; height: 60%; transform: translate(-50%, 0); overflow-y: scroll;">
+		<div class="songcont">
+
+			<div style="position: absolute; left: 1vw; top: 50%; height: 2vh; width: 2vh; transform: translate(0, -50%)">
+				<svg id="gg_1_button" height="2vh" width="2vh" viewBox="0 0 100 100" onclick="playsong(this)">
+				 	<polygon points="0,0 100,50 0,100" style="fill: #ddd;" />
+				</svg>
+			</div>
+
+			<div style="position: absolute; top: 50%; left: 2.5vw; line-height: 100%; transform: translate(0, -50%)">
+				Beginnings
+			</div>
+		</div>
+
+		<div class="songcont">
+
+			<div style="position: absolute; left: 1vw; top: 50%; height: 2vh; width: 2vh; transform: translate(0, -50%)">
+				<svg id="gg_2_button" height="2vh" width="2vh" viewBox="0 0 100 100" onclick="playsong(this)">
+				 	<polygon points="0,0 100,50 0,100" style="fill: #ddd;" />
+				</svg>
+			</div>
+
+			<div style="position: absolute; top: 50%; left: 2.5vw; line-height: 100%; transform: translate(0, -50%)">
+				Sailing
+			</div>
+		</div>
+
+		<div class="songcont">
+
+			<div style="position: absolute; left: 1vw; top: 50%; height: 2vh; width: 2vh; transform: translate(0, -50%)">
+				<svg id="gg_4_button" height="2vh" width="2vh" viewBox="0 0 100 100" onclick="playsong(this)">
+				 	<polygon points="0,0 100,50 0,100" style="fill: #ddd;" />
+				</svg>
+			</div>
+
+			<div style="position: absolute; top: 50%; left: 2.5vw; line-height: 100%; transform: translate(0, -50%)">
+				Exploring
+			</div>
+		</div>
+
+		<div class="songcont">
+
+			<div style="position: absolute; left: 1vw; top: 50%; height: 2vh; width: 2vh; transform: translate(0, -50%)">
+				<svg id="gg_5_button" height="2vh" width="2vh" viewBox="0 0 100 100" onclick="playsong(this)">
+				 	<polygon points="0,0 100,50 0,100" style="fill: #ddd;" />
+				</svg>
+			</div>
+
+			<div style="position: absolute; top: 50%; left: 2.5vw; line-height: 100%; transform: translate(0, -50%)">
+				Gens Grandis
+			</div>
+		</div>
+	</div>
+
+	<audio style="position: fixed; left: 50%; bottom: 2.5%; width: 50%; height: 5%; transform: translate(-50%, -50%);" id="songplayer" controls controlsList="nodownload">
+		<source id="songsource" src="sounds/gg_5.mp3" />
+	</audio>
+
+	<div style="position: absolute; left: 50%; bottom: 10%; height: 2vh; width: 25%; background-color: #234; transform: translate(-50%, -50%); padding: 1vh 1vw; font-size: 1.5vh">
+		<span id="currentlyplaying" style="position: absolute; left: 25%; top: 50%; height: auto; transform: translate(-50%, -50%)">
+			---
+		</span>
+
+		<span id="anim" style="position: absolute; left: 75%; top: 50%; height: auto; transform: translate(-50%, -50%); font-family: Courier">
+			<span id="anim_0">\</span><span id="anim_1">-</span><span id="anim_2">-</span><span id="anim_3">-</span>
+		</span>
+	</div>
+</body>
+<script src="js/navutils.js"></script>
+<script>
+
+	var sourcetonames = {
+		"gg_1" : "Beginnings",
+		"gg_2" : "Sailing",
+		"gg_4" : "Exploring",
+		"gg_5" : "Gens Grandis"
+	}
+
+	function getNextDashAnim(n){
+		var s = document.getElementById("anim_" + n).textContent
+		if (n % 2 == 0){
+			if (s == '-'){
+				return '/'
+			}
+			if (s == '/'){
+				return '|'
+			}
+			if (s == '|'){
+				return '\\'
+			}
+			if (s == '\\'){
+				return '-'
+			}
+		}
+		else{
+			if (s == '-'){
+				return '\\'
+			}
+			if (s == '\\'){
+				return '|'
+			}
+			if (s == '|'){
+				return '/'
+			}
+			if (s == '/'){
+				return '-'
+			}			
+		}
+	}
+
+	var animatetimeout;
+
+	function animatePlaying(n, i = 0){
+		n = n % 4
+		document.getElementById("anim_" + n).textContent = getNextDashAnim(n)
+		animatetimeout = setTimeout(function(){
+			if (i >= 4){
+				n += 1
+				i = 0
+			}
+			animatePlaying(n, i + 1)
+		}, 100)
+	}
+
+	function resetAnim(){
+		for (var child of document.getElementById("anim").children){
+			child.textContent = "-"
+		}
+		document.getElementById("anim_0").textContent = "\\"
+	}
+
+	var songplayer = document.getElementById("songplayer")
+	var songsource = document.getElementById("songsource")
+	var currentlyplaying = document.getElementById("currentlyplaying")
+
+	songplayer.onplay = function(){
+		clearTimeout(animatetimeout)
+		resetAnim()
+		animatePlaying(0)
+	}
+
+	songplayer.onpause = function(){
+		clearTimeout(animatetimeout)
+	}
+
+	function playsong(obj){
+		var sourcename = obj.id.replace("_button", '')
+		console.log(sourcename)
+
+		var newsource = "/sounds/" + sourcename + ".mp3"
+
+		currentlyplaying.textContent = "Track " + sourcename.split("_")[1] + " - " + sourcetonames[sourcename]
+
+		if (songsource.src.replace(window.location.origin, '') == newsource){
+			pauseOrPlaySong()
+		}
+		else{
+			songsource.src = newsource
+			songplayer.load()
+			songplayer.play()
+		}
+
+		//document.getElementById("songsource").src = "sounds/" + sourcename + ".mp3"
+	}
+
+	function pauseOrPlaySong(){
+		var playing = !songplayer.paused
+
+		if (playing){
+			songplayer.pause()
+		}
+		else{
+			songplayer.play()
+		}
+	}
+
+	var colordir = [1, 1, 1]
+
+	function changeBodyColor(n){
+		var cur = window.getComputedStyle(document.body).backgroundColor.replace("rgb(", '').replace(")", '').replaceAll(" ", "").split(",")
+
+		if (cur[n] * 1 == 0){
+			colordir[n] = 1
+		}
+		if (cur[n] * 1 >= 255){
+			colordir[n] = -1
+		}
+
+		cur[n] = cur[n] * 1 + (1 * colordir[n])
+		cur[n] = cur[n] % 256
+
+		document.body.style.backgroundColor = "rgb(" + cur[0] + ", " + cur[1] + ", " + cur[2] + ")"
+		setTimeout(function(){
+			changeBodyColor(n)
+		}, 100)
+	}
+
+	setTimeout(function(){
+		changeBodyColor(0)
+	}, Math.random() * 40000)
+
+	setTimeout(function(){
+		changeBodyColor(1)
+	}, Math.random() * 40000)
+
+	setTimeout(function(){
+		changeBodyColor(2)
+	}, Math.random() * 40000)
+
+</script>
+</html>

@@ -15,6 +15,7 @@
 	<link rel="preconnect" href="https://fonts.gstatic.com">
 	<link href="https://fonts.googleapis.com/css2?family=Lato:wght@300&display=swap" rel="stylesheet">
 	<link href="https://fonts.googleapis.com/css2?family=Source+Code+Pro:wght@300&display=swap" rel="stylesheet">
+	<link href="css/navbar.css" rel="stylesheet">
 
 	<style>
 		body{
@@ -54,32 +55,6 @@
 		}
 
 
-		ul {
-			font-family: Times;
-			position: relative;
-			list-style-type: none;
-			margin: 0;
-			padding: 0;
-			overflow: hidden;
-			background-color: #333;
-			z-index: 3;
-		}
-
-		li {
-			float: left;
-		}
-
-		li a {
-			display: block;
-			color: white;
-			text-align: center;
-			padding: 14px 16px;
-			text-decoration: none;
-		}
-
-		li a:hover {
-			background-color: #111;
-		}
 
 		/* width */
 		::-webkit-scrollbar {
@@ -113,13 +88,6 @@
 	</style>
 </head>
 <body>
-
-	<ul>
-		<li><a href="/">Home</a></li>
-		<li><a href="/about">About</a></li>
-		<li><a href="/dev" style="background-color: #777">Development</a></li>
-		<li><a href="/changelog">Changelog</a></li>
-	</ul>
 
 	<br>
 
@@ -168,6 +136,7 @@
 	<br>
 
 </body>
+<script src="/js/navutils.js"></script>
 <script>
 	var whytextdiv = document.getElementById("whytext")
 

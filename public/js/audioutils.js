@@ -53,7 +53,7 @@ function addSong(id, name, cont){
 
 			n.children[1].children[0].id = id + "_songname"
 
-			n.children[1].children[0].textContent = '"' + name + '"'
+			n.children[1].children[0].textContent = name
 
 			n.style.display = "initial"
 
