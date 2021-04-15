@@ -49,11 +49,19 @@
 </head>
 <body>
 
-	<source style="display: none" id="gg_1" src="sounds/gg_1.mp3" />
-	<source style="display: none" id="gg_2" src="sounds/gg_2.mp3" />
-	<source style="display: none" id="gg_4" src="sounds/gg_4.mp3" />
-	<source style="display: none" id="gg_5" src="sounds/gg_5.mp3" />
-
+	<audio id="gg_1">
+		<source style="display: none" src="sounds/gg_1.mp3" />
+	</audio>
+	<audio id="gg_2">
+		<source style="display: none" src="sounds/gg_2.mp3" />
+	</audio>
+	<audio id="gg_4">
+		<source style="display: none" src="sounds/gg_4.mp3" />
+	</audio>
+	<audio id="gg_5">
+		<source style="display: none" src="sounds/gg_5.mp3" />
+	</audio>
+	
 	<div style="position: fixed; left: 50%; top: 10%; width: 40%; height: 60%; transform: translate(-50%, 0); overflow-y: scroll;">
 		<div class="songcont">
 
@@ -65,6 +73,9 @@
 
 			<div style="position: absolute; top: 50%; left: 2.5vw; line-height: 100%; transform: translate(0, -50%)">
 				Beginnings
+			</div>
+
+			<div style="position: absolute; top: 50%; right: 3vw; list-style: 100%; transform: translate(0, -50%);" id="gg_1_dur">
 			</div>
 		</div>
 
@@ -79,6 +90,9 @@
 			<div style="position: absolute; top: 50%; left: 2.5vw; line-height: 100%; transform: translate(0, -50%)">
 				Sailing
 			</div>
+
+			<div style="position: absolute; top: 50%; right: 3vw; list-style: 100%; transform: translate(0, -50%);" id="gg_2_dur">
+			</div>
 		</div>
 
 		<div class="songcont">
@@ -92,6 +106,9 @@
 			<div style="position: absolute; top: 50%; left: 2.5vw; line-height: 100%; transform: translate(0, -50%)">
 				Exploring
 			</div>
+
+			<div style="position: absolute; top: 50%; right: 3vw; list-style: 100%; transform: translate(0, -50%);" id="gg_4_dur">
+			</div>
 		</div>
 
 		<div class="songcont">
@@ -104,6 +121,9 @@
 
 			<div style="position: absolute; top: 50%; left: 2.5vw; line-height: 100%; transform: translate(0, -50%)">
 				Gens Grandis
+			</div>
+
+			<div style="position: absolute; top: 50%; right: 3vw; list-style: 100%; transform: translate(0, -50%);" id="gg_5_dur">
 			</div>
 		</div>
 	</div>
@@ -132,6 +152,23 @@
 		"gg_2" : "Sailing",
 		"gg_4" : "Exploring",
 		"gg_5" : "Gens Grandis"
+	}
+
+	function addDurationText(song){	
+		document.getElementById(song).onloadedmetadata = function(){
+			var dur = document.getElementById(song).duration
+			var min = Math.floor(dur / 60)
+			var sec = Math.floor((dur - (min * 60)))
+			document.getElementById(song + "_dur").textContent = min + ":" + sec
+		}
+		var dur = document.getElementById(song).duration
+		var min = Math.floor(dur / 60)
+		var sec = Math.floor((dur - (min * 60)))
+		document.getElementById(song + "_dur").textContent = min + ":" + sec
+	}
+
+	for (var song of Object.keys(sourcetonames)){
+		addDurationText(song)
 	}
 
 	function getNextDashAnim(n){
