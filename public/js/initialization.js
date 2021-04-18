@@ -93,8 +93,9 @@ function initialize(centerx, centery, spawnlocs){
 										}
 									}
 									endTurn()
+									hideLoadingScreen()
 									if (!multi){
-										hideLoadingScreen()
+										hideTurnWaitScreen()
 									}
 								}
 							}			

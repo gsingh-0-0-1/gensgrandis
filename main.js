@@ -60,7 +60,7 @@ function dealWithMalformed(res){
 	res.redirect('https://www.youtube.com/watch?v=dQw4w9WgXcQ')
 }
 
-function dealWithNoAuth(res){3
+function dealWithNoAuth(res){
 	res.redirect("/notauthorized")
 }
 
@@ -84,16 +84,11 @@ function updateUsers(socket, l){
 }
 
 function sendUserCountsUpdate(room){
-	if (chatroom_in_game[room] == true){
-		var s = "I-G"
-	}
-	else{
-		var s = Object.keys(current_clients[room]).length
-	}
+	var s = Object.keys(current_clients[room].players).length
 	io.of("/").emit('roomupdate', room, s)
 }
 
-function createRoom(room){
+/*function createRoom(room){
 	var cur_namespace = "/room/" + room
 	io.of(cur_namespace).on("connection", (socket) => {
 
@@ -168,9 +163,6 @@ function createRoom(room){
 		socket.on('disconnect', () => {
 			socket.broadcast.emit('leave', current_clients[room][socket.internalCustomID])
 			delete current_clients[room][socket.internalCustomID]
-			/*if (Object.keys(current_clients[room]).length == 0){
-				deleteGameRoom(room)
-			}*/
 			var l = Object.values(current_clients[room])
 			updateUsers(socket, l)
 			sendUserCountsUpdate(room)
@@ -278,6 +270,92 @@ function deleteGameRoom(room){
 	chatroom_in_game[room] = false
 	sendUserCountsUpdate(room)
 	//}
+}*/
+
+
+function initRoom(room){
+	var cur_namespace = "/room/" + room
+
+	io.of(cur_namespace).on('connection', (socket) => {
+
+		if (Object.keys(current_clients[room].players).length >= current_clients[room].properties.maxplayers){
+			return
+		}
+
+		current_clients[room].players[socket.id] = socket
+		sendUserCountsUpdate(room)
+
+		if (Object.keys(current_clients[room].players).length >= current_clients[room].properties.maxplayers){
+			current_clients[room].properties.game_started = true
+			let targetplayer = Object.keys(current_clients[room].players)[0]
+			current_clients[room].players[targetplayer].emit('yourturn', 0)
+		}
+
+		socket.on('i_am', (authid) => {
+		})
+
+		socket.on('turndone', () => {
+			current_clients[room].properties.current_turn += 1
+			current_clients[room].properties.current_turn = current_clients[room].properties.current_turn % current_clients[room].properties.maxplayers
+			let targetplayer = Object.keys(current_clients[room].players)[current_clients[room].properties.current_turn]
+			current_clients[room].players[targetplayer].emit('yourturn', current_clients[room].properties.current_turn)
+		})
+
+		socket.on('disconnect', () => {
+			if (current_clients[room].properties.game_started){
+				socket.broadcast.emit('endgame')
+				createRoom(room)
+				sendUserCountsUpdate(room)
+			}
+			else{
+				delete current_clients[room].players[socket.id]
+				sendUserCountsUpdate(room)
+			}
+		})
+
+
+		//actual game mechanics below
+		socket.on('unitcreated', (unit) => {
+			socket.broadcast.emit('unitcreated', unit)
+		})
+
+		socket.on('moveunit', (id, x, y, z) => {
+			socket.broadcast.emit('moveunit', id, x, y, z)
+		})
+
+		socket.on('buildcity', (id, name) => {
+			socket.broadcast.emit('buildcity', id, name)
+		})
+
+		socket.on('expandcity', (dir0, dir1, x, y, id) => {
+			socket.broadcast.emit('expandcity', dir0, dir1, x, y, id)
+		})
+
+		socket.on('redirectfood', (x1, y1, x2, y2, amt) => {
+			socket.broadcast.emit('redirectfood', x1, y1, x2, y2, amt)
+		})
+
+		socket.on('addbuilding', (subtile, texturename, x, y, id) => {
+			socket.broadcast.emit('addbuilding', subtile, texturename, x, y, id)
+		})
+
+		socket.on('removebuilding', (subtile, x, y, id) => {
+			socket.broadcast.emit('removebuilding', subtile, x, y, id)
+		})
+	})
+}
+
+function createRoom(room){
+	current_clients[room] = new Object()
+	current_clients[room].properties = new Object()
+	current_clients[room].players = new Object()
+
+	current_clients[room].properties.maxplayers = MAX_PLAYERS
+	current_clients[room].properties.map = Math.ceil(Math.random() * num_maps)
+	current_clients[room].properties.current_turn = 0
+
+	current_clients[room].properties.game_started = false
+
 }
 
 app.use(express.static('public'));
@@ -380,19 +458,21 @@ app.get('/room/:id', function(req, res){
 		createRoom(room)
 		//current_clients[room] = new Object()
 		rooms.push(room)
-		res.sendFile("public/templates/chatroom.html", {root: __dirname})
+		//res.sendFile("public/templates/chatroom.html", {root: __dirname})
+		res.sendFile("public/templates/main.html", {root: __dirname})
 		return
 	}
-	else if (rooms.includes(room) && chatroom_in_game[room] != true){
+	else if (rooms.includes(room)){
 
 		if (current_clients[room] == undefined){
 
 		}
-
-		else if (Object.keys(current_clients[room]).length >= chatroom_maxes[room]){
+		else if (Object.keys(current_clients[room].players).length >= current_clients[room].properties.maxplayers){
 			res.redirect("/roomisfull")
+			return
 		}
-		res.sendFile("public/templates/chatroom.html", {root: __dirname})
+		//res.sendFile("public/templates/chatroom.html", {root: __dirname})
+		res.sendFile("public/templates/main.html", {root: __dirname})
 		return
 	}
 	else{
@@ -412,8 +492,14 @@ app.get("/notauthorized", (req, res) => {
 
 
 app.get("/gamefile/:id", (req, res) => {
-	var room = req.params.id
-	res.send("map" + gameroom_clients[room].map)
+	var room = req.params.id * 1
+
+	if (isNaN(room)){
+		dealWithMalformed(res)
+		return
+	}
+
+	res.send("map" + current_clients[room].properties.map)
 })
 
 app.get("/numsaves", (req, res) => {
@@ -421,21 +507,25 @@ app.get("/numsaves", (req, res) => {
 })
 
 app.get("/maxplayers/:room", (req, res) => {
-	var room = req.params.room
-	res.send(String(MAX_PLAYERS))
+	var room = req.params.room * 1
+
+	if (isNaN(room)){
+		dealWithMalformed(res)
+		return
+	}
+
+	res.send(String(current_clients[room].properties.maxplayers))
 })
 
 app.get("/numcurrentplayers/:room", (req, res) => {
-	var room = req.params.room
-	if (chatroom_in_game[room] == true){
-		res.send("I-G")
+	var room = req.params.room * 1
+
+	if (isNaN(room)){
+		dealWithMalformed(res)
+		return
 	}
-	else if (current_clients[room] == undefined){
-		res.send("0")
-	}
-	else{
-		res.send(String(Object.keys(current_clients[room]).length))
-	}
+
+	res.send(String(Object.keys(current_clients[room].players).length))
 })
 
 app.get("/gameroom/:id", (req, res) => {
@@ -481,7 +571,7 @@ app.get("/game", (req, res) => {
 app.get("/spawnlocs/:room", (req, res) => {
 	var room = req.params.room
 
-	var file = gameroom_clients[room].map
+	var file = current_clients[room].properties.map
 
 	if (file == undefined){
 		dealWithMalformed(res)
@@ -580,5 +670,10 @@ app.get("/getsaves", (req, res) => {
 	var files = files.filter(file => file.includes("map"));
 	res.send(files)
 })
+
+for (var room = 1; room <= approvedrooms; room++){
+	initRoom(room)
+	createRoom(room)
+}
 
 //app.listen(port, host)
