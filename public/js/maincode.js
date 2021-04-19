@@ -1,3 +1,51 @@
+var socket = io(window.location.pathname);
+
+var chatinput = document.getElementById("chatinput")
+
+var params = window.location.search
+params = params.replace("?", '')
+params = params.split("&")
+
+var username = "user" + Math.ceil(Math.random() * 10000)
+
+for (var param of params){
+	if (param.includes("username")){
+		let uinfo = param.split("=")
+		if (uinfo[1] == undefined){
+		}
+		else{
+			username = uinfo[1]
+		}
+	}
+}
+
+function sendChatMessage(msg){
+	socket.emit('chatmessage', username, msg)
+}
+
+function addChatMessage(username, msg, self = false){
+	var item = document.createElement('li');
+	item.textContent = username
+	if (self){
+		item.textContent += " (You) "
+	}
+	item.textContent += ": " + msg;
+	messages.appendChild(item);
+	document.getElementById("chatbox").scrollTo(0, document.getElementById("chatbox").scrollHeight);	
+}
+
+document.getElementById("chatform").addEventListener('submit', function(e) {
+	e.preventDefault();
+	if (chatinput.value) {
+		sendChatMessage(chatinput.value)
+		addChatMessage(username, chatinput.value, true)
+		chatinput.value = '';
+	}
+});
+
+socket.on('chatmessage', function(user, msg) {
+	addChatMessage(user, msg)
+});
 
 var cont = document.getElementById("music_holder")
 
@@ -7,8 +55,6 @@ addSong("gg_2", "Sailing", cont)
 addSong("gg_4", "Exploring", cont)
 addSong("gg_5", "Gens Grandis", cont)
 addSong("gg_6", "Sly", cont)
-
-var socket = io(window.location.pathname);
 
 var multi = false
 
@@ -169,6 +215,7 @@ var renderer = new THREE.WebGLRenderer({antialias: true});
 //renderer.physicallyCorrectLights = true
 renderer.setSize(width, height);
 document.getElementById('gui').appendChild(renderer.domElement);
+var gui = document.getElementById('gui')
 var scene = new THREE.Scene({canvas:gui});
 scene.background = new THREE.Color( 0x000000 );
 scene.add(camera);

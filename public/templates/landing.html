@@ -41,8 +41,8 @@
 			outline: none; 
 		}
 
-		.multibuttons > span:nth-of-type(1n) {background-color: #bb8181;}
-		.multibuttons > span:nth-of-type(2n) {background-color: #81bb81;}
+		.multibuttons > button:nth-of-type(1n) {background-color: #bb8181;}
+		.multibuttons > button:nth-of-type(2n) {background-color: #81bb81;}
 		.multibuttons{
 			text-align: center;
 		}
@@ -58,8 +58,8 @@
 
 	<br>
 
-	<span class="roombutton" type="button" id="buttontemplate" style="display: none; color: #222; font-family: Courier; font-size: 20px; border: none; padding: 5px 5px; position: relative;" onclick="javascript:handleButton(this)">
-	</span>
+	<button class="roombutton" type="Submit" id="buttontemplate" style="display: none; color: #222; font-family: Courier; font-size: 20px; border: none; padding: 5px 5px; position: relative;" onclick="javascript:handleButton(this)">
+	</button>
 	<div style="width: 60%">
 		<span style="font-size: 30px; color: #bb9191">Welcome to Gens Grandis!</span>
 		<br>
@@ -94,8 +94,9 @@
 		<span style="font-size: 20px; color: #717199">(In Dev / Experimental)</span>
 		<br><br>
 		Available Rooms: 1 to <span id="maxrooms"></span><br><br>(I-G : "In-Game")<br><br>
-		<div id="multibuttons" class="multibuttons">
-		</div>
+		<form id="multibuttons" class="multibuttons" method="get">
+			<input type="text" class="roombutton" name="username" placeholder="Username" required style="font-family: Lato; background-color: #aaa; color: #000; border: none; padding: 0.5vh 0.5vh"><br><br>
+		</form>
 	</div>
 
 </body>
@@ -132,7 +133,7 @@
 	}
 
 	function handleButton(obj){
-		window.location.href += "room/" + (obj.textContent.split(" ")[1] * 1)
+		//window.location.href += "room/" + (obj.textContent.split(" ")[1] * 1)
 	}
 
 	function initRoomPlayerVals(room){
@@ -172,6 +173,8 @@
 			for (var i = 1; i <= rooms; i++){
 				var b = origbutton.cloneNode(true)
 				b.style.display = "inline"
+
+				b.formAction = "/room/" + i
 
 				var roomnum = String(i)
 

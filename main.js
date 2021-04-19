@@ -10,11 +10,15 @@ var fs = require('fs');
 const sqlite3 = require('sqlite3').verbose();
 const {URLSearchParams} = require('url')
 
+const bodyParser = require('body-parser');
+
 
 const http = require('http');
 const app = express();
 
 const server = http.createServer(app);
+
+app.use(bodyParser.urlencoded({ extended: true }));
 
 const io = require('socket.io')(server);
 
@@ -88,191 +92,6 @@ function sendUserCountsUpdate(room){
 	io.of("/").emit('roomupdate', room, s)
 }
 
-/*function createRoom(room){
-	var cur_namespace = "/room/" + room
-	io.of(cur_namespace).on("connection", (socket) => {
-
-		socket.on('join', (username) => {
-			var gameid = latest_id
-			//var cookie = "id=" + (cookieid) + ";path=/"
-
-			socket.internalCustomID = gameid
-
-			latest_id += 1
-
-			io.of(cur_namespace).emit('join', username)
-
-			socket.emit('gameid', gameid)
-
-			if (current_clients[room] == undefined){
-				chatroom_maxes[room] = MAX_PLAYERS
-				current_clients[room] = new Object();
-			}
-
-			current_clients[room][socket.internalCustomID] = username
-			var l = Object.values(current_clients[room])
-
-			if (l.length == chatroom_maxes[room]){
-				io.of(cur_namespace).emit('startgame')
-			}
-			if (l.length > chatroom_maxes[room]){
-				delete current_clients[room][socket.internalCustomID]
-				socket.disconnect(0)
-				return
-			}
-
-			updateUsers(socket, l)
-
-			sendUserCountsUpdate(room)
-		});
-
-		socket.on('chat message', (msg, username) => {
-			io.of(cur_namespace).emit('chat message', msg, username)
-		});
-
-		socket.on('starting_game', (authid, username) => {
-			var l = Object.values(current_clients[room])
-			if (l.length >= chatroom_maxes[room]){
-				chatroom_in_game[room] = true
-				authid = String(authid)
-				username = String(username)
-				if (Object.keys(current_clients[room]).includes(authid)){
-
-					if (!gamerooms.includes(room) && room <= approvedrooms && room > 0){
-						gamerooms.push(room)
-						createGameRoom(room)
-						gameroom_clients[room] = new Object()
-						gameroom_clients[room].map = Math.ceil(num_maps * Math.random())
-					}
-					if (gamerooms.includes(room) && ready_for_reset[room] == true){
-						gameroom_clients[room] = new Object()
-						gameroom_clients[room].map = Math.ceil(num_maps * Math.random())
-						ready_for_reset[room] = false
-					}
-
-					gameroom_clients[room][authid] = new Object()
-					gameroom_clients[room][authid].user = username
-					gameroom_clients[room][authid].playernum = Object.keys(gameroom_clients[room]).length - basegameroomprops.length
-
-
-				}
-			}
-			//console.log(gameroom_clients)
-		})
-
-		socket.on('disconnect', () => {
-			socket.broadcast.emit('leave', current_clients[room][socket.internalCustomID])
-			delete current_clients[room][socket.internalCustomID]
-			var l = Object.values(current_clients[room])
-			updateUsers(socket, l)
-			sendUserCountsUpdate(room)
-		})
-	});
-}
-
-function createGameRoom(room){
-	var cur_namespace = "/gameroom/" + room
-
-	var got_initial_connect = false
-
-	setTimeout(function(){
-		if (!got_initial_connect){
-			deleteGameRoom(room)
-		}
-	}, 7500)
-
-	io.of(cur_namespace).on('connection', (socket) => {
-
-		socket.emit('whoareyou')
-
-		socket.on('i_am', (authid) => {
-			if (!got_initial_connect){
-				got_initial_connect = true
-			}
-			socket.internalCustomID = authid//gameroom_clients[room][authid]
-			var playernum = gameroom_clients[room][authid].playernum
-			socket.internalPlayerID = playernum
-
-			gameroom_clients[room][authid].socketid = socket.id
-
-			if (playernum == 0){
-				gameroom_clients[room].current_turn = playernum
-				socket.emit('yourturn', playernum)
-			}
-		})
-
-		socket.on('turndone', () => {
-			if (gameroom_clients[room].current_turn == gameroom_clients[room][socket.internalCustomID].playernum){
-				gameroom_clients[room].current_turn += 1
-				gameroom_clients[room].current_turn = gameroom_clients[room].current_turn % chatroom_maxes[room]
-
-				var nextplayer_authid = Object.keys(gameroom_clients[room])[gameroom_clients[room].current_turn]
-
-				if (io.of(cur_namespace).sockets.get(gameroom_clients[room][nextplayer_authid].socketid) == undefined){
-					io.of(cur_namespace).emit('endgame')
-					deleteGameRoom(room)
-					//delete gameroom_clients[room][nextplayer_authid]
-				}
-				else{
-					io.of(cur_namespace).sockets.get(gameroom_clients[room][nextplayer_authid].socketid).emit('yourturn', gameroom_clients[room].current_turn)
-				}
-			}
-		})
-
-		socket.on('disconnect', () => {
-			socket.broadcast.emit('endgame')
-			deleteGameRoom(room)
-		})
-
-
-		//actual game mechanics below
-		socket.on('unitcreated', (unit) => {
-			socket.broadcast.emit('unitcreated', unit)
-		})
-
-		socket.on('moveunit', (id, x, y, z) => {
-			socket.broadcast.emit('moveunit', id, x, y, z)
-		})
-
-		socket.on('buildcity', (id, name) => {
-			socket.broadcast.emit('buildcity', id, name)
-		})
-
-		socket.on('expandcity', (dir0, dir1, x, y, id) => {
-			socket.broadcast.emit('expandcity', dir0, dir1, x, y, id)
-		})
-
-		socket.on('redirectfood', (x1, y1, x2, y2, amt) => {
-			socket.broadcast.emit('redirectfood', x1, y1, x2, y2, amt)
-		})
-
-		socket.on('addbuilding', (subtile, texturename, x, y, id) => {
-			socket.broadcast.emit('addbuilding', subtile, texturename, x, y, id)
-		})
-
-		socket.on('removebuilding', (subtile, x, y, id) => {
-			socket.broadcast.emit('removebuilding', subtile, x, y, id)
-		})
-	})
-}
-
-
-function deleteGameRoom(room){
-	//delete gameroom_clients[room][socket.internalCustomID]
-	var sortedkeys = Object.keys(gameroom_clients[room])
-	sortedkeys.sort()
-	//if (sortedkeys.includes(...basegameroomprops) && sortedkeys.length == basegameroomprops.length){
-	for (var user of Object.keys(current_clients[room])){
-		delete current_clients[room][user]
-		sendUserCountsUpdate(room)
-	}
-	ready_for_reset[room] = true
-	chatroom_in_game[room] = false
-	sendUserCountsUpdate(room)
-	//}
-}*/
-
-
 function initRoom(room){
 	var cur_namespace = "/room/" + room
 
@@ -342,6 +161,10 @@ function initRoom(room){
 		socket.on('removebuilding', (subtile, x, y, id) => {
 			socket.broadcast.emit('removebuilding', subtile, x, y, id)
 		})
+
+		socket.on('chatmessage', (username, msg) => {
+			socket.broadcast.emit("chatmessage", username, msg)
+		})
 	})
 }
 
@@ -349,6 +172,8 @@ function createRoom(room){
 	current_clients[room] = new Object()
 	current_clients[room].properties = new Object()
 	current_clients[room].players = new Object()
+
+	rooms.push(room)
 
 	current_clients[room].properties.maxplayers = MAX_PLAYERS
 	current_clients[room].properties.map = Math.ceil(Math.random() * num_maps)
@@ -366,6 +191,18 @@ app.use(express.static('public'));
 app.get("/*", (req, res, next) => {
 	var ip = req.connection.remoteAddress;
 	if (req.url.includes('gettile') || req.url.includes('maxplayers') || req.url.includes('numcurrentplayers')){
+		let ref = req.headers.referer
+		if (ref == undefined){
+			dealWithMalformed(res)
+			return
+		}
+		else if (ref.includes(host)){
+			return next();
+		}
+		else{
+			dealWithMalformed(res)
+			return
+		}
 		return next();
 	}
 	var text = "Connection to " + req.url + " at " + new Date(new Date().toUTCString()) + " from " + ip
@@ -399,6 +236,9 @@ app.get("/soundtrack", (req, res) => {
 app.get("/gitlog", (req, res) => {
 	res.sendFile("gitlog.txt", {root: __dirname})
 })
+
+
+
 
 /*app.get("/funds", (req, res) => {
 	res.sendFile("public/templates/funds.html", {root: __dirname})

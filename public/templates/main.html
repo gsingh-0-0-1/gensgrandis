@@ -104,35 +104,15 @@
 			box-sizing: border-box;
 		}
 
-		/*#tile_level_table > tbody > tr:first-child > td:first-child{
-			border-left: 2vh solid transparent;
-			border-top: 2vh solid transparent;
-		}
-		#tile_level_table > tbody > tr:first-child > td:last-child{
-			border-right: 2vh solid transparent;
-			border-top: 2vh solid transparent;
-		}
-		#tile_level_table > tbody > tr:last-child > td:first-child{
-			border-left: 2vh solid transparent;
-			border-bottom: 2vh solid transparent;
-		}
-		#tile_level_table > tbody > tr:last-child > td:last-child{
-			border-right: 2vh solid transparent;
-			border-bottom: 2vh solid transparent;
-		}
+		#chatform { background: rgba(0, 0, 0, 0.15); padding: 0; position: fixed; top: calc(50% - 4.2vh); left: 15%; width: 13%; display: flex; height: 4.2vh; box-sizing: border-box; z-index: 3;}
+		#chatinput { border: none; padding: 0 1rem; flex-grow: 1; margin: 0.25rem; width: 75%; }
+		#chatinput:focus { outline: none; }
+		#chatform > button { background: #333; border: none; padding: 0 1rem; margin: 0.25rem; border-radius: 3px; outline: none; color: #fff;}
 
-		#tile_level_table > tbody > tr:first-child > td{
-			border-top: 2vh solid transparent;
-		}
-		#tile_level_table > tbody > tr > td:first-child{
-			border-left: 2vh solid transparent;
-		}
-		#tile_level_table > tbody > tr > td:last-child{
-			border-right: 2vh solid transparent;
-		}
-		#tile_level_table > tbody >tr:last-child > td{
-			border-bottom: 2vh solid transparent;
-		}*/
+		#messages { list-style-type: none; margin: 0; padding: 0; width: 50%; }
+		#messages > li { padding: 0.5rem 1rem; color: #000; word-wrap: break-word;}
+		#messages > li:nth-child(odd) { background: #bcbcbc; }
+		#messages > li:nth-child(even) { background: #7a7a7a; }
 	</style>
 </head>
 <body>
@@ -462,17 +442,16 @@
 
 	</div>
 
-	<div id="game_options" style="position: fixed; left: 3%; top: 30%; width: 25%; height: 20%; background-color: #555; border: 2px solid #999; z-index: 3; color: #999; font-family: Verdana">
+	<div id="chatbox" style="position: fixed; left: 3%; top: 30%; width: 25%; height: 20%; background-color: #555; border: 2px solid #999; z-index: 3; color: #999; font-family: Lato; overflow-y: auto">
 		<div style="position: relative; padding: 5px 5px; background-color: #333; font-size: 1.9vh">
-			Game Options
+			Game Chat
 		</div>
-
-		<button id="play_or_pause" class="button" style="position: relative; background-color: #b48888; color: #555; font-family: Verdana; top: 5%; left: 5%; transform: translate(0%, 0%); padding: 7px 7px" onclick="javascript:pauseOrPlayGame()">
-			Pause Game
-		</button>
+		<ul id="messages"></ul>
 	</div>
 
-
+	<form id="chatform" action="">
+		<input id="chatinput" autocomplete="off" /><button>Send</button>
+	</form>
 
 
 	<div id="tutorial_ask" class="tutorialpanel">
