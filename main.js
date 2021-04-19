@@ -196,13 +196,6 @@ app.get("/*", (req, res, next) => {
 			dealWithMalformed(res)
 			return
 		}
-		else if (ref.includes(host)){
-			return next();
-		}
-		else{
-			dealWithMalformed(res)
-			return
-		}
 		return next();
 	}
 	var text = "Connection to " + req.url + " at " + new Date(new Date().toUTCString()) + " from " + ip
