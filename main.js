@@ -46,6 +46,8 @@ var ready_for_reset = new Object();
 
 var chatroom_in_game = new Object();
 
+var disabled_rooms = new Object();
+
 var basegameroomprops = ["map", "current_turn"]
 basegameroomprops.sort()
 
@@ -169,6 +171,13 @@ function initRoom(room){
 }
 
 function createRoom(room){
+
+	disabled_rooms[room] = true
+
+	setTimeout(function(){
+		disabled_rooms[room] = false
+	}, 1500)
+
 	current_clients[room] = new Object()
 	current_clients[room].properties = new Object()
 	current_clients[room].players = new Object()
@@ -280,6 +289,11 @@ app.get('/room/:id', function(req, res){
 
 	if (isNaN(room)){
 		dealWithMalformed(res)
+		return
+	}
+
+	if (disabled_rooms[room] == true){
+		dealWithNoAuth(res)
 		return
 	}
 
