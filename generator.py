@@ -66,6 +66,8 @@ WATER_BODY_TILE_CODE = 'w,l,n'
 RIVER_START_TILE_CODE = 's,w,l,r'
 RIVER_TILE_CODE = 'w,r'
 
+DESERT_TILE_CODE = 'l,d'
+
 INFO_DELIMITER = "|"
 HEIGHT_DELIMITER = "#"
 
@@ -88,16 +90,16 @@ WATER_BODY_DIAMETER = WATER_ITERATIONS * 2 + 1
 WATER_BODY_TILES_PER = (2 * WATER_ITERATIONS + 1) ** 2
 WATER_BODY_CENTER_IDX = int(WATER_BODY_TILES_PER / 2)
 
-RIVER_DIV = 8
+RIVER_DIV = 10
 INIT_RIVER_DIR_CHANGE_MAX = 1/35
-RIVER_BASE_LENGTH = 100
+RIVER_BASE_LENGTH = 200
 RIVER_LEN_VAR = 30
 RIVER_WIDTHS = [1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 3]
 COMP_RIVER_TILE_CODE = "0" + HEIGHT_DELIMITER + RIVER_TILE_CODE + INFO_DELIMITER
 
 FOREST_NUM = WATER_BODIES_NUM * 3
 FOREST_MOVEMENTS = [-1, 0, 1]
-FOREST_SIZE = 60
+FOREST_SIZE = 15
 FOREST_DENSITY = 4
 FOREST_DENS_MOD_LIMIT = 2
 
@@ -160,13 +162,14 @@ def generateWaterBodies(coords1, coords2, water_locations, seed = WATER_BODY_SEE
 		#	waterbody_coords.remove([tile_y, tile_x])
 		#	continue
 
+		GAME_GRID[body_y - 2 : body_y + 2][body_x - 2 : body_x + 2] = "0" + HEIGHT_DELIMITER + WATER_BODY_TILE_CODE + INFO_DELIMITER
 		GAME_GRID[body_y][body_x] = "0" + HEIGHT_DELIMITER + WATER_BODY_START_TILE_CODE + INFO_DELIMITER
 		#for body_x in water_locations[1]:
 		#create the generator for the individual water body
-		this_body_generator = createStructureGen(body_x, body_y, seed)
+		#this_body_generator = createStructureGen(body_x, body_y, seed)
 		#set up the probabilities
-		chances = this_body_generator.random((WATER_BODY_TILES_PER))
-		for tileidx in range(WATER_BODY_TILES_PER):
+		#chances = this_body_generator.random((WATER_BODY_TILES_PER))
+		'''for tileidx in range(WATER_BODY_TILES_PER):
 			#check if this is the center tile
 			if tileidx == WATER_BODY_CENTER_IDX:
 				continue
@@ -185,7 +188,7 @@ def generateWaterBodies(coords1, coords2, water_locations, seed = WATER_BODY_SEE
 				if not checkValidTile(tile_x, tile_y):
 					continue
 
-				GAME_GRID[tile_y][tile_x] = "0" + HEIGHT_DELIMITER + WATER_BODY_TILE_CODE + INFO_DELIMITER
+				GAME_GRID[tile_y][tile_x] = "0" + HEIGHT_DELIMITER + WATER_BODY_TILE_CODE + INFO_DELIMITER'''
 
 
 def generateForests(coords1, coords2, forest_locations, seed = FOREST_SEED):
@@ -221,24 +224,27 @@ def generateForests(coords1, coords2, forest_locations, seed = FOREST_SEED):
 					#print(tile_x, tile_y)
 					#make some forest tiles more "dense"
 					#print(GAME_GRID[tile_y][tile_x])
-					info = GAME_GRID[tile_y][tile_x].split(HEIGHT_DELIMITER)[1].split(INFO_DELIMITER)
-					if isTileWater(info[0]):
-						continue
-					if info[1] == '':
-						tiledensmod = 1
-					else:
-						tiledensmod = int(info[1])
+					#info = GAME_GRID[tile_y][tile_x].split(HEIGHT_DELIMITER)[1].split(INFO_DELIMITER)
+					#if isTileWater(info[0]):
+					#	continue
+					#if info[1] == '':
+					#	tiledensmod = 1
+					#else:
+					#	tiledensmod = int(info[1])
 
 					#check if already is forest
-					curcode = info[0]
-					if curcode == FOREST_TILE_CODE or curcode == FOREST_START_TILE_CODE:
-						tiledensmod += 1
-						if tiledensmod > FOREST_DENS_MOD_LIMIT:
-							tiledensmod = FOREST_DENS_MOD_LIMIT
+					#curcode = info[0]
+					#if curcode == FOREST_TILE_CODE or curcode == FOREST_START_TILE_CODE:
+					#	tiledensmod += 1
+					#	if tiledensmod > FOREST_DENS_MOD_LIMIT:
+					#		tiledensmod = FOREST_DENS_MOD_LIMIT
 
-					tile_height = GAME_GRID[tile_y][tile_x].split("#")[0]
+					tile_height = GAME_GRID[tile_y][tile_x].split(HEIGHT_DELIMITER)[0]
 
-					GAME_GRID[tile_y][tile_x] = tile_height + HEIGHT_DELIMITER + FOREST_TILE_CODE + INFO_DELIMITER + str(tiledensmod)
+					if (float(tile_height) < BASE_TILE_HEIGHT):
+						tile_height = str(BASE_TILE_HEIGHT)
+
+					GAME_GRID[tile_y][tile_x] = tile_height + HEIGHT_DELIMITER + FOREST_TILE_CODE + INFO_DELIMITER + "1"
 
 
 def generateMountains(coords1, coords2, mountain_locations, seed = MOUNTAIN_SEED):
@@ -280,7 +286,6 @@ def generateMountains(coords1, coords2, mountain_locations, seed = MOUNTAIN_SEED
 
 def generateRivers(coords1, coords2, river_locations, seed = RIVER_SEED):
 	x1, y1, x2, y2 = extractCoords(coords1, coords2)
-	current_terrain = GAME_GRID[y1 : y2, x1 : x2]
 
 	for pair in river_locations:
 		if tileInBounds(pair, coords1, coords2):
@@ -308,10 +313,11 @@ def generateRivers(coords1, coords2, river_locations, seed = RIVER_SEED):
 
 		while cur_size < this_river_length:
 			r = this_river_generator.random()
+
 			if r < xchance:
-				movedir = np.array([1, 0])
+				movedir = np.array([xmod, 0])
 			else:
-				movedir = np.array([0, 1])
+				movedir = np.array([0, ymod])
 
 			cur_x += movedir[0]
 			cur_y += movedir[1]
@@ -341,7 +347,7 @@ def generateRivers(coords1, coords2, river_locations, seed = RIVER_SEED):
 '''
 BEGIN GENERATION ##################################################################################
 '''
-GAME_GRID = np.full((MAX_WORLD_RADIUS * 2, MAX_WORLD_RADIUS * 2), '0' + HEIGHT_DELIMITER + LAND_TILE_CODE + INFO_DELIMITER, dtype=object)
+GAME_GRID = np.full((MAX_WORLD_RADIUS * 2, MAX_WORLD_RADIUS * 2), str(BASE_TILE_HEIGHT) + HEIGHT_DELIMITER + LAND_TILE_CODE + INFO_DELIMITER, dtype=object)
 
 
 
@@ -350,7 +356,7 @@ INSERT FORESTS #################################################################
 '''
 
 forest_coords = createCoordPairs(FOREST_GENERATOR, FOREST_NUM)
-GAME_GRID[forest_coords[:, 0], forest_coords[:, 1]] = '0' + HEIGHT_DELIMITER + FOREST_START_TILE_CODE + INFO_DELIMITER
+GAME_GRID[forest_coords[:, 0], forest_coords[:, 1]] = str(BASE_TILE_HEIGHT) + HEIGHT_DELIMITER + FOREST_START_TILE_CODE + INFO_DELIMITER
 
 
 
@@ -359,7 +365,7 @@ INSERT MOUNTAINS ###############################################################
 '''
 
 mountain_coords = createCoordPairs(MOUNTAIN_GENERATOR, MOUNTAIN_NUM)
-GAME_GRID[mountain_coords[:, 0], mountain_coords[:, 1]] = '0' + HEIGHT_DELIMITER + MOUNTAIN_START_TILE_CODE + INFO_DELIMITER
+GAME_GRID[mountain_coords[:, 0], mountain_coords[:, 1]] = str(BASE_TILE_HEIGHT) + HEIGHT_DELIMITER + MOUNTAIN_START_TILE_CODE + INFO_DELIMITER
 
 
 
@@ -423,27 +429,29 @@ cur.execute(command)
 for ycoord in range(0, MAX_WORLD_RADIUS * 2, 100):
 	for xcoord in range(0, MAX_WORLD_RADIUS * 2, 100):
 		pair1, pair2 = [xcoord, ycoord], [xcoord + 100, ycoord + 100]
-		generateForests(pair1, pair2, forest_coords)
+		#print("w")
 		generateWaterBodies(pair1, pair2, waterbody_coords)
+		#print("f")
+		generateForests(pair1, pair2, forest_coords)
+		#print("r")
 		generateRivers(pair1, pair2, river_coords)
+		#print("m")
 		generateMountains(pair1, pair2, mountain_coords)
 		for y in range(ycoord, ycoord + 100):
 			for x in range(xcoord, xcoord + 100):
-				tile_info = GAME_GRID[y, x].split(HEIGHT_DELIMITER)
-				tile_desc = tile_info[1].split(INFO_DELIMITER)[0]
-				if not isTileWater(tile_desc):
-					h = float(tile_info[0])
-					if h < BASE_TILE_HEIGHT:
-						h = BASE_TILE_HEIGHT
-						GAME_GRID[y, x] = str(h) + HEIGHT_DELIMITER + tile_info[1]
+				#tile_info = GAME_GRID[y, x].split(HEIGHT_DELIMITER)
+				#tile_desc = tile_info[1].split(INFO_DELIMITER)[0]
+				#if not isTileWater(tile_desc):
+				#	h = float(tile_info[0])
+				#	if h < BASE_TILE_HEIGHT:
+				#		h = BASE_TILE_HEIGHT
+				#		GAME_GRID[y, x] = str(h) + HEIGHT_DELIMITER + tile_info[1]
 				command = ''' INSERT INTO world (tilename, tiledesc) VALUES ("''' + str(x) + "_" + str(y) + '''",  "''' + GAME_GRID[y, x] + '''")'''
 				#print(x, y, GAME_GRID[y, x])
 				cur.execute(command)
 		conn.commit()
 		#np.savetxt('saves/' + fname + '/chunk_' + str(xcoord) + "_" + str(ycoord) + ".txt", GAME_GRID[ycoord:ycoord+100, xcoord:xcoord+100], fmt="%s", delimiter=" ")
 		print("Features done and saved " + str(pair1))
-
-
 
 spawnlocs = [[500, 500], [510, 500], [510, 510], [500, 510]]
 
