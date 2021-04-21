@@ -11,7 +11,6 @@ import sqlite3
 import os
 import sys
 import cv2
-from PIL import Image
 
 print("Starting")
 
