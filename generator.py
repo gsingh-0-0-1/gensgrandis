@@ -498,7 +498,11 @@ for c in range(len(desert_coords)):
 	thetas = [DESERT_GENERATOR.random() * 2 * np.pi for i in range(4)]
 	rlist = [DESERT_GENERATOR.integers(int(DESERT_SIZE/2), int(7 * DESERT_SIZE / 8)) for i in range(4)]
 	for r, theta in zip(rlist, thetas):
-		desert_coords.append([int(desert_coords[c][0] + r * np.cos(theta)), int(desert_coords[c][1] + r * np.sin(theta))])
+		targetx = int(desert_coords[c][0] + r * np.cos(theta))
+		targety = int(desert_coords[c][1] + r * np.sin(theta))
+		if not checkValidTile(targetx, targety):
+			continue
+		desert_coords.append([targetx, targety])
 
 desert_coords = np.array(desert_coords)
 
@@ -586,7 +590,7 @@ tiles = ['"' + GAME_GRID[y, x] + '"' for x in range(0, MAX_WORLD_RADIUS * 2) for
 
 final = ",".join(["(" + str(x) + "," + str(y) + ")" for x, y in zip(coords, tiles)])
 
-command = ''' INSERT INTO world (tilename, tiledesc) VALUES ( '0_0', '0#l,f' )'''
+command = ''' INSERT INTO world (tilename, tiledesc) VALUES ( "0_0", "0#l,f" )'''
 cur.execute(command)
 
 
