@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Gēns Grandis</title>
+	<link href="css/navbar.css" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css2?family=Source+Code+Pro:wght@300&display=swap" rel="stylesheet">
+	<style>
+		body{
+			overflow: auto;
+		}
+
+		#urlholder{
+			position: absolute;
+			left: 50%;
+			top: 10%;
+			height: 80%;
+			width: 80%;
+			transform: translate(-50%, 0);
+		}
+
+		#urlholder > div {position: absolute; width: 15vh; height: 15vh; transform: translate(-50%, 0); line-height: 15vh; font-size: 5vh; text-align: center; font-family: Source Code Pro;}
+
+		#urlholder > div:nth-child(10n + 1), 
+		#urlholder > div:nth-child(10n + 10) {background-color: rgb(71, 71, 191);}
+
+		#urlholder > div:nth-child(10n + 2), 
+		#urlholder > div:nth-child(10n + 9) {background-color: rgb(71, 150, 71);}
+
+		#urlholder > div:nth-child(10n + 3), 
+		#urlholder > div:nth-child(10n + 8) {background-color: rgb(210, 190, 10);}
+
+		#urlholder > div:nth-child(10n + 4), 
+		#urlholder > div:nth-child(10n + 7) {background-color: rgb(50, 120, 50);}
+
+		#urlholder > div:nth-child(10n + 5), 
+		#urlholder > div:nth-child(10n + 6) {background-color: rgb(120, 120, 120);}
+
+		#urlholder > div > a {text-decoration: none; color: #ddd;}
+
+		/*#urlholder > div:nth-child(10n) {background-color: rgb(71, 71, 191);}
+		#urlholder > div:nth-child(9n) {background-color: rgb(71, 150, 71);}
+		#urlholder > div:nth-child(8n) {background-color: rgb(210, 190, 10);}
+		#urlholder > div:nth-child(7n) {background-color: rgb(50, 120, 50);}
+		#urlholder > div:nth-child(6n) {background-color: rgb(120, 120, 120);}*/
+	</style>
+</head>
+<body>
+	<div id="urlholder">
+	</div>
+</body>
+
+<script src="/js/navutils.js"></script>
+
+<script>
+	var urlholder = document.getElementById("urlholder")
+
+	function addUrlDiv(top, left, n){
+		var d = document.createElement('div')
+		d.style.left = left + "%"
+		d.style.top = top + "%"
+		d.innerHTML = "<a href='/resources/mapimgs/map" + n + ".png' target='_blank'>" + n + "</a>"
+		urlholder.appendChild(d)
+	}
+
+	function addImgUrls(n){
+		for (var el = 0; el < n; el++){
+			var top = Math.floor(el / 5) * 40 + 10
+			var left = (el % 5) * 20 + 10
+			addUrlDiv(top, left, el + 1)
+		}
+	}
+
+	var numfilesreq = new XMLHttpRequest;
+	numfilesreq.open("GET", "/numsaves")
+	numfilesreq.send()
+	numfilesreq.onreadystatechange = function(){
+		if (this.readyState == 4 && this.status == 200){
+			addImgUrls(this.responseText * 1)
+		}
+	}
+</script>
+
+</html>

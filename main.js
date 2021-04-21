@@ -239,9 +239,9 @@ app.get("/gitlog", (req, res) => {
 	res.sendFile("gitlog.txt", {root: __dirname})
 })
 
-/*app.get("/mapimg/:map", (req, res) => {
-	res.sendFile("public/templates/mapimg.html", {root: __dirname})
-})*/
+app.get("/mapimgs", (req, res) => {
+	res.sendFile("public/templates/mapimgs.html", {root: __dirname})
+})
 
 
 
