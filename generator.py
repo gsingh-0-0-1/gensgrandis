@@ -491,9 +491,8 @@ IMG_ARRAY[river_coords[:, 1], river_coords[:, 0]] = [77, 77, 179]
 GENERATE DESERTS ##################################################################################
 '''
 
-desert_coords = createCoordPairs(DESERT_GENERATOR, DESERT_NUM - 1)
+desert_coords = createCoordPairs(DESERT_GENERATOR, DESERT_NUM)
 desert_coords = list(desert_coords)
-desert_coords.append([500, 500])
 
 #add more "children deserts" surrounding the main one - these will merge to form more irregularly shaped deserts
 for c in range(len(desert_coords)):
