@@ -10,7 +10,7 @@ import random
 import sqlite3
 import os
 import sys
-#import cv2
+import cv2
 
 print("Starting")
 
@@ -617,12 +617,7 @@ f.close()
 
 print("Spawn locations generated.")
 
-#IMG_ARRAY[:, :, 0], IMG_ARRAY[:, :, 2] = IMG_ARRAY[:, :, 2], IMG_ARRAY[:, :, 0]
-
-#img = Image.fromarray(IMG_ARRAY, "RGB")
-
-#img.save("saves/" + fname + "/img.png")
-#IMG_ARRAY = cv2.cvtColor(IMG_ARRAY, cv2.COLOR_BGR2RGB)
-#cv2.imwrite("saves/" + fname + "/img.png", IMG_ARRAY)
+IMG_ARRAY = cv2.cvtColor(IMG_ARRAY, cv2.COLOR_BGR2RGB)
+cv2.imwrite("saves/" + fname + "/img.png", IMG_ARRAY)
 
 
