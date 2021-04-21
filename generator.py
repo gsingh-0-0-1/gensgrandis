@@ -619,5 +619,6 @@ print("Spawn locations generated.")
 
 IMG_ARRAY = cv2.cvtColor(IMG_ARRAY, cv2.COLOR_BGR2RGB)
 cv2.imwrite("saves/" + fname + "/img.png", IMG_ARRAY)
+cv2.imwrite("public/resources/mapimgs/" + fname + ".png", IMG_ARRAY)
 
 
