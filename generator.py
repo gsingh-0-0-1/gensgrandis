@@ -579,19 +579,21 @@ for ycoord in range(0, MAX_WORLD_RADIUS * 2, 100):
 
 generateDeserts(desert_coords)
 
-#for y in range(0, MAX_WORLD_RADIUS * 2):
-#	for x in range(0, MAX_WORLD_RADIUS * 2):
-		#command = ''' INSERT INTO world (tilename, tiledesc) VALUES ("''' + str(x) + "_" + str(y) + '''",  "''' + GAME_GRID[y, x] + '''")'''
-
 print("Generating save data...")
 
-coords = ['"' + str(x) + "_" + str(y) + '"' for x in range(0, MAX_WORLD_RADIUS * 2) for y in range(0, MAX_WORLD_RADIUS * 2)]
-tiles = ['"' + GAME_GRID[y, x] + '"' for x in range(0, MAX_WORLD_RADIUS * 2) for y in range(0, MAX_WORLD_RADIUS * 2)]
+for y in range(0, MAX_WORLD_RADIUS * 2):
+	for x in range(0, MAX_WORLD_RADIUS * 2):
+		command = ''' INSERT INTO world (tilename, tiledesc) VALUES ("''' + str(x) + "_" + str(y) + '''",  "''' + GAME_GRID[y, x] + '''")'''
+		cur.execute(command)
 
-final = ",".join(["(" + str(x) + "," + str(y) + ")" for x, y in zip(coords, tiles)])
 
-command = ''' INSERT INTO world (tilename, tiledesc) VALUES ( "0_0", "0#l,f" )'''
-cur.execute(command)
+#coords = ['"' + str(x) + "_" + str(y) + '"' for x in range(0, MAX_WORLD_RADIUS * 2) for y in range(0, MAX_WORLD_RADIUS * 2)]
+#tiles = ['"' + GAME_GRID[y, x] + '"' for x in range(0, MAX_WORLD_RADIUS * 2) for y in range(0, MAX_WORLD_RADIUS * 2)]
+
+#final = ",".join(["(" + str(x) + "," + str(y) + ")" for x, y in zip(coords, tiles)])
+
+#command = ''' INSERT INTO world (tilename, tiledesc) VALUES ( "0_0", "0#l,f" )'''
+#cur.execute(command)
 
 
 conn.commit()
