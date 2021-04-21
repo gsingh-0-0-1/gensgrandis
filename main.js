@@ -202,8 +202,8 @@ app.get("/*", (req, res, next) => {
 	if (req.url.includes('gettile') || req.url.includes('maxplayers') || req.url.includes('numcurrentplayers')){
 		let ref = req.headers.referer
 		if (ref == undefined){
-			dealWithMalformed(res)
-			return
+			//dealWithMalformed(res)
+			//return
 		}
 		return next();
 	}
@@ -238,6 +238,10 @@ app.get("/soundtrack", (req, res) => {
 app.get("/gitlog", (req, res) => {
 	res.sendFile("gitlog.txt", {root: __dirname})
 })
+
+/*app.get("/mapimg/:map", (req, res) => {
+	res.sendFile("public/templates/mapimg.html", {root: __dirname})
+})*/
 
 
 
@@ -448,7 +452,7 @@ app.get("/gettile", (req, res) => {
 
 	var malformed = false
 
-	if (isNaN(x)){
+	if (isNaN(x) || isNaN(y)){
 		malformed = true
 	}
 

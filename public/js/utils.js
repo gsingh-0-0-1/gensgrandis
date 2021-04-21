@@ -81,16 +81,16 @@ function assignTileFood(x, y){
 
 	var base = 400
 
-	if (isTileAdjacentToWater(x, y) && !isForest(getTileAt(x, y).type)){
-		base = 650
-	}
-
 	if (isForest(getTileAt(x, y).type)){
 		base = 150
 	}
 
-	if (isTileAdjacentToWater(x, y) && isForest(getTileAt(x, y).type)){
-		base = 300
+	if (getTileAt(x, y).type == DESERT_TILE_CODE){
+		base = 74
+	}
+
+	if (isTileAdjacentToWater(x, y)){
+		base += 300
 	}
 
 	var height = getTileAt(x, y).height

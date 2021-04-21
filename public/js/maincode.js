@@ -146,6 +146,8 @@ const WATER_BODY_TILE_CODE = 'w,l,n'
 const RIVER_START_TILE_CODE = 's,w,l,r'
 const RIVER_TILE_CODE = 'w,r'
 
+const DESERT_TILE_CODE = 'l,d'
+
 const HEIGHT_DELIMITER = "#"
 const INFO_DELIMITER = "|"
 
@@ -1099,6 +1101,10 @@ function draw(x, y, data){
 		col = getForestCol(x, y)
 	}
 
+	if (type == DESERT_TILE_CODE){
+		col = getDesertCol(x, y)
+	}
+
 	if (height == 0 && isWater(type)){
 		var geometry = WATERGEO//new THREE.PlaneGeometry( 1, 1 );
 	}
@@ -1117,7 +1123,7 @@ function draw(x, y, data){
 		var heightmod = 1 - height/5
 		var mincolormtn = 0.2
 
-		if (height > MOUNTAIN_FOREST_HEIGHT){
+		if (height > MOUNTAIN_FOREST_HEIGHT && type != DESERT_TILE_CODE){
 			col = getForestCol(x, y)
 		}
 		for (var it = 0; it < height - 2; it++){
@@ -1127,6 +1133,9 @@ function draw(x, y, data){
 		}
 		if (height > MOUNTAIN_STONE_HEIGHT){
 			col = getStoneCol(x, y)
+		}
+		if (height > MOUNTAIN_FOREST_HEIGHT && height < MOUNTAIN_STONE_HEIGHT && type == DESERT_TILE_CODE){
+			col = getDesertElevCol(x, y)
 		}
 		if (height > MOUNTAIN_SNOWCAP_HEIGHT && height <= MOUNTAIN_SNOW_HEIGHT){
 			var faces = geometry.faces
@@ -1347,16 +1356,16 @@ document.onkeyup = function(event){
 
 function pauseGame(){
 	paused = true
-	var b = document.getElementById("play_or_pause")
-	b.textContent = "Play Game"
-	b.style.backgroundColor = "#88b488"
+	//var b = document.getElementById("play_or_pause")
+	//b.textContent = "Play Game"
+	//b.style.backgroundColor = "#88b488"
 }
 
 function playGame(){
 	paused = false
-	var b = document.getElementById("play_or_pause")
-	b.textContent = "Pause Game"
-	b.style.backgroundColor = "#b48888"
+	//var b = document.getElementById("play_or_pause")
+	//b.textContent = "Pause Game"
+	//b.style.backgroundColor = "#b48888"
 }
 
 function pauseOrPlayGame(){

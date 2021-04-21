@@ -32,3 +32,17 @@ function getStoneCol(x, y){
 	col = new THREE.Color(0.5 + offset, 0.5 + offset, 0.5 + offset)
 	return col
 }
+
+function getDesertCol(x, y){
+	var offset = ((WORLD_SEED / x * y) % 9) - 4.5
+	var offset = offset/(4.5*30)
+	col = new THREE.Color(0.9, 0.85 + offset, 0)
+	return col
+}
+
+function getDesertElevCol(x, y){
+	var offset = ((WORLD_SEED / x * y) % 9) - 4.5
+	var offset = offset/(4.5*30)
+	col = new THREE.Color(0.43 + offset, 0.32, 0.18)
+	return col
+}

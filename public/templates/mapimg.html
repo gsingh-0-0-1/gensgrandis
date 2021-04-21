@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Map Image</title>
+	<style>
+		body{
+			overflow: auto;
+		}
+	</style>
+</head>
+<body>
+	<canvas id="myCanvas" width="2000" height="2000">
+	</canvas>
+</body>
+
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r124/three.js"></script>
+<script src="/js/colors.js"></script>
+<script src="/js/utils.js"></script>
+
+<script>
+	const LAND_TILE_CODE = 'l'
+
+	const FOREST_START_TILE_CODE = 's,l,f'
+	const FOREST_TILE_CODE = 'l,f'
+
+	const MOUNTAIN_START_TILE_CODE = 's,l,m'
+	const MOUNTAIN_TILE_CODE = 'l,m'
+
+	const WATER_BODY_START_TILE_CODE = 's,w,l,n'
+	const WATER_BODY_TILE_CODE = 'w,l,n'
+
+	const RIVER_START_TILE_CODE = 's,w,l,r'
+	const RIVER_TILE_CODE = 'w,r'
+
+	const DESERT_TILE_CODE = 'l,d'
+
+	const HEIGHT_DELIMITER = "#"
+	const INFO_DELIMITER = "|"
+
+	var MOUNTAIN_FOREST_HEIGHT = 1
+	var MOUNTAIN_STONE_HEIGHT = 5
+	var MOUNTAIN_SNOWCAP_HEIGHT = 6
+	var MOUNTAIN_SNOW_HEIGHT = 8.5
+
+	var WORLD_SEED = 123546789
+	var FILE = "map1"
+
+	var canvas = document.getElementById("myCanvas")
+	var ctx = canvas.getContext("2d")
+
+	function addPixels(x, y, data){
+
+		var tiledata = data.split(HEIGHT_DELIMITER)[1]
+		var height = data.split(HEIGHT_DELIMITER)[0] * 1
+		var type = tiledata.split(INFO_DELIMITER)[0]
+
+		var mincolormtn = 0.2
+
+		col = getLandCol(x, y)
+
+		if (type == FOREST_TILE_CODE || type == FOREST_START_TILE_CODE){
+			col = getForestCol(x, y)
+		}
+
+		if (isWater(type)){
+			col = getWaterCol(x ,y)
+		}
+
+		if (type == FOREST_TILE_CODE || type == FOREST_START_TILE_CODE){
+			col = getForestCol(x, y)
+		}
+
+		if (type == DESERT_TILE_CODE){
+			col = getDesertCol(x, y)
+		}
+
+		if (height > MOUNTAIN_FOREST_HEIGHT && type != DESERT_TILE_CODE && height < MOUNTAIN_SNOW_HEIGHT){
+			col = getForestCol(x, y)
+		}
+
+		if (height > MOUNTAIN_STONE_HEIGHT && height < MOUNTAIN_SNOW_HEIGHT){
+			col = getStoneCol(x, y)
+		}
+
+		if (height > MOUNTAIN_FOREST_HEIGHT){
+			for (var it = 0; it < height - 2; it++){
+				col.r = col.r + (mincolormtn - col.r) / 2
+				col.g = col.g + (mincolormtn - col.g) / 2
+				col.b = col.b + (mincolormtn - col.b) / 2
+			}			
+		}
+
+		if (height >= MOUNTAIN_SNOW_HEIGHT){
+			col = getSnowCol(x, y)
+		}
+
+		//tile.style.backgroundColor = "rgb(" + (col.r * 255) + ", " + (col.g * 255) + ", " + (col.b * 255) + ")"
+		//document.body.appendChild(tile)
+		ctx.fillStyle = "rgb(" + Math.floor(col.r * 255) + "," + Math.floor(col.g * 255) + "," + Math.floor(col.b * 255) + ")";
+		ctx.fillRect( x, 2000 - y, 2, 2 );
+	}
+
+	function fetchAndRender(x, y){
+		var req = new XMLHttpRequest;
+		req.open("GET", "/gettile?x=" + x + "&y=" + y + "&file=" + FILE)
+		req.send()
+		req.onreadystatechange = function(){
+			if (this.readyState == 4 && this.status == 200){
+				var r = this.responseText.replace("[", '').replace("]", '')
+				r = r.replace("{", '').replace("}", '').split('","')
+				r[0] = r[0].split(":")[1].replaceAll('"', '')
+				r[1] = r[1].split(":")[1].replaceAll('"', '')
+				var x = r[0].split("_")[0] * 1
+				var y = r[0].split("_")[1] * 1
+				addPixels(x*2, y*2, r[1])
+			}
+		}
+	}
+
+	function renderTiles(x, y, max_x, max_y){
+		var newx = x + 1
+		var newy = y
+
+		if (x == max_x){
+			newx = 0
+			newy = y + 1
+		}
+		if (y == max_y){
+			return
+		}
+
+		fetchAndRender(x, y)
+
+		setTimeout(function(){
+			renderTiles(newx, newy, max_x, max_y)
+		}, 2)
+	}
+
+
+	FILE = window.location.pathname.split("/")[2]
+
+	var seedreq = new XMLHttpRequest;
+	seedreq.open("GET", "/seed?file=" + FILE)
+	seedreq.send()
+
+	seedreq.onreadystatechange = function(){
+		if (this.readyState == 4 && this.status == 200){
+			WORLD_SEED = this.responseText * 1
+			renderTiles(0, 0, 100, 100)
+		}
+	}
+
+</script>
+
+</html>
