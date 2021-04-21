@@ -10,7 +10,7 @@ import random
 import sqlite3
 import os
 import sys
-import cv2
+#import cv2
 
 print("Starting")
 
@@ -570,7 +570,7 @@ for ycoord in range(0, MAX_WORLD_RADIUS * 2, 100):
 		#		cur.execute(command)
 		#conn.commit()
 		#np.savetxt('saves/' + fname + '/chunk_' + str(xcoord) + "_" + str(ycoord) + ".txt", GAME_GRID[ycoord:ycoord+100, xcoord:xcoord+100], fmt="%s", delimiter=" ")
-		print("Features done and saved " + str(pair1))
+		print("Features done " + str(pair1))
 
 
 generateDeserts(desert_coords)
@@ -578,16 +578,21 @@ generateDeserts(desert_coords)
 #for y in range(0, MAX_WORLD_RADIUS * 2):
 #	for x in range(0, MAX_WORLD_RADIUS * 2):
 		#command = ''' INSERT INTO world (tilename, tiledesc) VALUES ("''' + str(x) + "_" + str(y) + '''",  "''' + GAME_GRID[y, x] + '''")'''
+
+print("Generating save data...")
+
 coords = ['"' + str(x) + "_" + str(y) + '"' for x in range(0, MAX_WORLD_RADIUS * 2) for y in range(0, MAX_WORLD_RADIUS * 2)]
 tiles = ['"' + GAME_GRID[y, x] + '"' for x in range(0, MAX_WORLD_RADIUS * 2) for y in range(0, MAX_WORLD_RADIUS * 2)]
 
 final = ",".join(["(" + str(x) + "," + str(y) + ")" for x, y in zip(coords, tiles)])
 
-command = ''' INSERT INTO world (tilename, tiledesc) VALUES ''' + final
+command = ''' INSERT INTO world (tilename, tiledesc) VALUES ( '0_0', '0#l,f' )'''
 cur.execute(command)
 
 
 conn.commit()
+
+print("Map saved.")
 
 spawnlocs = [[500, 500], [510, 500], [510, 510], [500, 510]]
 
@@ -611,7 +616,7 @@ print("Spawn locations generated.")
 #img = Image.fromarray(IMG_ARRAY, "RGB")
 
 #img.save("saves/" + fname + "/img.png")
-IMG_ARRAY = cv2.cvtColor(IMG_ARRAY, cv2.COLOR_BGR2RGB)
-cv2.imwrite("saves/" + fname + "/img.png", IMG_ARRAY)
+#IMG_ARRAY = cv2.cvtColor(IMG_ARRAY, cv2.COLOR_BGR2RGB)
+#cv2.imwrite("saves/" + fname + "/img.png", IMG_ARRAY)
 
 
