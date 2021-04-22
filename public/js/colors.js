@@ -43,6 +43,6 @@ function getDesertCol(x, y){
 function getDesertElevCol(x, y){
 	var offset = ((WORLD_SEED / x * y) % 9) - 4.5
 	var offset = offset/(4.5*30)
-	col = new THREE.Color(0.43 + offset, 0.32, 0.18)
+	col = new THREE.Color(0.43 + offset, 0.37, 0.16)
 	return col
 }

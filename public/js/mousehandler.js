@@ -58,6 +58,8 @@ function onMouseClick( event ) {
 					break
 				}
 				if (unitlist[selectedunitid].m == 0){
+					moving_unit = false
+					updateUnitBar(selectedunitid)
 					break
 				}
 				else{
@@ -106,7 +108,7 @@ function onMouseClick( event ) {
 					//check for cities on adjacent tiles
 					checkForAdjacentCities(targetx, targety)
 				}
-				moving_unit = false
+				//moving_unit = false
 
 				updateUnitBar(selectedunitid)
 

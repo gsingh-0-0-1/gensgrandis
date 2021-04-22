@@ -9,6 +9,7 @@ const express = require('express')
 var fs = require('fs');
 const sqlite3 = require('sqlite3').verbose();
 const {URLSearchParams} = require('url')
+const path = require("path")
 
 const bodyParser = require('body-parser');
 
@@ -468,7 +469,10 @@ app.get("/gettile", (req, res) => {
 		return
 	}
 
-	var db = new sqlite3.Database("saves/" + file + "/world.db")
+	x = x * 1
+	y = y * 1
+
+	/*var db = new sqlite3.Database("saves/" + file + "/world.db")
 	var command = "SELECT * FROM world WHERE tilename='" + x + "_" + y + "'"
 
 	db.all(command, [], (err, rows) => {
@@ -476,6 +480,15 @@ app.get("/gettile", (req, res) => {
 			throw err;
 		}
 		res.send(rows)
+	})*/
+	//res.sendFile("saves/" + file + "/world_data/" + y + ".txt", {root: __dirname})
+	fs.readFile(path.resolve(__dirname, "saves/" + file + "/world_data/" + y + ".txt"), 'utf8' , (err, data) => {
+		if (err) {
+			console.error(err)
+			return
+		}
+		data = data.split("\n")
+		res.send(data[x])
 	})
 })
 

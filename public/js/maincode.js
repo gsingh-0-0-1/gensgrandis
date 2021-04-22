@@ -1036,7 +1036,6 @@ function drawUnits(i, emit = true){
 
 
 		if (unittype == "P"){
-			//fetchAndRender([thisunit.x * 1, thisunit.y * 1], [thisunit.x*1 + 1, thisunit.y*1 + 1])
 			drawPeople(thisunit.x, thisunit.y, thisunit.unitid, vis)
 		}
 		if (unittype == "RB"){
@@ -1056,16 +1055,20 @@ function fetchAndRender(coords1, coords2){
 		for (var x = coords1[0]; x < coords2[0]; x++){
 			var req = new XMLHttpRequest;
 			req.open("GET", "/gettile?x=" + x + "&y=" + y + "&file=" + FILE)
+			req.x = x
+			req.y = y
 			req.send()
 			req.onreadystatechange = function(){
 				if (this.readyState == 4 && this.status == 200){
-					var r = this.responseText.replace("[", '').replace("]", '')
-					r = r.replace("{", '').replace("}", '').split('","')
+					var r = this.responseText//.replace("[", '').replace("]", '')
+					//r = r.split("\n")
+					//r = r[x]
+					/*r = r.replace("{", '').replace("}", '').split('","')
 					r[0] = r[0].split(":")[1].replaceAll('"', '')
 					r[1] = r[1].split(":")[1].replaceAll('"', '')
 					var x = r[0].split("_")[0] * 1
-					var y = r[0].split("_")[1] * 1
-					draw(x, y, r[1])
+					var y = r[0].split("_")[1] * 1*/
+					draw(this.x, this.y, r)
 				}
 			}
 		}
@@ -1227,7 +1230,7 @@ document.onkeypress = function (e) {
 	}
 
 	if (letter == 'g' && selectedunitid != 'null'){
-		moving_unit = true
+		moving_unit = !moving_unit
 		updateUnitBar(selectedunitid)
 	}
 
