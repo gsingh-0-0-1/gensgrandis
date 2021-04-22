@@ -1616,3 +1616,7 @@ socket.on('addbuilding', function(subtile, texturename, x, y, id){
 socket.on('removebuilding', function(subtile, x, y, id){
 	removeBuilding(subtile_code, x, y, id)
 })
+
+socket.on('server_message', function(msg){
+	alert(msg)
+})

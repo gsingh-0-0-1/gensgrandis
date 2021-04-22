@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Console</title>
+</head>
+<body>
+	<iframe name="hidden_iframe" style="display: none; position: absolute; left: 0; top: 0; width: 100%; height: 50%"></iframe>
+	<form id="cmdform" action="/command" target="hidden_iframe" method="post" style="position: absolute; left: 0; top: 55%; width: 50%;">
+		<input id="authkey" name="authkey" type="text" style="width: 75%">
+		<br>
+		<input id="command" name="command" type="text" style="width: 75%">
+		<input type="Submit" style="display: none">
+	</form>
+</body>
+<script>
+	var cmdform = document.getElementById("cmdform")
+
+	cmdform.addEventListener("submit", function(e){
+		e.preventDefault()
+		submitForm()
+	})
+
+	function submitForm(){
+		cmdform.submit()
+		document.getElementById("command").value = ''
+	}
+</script>
+</html>

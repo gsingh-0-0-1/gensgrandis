@@ -11,7 +11,7 @@ function initialize(centerx, centery, spawnlocs){
 
 	camera.position.set(camerainitx, camerainity, camerainitz)
 
-	var filereq = new XMLHttpRequest;
+	filereq = new XMLHttpRequest;
 
 	if (multi){
 		var room = window.location.href.split("/").slice(-1)
@@ -26,7 +26,10 @@ function initialize(centerx, centery, spawnlocs){
 		if (this.readyState == 4 && this.status == 200){
 
 			if (multi){
-				FILE = this.responseText
+				FILE = this.responseText * 1
+				FILE = Math.random() * FILE
+				FILE = Math.ceil(FILE)
+				FILE = "map" + FILE
 			}
 			else{
 				//FILE = "map" + String(Math.ceil(Math.random() * (this.responseText * 1)))

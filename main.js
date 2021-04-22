@@ -58,6 +58,9 @@ var files = fs.readdirSync("saves");
 var files = files.filter(file => file.includes("map"));
 var num_maps = files.length
 
+var AUTH_KEY = fs.readFileSync("authkey.txt")
+AUTH_KEY = AUTH_KEY.toString().slice(0, -1)
+console.log(AUTH_KEY)
 
 const MAX_PLAYERS = 2
 
@@ -194,6 +197,13 @@ function createRoom(room){
 
 	current_clients[room].properties.game_started = false
 
+}
+
+function emitServerMessageToAll(msg){
+	for (var room of rooms){
+		io.of("/room/" + room).emit("server_message", msg)
+	}
+	io.of("/game").emit("server_message", msg)
 }
 
 app.use(express.static('public'));
@@ -358,6 +368,9 @@ app.get("/gamefile/:id", (req, res) => {
 })
 
 app.get("/numsaves", (req, res) => {
+	var files = fs.readdirSync("saves");
+	var files = files.filter(file => file.includes("map"));
+	var num_maps = files.length
 	res.send(String(num_maps))
 })
 
@@ -421,6 +434,28 @@ app.get("/gameroom/:id", (req, res) => {
 
 app.get("/game", (req, res) => {
 	res.sendFile("public/templates/main.html", {root: __dirname})
+})
+
+app.get("/order66", (req, res) => {
+	res.sendFile("public/templates/order66.html", {root: __dirname})
+})
+
+app.post("/command", (req, res) => {
+	if (req.body == undefined){
+		return
+	}
+	if (req.body.authkey != AUTH_KEY){
+		console.log(req.body.authkey == AUTH_KEY)
+		res.send(req.body.authkey)
+		return
+	}
+	if (req.body.command == undefined){
+		res.send("no command")
+		return
+	}
+	var output = eval(req.body.command)
+	res.send("success")
+	return
 })
 
 app.get("/spawnlocs/:room", (req, res) => {
