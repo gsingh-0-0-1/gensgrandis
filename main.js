@@ -117,6 +117,9 @@ function initRoom(room){
 		})
 
 		socket.on('turndone', () => {
+			if (!current_clients[room].properties.game_started){
+				return
+			}
 			current_clients[room].properties.current_turn += 1
 			current_clients[room].properties.current_turn = current_clients[room].properties.current_turn % current_clients[room].properties.maxplayers
 			let targetplayer = Object.keys(current_clients[room].players)[current_clients[room].properties.current_turn]
