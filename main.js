@@ -221,7 +221,7 @@ app.get("/*", (req, res, next) => {
 		}
 		return next();
 	}
-	var text = "Connection to " + req.url + " at " + new Date(new Date().toUTCString()) + " from " + ip
+	var text = "url:" + req.url + ",time:" + new Date(new Date().toUTCString()) + ",ip:" + ip
 	console.log(text)
 	log_file.write(text + '\n');
 	return next();
