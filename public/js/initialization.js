@@ -26,10 +26,7 @@ function initialize(centerx, centery, spawnlocs){
 		if (this.readyState == 4 && this.status == 200){
 
 			if (multi){
-				FILE = this.responseText * 1
-				FILE = Math.random() * FILE
-				FILE = Math.ceil(FILE)
-				FILE = "map" + FILE
+				FILE = this.responseText
 			}
 			else{
 				//FILE = "map" + String(Math.ceil(Math.random() * (this.responseText * 1)))
