@@ -47,6 +47,8 @@ socket.on('chatmessage', function(user, msg) {
 	addChatMessage(user, msg)
 });
 
+var my_turn = false
+
 var cont = document.getElementById("music_holder")
 
 addSong("gg_1", "Beginnings", cont)
@@ -1196,6 +1198,9 @@ function draw(x, y, data){
 
 
 document.onkeypress = function (e) {
+	if (document.activeElement.id == "chatinput"){
+		return
+	}
 	if (naming_city){
 		return
 	}
@@ -1251,6 +1256,9 @@ var rightarrowdown = false
 var uparrowdown = false
 var downarrowdown = false
 document.onkeydown = function(e) {
+	if (document.activeElement.id == "chatinput"){
+		return
+	}
 	if (naming_city){
 		return
 	}
@@ -1291,7 +1299,10 @@ document.onkeydown = function(e) {
 	}
 
 	if (code == endturnkeycode){//enterkeycode){
-		endTurn()
+		if (my_turn){
+			my_turn = false
+			endTurn()
+		}
 	}
 
 	if (code == leftarrowcode){
@@ -1337,6 +1348,9 @@ document.onkeydown = function(e) {
 }
 
 document.onkeyup = function(event){
+	if (document.activeElement.id == "chatinput"){
+		return
+	}
 	var code = event.keyCode
 	
 	if (code == leftarrowcode){
@@ -1543,6 +1557,7 @@ socket.on('yourturn', function(playernum){
 		}
 	}
 	else{
+		my_turn = true
 		hideTurnWaitScreen()
 	}
 	//myturn = true

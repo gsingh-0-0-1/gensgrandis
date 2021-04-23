@@ -123,9 +123,21 @@ function initRoom(room){
 			if (!current_clients[room].properties.game_started){
 				return
 			}
+
+			//ensure that only the player whose turn it currently is can actually end the turn
+			let currentplayers = Object.keys(current_clients[room].players)
+			let currentplayer = currentplayers[current_clients[room].properties.current_turn]
+
+			if (currentplayer != socket.id){
+				return
+			}
+			//if (current_clients[room].properties.current_turn)
 			current_clients[room].properties.current_turn += 1
 			current_clients[room].properties.current_turn = current_clients[room].properties.current_turn % current_clients[room].properties.maxplayers
-			let targetplayer = Object.keys(current_clients[room].players)[current_clients[room].properties.current_turn]
+
+			//get the target player
+			let targetplayer = currentplayers[current_clients[room].properties.current_turn]
+
 			current_clients[room].players[targetplayer].emit('yourturn', current_clients[room].properties.current_turn)
 		})
 
