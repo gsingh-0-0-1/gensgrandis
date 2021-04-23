@@ -585,6 +585,10 @@ app.get("/getsaves", (req, res) => {
 	res.send(files)
 })
 
+app.all("/*", (req, res) => {
+	res.sendFile("public/templates/pagenotfound.html", {root: __dirname})
+})
+
 for (var room = 1; room <= approvedrooms; room++){
 	initRoom(room)
 	createRoom(room)
