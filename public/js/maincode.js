@@ -1298,9 +1298,14 @@ document.onkeydown = function(e) {
 		}
 	}
 
-	if (code == endturnkeycode){//enterkeycode){
-		if (my_turn){
-			my_turn = false
+	if (code == endturnkeycode){//enterkeycode){]
+		if (multi){
+			if (my_turn){
+				my_turn = false
+				endTurn()
+			}
+		}
+		else{
 			endTurn()
 		}
 	}
