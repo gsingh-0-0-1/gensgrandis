@@ -109,9 +109,22 @@
 
 	var socket = io("/")
 
+	function colorRoomText(room){
+		if (document.getElementById(room + "_plct").textContent == "0"){
+			document.getElementById(room + "_plct").style.color = "#000"
+		}
+		else if (document.getElementById(room + "_plct").textContent == document.getElementById(room + "_maxpl").textContent){
+			document.getElementById(room + "_plct").style.color = "#fff"
+		}
+		else{
+			document.getElementById(room + "_plct").style.color = "#2d2"
+		}
+	}
+
 	socket.on('roomupdate', function(room, numusers){
 		console.log(room, numusers)
 		document.getElementById(room + "_plct").textContent = numusers
+		colorRoomText(room)
 	})
 
 	function handleInput(event){
@@ -154,6 +167,7 @@
 		cur_pl_req.onreadystatechange = function(){
 			if (this.readyState == 4 && this.status == 200){
 				document.getElementById(room + "_plct").textContent = this.responseText
+				colorRoomText(room)
 			}
 		}
 	}
