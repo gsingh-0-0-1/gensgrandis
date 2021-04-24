@@ -497,8 +497,15 @@
 
 
 
+	<div id="game_options" style="position: fixed; left: 3%; top: 5%; width: 25%; height: 20%; background-color: #555; border: 2px solid #999; z-index: 3; color: #999; font-family: Lato; overflow-y: scroll">
+		<div style="position: sticky; left: 0%; top: 0%; padding: 5px 5px; background-color: #333; font-size: 1.9vh">
+			Game Options
+		</div>
+		<br>
+		<input id="soundtrack_button" class="button" type="button" style="position: relative; background-color: #b48888; color: #555; font-family: Source Code Pro; left: 5%; padding: 7px 7px" value="Soundtrack Off" onclick="javascript:handleSoundtrackButton()">
+	</div>
 
-	<div id="music_holder" style="position: fixed; left: 3%; top: 5%; width: 25%; height: 20%; background-color: #555; border: 2px solid #999; z-index: 3; color: #999; font-family: Lato; overflow-y: scroll">
+	<div id="music_holder" style="display: none; position: fixed; left: 3%; top: 5%; width: 25%; height: 20%; background-color: #555; border: 2px solid #999; z-index: 3; color: #999; font-family: Lato; overflow-y: scroll">
 		<div style="position: sticky; left: 0%; top: 0%; padding: 5px 5px; background-color: #333; font-size: 1.9vh">
 			Game Soundtrack
 		</div>
@@ -670,6 +677,7 @@
 
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r124/three.js"></script>
 <script type="text/javascript" src="https://threejs.org/examples/js/controls/OrbitControls.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 
 <script src="https://threejs.org/examples/js/loaders/GLTFLoader.js"></script>
 <script src="https://threejs.org/examples/js/utils/SkeletonUtils.js"></script>

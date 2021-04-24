@@ -30,6 +30,8 @@ addSong("gg_4", "Exploring", cont)
 addSong("gg_5", "Gens Grandis", cont)
 addSong("gg_6", "Sly", cont)
 
+var song_ids_to_play = ["gg_1", "gg_2", "gg_4", "gg_5"]
+
 var multi = false
 
 if (window.location.pathname.includes("room")){
@@ -273,8 +275,6 @@ if (!multi){
 }
 
 var ending_game = false
-
-
 
 
 

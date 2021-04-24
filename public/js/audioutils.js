@@ -1,26 +1,3 @@
-/*var template = `<span id="audio_template" style="display: none">
-				<audio id="">
-					<source src="">
-				</audio>
-
-				<div style="padding: 5px 5px; font-size: 1vh">
-
-					<span id=""></span> -- 
-					<button class="playerbutton" style="background-color: #5a5" onclick="this.parentNode.parentNode.children[0].play(); this.parentNode.children[7].style.display = 'initial'"><i class="material-icons">play_arrow</i></button> 
-					<button class="playerbutton" style="background-color: #a55" onclick="this.parentNode.parentNode.children[0].pause(); this.parentNode.children[7].style.display = 'none'"><i class="material-icons">pause</i></button> 
-
-
-					<button class="playerbutton" style="background-color: #33d" onclick="this.parentNode.parentNode.children[0].currentTime = 0"><i class="material-icons">replay</i></button> 
-					<button class="playerbutton" style="background-color: #bb3" onclick="this.parentNode.parentNode.children[0].currentTime -= 10"><i class="material-icons">fast_rewind</i></button> 
-					<button class="playerbutton" style="background-color: #bb3" onclick="this.parentNode.parentNode.children[0].currentTime += 10"><i class="material-icons">fast_forward</i></button> 
-					<button class="playerbutton" style="background-color: #bbb" onclick="javascript:loopAudio(this)"><i class="material-icons">loop</i></button> 
-					<i class="material-icons" style="display: none">volume_up</i>
-				</div>
-			</span>`
-*/
-
-
-
 function loopAudio(obj){
 	var curloop = document.getElementById(obj.parentNode.parentNode.id + "_player").loop
 	if (curloop == false){
@@ -61,5 +38,108 @@ function addSong(id, name, cont){
 			//cont.appendChild(document.createElement('br'))
 
 		}
+	}
+}
+
+var audioVolume = 0
+var current_playing_id = null
+var muted = true
+
+function handleSoundtrackButton(){
+	if (muted){
+		muted = false
+		muteOrUnmute()
+		document.getElementById("soundtrack_button").style.backgroundColor = "#88b488"
+		document.getElementById("soundtrack_button").value = "Soundtrack On"
+		return
+	}
+	muted = true
+	muteOrUnmute()
+	document.getElementById("soundtrack_button").style.backgroundColor = "#b48888"
+	document.getElementById("soundtrack_button").value = "Soundtrack Off"
+}
+
+function switchAudioVolume(){
+	if (audioVolume < 1){
+		audioVolume = 1
+		return
+	}
+	audioVolume = 0
+}
+
+function muteOrUnmute(id = current_playing_id){
+	switchAudioVolume()
+	if (id == null){
+		return
+	}
+	document.getElementById(id).volume = audioVolume
+}
+
+function setPlayerVolume(id, volume = audioVolume){
+	document.getElementById(id).volume = volume
+}
+
+function getPlayerVolume(id){
+	return document.getElementById(id)
+}
+
+function setAudioVolume(v){
+	audioVolume = v
+}
+
+function rampUpSongVolume(id){
+	if (getPlayerVolume(id) >= 1){
+		setPlayerVolume(id, 1)
+		return
+	}
+	let targetvol = document.getElementById(id).volume + 0.01
+	if (targetvol > 1){
+		targetvol = 1
+	}
+	document.getElementById(id).volume = targetvol
+	setTimeout(function(){
+		rampUpSongVolume(id + '')
+	}, 20)
+}
+
+function playSongFromSoundtrack(n){
+	if (isNaN(n)){
+		return
+	}
+	n = n * 1
+	var songid = song_ids_to_play[n % song_ids_to_play.length] + "_player"
+
+	current_playing_id = songid
+
+	setPlayerVolume(songid, 0)
+
+	document.getElementById(songid).play()
+
+	if (audioVolume != 0){
+		$("#" + songid).animate({volume: 1.0}, 2000);
+		//rampUpSongVolume(songid)
+	}
+
+	document.getElementById(songid).onended = function(){
+		setTimeout(function(){
+
+			playSongFromSoundtrack(n + 1)
+
+		}, 45000)
+	}
+}
+
+function startSoundtrack(t = 25000){
+	setTimeout(function(){
+		playSongFromSoundtrack(0)
+	}, t)
+}
+
+var user_interacted = false
+
+document.onclick = function(){
+	if (!user_interacted){
+		user_interacted = true
+		startSoundtrack()
 	}
 }
