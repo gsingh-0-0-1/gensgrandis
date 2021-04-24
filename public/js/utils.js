@@ -153,11 +153,12 @@ function updateCityCenterTradingPanel(){
 			c_el.textContent = city.name
 
 			var rd_button = document.createElement('input')
+			rd_button.id = city.center.x + "_" + city.center.y + "_center_redirect_button"
 			rd_button.type = "button"
 			rd_button.value = "Send >>"
 			rd_button.style.float = "right"
 			rd_button.onclick = function(){
-				redirectFood('', true, city.center.x, city.center.y);
+				redirectFood(city.center.x + '', city.center.y + '', true);
 				return false
 			}
 			c_el.appendChild(rd_button)
@@ -185,12 +186,25 @@ function updateCityCenterTradingPanel(){
 	ti.style.backgroundColor = "#aad"
 	citycentertrading.appendChild(ti)
 
+	var q = document.createElement('span')
+	q.className = 'button questionmarkbox'
+	q.type = 'button'
+	q.innerHTML = "?<span class='hoverinfo' style='left: -4vw; background-color: #666'>To re-route food to another city, select the tile you want to take food from. Then, type the amount of food you want to send in the box, and hit the " + '"Send"' + " button next to your desired city.</span>"
+	q.style.position = "fixed"
+	q.style.left = "74%"
+	q.style.bottom = "80.3%"
+	citycentertrading.appendChild(q)
+
+	//f.innerHTML = "<span class='button questionmarkbox' type='button'>?<span class='hoverinfo'>See a 2-D view of your city.</span></span>"
+
 	var refresh = document.createElement('input')
 	refresh.type = 'button'
 	refresh.value = 'Refresh List'
-	refresh.style.position = "fixed"
-	refresh.style.right = "calc(20% + 5px)"
-	refresh.style.bottom = "calc(80% + 5px)"
+	refresh.style.position = "absolute"
+	refresh.style.right = "0"
+	refresh.style.bottom = "0"
+	refresh.style.fontSize = "0.55vw"
+	refresh.style.width = "auto"
 	refresh.onclick = function(){
 		updateCityCenterTradingPanel();
 		return false

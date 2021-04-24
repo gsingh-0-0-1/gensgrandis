@@ -16,7 +16,7 @@
 
 	  gtag('config', 'UA-131520225-3');
 	</script>
-	
+
 	<meta name="google-site-verification" content="Wm67db8wTj_MDhFfzwgS_BhR0QvqpNc2fhla6nQm51w" />
 	<meta charset="UTF-8">
 
@@ -193,6 +193,9 @@
 				}
 				else if (line.startsWith("Date")){
 					childline.style.color = "#d60"
+					line = line.split(" ")
+					line = line.filter(el => el != '')
+					line = line[0] + " " + line[1] + " " + line[2] + " " + line[3]
 				}
 				else{
 					childline.style.color = "#ddd"

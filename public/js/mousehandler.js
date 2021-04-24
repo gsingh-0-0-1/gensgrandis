@@ -133,6 +133,7 @@ function onMouseClick( event ) {
 				else{
 					alert("Not your unit!")
 				}
+				return
 			}
 
 			//the object that'll be clicked on will be a portion of a building
@@ -142,13 +143,19 @@ function onMouseClick( event ) {
 			if (obj.parent != undefined){
 				if (obj.parent.parent != undefined){
 					if (obj.parent.parent.city == true){
-						showCitySidebar(obj.parent.parent.cityID, obj.parent.parent.position.x, obj.parent.parent.position.y)
+						var targetid = obj.parent.parent.cityID
+						var targetx = obj.parent.parent.position.x
+						var targety = obj.parent.parent.position.y
+						//showCitySidebar(obj.parent.parent.cityID, obj.parent.parent.position.x, obj.parent.parent.position.y)
 					}
 
 					//or, if it's not a center building, then we look for the next parent up
 					if (obj.parent.parent.parent != undefined){
 						if (obj.parent.parent.parent.city == true){
-							showCitySidebar(obj.parent.parent.parent.cityID, obj.parent.parent.parent.position.x, obj.parent.parent.parent.position.y)
+							var targetid = obj.parent.parent.parent.cityID
+							var targetx = obj.parent.parent.parent.position.x
+							var targety = obj.parent.parent.parent.position.y
+							//showCitySidebar(obj.parent.parent.parent.cityID, obj.parent.parent.parent.position.x, obj.parent.parent.parent.position.y)
 						}
 					}
 				}
@@ -156,7 +163,17 @@ function onMouseClick( event ) {
 
 			//OR, if the user clicks on a tile that has a city:
 			if (obj.hasCity == true){
-				showCitySidebar(obj.tileCityID, obj.position.x, obj.position.y)
+				var targetid = obj.tileCityID
+				var targetx = obj.position.x
+				var targety = obj.position.y
+			}
+
+			if (redirecting_food){
+				redirectFood(targetx, targety)
+				return
+			}
+			else{
+				showCitySidebar(targetid, targetx, targety)
 			}
 
 		}

@@ -17,11 +17,12 @@
 
 	  gtag('config', 'UA-131520225-3');
 	</script>
-	
+
 	<title>Gēns Grandis</title>
 
 	<link rel="preconnect" href="https://fonts.gstatic.com">
 	<link href="https://fonts.googleapis.com/css2?family=Lato:wght@300&display=swap" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css2?family=Source+Code+Pro:wght@300&display=swap" rel="stylesheet">
 
 	<style type="text/css">
 
@@ -123,6 +124,29 @@
 		#messages > li { padding: 0.5rem 1rem; color: #000; word-wrap: break-word;}
 		#messages > li:nth-child(odd) { background: #bcbcbc; }
 		#messages > li:nth-child(even) { background: #7a7a7a; }
+
+		.button.questionmarkbox {position: absolute; 
+			border-radius: 50%; 
+			padding: 0px 0px; 
+			display: inline-block; 
+			height: 1.6vh; 
+			width: 1.6vh; 
+			font-size: 1.4vh; 
+			background-color: #444}
+		.hoverinfo {display: none; 
+			position: absolute; 
+			top: 1.4vh; 
+			font-size: 1.2vh; 
+			font-family: Lato; 
+			width: 4vw; 
+			height: auto; 
+			transform: translate(-10%, 0); 
+			background-color: #111; 
+			text-align: left; 
+			padding: 0.1vh 0.1vw;
+			z-index: 4;
+		}
+		.button.questionmarkbox:hover .hoverinfo {display: initial;}
 	</style>
 </head>
 <body>
@@ -162,7 +186,7 @@
 	</div>
 
 
-	<div id="unit_commands_info" style="position: fixed; left: 50%; top: 90%; width: 40%; height: 20%; transform: translate(-50%, -50%); background-color: #4a4aaa; border: 5px solid #d9d0d0; box-sizing: border-box; display: none; z-index: 0; font-family: Courier; font-size: 18px; color: #daa;">
+	<div id="unit_commands_info" style="position: fixed; left: 50%; top: 90%; width: 40%; height: 20%; transform: translate(-50%, -50%); background-color: #4a4aaa; border: 5px solid #d9d0d0; box-sizing: border-box; display: none; z-index: 0; font-family: Source Code Pro; font-size: 1.3vh; color: #daa;">
 		<div id="general_commands" style="position: fixed; left: 3%; top: 10%;">
 			G: Moving Mode 
 			<br>
@@ -171,11 +195,21 @@
 			ESC: Deselect Unit
 		</div>
 
-		<div id="unit_specific_commands" style="position: fixed; left: 53%; top: 10%">
+		<div id="unit_specific_commands" style="position: fixed; left: 33%; top: 10%">
 		</div>
 
 		<div id="endturn_info" style="position: fixed; left: 50%; top: 65%; transform: translate(-50%, 0)">
 			T to End Turn
+		</div>
+
+		<div id="controls_info" style="position: fixed; left: 70%; top: 10%; transform: translate(-50%, 0)">
+			Arrow keys to move
+			<br>
+			W to look north
+			<br>
+			S to look south
+			<br>
+			SPACE / Z to move up / down
 		</div>
 	</div>
 
@@ -219,8 +253,12 @@
 
 		</div>
 
-		<div id="city_info_sidebar_expand" class="city_sidebar_small_cont" style="top: 27%; left: 7%">
-			Expand City...
+		<div id="city_info_sidebar_expand" class="city_sidebar_small_cont" style="top: 27%; left: 7%;">
+			Expand City... 
+
+			<span class="button questionmarkbox" type="button">
+				?<span class="hoverinfo">Use 50 spare population to expand your city to another tile.</span>
+			</span>
 
 			<br>
 
@@ -239,17 +277,17 @@
 
 					<tr>
 						<td>
-							<input class="button" type="button" value="W" style="font-size: 1vh; font-family: Lato;background-color: #8c8c1a; padding: 0.4vh 0.4vh" onclick="javascript:expandCity([-1, 0])">
+							<input class="button" type="button" value="W" style="font-size: 1vh; font-family: Lato; background-color: #8c8c1a; padding: 0.4vh 0.4vh" onclick="javascript:expandCity([-1, 0])">
 						</td>
 						<td></td>
 						<td>
-							<input class="button" type="button" value="E" style="font-size: 1vh; font-family: Lato;background-color: #1a1a8c; padding: 0.4vh 0.4vh" onclick="javascript:expandCity([1, 0])">	
+							<input class="button" type="button" value="E" style="font-size: 1vh; font-family: Lato; background-color: #1a1a8c; padding: 0.4vh 0.4vh" onclick="javascript:expandCity([1, 0])">	
 						</td>
 					</tr>
 					<tr>
 						<td></td>
 						<td>
-							<input class="button" type="button" value="S" style="font-size: 1vh; font-family: Lato;background-color: #1a8c1a; padding: 0.4vh 0.4vh" onclick="javascript:expandCity([0, -1])">
+							<input class="button" type="button" value="S" style="font-size: 1vh; font-family: Lato; background-color: #1a8c1a; padding: 0.4vh 0.4vh" onclick="javascript:expandCity([0, -1])">
 						</td>
 						<td></td>
 					</tr>
@@ -261,10 +299,17 @@
 
 		<div class="city_sidebar_small_cont" style="top: 45%; left: 7%">
 			<input class="button" type="button" value="Tile Level Interface >>" style="font-size: 16px; font-family: Lato; background-color: #777; padding: 5px 5px" onclick="javascript:showTileLevelInterface()">
+			<span class="button questionmarkbox" type="button">
+				?<span class="hoverinfo">Add buildings to your tile to grow your city and make it more productive.</span>
+			</span>
 		</div>
 
 		<div id="city_info_sidebar_breakoff_people" class="city_sidebar_small_cont" style="top: 50%; left: 7%">
 			Break city off into people...
+
+			<span class="button questionmarkbox" type="button">
+				?<span class="hoverinfo">Use 100 spare population to create a People unit.</span>
+			</span>
 
 			<div style="padding-left: 20px">
 
@@ -277,6 +322,10 @@
 		<div id="city_info_sidebar_view_city_tiles" class="city_sidebar_small_cont" style="top: 60%; left: 7%">
 			View city...
 
+			<span class="button questionmarkbox" type="button">
+				?<span class="hoverinfo">See a 2-D view of your city.</span>
+			</span>
+
 			<div style="padding-left: 20px">
 
 				<input class="button" type="button" value="View >>" style="font-size: 16px; font-family: Lato; background-color: #040; padding: 5px 5px" onclick="javascript:showCityTileView()">
@@ -288,9 +337,13 @@
 		<div id="city_info_sidebar_redirect_food" class="city_sidebar_small_cont" style="top: 67%; left: 7%">
 			Redirect food...
 
+			<span class="button questionmarkbox" type="button">
+				?<span class="hoverinfo">Select the tile you want to take food from. Then, enter the amount of food you want to move in the box below, and click the button. Then select the tile you want to move the food to.</span>
+			</span>
+
 			<div style="padding-left: 20px">
 
-				<input class="button" type="button" value="Redirect >>" style="font-size: 16px; font-family: Lato; background-color: #400; padding: 5px 5px" onclick="javascript:redirectFood();">
+				<input class="button" type="button" value="Redirect >>" style="font-size: 16px; font-family: Lato; background-color: #400; padding: 5px 5px" onclick="javascript:redirectFood(null, null, false);">
 				<br>
 				<input class="button" type="text" style="font-size: 16px; font-family: Lato; background-color: #aae; padding: 5px 5px; color: #111" id="foodRedirectTextInput" placeholder="--Redirect amount--">
 

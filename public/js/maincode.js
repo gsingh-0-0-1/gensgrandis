@@ -296,7 +296,43 @@ function reAssignFood(coords1, coords2, amount){
 	}
 }
 
-function redirectFood(tileobj = '', citycenter = false, x = '', y = ''){
+function redirectFood(x = null, y = null, center_trade = false){
+	if (!center_trade){
+		if (!redirecting_food){
+			redirecting_food = true
+			return
+		}
+		if (selectedcitytilex == null || selectedcitytiley == null){
+			return
+		}
+	}
+
+
+	if (!center_trade){
+		var amount = document.getElementById("foodRedirectTextInput").value * 1
+		document.getElementById("foodRedirectTextInput").value = ''
+	}
+	else{
+		var amount = document.getElementById("citycentertrading_input").value * 1
+		document.getElementById("citycentertrading_input").value = ''
+	}
+
+
+	if (isNaN(amount) || amount < 1){
+		return
+	}
+	if (getTileAt(selectedcitytilex, selectedcitytiley).basefood - amount < mincitytilepop){
+		alert("Too much food to redirect! You need to leave 50 food on each tile.")
+		return
+	}
+
+	reAssignFood([selectedcitytilex, selectedcitytiley], [x, y], amount)
+	redirecting_food = false
+
+	socket.emit('redirectfood', selectedcitytilex, selectedcitytiley, x, y, amount)
+}
+
+/*function redirectFood(tileobj = '', citycenter = false, x = '', y = ''){
 	if (!in_city_tile_view && !citycenter){
 		showCityTileView()
 	}
@@ -356,7 +392,7 @@ function redirectFood(tileobj = '', citycenter = false, x = '', y = ''){
 			socket.emit('redirectfood', selectedcitytilex, selectedcitytiley, targetx, targety, redirectval)
 		}
 	}
-}
+}*/
 
 function showCityTileView(argCityID = selectedcityid){
 	in_city_tile_view = true

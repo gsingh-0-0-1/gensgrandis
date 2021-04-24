@@ -37,7 +37,7 @@ if (window.location.pathname.includes("room")){
 }
 
 if (!multi){
-	showTutorialAsk()
+	//showTutorialAsk()
 }
 
 
