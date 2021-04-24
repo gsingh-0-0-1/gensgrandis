@@ -68,6 +68,9 @@
 	<audio id="gg_6">
 		<source style="display: none" src="sounds/gg_6.mp3"/>
 	</audio>
+	<audio id="gg_8">
+		<source style="display: none" src="sounds/gg_8.mp3"/>
+	</audio>
 	
 	<div style="position: fixed; left: 50%; top: 10%; width: 40%; height: 60%; transform: translate(-50%, 0); overflow-y: scroll;">
 		<div class="songcont">
@@ -150,6 +153,22 @@
 			</div>
 		</div>
 
+		<div class="songcont">
+
+			<div style="position: absolute; left: 1vw; top: 50%; height: 2vh; width: 2vh; transform: translate(0, -50%)">
+				<svg id="gg_8_button" height="2vh" width="2vh" viewBox="0 0 100 100" onclick="playsong(this)">
+				 	<polygon points="0,0 100,50 0,100" style="fill: #ddd;" />
+				</svg>
+			</div>
+
+			<div style="position: absolute; top: 50%; left: 2.5vw; line-height: 100%; transform: translate(0, -50%)">
+				Astra
+			</div>
+
+			<div style="position: absolute; top: 50%; right: 3vw; list-style: 100%; transform: translate(0, -50%);" id="gg_8_dur">
+			</div>
+		</div>
+
 	</div>
 
 	<audio style="position: fixed; left: 50%; bottom: 2.5%; width: 50%; height: 5%; transform: translate(-50%, -50%);" id="songplayer" controls controlsList="nodownload">
@@ -176,7 +195,8 @@
 		"gg_2" : "Sailing",
 		"gg_4" : "Exploring",
 		"gg_5" : "Gens Grandis",
-		"gg_6" : "Sly"
+		"gg_6" : "Sly",
+		"gg_8" : "Astra"
 	}
 
 	function addDurationText(song){
