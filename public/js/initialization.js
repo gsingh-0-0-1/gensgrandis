@@ -97,6 +97,7 @@ function initialize(centerx, centery, spawnlocs){
 									if (!multi){
 										hideTurnWaitScreen()
 									}
+									addToMiniMap(gamecenterx, gamecentery)
 								}
 							}			
 						//}

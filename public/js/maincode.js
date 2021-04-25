@@ -225,6 +225,54 @@ function checkAndLoad(x, y, explore = true){
 
 //STUFF TO CONTROL UNITS 
 //onMouseClick()
+var c = document.getElementById("minimap");
+var infiniteCanvas = new InfiniteCanvas(c, {greedyGestureHandling: true});
+var ctx = infiniteCanvas.getContext("2d");
+
+c.width  = Math.round(height / 5);
+c.height = Math.round(height / 5);
+
+var minimap_w = c.getBoundingClientRect().width
+var minimap_h = c.getBoundingClientRect().height
+
+function addToMiniMap(x, y){
+	var side = 5
+	//side = side * minimap_w / 100
+	var tile = getTileAt(x, y)
+	var faces = tile.geometry.faces
+	if (faces != undefined){
+		for (var face of geo.faces){
+			if (face.normal.z = 1){
+				var col = face.color
+			}
+		}
+	}
+	if (col == undefined || col == null){
+		var col = tile.material.color
+	}
+
+	var left = (side * minimap_w / 100) * (x - gamecenterx) + (minimap_w / 2)
+	var top = (side * minimap_w / 100) * (gamecentery - y) + (minimap_w / 2)
+	/*var t = document.createElement('div')
+	t.style.position = 'absolute'
+	var left = (x - gamecenterx) * side
+	var left = left + 50
+	var left = left + "%"
+	var top = (gamecentery - y) * side
+	var top = top + 50
+	var top = top + "%"
+	t.style.left = left
+	t.style.top = top
+	t.style.backgroundColor = 'rgb(' + Math.floor(col.r * 255) + ", " + Math.floor(col.g * 255) + ", " + Math.floor(col.b * 255) + ")"
+	t.style.height = side + "%"
+	t.style.width = side + "%"
+	document.getElementById("minimap").appendChild(t)*/
+	ctx.fillStyle = 'rgb(' + Math.floor(col.r * 255) + ", " + Math.floor(col.g * 255) + ", " + Math.floor(col.b * 255) + ")"
+	ctx.beginPath();
+	ctx.rect(left, top, (side * minimap_w / 100), (side * minimap_w / 100));
+	//ctx.fillRect(0, 0, 100,100)
+	ctx.fill();
+}
 
 function exploreAtCoords(x, y){
 	x = x * 1
@@ -237,6 +285,7 @@ function exploreAtCoords(x, y){
 
 				exploredtiles.push(newx + "," + newy)
 				getTileAt(newx, newy).visible = true
+				addToMiniMap(newx, newy)
 			}
 		}
 	}

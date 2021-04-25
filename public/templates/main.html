@@ -109,7 +109,7 @@
 			box-sizing: border-box;
 		}
 
-		#chatform { background: rgba(0, 0, 0, 0.15); padding: 0; position: fixed; top: calc(50% - 4.2vh); left: 15%; width: 13%; display: flex; height: 4.2vh; box-sizing: border-box; z-index: 3;}
+		#chatform { background: rgba(0, 0, 0, 0.15); padding: 0; position: fixed; top: calc(40% - 4.2vh); left: 15%; width: 13%; display: flex; height: 4.2vh; box-sizing: border-box; z-index: 3;}
 		#chatinput { border: none; padding: 0 1rem; flex-grow: 1; margin: 0.25rem; width: 75%; }
 		#chatinput:focus { outline: none; }
 		#chatform > button { background: #333; border: none; padding: 0 1rem; margin: 0.25rem; border-radius: 3px; outline: none; color: #fff;}
@@ -418,18 +418,6 @@
 
 		<input class="button" type="button" style="position: absolute; top: 0%; left: 0%; background-color: #bb6666; padding: 7px 10px" value="X" onclick="javascript:hideTileLevelInterface()">
 
-		<!--<span style="position: absolute; left: 12.5%; top: 25%; width: auto; font-size: 2vh; font-family: Lato; color: #ffefef; transform: translate(-50%, 0);">Add Buildings</span>
-
-		<input class="button" type="button" id="subtile_building_select_FA" style="position: absolute; left: 12.5%; top: 30%; width: 50px; height: 50px; padding: 7px 10px; transform: translate(-50%, 0); background-size: 100%; background-image: url('/resources/building_icons/FA.png')" onclick="javascript:renderBuildingInSubtileView(FARM_TEXTURE)">
-
-		<input class="button" type="button" id="subtile_building_select_BA" style="position: absolute; left: 12.5%; top: 40%; width: 50px; height: 50px; padding: 7px 10px; transform: translate(-50%, 0); background-size: 100%; background-image: url('/resources/building_icons/BA.png')" onclick="javascript:renderBuildingInSubtileView(BARRACKS_TEXTURE)">
-
-		<input class="button" type="button" id="subtile_building_select_AM" style="position: absolute; left: 12.5%; top: 50%; width: 50px; height: 50px; padding: 7px 10px; transform: translate(-50%, 0); background-size: 100%; background-image: url('/resources/building_icons/AM.png')" onclick="javascript:renderBuildingInSubtileView(ARMORY_TEXTURE)">
-
-		<input class="button" type="button" id="subtile_building_select_FO" style="position: absolute; left: 12.5%; top: 60%; width: 50px; height: 50px; padding: 7px 10px; transform: translate(-50%, 0); background-size: 100%; background-image: url('/resources/building_icons/FO.png')" onclick="javascript:renderBuildingInSubtileView(FORGE_TEXTURE)">
-
-		<input class="button" type="button" id="subtile_building_select_FO" style="position: absolute; left: 12.5%; top: 70%; width: 50px; height: 50px; padding: 7px 10px; transform: translate(-50%, 0); background-size: 100%; background-image: url('/resources/building_icons/X.png')" onclick="javascript:removeBuildingInSubtileView()">-->
-
 		<input class="button" type="button" style="position: absolute; top: 95%; left: 93%; background-color: #bb6666; padding: 7px 10px; font-size: 1.1vh" value="Apply Changes" onclick="javascript:applyTileGridChanges()">
 
 
@@ -490,8 +478,7 @@
 	</div>
 
 
-
-	<div id="game_options" style="position: fixed; left: 3%; top: 5%; width: 25%; height: 20%; background-color: #555; border: 2px solid #999; z-index: 3; color: #999; font-family: Lato; overflow-y: scroll">
+	<div id="game_options" style="position: fixed; left: 3%; top: 5%; width: 25%; height: 10%; background-color: #555; border: 2px solid #999; z-index: 3; color: #999; font-family: Lato; overflow-y: scroll">
 		<div style="position: sticky; left: 0%; top: 0%; padding: 5px 5px; background-color: #333; font-size: 1.9vh">
 			Game Options
 		</div>
@@ -506,7 +493,7 @@
 
 	</div>
 
-	<div id="chatbox" style="position: fixed; left: 3%; top: 30%; width: 25%; height: 20%; background-color: #555; border: 2px solid #999; z-index: 3; color: #999; font-family: Lato; overflow-y: auto">
+	<div id="chatbox" style="position: fixed; left: 3%; top: 20%; width: 25%; height: 20%; background-color: #555; border: 2px solid #999; z-index: 3; color: #999; font-family: Lato; overflow-y: auto">
 		<div style="position: relative; padding: 5px 5px; background-color: #333; font-size: 1.9vh">
 			Game Chat
 		</div>
@@ -516,6 +503,10 @@
 	<form id="chatform" action="">
 		<input id="chatinput" autocomplete="off" /><button>Send</button>
 	</form>
+
+
+	<canvas id="minimap" style="position: fixed; left: 3%; top: 45%; width: 20vh; height: 20vh; background-color: #555; border: 2px solid #999; z-index: 3; color: #999; font-family: Lato; overflow: scroll">
+	</canvas>
 
 
 	<div id="tutorial_ask" class="tutorialpanel">
@@ -672,6 +663,8 @@
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r124/three.js"></script>
 <script type="text/javascript" src="https://threejs.org/examples/js/controls/OrbitControls.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/ef-infinite-canvas@0.5.0-alpha/dist/infinite-canvas.js"></script>
 
 <script src="https://threejs.org/examples/js/loaders/GLTFLoader.js"></script>
 <script src="https://threejs.org/examples/js/utils/SkeletonUtils.js"></script>
