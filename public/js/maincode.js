@@ -1044,6 +1044,7 @@ function draw(x, y, data){
 	}
 
 	if (exploredtiles.includes(x + "," + y)){
+		addToMiniMap(x * 1, y * 1)
 	}
 	else{
 		plane.visible = false

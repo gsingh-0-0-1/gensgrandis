@@ -52,7 +52,7 @@ function onMouseClick( event ) {
 					break
 				}
 				if (obj.height > MOUNTAIN_STONE_HEIGHT){
-					break
+					//break
 				}
 				if (tileHasUnit(targetx, targety)){
 					break
