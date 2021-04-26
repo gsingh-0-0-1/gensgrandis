@@ -63,27 +63,38 @@ var unit_types = ["reg", "mil"]
 
 var unit_corresponds = {"P" : "People", 
 						"RB" : "Riverboat",
-						"L" : "Legion"}
+						"L" : "Legion",
+						"S" : "Scout"
+					}
 
 var unit_movements = {"P" : 5, 
 						"RB" : 10, 
-						"L" : 3}
+						"L" : 3,
+						"S" : 8
+					}
 
 var unit_commands = {"P" : "B: Build city",
 					"RB" : "",
-					"L" : ""}
+					"L" : "",
+					"S" : ""
+				}
 
 var unit_produce_times = {"RB" : 500,
-							"L" : 250}
+							"L" : 250,
+							"S" : 50
+						}
 
 var unit_z_offsets = {"P" : 0.7,
 					"RB" : 0,
-					"L" : 0.7}
+					"L" : 0.7,
+					"S" : 0.7
+				}
 
 //unit templates
 var people_template = "P~x:xhere,y:yhere,n:100,m:" + unit_movements["P"]
 var riverboat_template = "RB~x:xhere,y:yhere,m:" + unit_movements["RB"]
 var legion_template = "L~x:xhere,y:yhere,m:" + unit_movements["L"]
+var scout_template = "S~x:xhere,y:yhere,m:" + unit_movements["S"]
 
 var moving_unit = false;
 var expanding_city = false;

@@ -170,6 +170,9 @@ function endTurn(){
 					if (prod == "RB"){
 						addRiverboat(targetx, targety)
 					}
+					if (prod == "S"){
+						addScout(targetx, targety)
+					}
 					cities[cityidx].production_progress[type] -= unit_produce_times[cities[cityidx].producing[type]]
 
 					cities[cityidx].producing[type] = null
@@ -901,6 +904,9 @@ function drawUnits(i, emit = true){
 		}
 		if (unittype == "L"){
 			drawLegion(thisunit.x, thisunit.y, thisunit.unitid, vis)
+		}
+		if (unittype == "S"){
+			drawScout(thisunit.x, thisunit.y, thisunit.unitid, vis)
 		}
 	//}
 }

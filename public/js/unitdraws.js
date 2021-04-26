@@ -31,6 +31,15 @@ loader.load('/resources/units/legion.glb',
 )
 
 
+var SCOUT_LOADED_MESH = null
+
+loader.load('/resources/units/scout.glb',
+	function (gltf) {
+		SCOUT_LOADED_MESH = gltf.scene
+	}
+)
+
+
 //PEOPLE
 function addPeople(x, y){
 	//console.log(units)
@@ -200,5 +209,58 @@ function drawLegion(x, y, id, vis = true){
 	}
 }
 
+
+//SCOUT
+function addScout(x, y){
+	units.push(scout_template.replace("xhere", x).replace("yhere", y))
+	drawUnits(units.length - 1)
+}
+
+function drawScout(x, y, id, vis = true){
+	var loader = new THREE.GLTFLoader();
+
+	//loader.load('/resources/legion.glb',
+		// called when the resource is loaded
+		//function ( gltf ) {
+
+			//gltf.scene.scale.set( 1, 1, 1 );	
+
+			//gltf.scene.position.set(x, y, ground_z + 1)
+
+			var scout = SCOUT_LOADED_MESH.clone()
+
+			scout.scale.set(1, 1, 1)
+
+			scout.position.set(x, y, ground_z + 1)
+
+
+			//var legion = gltf.scene
+			scene.add( scout );
+
+			var hoffset = getTileAt(x, y).height
+
+			scout.position.set(x, y, ground_z + hoffset + unit_z_offsets["S"])
+			scout.rotation.set(Math.PI / 2, Math.PI, 0)
+
+			scout.type = "unit"
+
+			scout.visible = vis
+			assignUnitID(scout, id)
+
+			unitlist[id].mesh = scout
+			unitlist[id].naval = false
+
+			//modify explored tiles
+			if (vis){
+				exploreAtCoords(x, y)
+			}
+		//}
+	//)
+
+	//get the height of the tile and offset the unit by that
+	if (getTileAt(x, y) == undefined){
+		console.log(x, y)
+	}
+}
 
 
