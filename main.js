@@ -62,7 +62,8 @@ var AUTH_KEY = fs.readFileSync("authkey.txt")
 AUTH_KEY = AUTH_KEY.toString().slice(0, -1)
 console.log(AUTH_KEY)
 
-const MAX_PLAYERS = 2
+//first is 0 since rooms start at 1
+const MAX_PLAYERS = [0, 2, 2, 2, 2, 2, 2, 2, 2, 3, 3]
 
 
 function dealWithMalformed(res){
@@ -203,7 +204,7 @@ function createRoom(room){
 
 	rooms.push(room)
 
-	current_clients[room].properties.maxplayers = MAX_PLAYERS
+	current_clients[room].properties.maxplayers = MAX_PLAYERS[room]
 	current_clients[room].properties.map = Math.ceil(Math.random() * num_maps)
 	current_clients[room].properties.current_turn = 0
 
