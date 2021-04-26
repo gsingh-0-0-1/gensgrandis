@@ -70,7 +70,12 @@ function assignTileUnitStatus(x, y, stat, id='null'){
 	var tile = "tile_" + x + "_" + y
 	var gtile = grid_dict[tile]
 	gtile.hasUnit = stat
-	gtile.hasUnit_ID = id
+	if (stat != true){
+		gtile.hasUnit_ID = null
+	}
+	else{
+		gtile.hasUnit_ID = id
+	}
 }
 
 function assignTileFood(x, y){

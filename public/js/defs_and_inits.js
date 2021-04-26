@@ -192,9 +192,9 @@ var grid_dict = {}
 //basic initialization
 var width = window.innerWidth;
 var height = window.innerHeight;
-var camera = new THREE.PerspectiveCamera( 45, width / height, 1, 50 );
+var camera = new THREE.PerspectiveCamera( 45, width / height, 1, 30 );
 //camera.rotation.order = 'ZYX'
-var renderer = new THREE.WebGLRenderer({antialias: true});
+var renderer = new THREE.WebGLRenderer({antialias: false});
 //renderer.physicallyCorrectLights = true
 renderer.setSize(width, height);
 document.getElementById('gui').appendChild(renderer.domElement);

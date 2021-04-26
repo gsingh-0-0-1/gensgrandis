@@ -1020,7 +1020,12 @@ function draw(x, y, data){
 	}
 	geometry = new THREE.BufferGeometry().fromGeometry(geometry)
 
-	var tilematerial = new THREE.MeshBasicMaterial( {color: col, vertexColors: THREE.FaceColors } )//, side: THREE.DoubleSide} );
+	if (height > MOUNTAIN_SNOWCAP_HEIGHT && height <= MOUNTAIN_SNOW_HEIGHT){
+		var tilematerial = new THREE.MeshBasicMaterial( {color: col, vertexColors: THREE.FaceColors } )//, side: THREE.DoubleSide} );
+	}
+	else{
+		var tilematerial = new THREE.MeshBasicMaterial( {color: col } )
+	}
 	var plane = new THREE.Mesh( geometry, tilematerial );
 	plane.istile = true
 	plane.type = type
@@ -1300,8 +1305,8 @@ function animate() {
 		}
 
 
-		var xcammod = cameravelocity.x * 0.1
-		var ycammod = cameravelocity.y * 0.1
+		var xcammod = cameravelocity.x * 0.05
+		var ycammod = cameravelocity.y * 0.05
 		camera.position.x += xcammod
 		camera.position.y += ycammod
 
