@@ -586,6 +586,10 @@ app.get("/getsaves", (req, res) => {
 	res.send(files)
 })
 
+app.get("/c/o/n/u/n/d/r/u/m", (req, res) => {
+	res.send("das, camacho, singh, boyle, zhu, thornton")
+})
+
 app.all("/*", (req, res) => {
 	res.sendFile("public/templates/pagenotfound.html", {root: __dirname})
 })
