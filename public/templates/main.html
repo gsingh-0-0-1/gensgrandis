@@ -144,6 +144,26 @@
 			color: #eee;
 		}
 		.button.questionmarkbox:hover .hoverinfo {display: initial;}
+
+		.customalert{
+			position: fixed;
+			padding-left: 2vw;
+			padding-right: 2vw;
+			padding-top: 2vh;
+			padding-bottom: 8.2vh;
+			text-align: center;
+			left: 50%;
+			top: 50%;
+			transform: translate(-50%, -50%);
+			width: 20%;
+			height: auto;
+			border: 0.5vh solid #bbb;
+			background-color: #456;
+			font-size: 2vh;
+			font-family: Source Code Pro;
+			display: none;
+			z-index: 5;
+		}
 	</style>
 </head>
 <body>
@@ -663,6 +683,12 @@
 		That's it for now! If that was a lot of info, don't worry - you'll get the hang of it soon enough. If you have any questions, you can find the link to our discord on the home page. Thanks for playing!<br>
 
 		<input class="button" type="button" style="position: relative; background-color: #b48888; color: #555; font-family: Courier; padding: 7px 7px" value="Exit" onclick="javascript:endTutorial(this)">
+	</div>
+
+	<div class="customalert" id="game_init_click_reminder">
+		Click on the person to start playing!
+
+		<input class="button" type="button" style="position: absolute; left: 50%; top: 60%; transform: translate(-50%, 0); background-color: #88b488; color: #555; font-family: Courier; padding: 0.6vh 0.6vw; font-size: 1.2vh" value="OK" onclick="javascript:closeCustomAlert(this.parentNode)">
 	</div>
 
 </body>

@@ -44,7 +44,8 @@ if (!multi){
 }
 
 var game_init_alert = setTimeout(function(){
-	alert("Click on the person to begin the game!")
+	//alert("Click on the person to begin the game!")
+	showCustomAlert("game_init_click_reminder")
 }, 15000)
 
 

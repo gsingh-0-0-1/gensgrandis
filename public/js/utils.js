@@ -4,6 +4,14 @@
 /* Written by Gurmehar Singh <gurmehar@gmail.com>
 */
 
+function showCustomAlert(id){
+	document.getElementById(id).style.display = "initial"
+}
+
+function closeCustomAlert(obj){
+	obj.style.display = "none"
+}
+
 function isTileAdjacentToWater(x, y){
 	if (isWater(getTileAt(x + 1, y).type)){
 		return true
