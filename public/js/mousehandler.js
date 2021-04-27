@@ -163,6 +163,7 @@ function onMouseClick( event ) {
 				else{
 					alert("Not your unit!")
 				}
+				clearTimeout(game_init_alert)
 				return
 			}
 

@@ -43,6 +43,10 @@ if (!multi){
 	//showTutorialAsk()
 }
 
+var game_init_alert = setTimeout(function(){
+	alert("Click on the person to begin the game!")
+}, 15000)
+
 
 //****************************************************************************************//
 //******************************CONSTANTS AND INITIALIZATION******************************//
