@@ -535,7 +535,8 @@ function breakCity(){
 	if (isCityCenter(selectedcityid, selectedcitytilex, selectedcitytiley)){
 		var population = cities[selectedcityid].center.population
 		if (population - targetpop < mincitytilepop){
-			alert("Not enough population!")
+			showCustomAlert("not_enough_pop_alert")
+			//alert("Not enough population!")
 			return
 		}
 		cities[selectedcityid].center.population -= targetpop
@@ -543,7 +544,8 @@ function breakCity(){
 	else{
 		var population = cities[selectedcityid].tiles[selectedcitytilex + "_" + selectedcitytiley].population
 		if (population - targetpop < mincitytilepop){
-			alert("Not enough population!")
+			showCustomAlert("not_enough_pop_alert")
+			//alert("Not enough population!")
 			return
 		}
 		cities[selectedcityid].tiles[selectedcitytilex + "_" + selectedcitytiley].population -= targetpop
@@ -604,7 +606,8 @@ function expandCity(dir, argx='', argy='', argid='', self = true){
 	//first check for city center
 	if (isCityCenter(id, x, y)){
 		if (cities[id].center.population - targetpop < mincitytilepop){
-			alert("Not enough population to expand!")
+			showCustomAlert("not_enough_pop_alert")
+			//alert("Not enough population to expand!")
 			return
 		}
 		cities[id].center.population -= targetpop
@@ -612,7 +615,8 @@ function expandCity(dir, argx='', argy='', argid='', self = true){
 	else{
 		//and now check for other tiles
 		if (cities[id].tiles[x + "_" + y].population - targetpop < mincitytilepop){
-			alert("Not enough population to expand!")
+			showCustomAlert("not_enough_pop_alert")
+			//alert("Not enough population to expand!")
 			return
 		}
 		cities[id].tiles[x + "_" + y].population -= targetpop
