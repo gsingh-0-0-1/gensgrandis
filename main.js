@@ -586,10 +586,6 @@ app.get("/getsaves", (req, res) => {
 	res.send(files)
 })
 
-app.get("/c/o/n/u/n/d/r/u/m", (req, res) => {
-	res.send("das, camacho, singh, boyle, zhu, thornton")
-})
-
 app.get("/darkreunion", (req, res) => {
 	res.send("It's DUCK REUNION, you jackass!")
 })
