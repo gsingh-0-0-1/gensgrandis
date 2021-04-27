@@ -126,19 +126,22 @@
 			height: 1.6vh; 
 			width: 1.6vh; 
 			font-size: 1.4vh; 
-			background-color: #444}
+			background-color: #eee;
+			color: #222;
+		}
 		.hoverinfo {display: none; 
 			position: absolute; 
 			top: 1.4vh; 
 			font-size: 1.2vh; 
 			font-family: Lato; 
-			width: 4vw; 
+			width: 6vw; 
 			height: auto; 
 			transform: translate(-10%, 0); 
 			background-color: #111; 
 			text-align: left; 
 			padding: 0.1vh 0.1vw;
 			z-index: 4;
+			color: #eee;
 		}
 		.button.questionmarkbox:hover .hoverinfo {display: initial;}
 	</style>
@@ -228,7 +231,7 @@
 		</div>
 
 		<div id="city_info_sidebar_selected_loc" class="city_sidebar_small_cont" style="top: 14%; left: 7%">
-			Selected Tile:
+			Selected Tile:<span class="button questionmarkbox" type="button">?<span class="hoverinfo">Each tile's population grows each turn. To end your turn, press "t".</span></span>
 
 			<div id="city_info_sidebar_selected_loc_x" style="padding-left: 20px">
 			</div>
@@ -356,7 +359,7 @@
 
 			<br>
 
-			<button onclick="javascript:changeCityProduction('reg')">Produce</button>
+			<button onclick="javascript:changeCityProduction('reg')">>> Produce <<</button>
 
 			<br>
 
@@ -368,6 +371,9 @@
 
 		</div>
 
+		<span class="button questionmarkbox" type="button" style="position: absolute; top: 78%; left: 7%">
+			?<span class="hoverinfo">To produce a unit, select it from the menu and click the Produce button. Each turn, your city will get closer to finishing these production targets.</span>
+		</span>
 
 		<div id="city_info_sidebar_produce_mil" class="city_sidebar_small_cont" style="top: 80%; left: 57%">
 			Produce unit:<br>Military<br>
@@ -379,7 +385,7 @@
 
 			<br>
 
-			<button onclick="javascript:changeCityProduction('mil')">Produce</button>
+			<button onclick="javascript:changeCityProduction('mil')">>> Produce <<</button>
 
 			<br>
 
