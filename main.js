@@ -233,7 +233,14 @@ app.use(express.static('public'));
 
 //the first catch-all, meant for logging and such
 app.get("/*", (req, res, next) => {
+
+	var BLACKLIST = fs.readFileSync("blacklist.txt")
+	BLACKLIST = BLACKLIST.split("\n")
 	var ip = req.connection.remoteAddress;
+	if (blacklist.includes(ip)){
+		res.send("stop messing with my website")
+		return
+	}
 	/*if (req.url.includes('gettile') || req.url.includes('maxplayers') || req.url.includes('numcurrentplayers') || req.url.includes('approvedrooms') || req.url.includes('gitlog')){
 		let ref = req.headers.referer
 		if (ref == undefined){
