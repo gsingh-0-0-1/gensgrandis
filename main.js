@@ -227,18 +227,25 @@ function writeLog(url, time, ip, connection){
 	log_file.write(text + '\n');	
 }
 
+function checkBlackList(ip){
+	var BLACKLIST = fs.readFileSync("blacklist.txt")
+	BLACKLIST = BLACKLIST.toString()
+	BLACKLIST = BLACKLIST.split("\n")
+	if (BLACKLIST.includes(ip)){
+		return true
+	}
+	return false
+}
+
 app.use(express.static('public'));
 
 
 
 //the first catch-all, meant for logging and such
 app.get("/*", (req, res, next) => {
-
-	var BLACKLIST = fs.readFileSync("blacklist.txt")
-	BLACKLIST = BLACKLIST.toString()
-	BLACKLIST = BLACKLIST.split("\n")
 	var ip = req.connection.remoteAddress;
-	if (BLACKLIST.includes(ip)){
+	if (checkBlackList(ip)){
+		writeLog(req.url, new Date(new Date().toUTCString()), ip, "BLACKLIST")
 		res.send("stop messing with my website")
 		return
 	}
@@ -622,6 +629,10 @@ for (var cur_namespace of TRACKED_PAGES){
 
 	io.of(nsp).on('connection', (socket) => {
 		socket.on('disconnect', () => {
+			if (checkBlackList(socket.handshake.address)){
+				writeLog(socket.nsp.name, new Date(new Date().toUTCString()), socket.handshake.address, "BLACKLIST")
+				return
+			}
 			writeLog(socket.nsp.name, new Date(new Date().toUTCString()), socket.handshake.address, "DISCONNECT")
 		})
 	})
