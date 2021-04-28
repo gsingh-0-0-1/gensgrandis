@@ -65,6 +65,8 @@ console.log(AUTH_KEY)
 //first is 0 since rooms start at 1
 const MAX_PLAYERS = [0, 2, 2, 2, 2, 2, 2, 2, 2, 3, 3]
 
+const TRACKED_PAGES = ['/', '/about', '/dev', '/changelog', '/soundtrack', '/mapimgs', '/game', '/darkreunion']
+
 
 function dealWithMalformed(res){
 	//rickroll those hackers
@@ -219,6 +221,12 @@ function emitServerMessageToAll(msg){
 	io.of("/game").emit("server_message", msg)
 }
 
+function writeLog(url, time, ip, connection){
+	var text = ip + " -- " + connection + " @ " + url + "\n\t" + time
+	console.log(text)
+	log_file.write(text + '\n');	
+}
+
 app.use(express.static('public'));
 
 
@@ -226,17 +234,17 @@ app.use(express.static('public'));
 //the first catch-all, meant for logging and such
 app.get("/*", (req, res, next) => {
 	var ip = req.connection.remoteAddress;
-	if (req.url.includes('gettile') || req.url.includes('maxplayers') || req.url.includes('numcurrentplayers')){
+	/*if (req.url.includes('gettile') || req.url.includes('maxplayers') || req.url.includes('numcurrentplayers') || req.url.includes('approvedrooms') || req.url.includes('gitlog')){
 		let ref = req.headers.referer
 		if (ref == undefined){
 			//dealWithMalformed(res)
 			//return
 		}
 		return next();
+	}*/
+	if (TRACKED_PAGES.includes(req.url)){
+		writeLog(req.url, new Date(new Date().toUTCString()), ip, "CONNECTION")
 	}
-	var text = "url:" + req.url + ",time:" + new Date(new Date().toUTCString()) + ",ip:" + ip
-	console.log(text)
-	log_file.write(text + '\n');
 	return next();
 })
 
@@ -597,6 +605,19 @@ app.all("/*", (req, res) => {
 for (var room = 1; room <= approvedrooms; room++){
 	initRoom(room)
 	createRoom(room)
+}
+
+//create socket connections and such for different pages
+for (var cur_namespace of TRACKED_PAGES){
+
+	var nsp = cur_namespace + ""
+
+	io.of(nsp).on('connection', (socket) => {
+		socket.on('disconnect', () => {
+			writeLog(socket.nsp.name, new Date(new Date().toUTCString()), socket.handshake.address, "DISCONNECT")
+		})
+	})
+
 }
 
 //app.listen(port, host)

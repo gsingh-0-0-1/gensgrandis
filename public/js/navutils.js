@@ -12,3 +12,5 @@ tempreq.onreadystatechange = function(){
 		document.getElementById(window.location.pathname).style.backgroundColor = "#777"
 	}
 }
+
+var socket = io(window.location.pathname);

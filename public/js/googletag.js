@@ -1,4 +1,3 @@
-
 if (window.location.hostname.includes("gensgrandis")){
 	window.dataLayer = window.dataLayer || [];
 	function gtag(){dataLayer.push(arguments);}
