@@ -245,7 +245,7 @@ app.use(express.static('public'));
 app.get("/*", (req, res, next) => {
 	var ip = req.connection.remoteAddress;
 	if (checkBlackList(ip)){
-		writeLog(req.url, new Date(new Date().toUTCString()), ip, "BLACKLIST")
+		writeLog(req.url, new Date(new Date().toUTCString()), ip, "CO_BLACKLIST")
 		res.send("stop messing with my website")
 		return
 	}
@@ -630,7 +630,7 @@ for (var cur_namespace of TRACKED_PAGES){
 	io.of(nsp).on('connection', (socket) => {
 		socket.on('disconnect', () => {
 			if (checkBlackList(socket.handshake.address)){
-				writeLog(socket.nsp.name, new Date(new Date().toUTCString()), socket.handshake.address, "BLACKLIST")
+				writeLog(socket.nsp.name, new Date(new Date().toUTCString()), socket.handshake.address, "DC_BLACKLIST")
 				return
 			}
 			writeLog(socket.nsp.name, new Date(new Date().toUTCString()), socket.handshake.address, "DISCONNECT")
