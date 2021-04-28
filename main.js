@@ -235,9 +235,10 @@ app.use(express.static('public'));
 app.get("/*", (req, res, next) => {
 
 	var BLACKLIST = fs.readFileSync("blacklist.txt")
+	BLACKLIST = BLACKLIST.toString()
 	BLACKLIST = BLACKLIST.split("\n")
 	var ip = req.connection.remoteAddress;
-	if (blacklist.includes(ip)){
+	if (BLACKLIST.includes(ip)){
 		res.send("stop messing with my website")
 		return
 	}
