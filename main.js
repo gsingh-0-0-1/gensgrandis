@@ -641,7 +641,7 @@ for (var cur_namespace of TRACKED_PAGES){
 				writeLog(socket.nsp.name, new Date(new Date().toUTCString()), socket.handshake.address, "DC_BLACKLIST")
 				return
 			}
-			writeLog(socket.nsp.name, socket.handshake.address, new Date(new Date().toUTCString()), socket.handshake.address, "DISCONNECT")
+			writeLog(socket.nsp.name, new Date(new Date().toUTCString()), socket.handshake.address, "DISCONNECT")
 		})
 	})
 
