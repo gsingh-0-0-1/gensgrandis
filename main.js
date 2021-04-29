@@ -631,6 +631,7 @@ for (var cur_namespace of TRACKED_PAGES){
 
 		if (checkBlackList(socket.handshake.address)){
 			writeLog(socket.nsp.name, new Date(new Date().toUTCString()), socket.handshake.address, "SC_BLACKLIST")
+			socket.disconnect()
 			return
 		}
 		writeLog(socket.nsp.name, new Date(new Date().toUTCString()), socket.handshake.address, "SOCKETCONN")
