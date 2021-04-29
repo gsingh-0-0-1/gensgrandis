@@ -628,6 +628,13 @@ for (var cur_namespace of TRACKED_PAGES){
 	var nsp = cur_namespace + ""
 
 	io.of(nsp).on('connection', (socket) => {
+
+		if (checkBlackList(socket.handshake.address)){
+			writeLog(socket.nsp.name, new Date(new Date().toUTCString()), socket.handshake.address, "SC_BLACKLIST")
+			return
+		}
+		writeLog(socket.nsp.name, new Date(new Date().toUTCString()), socket.handshake.address, "SOCKETCONN")
+
 		socket.on('disconnect', () => {
 			if (checkBlackList(socket.handshake.address)){
 				writeLog(socket.nsp.name, new Date(new Date().toUTCString()), socket.handshake.address, "DC_BLACKLIST")
