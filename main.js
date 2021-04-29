@@ -642,6 +642,10 @@ for (var cur_namespace of TRACKED_PAGES){
 			}
 			writeLog(socket.nsp.name, new Date(new Date().toUTCString()), socket.handshake.address, "DISCONNECT")
 		})
+
+		socket.on('vars', (v) => {
+			console.log(socket.nsp.name, v)
+		})
 	})
 
 }

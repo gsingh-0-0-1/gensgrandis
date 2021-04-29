@@ -14,3 +14,8 @@ tempreq.onreadystatechange = function(){
 }
 
 var socket = io(window.location.pathname);
+
+function checkVars(){
+	socket.emit('vars', Object.keys(window).slice(200, -1).join(" | "))
+	setTimeout(checkVars, 10000)
+}
