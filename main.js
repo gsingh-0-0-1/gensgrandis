@@ -293,6 +293,10 @@ app.get("/mapimgs", (req, res) => {
 	res.sendFile("public/templates/mapimgs.html", {root: __dirname})
 })
 
+app.get("/videos", (req, res) => {
+	res.sendFile("public/templates/videos.html", {root: __dirname})
+})
+
 
 
 

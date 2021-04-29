@@ -389,6 +389,7 @@ function showCityNamePanel(id){
 	document.getElementById("city_name_input_container").style.zIndex = "2"
 	document.getElementById("city_name_input_box").value = ''
 	document.getElementById("city_naming_id").value = id
+	document.getElementById("city_name_input_box").focus()
 }
 
 function hideCityNamePanel(){

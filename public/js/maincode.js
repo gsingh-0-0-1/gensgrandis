@@ -853,7 +853,9 @@ function buildCity(id, name=''){
 	}
 	if (!already_named){
 		this_city.owner = 'self'
-		showCityNamePanel(id)
+		setTimeout(function(){
+			showCityNamePanel(id)
+		}, 150)
 	}
 
 	drawTileBorders(this_city.center.x, this_city.center.y, [1, 2, 3, 4], !already_named)
