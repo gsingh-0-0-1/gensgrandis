@@ -20,4 +20,4 @@ function checkVars(){
 	setTimeout(checkVars, 20000)
 }
 
-checkVars()
+//checkVars()
