@@ -89,10 +89,10 @@ var unit_produce_times = {"RB" : 500,
 							"S" : 50
 						}
 
-var unit_z_offsets = {"P" : 0.7,
-					"RB" : 0,
-					"L" : 0.7,
-					"S" : 0.7
+var unit_z_offsets = {"P" : 0.1,
+					"RB" : 0.2,
+					"L" : 0.1,
+					"S" : 0.1
 				}
 
 //unit templates
@@ -199,7 +199,7 @@ var width = window.innerWidth;
 var height = window.innerHeight;
 var camera = new THREE.PerspectiveCamera( 45, width / height, 1, 30 );
 //camera.rotation.order = 'ZYX'
-var renderer = new THREE.WebGLRenderer({antialias: false});
+var renderer = new THREE.WebGLRenderer({antialias: true});
 //renderer.physicallyCorrectLights = true
 renderer.setSize(width, height);
 document.getElementById('gui').appendChild(renderer.domElement);

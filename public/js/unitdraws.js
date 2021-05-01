@@ -2,7 +2,7 @@ var loader = new THREE.GLTFLoader();
 
 var PEOPLE_LOADED_MESH = null
 
-loader.load('/resources/units/people.glb',
+loader.load('/resources/units/people_new.glb',
 	// called when the resource is loaded
 	function ( gltf ) {
 		PEOPLE_LOADED_MESH = gltf.scene
@@ -33,7 +33,7 @@ loader.load('/resources/units/legion.glb',
 
 var SCOUT_LOADED_MESH = null
 
-loader.load('/resources/units/scout.glb',
+loader.load('/resources/units/scout_new.glb',
 	function (gltf) {
 		SCOUT_LOADED_MESH = gltf.scene
 	}
@@ -71,7 +71,7 @@ function drawPeople(x, y, id, vis = true){
 
 	var hoffset = getTileAt(x, y).height
 
-	people.position.set(x, y, ground_z + hoffset + 1)
+	people.position.set(x, y, ground_z + hoffset + unit_z_offsets["P"])
 	people.rotation.set(Math.PI / 2, 0, 0)
 
 	people.type = "unit"
@@ -129,7 +129,7 @@ function drawRiverboat(x, y, id, vis = true){
 
 			var hoffset = getTileAt(x, y).height
 
-			boat.position.set(x, y, ground_z + hoffset + 0.2)
+			boat.position.set(x, y, ground_z + hoffset + unit_z_offsets["RB"])
 			boat.rotation.set(Math.PI / 2, Math.PI / 2, 0)
 
 			boat.type = "unit"
@@ -185,7 +185,7 @@ function drawLegion(x, y, id, vis = true){
 
 			var hoffset = getTileAt(x, y).height
 
-			legion.position.set(x, y, ground_z + hoffset + 0.7)
+			legion.position.set(x, y, ground_z + hoffset + unit_z_offsets["L"])
 			legion.rotation.set(Math.PI / 2, Math.PI, 0)
 
 			legion.type = "unit"

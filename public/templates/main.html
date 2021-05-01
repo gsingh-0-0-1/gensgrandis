@@ -164,6 +164,13 @@
 			display: none;
 			z-index: 5;
 		}
+
+		.unit_desc{
+			position: relative;
+			font-family: Lato;
+			font-size: 1.7vh;
+			color: #fff;
+		}
 	</style>
 </head>
 <body>
@@ -190,22 +197,22 @@
 	</div>
 
 	<div id="unit_desc" style="position: fixed; left: 0%; top: 75%; width: 30%; height: 25%; background-color: #4a4aaa; border-top: 5px solid #d9d0d0; border-right: 5px solid #d9d0d0; box-sizing: border-box; z-index: 0; display: none">
-		<div id="unit_desc_name" style="position: relative; left: 6%; top: 10%; font-family: Verdana; font-size: 20px; color: #ffffff">
+		<div class="unit_desc" id="unit_desc_name" style="left: 6%; top: 10%;">
 		</div>
-		<div id="unit_desc_x" style="position: relative; left: 10%; top: 18%; font-family: Verdana; font-size: 20px; color: #ffffff">
+		<div class="unit_desc" id="unit_desc_x" style="left: 10%; top: 18%;">
 		</div>
-		<div id="unit_desc_y" style="position: relative; left: 10%; top: 20%; font-family: Verdana; font-size: 20px; color: #ffffff">
+		<div class="unit_desc" id="unit_desc_y" style="left: 10%; top: 20%;">
 		</div>
-		<div id="unit_desc_m" style="position: relative; left: 10%; top: 22%; font-family: Verdana; font-size: 20px; color: #ffffff">
+		<div class="unit_desc" id="unit_desc_m" style="left: 10%; top: 22%;">
 		</div>
-		<div id="unit_desc_status" style="position: relative; left: 10%; top: 25%; font-family: Verdana; font-size: 20px; color: #ffffff">
+		<div class="unit_desc" id="unit_desc_status" style="left: 10%; top: 25%;">
 		</div>
 	</div>
 
 
-	<div id="unit_commands_info" style="position: fixed; left: 50%; top: 90%; width: 40%; height: 20%; transform: translate(-50%, -50%); background-color: #4a4aaa; border: 5px solid #d9d0d0; box-sizing: border-box; display: none; z-index: 0; font-family: Source Code Pro; font-size: 1.3vh; color: #daa;">
+	<div id="unit_commands_info" style="position: fixed; left: 50%; top: 90%; width: 40%; height: 20%; transform: translate(-50%, -50%); background-color: #4a4aaa; border: 5px solid #d9d0d0; box-sizing: border-box; display: none; z-index: 0; font-family: Source Code Pro; font-size: 1.5vh; color: #daa;">
 		<div id="general_commands" style="position: fixed; left: 3%; top: 10%;">
-			G: Moving Mode 
+			Press G: Moving Mode 
 			<br>
 			&nbsp;&nbsp;Click on tile to move
 			<br>
@@ -216,7 +223,7 @@
 		</div>
 
 		<div id="endturn_info" style="position: fixed; left: 50%; top: 65%; transform: translate(-50%, 0)">
-			T to End Turn
+			Press T to End Turn
 		</div>
 
 		<div id="controls_info" style="position: fixed; left: 70%; top: 10%; transform: translate(-50%, 0)">
@@ -686,7 +693,7 @@
 	</div>
 
 	<div class="customalert" id="game_init_click_reminder">
-		Click on the person to start playing!
+		Click on the people to start playing!
 
 		<input class="button" type="button" style="position: absolute; left: 50%; top: 60%; transform: translate(-50%, 0); background-color: #88b488; color: #555; font-family: Courier; padding: 0.6vh 0.6vw; font-size: 1.2vh" value="OK" onclick="javascript:closeCustomAlert(this.parentNode)">
 	</div>

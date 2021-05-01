@@ -1,3 +1,33 @@
+function rotateUnit(coord_diff, id = selectedunitid){
+	if (coord_diff[0] == -1 && coord_diff[1] == 0){
+		unitlist[id].mesh.rotation.y = Math.PI / 2
+	}
+	if (coord_diff[0] == 1 && coord_diff[1] == 0){
+		unitlist[id].mesh.rotation.y = -Math.PI / 2
+	}
+	if (coord_diff[0] == 0 && coord_diff[1] == 1){
+		unitlist[id].mesh.rotation.y = Math.PI
+	}
+	if (coord_diff[0] == 0 && coord_diff[1] == -1){
+		unitlist[id].mesh.rotation.y = -Math.PI
+	}
+
+	if (coord_diff[0] == -1 && coord_diff[1] == -1){
+		unitlist[id].mesh.rotation.y = 3 * Math.PI / 4
+	}
+	if (coord_diff[0] == -1 && coord_diff[1] == 1){
+		unitlist[id].mesh.rotation.y = Math.PI / 4
+	}
+	if (coord_diff[0] == 1 && coord_diff[1] == -1){
+		unitlist[id].mesh.rotation.y = -3 * Math.PI / 4
+	}
+	if (coord_diff[0] == 1 && coord_diff[1] == 1){
+		unitlist[id].mesh.rotation.y = -Math.PI / 4
+	}
+}
+
+
+
 function onMouseClick( event ) {
 	if (naming_city){
 		return
@@ -89,31 +119,7 @@ function onMouseClick( event ) {
 					var coord_diff = [targetx - unitlist[selectedunitid].mesh.position.x, targety - unitlist[selectedunitid].mesh.position.y]
 
 					if (unitlist[selectedunitid].type == "RB"){
-						if (coord_diff[0] == -1 && coord_diff[1] == 0){
-							unitlist[selectedunitid].mesh.rotation.y = Math.PI / 2
-						}
-						if (coord_diff[0] == 1 && coord_diff[1] == 0){
-							unitlist[selectedunitid].mesh.rotation.y = -Math.PI / 2
-						}
-						if (coord_diff[0] == 0 && coord_diff[1] == 1){
-							unitlist[selectedunitid].mesh.rotation.y = Math.PI
-						}
-						if (coord_diff[0] == 0 && coord_diff[1] == -1){
-							unitlist[selectedunitid].mesh.rotation.y = -Math.PI
-						}
-
-						if (coord_diff[0] == -1 && coord_diff[1] == -1){
-							unitlist[selectedunitid].mesh.rotation.y = 3 * Math.PI / 4
-						}
-						if (coord_diff[0] == -1 && coord_diff[1] == 1){
-							unitlist[selectedunitid].mesh.rotation.y = Math.PI / 4
-						}
-						if (coord_diff[0] == 1 && coord_diff[1] == -1){
-							unitlist[selectedunitid].mesh.rotation.y = -3 * Math.PI / 4
-						}
-						if (coord_diff[0] == 1 && coord_diff[1] == 1){
-							unitlist[selectedunitid].mesh.rotation.y = -Math.PI / 4
-						}
+						rotateUnit(coord_diff)
 					}
 
 					//move the unit
