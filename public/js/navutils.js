@@ -1,3 +1,9 @@
+/* Copyright (C) Gurmehar Singh 2020 - All Rights Reserved
+/* Unauthorized copying or distribution of this file, via any medium is strictly prohibited
+/* Proprietary and confidential
+/* Written by Gurmehar Singh <gurmehar@gmail.com>
+*/
+
 var tempreq = new XMLHttpRequest;
 tempreq.open("GET", "/templates/navtemplate.html")
 tempreq.send()

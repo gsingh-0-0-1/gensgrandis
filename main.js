@@ -476,10 +476,6 @@ app.get("/game", (req, res) => {
 	res.sendFile("public/templates/main.html", {root: __dirname})
 })
 
-app.get("/order66", (req, res) => {
-	res.sendFile("public/templates/order66.html", {root: __dirname})
-})
-
 app.post("/command", (req, res) => {
 	if (req.body == undefined){
 		return

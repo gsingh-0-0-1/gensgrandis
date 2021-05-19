@@ -414,9 +414,13 @@ function updateCityLabels(show=false){
 			console.log("here")
 		}
 
-		var pos = new THREE.Vector3() 
-		pos.x = city.center.mesh.position.x + 0.4
-		pos.y = city.center.mesh.position.y - 0.4
+		var pos = new THREE.Vector3()
+		var offset = 0.4
+		if (cameralooking == "back"){
+			offset = -0.4
+		}
+		pos.x = city.center.mesh.position.x + offset
+		pos.y = city.center.mesh.position.y - offset
 		pos.z = city.center.mesh.position.z
 
 		var d = document.getElementById("city_" + city.name)

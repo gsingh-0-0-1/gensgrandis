@@ -1,3 +1,9 @@
+/* Copyright (C) Gurmehar Singh 2020 - All Rights Reserved
+/* Unauthorized copying or distribution of this file, via any medium is strictly prohibited
+/* Proprietary and confidential
+/* Written by Gurmehar Singh <gurmehar@gmail.com>
+*/
+
 function rotateUnit(coord_diff, id = selectedunitid){
 	if (coord_diff[0] == -1 && coord_diff[1] == 0){
 		unitlist[id].mesh.rotation.y = Math.PI / 2

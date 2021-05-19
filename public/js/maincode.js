@@ -1,3 +1,9 @@
+/* Copyright (C) Gurmehar Singh 2020 - All Rights Reserved
+/* Unauthorized copying or distribution of this file, via any medium is strictly prohibited
+/* Proprietary and confidential
+/* Written by Gurmehar Singh <gurmehar@gmail.com>
+*/
+
 function sendChatMessage(msg){
 	socket.emit('chatmessage', username, msg)
 }
@@ -1006,7 +1012,7 @@ function draw(x, y, data){
 			col = getStoneCol(x, y)
 		}
 		if (height > MOUNTAIN_FOREST_HEIGHT && height < MOUNTAIN_STONE_HEIGHT && type == DESERT_TILE_CODE){
-			col = getDesertElevCol(x, y)
+			col = getDesertElevCol(x, y, height)
 		}
 		if (height > MOUNTAIN_SNOWCAP_HEIGHT && height <= MOUNTAIN_SNOW_HEIGHT){
 			var faces = geometry.faces
@@ -1286,7 +1292,7 @@ window.addEventListener( 'resize', onWindowResize, false );
 
 
 function animate() {
-	if (!paused){
+	if (!paused && !in_tile_level_interface){
 		var cameramovement = 0.15
 
 		if (cameralooking == 'back'){

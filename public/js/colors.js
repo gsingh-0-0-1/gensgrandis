@@ -1,3 +1,9 @@
+/* Copyright (C) Gurmehar Singh 2020 - All Rights Reserved
+/* Unauthorized copying or distribution of this file, via any medium is strictly prohibited
+/* Proprietary and confidential
+/* Written by Gurmehar Singh <gurmehar@gmail.com>
+*/
+
 function getLandCol(x, y){
 	var offset = ((WORLD_SEED * 100 * x / y) % 9) - 4.5
 	var offset = offset/(4.5*30)
@@ -40,9 +46,11 @@ function getDesertCol(x, y){
 	return col
 }
 
-function getDesertElevCol(x, y){
-	var offset = ((WORLD_SEED / x * y) % 9) - 4.5
-	var offset = offset/(4.5*30)
-	col = new THREE.Color(0.43 + offset, 0.37, 0.16)
+function getDesertElevCol(x, y, h){
+	//var offset = ((WORLD_SEED / x * y) % 9) - 4.5
+	//var offset = offset/(4.5*30)
+	col = getDesertCol(x, y)//new THREE.Color(116/255 + offset, 70/255, 25/255)
+	col.r /= (1 + h)
+	col.g /= (1 + h)
 	return col
 }
