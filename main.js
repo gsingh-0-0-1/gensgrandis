@@ -476,24 +476,6 @@ app.get("/game", (req, res) => {
 	res.sendFile("public/templates/main.html", {root: __dirname})
 })
 
-app.post("/command", (req, res) => {
-	if (req.body == undefined){
-		return
-	}
-	if (req.body.authkey != AUTH_KEY){
-		console.log(req.body.authkey == AUTH_KEY)
-		res.send(req.body.authkey)
-		return
-	}
-	if (req.body.command == undefined){
-		res.send("no command")
-		return
-	}
-	var output = eval(req.body.command)
-	res.send("success")
-	return
-})
-
 app.get("/spawnlocs/:room", (req, res) => {
 	var room = req.params.room
 
