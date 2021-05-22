@@ -46,13 +46,11 @@ if (window.location.pathname.includes("room")){
 }
 
 if (!multi){
-	//showTutorialAsk()
+	var game_init_alert = setTimeout(function(){
+		//alert("Click on the person to begin the game!")
+		showCustomAlert("game_init_click_reminder")
+	}, 15000)
 }
-
-var game_init_alert = setTimeout(function(){
-	//alert("Click on the person to begin the game!")
-	showCustomAlert("game_init_click_reminder")
-}, 15000)
 
 
 //****************************************************************************************//

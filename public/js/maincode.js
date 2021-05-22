@@ -1420,9 +1420,7 @@ socket.on('endgame', function(){
 		return
 	}
 	ending_game = true
-	setTimeout(function(){
-		window.location.replace("/")
-	}, 2000)
+	window.location.replace("/")
 	alert("A player left the game. Ending game, redircting back home...")
 })
 
