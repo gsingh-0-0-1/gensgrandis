@@ -62,6 +62,9 @@ function updateUnitBar(id){
 	document.getElementById("unit_desc_x").innerHTML = "X: " + unitlist[id].x
 	document.getElementById("unit_desc_y").innerHTML = "Y: " + unitlist[id].y
 	document.getElementById("unit_desc_m").innerHTML = "Movement: " + unitlist[id].m
+	if (unitlist[id].m == 0){
+		document.getElementById("unit_desc_m").innerHTML += " (End turn)"
+	}
 	if (moving_unit){
 		document.getElementById("unit_desc_status").innerHTML = "Status: Moving"
 	}
