@@ -737,9 +737,6 @@ function buildCity(id, name=''){
 	if (unitlist[id].type != "P"){
 		return
 	}
-	if (unitlist[id].m <= 0){
-		return
-	}
 
 	var already_named = false
 	if (name != ''){
@@ -919,6 +916,11 @@ function drawUnits(i, emit = true){
 		}
 		if (unittype == "S"){
 			drawScout(thisunit.x, thisunit.y, thisunit.unitid, vis)
+		}
+
+		if (cities.length > 0){
+			document.getElementById("unit_done_alert_utype").textContent = unit_corresponds[unittype]
+			showCustomAlert("unit_done_alert")
 		}
 	//}
 }

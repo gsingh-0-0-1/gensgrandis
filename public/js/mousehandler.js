@@ -157,14 +157,16 @@ function onMouseClick( event ) {
 				break
 			}
 		}
-		return
+		//return
 	}
 
 
-	if (!moving_unit && !expanding_city){
+	//if (!moving_unit && !expanding_city){
+	if (!expanding_city){
 		for (var i = 0; i < 1; i++){
 			var obj = intersects[i].object
 			if (obj.type == "unit" && obj.unitid != selectedunitid){
+				moving_unit = false
 				if (selectedunitid != 'null'){
 					unSelectUnit(selectedunitid)
 				}

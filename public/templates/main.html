@@ -343,7 +343,7 @@
 
 		</div>
 
-		<div id="city_info_sidebar_view_city_tiles" class="city_sidebar_small_cont" style="top: 60%; left: 7%">
+		<div id="city_info_sidebar_view_city_tiles" class="city_sidebar_small_cont" style="top: 60%; left: 7%; display: none">
 			View city...
 
 			<span class="button questionmarkbox" type="button">
@@ -358,7 +358,7 @@
 
 		</div>
 
-		<div id="city_info_sidebar_redirect_food" class="city_sidebar_small_cont" style="top: 67%; left: 7%">
+		<div id="city_info_sidebar_redirect_food" class="city_sidebar_small_cont" style="top: 67%; left: 7%; display: none">
 			Redirect food...
 
 			<span class="button questionmarkbox" type="button">
@@ -457,7 +457,7 @@
 
 		<div id="tile_level_info" style="position: absolute; top: 50%; left: 70%; width: 25%; height: auto; transform: translate(0%, -50%); font-family: Lato; color: #ffefef; font-size: 1.7vh; overflow: auto">
 
-			This is the tile-level management screen. Here, you can add buildings to your tile. Based on how much population your tile has, you will be able to add buildings to more of these "sub-tiles" - below is an explanation of the buildings you can add.<br><br>
+			This is the tile-level management screen. Here, you can add buildings to your tile. When your tile reaches 100, 200, 300, 400, and 500 population, you'll unlock the 1st, 2nd, 3rd, 4th, and 5th layers out from the tile's center, respectively.<br><br>
 
 			Each building gives a 4% boost to a certain sector of your city - see below for specifics.<br><br>
 
@@ -700,6 +700,13 @@
 
 	<div class="customalert" id="not_enough_pop_alert">
 		Not enough population to expand!
+
+		<input class="button" type="button" style="position: absolute; left: 50%; top: 60%; transform: translate(-50%, 0); background-color: #88b488; color: #555; font-family: Courier; padding: 0.6vh 0.6vw; font-size: 1.2vh" value="OK" onclick="javascript:closeCustomAlert(this.parentNode)">
+	</div>
+
+
+	<div class="customalert" id="unit_done_alert">
+		Your <span id="unit_done_alert_utype"></span> has finished producing!
 
 		<input class="button" type="button" style="position: absolute; left: 50%; top: 60%; transform: translate(-50%, 0); background-color: #88b488; color: #555; font-family: Courier; padding: 0.6vh 0.6vw; font-size: 1.2vh" value="OK" onclick="javascript:closeCustomAlert(this.parentNode)">
 	</div>
