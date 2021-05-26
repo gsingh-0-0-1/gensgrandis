@@ -66,7 +66,11 @@ console.log(AUTH_KEY)
 //first is 0 since rooms start at 1
 const MAX_PLAYERS = [0, 2, 2, 2, 2, 2, 2, 2, 2, 3, 3]
 
-const TRACKED_PAGES = ['/', '/about', '/dev', '/changelog', '/soundtrack', '/mapimgs', '/game', '/darkreunion']
+var TRACKED_PAGES = ['/', '/about', '/dev', '/changelog', '/soundtrack', '/mapimgs', '/game', '/darkreunion']
+
+for (var i = 1; i <= approvedrooms; i++){
+	TRACKED_PAGES.push("/room/" + i)
+}
 
 
 //--------------------------------------------------------------------
