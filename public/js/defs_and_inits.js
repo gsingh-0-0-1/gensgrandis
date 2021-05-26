@@ -132,19 +132,47 @@ var ACSTRING = "accesscode=" + ACCESSCODE*/
 
 const LAND_TILE_CODE = 'l'
 
-const FOREST_START_TILE_CODE = 's,l,f'
-const FOREST_TILE_CODE = 'l,f'
+const FOREST_START_TILE_CODE = 'sf'
+const FOREST_TILE_CODE = 'f'
 
-const MOUNTAIN_START_TILE_CODE = 's,l,m'
-const MOUNTAIN_TILE_CODE = 'l,m'
+const WATER_BODY_START_TILE_CODE = 'sw'
+const WATER_BODY_TILE_CODE = 'w'
 
-const WATER_BODY_START_TILE_CODE = 's,w,l,n'
-const WATER_BODY_TILE_CODE = 'w,l,n'
+const RIVER_START_TILE_CODE = 'sr'
+const RIVER_TILE_CODE = 'r'
 
-const RIVER_START_TILE_CODE = 's,w,l,r'
-const RIVER_TILE_CODE = 'w,r'
+const DESERT_TILE_CODE = 'd'
 
-const DESERT_TILE_CODE = 'l,d'
+//--------------------------------------------------------------------
+const COMMON_EXCHANGES = {
+	".2#l" : "!",
+	"0#r" : "@",
+	".2#d" : "$",
+	".2#f|1" : "-"
+}
+
+var COMMON_EXCHANGES_INV = {}
+
+for (key of Object.keys(COMMON_EXCHANGES)){
+	COMMON_EXCHANGES_INV[COMMON_EXCHANGES[key]] = key
+}
+
+//--------------------------------------------------------------------
+
+const COMMON_COMPRESSES = {
+	"!!!!!!!!!!" : "*",
+	"----" : "(",
+	"@@@" : ")",
+	"#l" : "_"
+}
+
+var COMMON_COMPRESSES_INV = {}
+
+for (key of Object.keys(COMMON_COMPRESSES)){
+	COMMON_COMPRESSES_INV[COMMON_COMPRESSES[key]] = key
+}
+
+//--------------------------------------------------------------------
 
 const HEIGHT_DELIMITER = "#"
 const INFO_DELIMITER = "|"

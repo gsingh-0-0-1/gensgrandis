@@ -87,8 +87,8 @@ function onMouseClick( event ) {
 				if (!isWater(obj.type) && unitlist[selectedunitid].naval == true){
 					break
 				}
-				if (obj.height > MOUNTAIN_STONE_HEIGHT){
-					//break
+				if (obj.height > MOUNTAIN_STONE_HEIGHT && unitlist[selectedunitid].type != "S"){
+					break
 				}
 				if (tileHasUnit(targetx, targety)){
 					break

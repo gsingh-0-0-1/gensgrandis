@@ -4,6 +4,10 @@
 /* Written by Gurmehar Singh <gurmehar@gmail.com>
 */
 
+function loadGameFromBrowser(){
+
+}
+
 function initialize(centerx, centery, spawnlocs){
 
 	activateTilesAtCenter(centerx, centery)
@@ -53,8 +57,13 @@ function initialize(centerx, centery, spawnlocs){
 
 					//explreq.onreadystatechange = function(){
 						//if (this.readyState == 4 && this.status == 200){
-							exploredtiles = centerx + "," + centery //this.responseText
-							exploredtiles = exploredtiles.split("\n")
+							if (window.localStorage.getItem("et") != null && !multi){
+								exploredtiles = window.localStorage.getItem("et").split("|")
+							}
+							else{
+								exploredtiles = centerx + "," + centery
+								exploredtiles = exploredtiles.split("\n")
+							}
 
 							for (var expltile of exploredtiles){
 								var tx = expltile.split(",")[0] * 1
@@ -83,7 +92,14 @@ function initialize(centerx, centery, spawnlocs){
 									if (init_ind < 0){
 										init_ind = 0
 									}
-									let temp = this.responseText
+
+									if (window.localStorage.getItem("us") == "t" && !multi){
+										var temp = window.localStorage.getItem("units")
+									}
+									else{
+										var temp = this.responseText
+									}
+
 									temp = temp.split("\n")
 									temp.pop()
 									temp[0] = temp[0].replace("xhere", centerx).replace("yhere", centery)
@@ -102,12 +118,20 @@ function initialize(centerx, centery, spawnlocs){
 									hideLoadingScreen()
 									if (!multi){
 										hideTurnWaitScreen()
-										var game_init_alert = setTimeout(function(){
+										/*game_init_alert = setTimeout(function(){
 											//alert("Click on the person to begin the game!")
 											showCustomAlert("game_init_click_reminder")
-										}, 15000)
+										}, 15000)*/
 									}
 									addToMiniMap(gamecenterx, gamecentery)
+									/*if (!multi){
+										if (window.localStorage.getItem("tl") != "t"){
+											loadAndSaveTerrain()
+										}
+										if (window.localStorage.getItem("us") != "t"){
+											saveUnits()
+										}
+									}*/
 								}
 							}			
 						//}

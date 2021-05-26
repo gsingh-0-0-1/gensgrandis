@@ -10,6 +10,7 @@ var fs = require('fs');
 const sqlite3 = require('sqlite3').verbose();
 const {URLSearchParams} = require('url')
 const path = require("path")
+const zlib = require("zlib");
 
 const bodyParser = require('body-parser');
 
@@ -66,6 +67,38 @@ console.log(AUTH_KEY)
 const MAX_PLAYERS = [0, 2, 2, 2, 2, 2, 2, 2, 2, 3, 3]
 
 const TRACKED_PAGES = ['/', '/about', '/dev', '/changelog', '/soundtrack', '/mapimgs', '/game', '/darkreunion']
+
+
+//--------------------------------------------------------------------
+const COMMON_EXCHANGES = {
+	".2#l" : "!",
+	"0#r" : "@",
+	".2#d" : "$",
+	".2#f|1" : "-"
+}
+
+var COMMON_EXCHANGES_INV = {}
+
+for (key of Object.keys(COMMON_EXCHANGES)){
+	COMMON_EXCHANGES_INV[COMMON_EXCHANGES[key]] = key
+}
+
+//--------------------------------------------------------------------
+
+const COMMON_COMPRESSES = {
+	"!!!!!!!!!!" : "*",
+	"----" : "(",
+	"@@@" : ")",
+	"#l" : "_"
+}
+
+var COMMON_COMPRESSES_INV = {}
+
+for (key of Object.keys(COMMON_COMPRESSES)){
+	COMMON_COMPRESSES_INV[COMMON_COMPRESSES[key]] = key
+}
+
+//--------------------------------------------------------------------
 
 
 function dealWithMalformed(res){
@@ -130,6 +163,8 @@ function initRoom(room){
 			//ensure that only the player whose turn it currently is can actually end the turn
 			let currentplayers = Object.keys(current_clients[room].players)
 			let currentplayer = currentplayers[current_clients[room].properties.current_turn]
+
+			console.log(currentplayer, socket.id)
 
 			if (currentplayer != socket.id){
 				return
@@ -506,6 +541,8 @@ app.get("/gettile", (req, res) => {
 	var urlParams = new URLSearchParams(url);
 	var x = urlParams.get("x")
 	var y = urlParams.get("y")
+	var chunk = urlParams.get("chunk")
+	var raw = urlParams.get("raw")
 
 	var malformed = false
 
@@ -528,25 +565,35 @@ app.get("/gettile", (req, res) => {
 	x = x * 1
 	y = y * 1
 
-	/*var db = new sqlite3.Database("saves/" + file + "/world.db")
-	var command = "SELECT * FROM world WHERE tilename='" + x + "_" + y + "'"
 
-	db.all(command, [], (err, rows) => {
-		if (err) {
-			throw err;
-		}
-		res.send(rows)
-	})*/
-	//res.sendFile("saves/" + file + "/world_data/" + y + ".txt", {root: __dirname})
 	fs.readFile(path.resolve(__dirname, "saves/" + file + "/world_data/" + y + ".txt"), 'utf8' , (err, data) => {
 		if (err) {
 			console.error(err)
 			return
 		}
-		data = data.split("\n")
+
+		if (raw != "t"){
+
+			for (var key of Object.keys(COMMON_COMPRESSES_INV)){
+				data = data.split(key)
+				data = data.join(COMMON_COMPRESSES_INV[key])
+			}
+
+			for (var key of Object.keys(COMMON_EXCHANGES_INV)){
+				data = data.split(key)
+				data = data.join(key + "\n")
+			}
+			data = data.split("\n")
+		}
+
+		if (chunk == "t"){ //check if the user wants the full chunk
+			res.send(data)
+			return
+		}
 		res.send(data[x])
 	})
 })
+
 
 app.get("/seed", (req, res) => {
 	var url = req.url.split("?")[1];

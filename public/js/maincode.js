@@ -661,7 +661,7 @@ function expandCity(dir, argx='', argy='', argid='', self = true){
 	cities[id].tiles[targetx + "_" + targety].y = targety
 	cities[id].tiles[targetx + "_" + targety].mesh = texture
 	cities[id].tiles[targetx + "_" + targety].population = 50
-	cities[id].tiles[targetx + "_" + targety].pop_size = 1
+	//cities[id].tiles[targetx + "_" + targety].pop_size = 1
 
 	if (self){
 		activateTilesAtCenter(targetx, targety)
@@ -730,7 +730,7 @@ function changeCityProduction(type){
 }
 
 
-function buildCity(id, name=''){
+function buildCity(id, name='', owner='self'){
 	if (id == 'null'){
 		return
 	}
@@ -851,11 +851,8 @@ function buildCity(id, name=''){
 
 	current_city = this_city
 
-	if (already_named){
-		this_city.owner = 'notself'
-	}
+	this_city.owner = owner
 	if (!already_named){
-		this_city.owner = 'self'
 		setTimeout(function(){
 			showCityNamePanel(id)
 		}, 150)
@@ -931,8 +928,14 @@ function drawUnits(i, emit = true){
 function fetchAndRender(coords1, coords2){
 	for (var y = coords1[1]; y < coords2[1]; y++){
 		for (var x = coords1[0]; x < coords2[0]; x++){
+			if (window.localStorage.getItem("tl") === "t"){
+				let d = window.localStorage.getItem(String(y))
+				d = decompressChunk(d)[x]
+				draw(x, y, d)
+				continue
+			}
 			var req = new XMLHttpRequest;
-			req.open("GET", "/gettile?x=" + x + "&y=" + y + "&file=" + FILE)
+			req.open("GET", "/gettile?x=" + x + "&y=" + y + "&chunk=f&raw=f&file=" + FILE)
 			req.x = x
 			req.y = y
 			req.send()
@@ -959,11 +962,25 @@ function draw(x, y, data){
 	if (getTileAt(x, y) != undefined){
 		return
 	}
+
+	if (data === ""){
+		return
+	}
+
+	if (Object.keys(COMMON_EXCHANGES_INV).includes(data)){
+		data = COMMON_EXCHANGES_INV[data]
+	}
+
 	//var tiledata = data[y % 100][x % 100].split("#")[1]
 	//var height = data[y % 100][x % 100].split("#")[0] * 1
 	var tiledata = data.split(HEIGHT_DELIMITER)[1]
 	var height = data.split(HEIGHT_DELIMITER)[0] * 1
-	var type = tiledata.split(INFO_DELIMITER)[0]
+	if (tiledata.includes(INFO_DELIMITER)){
+		var type = tiledata.split(INFO_DELIMITER)[0]
+	}
+	else{
+		var type = tiledata
+	}
 	var forest = false
 
 	if (type == LAND_TILE_CODE){
@@ -1460,7 +1477,7 @@ socket.on('moveunit', function(id, x, y, z){
 })
 
 socket.on('buildcity', function(id, name){
-	buildCity(id, name)
+	buildCity(id, name, 'notself')
 })
 
 socket.on('expandcity', function(dir0, dir1, x, y, id){

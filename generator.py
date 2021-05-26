@@ -11,6 +11,7 @@ import sqlite3
 import os
 import sys
 import cv2
+import zlib
 
 print("Starting")
 
@@ -55,19 +56,35 @@ def createStructureGen(x, y, seed):
 
 LAND_TILE_CODE = 'l'
 
-FOREST_START_TILE_CODE = 's,l,f'
-FOREST_TILE_CODE = 'l,f'
+FOREST_START_TILE_CODE = 'sf'
+FOREST_TILE_CODE = 'f'
 
-MOUNTAIN_START_TILE_CODE = 's,l,m'
-MOUNTAIN_TILE_CODE = 'l,m'
+WATER_BODY_START_TILE_CODE = 'sw'
+WATER_BODY_TILE_CODE = 'w'
 
-WATER_BODY_START_TILE_CODE = 's,w,l,n'
-WATER_BODY_TILE_CODE = 'w,l,n'
+RIVER_START_TILE_CODE = 'sr'
+RIVER_TILE_CODE = 'r'
 
-RIVER_START_TILE_CODE = 's,w,l,r'
-RIVER_TILE_CODE = 'w,r'
+DESERT_TILE_CODE = 'd'
 
-DESERT_TILE_CODE = 'l,d'
+COMMON_EXCHANGES = {
+	".2#l" : "!",
+	"0#r" : "@",
+	".2#d" : "$",
+	".2#f|1" : "-"
+}
+
+COMMON_COMPRESSES = {
+	"!!!!!!!!!!" : "*",
+	"----" : "(",
+	"@@@" : ")",
+	"#l" : "_"
+}
+
+COMMON_COMPRESSES_INV = {val :key for key, val in COMMON_COMPRESSES.items()}
+
+COMMON_EXCHANGES_INV = {val : key for key, val in COMMON_EXCHANGES.items()}
+
 DESERT_SIZE = 22
 DESERT_SIZE_VAR = 3
 DESERT_NUM = TOP_LEVEL_GENERATOR.integers(3, 6, endpoint = True)
@@ -709,11 +726,36 @@ print("Generating save data...")
 #cur.execute(command)
 
 os.mkdir("saves/" + fname + "/world_data/")
+#os.mkdir("saves/" + fname + "/world_data_comp/")
 
 for y in range(0, MAX_WORLD_RADIUS * 2):
 	f = open("saves/" + fname + "/world_data/" + str(y) + ".txt", "w")
+	#f = open("saves/" + fname + "/world_data_comp/" + str(y) + ".txt", "wb")
+	s = ''
 	for x in range(0, MAX_WORLD_RADIUS * 2):
-		f.write(GAME_GRID[y, x] + "\n")
+
+		addstr = GAME_GRID[y, x] + "" #ensure that a full copy of the string is made
+
+		if addstr[-1] == INFO_DELIMITER:
+			addstr = addstr.replace(INFO_DELIMITER, "")
+
+		if addstr.startswith('0.'):
+			addstr = addstr.replace("0.", ".")
+
+		if addstr in COMMON_EXCHANGES.keys():
+			addstr = COMMON_EXCHANGES[addstr]
+
+		s = s + addstr + "\n"
+		#f.write(GAME_GRID[y, x] + "\n")
+	#b = bytes(s, encoding='utf-8')
+	#c = zlib.compress(b)
+	for key in COMMON_EXCHANGES_INV.keys():
+		s = s.replace(key + "\n", key)
+
+	for key in COMMON_COMPRESSES.keys():
+		s = s.replace(key, COMMON_COMPRESSES[key])
+
+	f.write(s)
 	f.close()
 #		command = ''' INSERT INTO world (tilename, tiledesc) VALUES ("''' + str(x) + "_" + str(y) + '''",  "''' + GAME_GRID[y, x] + '''")'''
 #		cur.execute(command)
