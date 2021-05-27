@@ -70,15 +70,18 @@ DESERT_TILE_CODE = 'd'
 COMMON_EXCHANGES = {
 	".2#l" : "!",
 	"0#r" : "@",
+	"0#w" : "[",
+	"0#sr" : "]",
 	".2#d" : "$",
-	".2#f|1" : "-"
+	".2#f|1" : "-",
+	"#f|1" : "{",
 }
 
 COMMON_COMPRESSES = {
-	"!!!!!!!!!!" : "*",
+	"!!!!" : "*",
 	"----" : "(",
 	"@@@" : ")",
-	"#l" : "_"
+	"#l" : "_",
 }
 
 COMMON_COMPRESSES_INV = {val :key for key, val in COMMON_COMPRESSES.items()}

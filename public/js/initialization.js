@@ -100,9 +100,11 @@ function initialize(centerx, centery, spawnlocs){
 										var temp = this.responseText
 									}
 
-									temp = temp.split("\n")
-									temp.pop()
-									temp[0] = temp[0].replace("xhere", centerx).replace("yhere", centery)
+									if (temp != ""){
+										temp = temp.split("\n")
+										temp.pop()
+										temp[0] = temp[0].replace("xhere", centerx).replace("yhere", centery)
+									}
 									units.push(...temp)
 									//console.log(temp, units)
 									for (var i = 0; i < units.length; i++){
@@ -114,24 +116,38 @@ function initialize(centerx, centery, spawnlocs){
 											drawUnits(i, true)
 										}
 									}
-									endTurn()
+									
+									if (multi){
+										endTurn()
+									}
 									hideLoadingScreen()
+
 									if (!multi){
 										hideTurnWaitScreen()
-										/*game_init_alert = setTimeout(function(){
-											//alert("Click on the person to begin the game!")
-											showCustomAlert("game_init_click_reminder")
-										}, 15000)*/
 									}
+
+									if (multi){
+										hideTerrainLoadScreen()
+									}
+
 									addToMiniMap(gamecenterx, gamecentery)
-									/*if (!multi){
+
+									if (!multi){
 										if (window.localStorage.getItem("tl") != "t"){
 											loadAndSaveTerrain()
 										}
+										else{
+											hideTerrainLoadScreen()
+										}
+
 										if (window.localStorage.getItem("us") != "t"){
 											saveUnits()
 										}
-									}*/
+
+										if (window.localStorage.getItem("cs") == "t"){
+											loadCities()
+										}
+									}
 								}
 							}			
 						//}

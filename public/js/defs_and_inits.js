@@ -45,11 +45,11 @@ if (window.location.pathname.includes("room")){
 	multi = true
 }
 
-if (!multi){
+if (!multi && window.localStorage.getItem("us") != "t"){
 	var game_init_alert = setTimeout(function(){
 		//alert("Click on the person to begin the game!")
 		showCustomAlert("game_init_click_reminder")
-	}, 15000)
+	}, 20000)
 }
 
 
@@ -147,8 +147,11 @@ const DESERT_TILE_CODE = 'd'
 const COMMON_EXCHANGES = {
 	".2#l" : "!",
 	"0#r" : "@",
+	"0#w" : "[",
+	"0#sr" : "]",
 	".2#d" : "$",
-	".2#f|1" : "-"
+	".2#f|1" : "-",
+	"#f|1" : "{",
 }
 
 var COMMON_EXCHANGES_INV = {}
@@ -160,10 +163,10 @@ for (key of Object.keys(COMMON_EXCHANGES)){
 //--------------------------------------------------------------------
 
 const COMMON_COMPRESSES = {
-	"!!!!!!!!!!" : "*",
+	"!!!!" : "*",
 	"----" : "(",
 	"@@@" : ")",
-	"#l" : "_"
+	"#l" : "_",
 }
 
 var COMMON_COMPRESSES_INV = {}

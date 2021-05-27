@@ -478,8 +478,6 @@ function addBuilding(subtile_code, building_texture, x = null, y = null, id = nu
 	getTileAt(x, y).tile_grid[subtile_code].mesh = texture
 	getTileAt(x, y).tile_grid[subtile_code].building = building_texture.texturename
 
-	console.log(x, y, id)
-
 	if (self){
 		socket.emit('addbuilding', subtile_code, building_texture.texturename, x, y, id)
 	}
@@ -505,7 +503,7 @@ function removeBuilding(subtile_code, x = null, y = null, id = null){
 	targetmesh.remove(getTileAt(x, y).tile_grid[subtile_code].mesh)
 
 	getTileAt(x, y).tile_grid[subtile_code].mesh = null
-	getTileAt(x, y).tile_grid[subtile_code].building = "X"
+	getTileAt(x, y).tile_grid[subtile_code].building = ""
 }
 
 

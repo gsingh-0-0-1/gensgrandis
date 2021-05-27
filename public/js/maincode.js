@@ -316,6 +316,10 @@ function hideLoadingScreen(){
 	document.getElementById("gameloadingscreen").style.display = "none"
 }
 
+function hideTerrainLoadScreen(){
+	document.getElementById("terrainload").style.display = "none"
+}
+
 function activateTilesAtCenter(x, y){
 	x = x * 1
 	y = y * 1
@@ -561,8 +565,40 @@ function breakCity(){
 	addPeople(selectedcitytilex, selectedcitytiley)
 }
 
+function addToCity(cityid = null, x = null, y = null, pop_coerce = true){
+	if (cityid === null || x === null || y === null){
+		return
+	}
 
-function expandCity(dir, argx='', argy='', argid='', self = true){
+	//check if tile is adjacent to city center
+	let xdiff = x - cities[cityid].center.x
+	let ydiff = y - cities[cityid].center.y
+	if (Math.abs(xdiff) + Math.abs(ydiff) == 1){
+		expandCity([xdiff, ydiff], cities[cityid].center.x, cities[cityid].center.y, cityid, true, pop_coerce, true)
+		return
+	}
+
+	var tiles = Object.keys(cities[cityid].tiles)
+	if (tiles.includes((x + 1) + "_" + y)){
+		expandCity([-1, 0], x + 1, y, cityid, true, pop_coerce, true)
+		return
+	}
+	else if (tiles.includes((x - 1) + "_" + y)){
+		expandCity([1, 0], x - 1, y, cityid, true, pop_coerce, true)
+		return
+	}
+	else if (tiles.includes(x + "_" + (y + 1))){
+		expandCity([0, -1], x, y + 1, cityid, true, pop_coerce, true)
+		return
+	}
+	else if (tiles.includes(x + "_" + (y - 1))){
+		expandCity([0, 1], x, y - 1, cityid, true, pop_coerce, true)
+		return
+	}
+}
+
+
+function expandCity(dir, argx='', argy='', argid='', self = true, pop_coerce = false, auto = false){
 	var x = argx
 	var y = argy
 	var id = argid
@@ -610,22 +646,24 @@ function expandCity(dir, argx='', argy='', argid='', self = true){
 
 	//ensure that there is enough population for expansion to occur
 	//first check for city center
-	if (isCityCenter(id, x, y)){
-		if (cities[id].center.population - targetpop < mincitytilepop){
-			showCustomAlert("not_enough_pop_alert")
-			//alert("Not enough population to expand!")
-			return
+	if (!pop_coerce){
+		if (isCityCenter(id, x, y)){
+			if (cities[id].center.population - targetpop < mincitytilepop){
+				showCustomAlert("not_enough_pop_alert")
+				//alert("Not enough population to expand!")
+				return
+			}
+			cities[id].center.population -= targetpop
 		}
-		cities[id].center.population -= targetpop
-	}
-	else{
-		//and now check for other tiles
-		if (cities[id].tiles[x + "_" + y].population - targetpop < mincitytilepop){
-			showCustomAlert("not_enough_pop_alert")
-			//alert("Not enough population to expand!")
-			return
+		else{
+			//and now check for other tiles
+			if (cities[id].tiles[x + "_" + y].population - targetpop < mincitytilepop){
+				showCustomAlert("not_enough_pop_alert")
+				//alert("Not enough population to expand!")
+				return
+			}
+			cities[id].tiles[x + "_" + y].population -= targetpop
 		}
-		cities[id].tiles[x + "_" + y].population -= targetpop
 	}
 
 	cities[id].tiles[targetx + "_" + targety] = new Object()
@@ -665,7 +703,9 @@ function expandCity(dir, argx='', argy='', argid='', self = true){
 
 	if (self){
 		activateTilesAtCenter(targetx, targety)
-		showCitySidebar(id, x, y)
+		if (!auto){
+			showCitySidebar(id, x, y)
+		}
 	}
 
 	if (in_city_tile_view){
@@ -730,17 +770,14 @@ function changeCityProduction(type){
 }
 
 
-function buildCity(id, name='', owner='self'){
-	if (id == 'null'){
-		return
-	}
-	if (unitlist[id].type != "P"){
-		return
-	}
+function buildCity(id = null, name='', owner='self', x = null, y = null){
 
 	var already_named = false
 	if (name != ''){
 		if (name.length > 20){
+			return
+		}
+		else if (citynames.includes(name)){
 			return
 		}
 		else{
@@ -748,14 +785,29 @@ function buildCity(id, name='', owner='self'){
 		}
 	}
 
-	var cityx = unitlist[id].x * 1
-	var cityy = unitlist[id].y * 1
+
+	if (x == null || y == null){
+		if (id == null){
+			return
+		}
+		var cityx = unitlist[id].x * 1
+		var cityy = unitlist[id].y * 1
+	}
+	else{
+		var cityx = x
+		var cityy = y
+	}
 
 	if (isTileCity(cityx, cityy)){
 		return
 	}
 
-	var citypop = unitlist[id].n * 1
+	if (id != null){
+		var citypop = unitlist[id].n * 1
+	}
+	else{
+		var citypop = 100
+	}
 
 
 	naming_city = true
@@ -763,16 +815,20 @@ function buildCity(id, name='', owner='self'){
 		naming_city = false
 	}
 
-	scene.remove(unitlist[id].mesh)
+	if (id != null){
+		scene.remove(unitlist[id].mesh)
+	}
 
 	assignTileUnitStatus(cityx, cityy, false)
 
-	//keep this id temporarily since both pop and unselect will get rid of it
-	var temp_id = id
+	if (id != null){
+		//keep this id temporarily since both pop and unselect will get rid of it
+		var temp_id = id
 
-	unSelectUnit(temp_id)
+		unSelectUnit(temp_id)
 
-	unitlist[temp_id] = 'removed'
+		unitlist[temp_id] = 'removed'
+	}
 
 	var this_city = new Object()
 	this_city.center = new Object()
@@ -812,7 +868,7 @@ function buildCity(id, name='', owner='self'){
 	texture.city = true
 	texture.visible = false
 
-	if (activetiles.includes(cityx + "," + cityy)){
+	if (activetiles.includes(cityx + "," + cityy) || owner == 'self'){
 		texture.visible = true
 	}
 
@@ -858,7 +914,12 @@ function buildCity(id, name='', owner='self'){
 		}, 150)
 	}
 
-	drawTileBorders(this_city.center.x, this_city.center.y, [1, 2, 3, 4], !already_named)
+	var self = true
+	if (owner != 'self'){
+		self = false
+	}
+
+	drawTileBorders(this_city.center.x, this_city.center.y, [1, 2, 3, 4], self)
 
 	createTileGrid(this_city.center.x, this_city.center.y, true)
 }
@@ -874,7 +935,7 @@ function drawUnits(i, emit = true){
 		var info = units[i].split("~")
 		var unittype = info[0]
 		var unitinfo = info[1].split(",")
-		var thisunit = {}
+		var thisunit = new Object()
 		thisunit.unitid = i
 		thisunit.type = unittype
 		for (var keyvalpair of unitinfo){

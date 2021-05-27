@@ -77,8 +77,11 @@ for (var i = 1; i <= approvedrooms; i++){
 const COMMON_EXCHANGES = {
 	".2#l" : "!",
 	"0#r" : "@",
+	"0#w" : "[",
+	"0#sr" : "]",
 	".2#d" : "$",
-	".2#f|1" : "-"
+	".2#f|1" : "-",
+	"#f|1" : "{",
 }
 
 var COMMON_EXCHANGES_INV = {}
@@ -90,10 +93,10 @@ for (key of Object.keys(COMMON_EXCHANGES)){
 //--------------------------------------------------------------------
 
 const COMMON_COMPRESSES = {
-	"!!!!!!!!!!" : "*",
+	"!!!!" : "*",
 	"----" : "(",
 	"@@@" : ")",
-	"#l" : "_"
+	"#l" : "_",
 }
 
 var COMMON_COMPRESSES_INV = {}

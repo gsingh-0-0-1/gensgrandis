@@ -196,6 +196,12 @@
 		</div>
 	</div>
 
+	<div id="terrainload" style="position: fixed; left: 0%; top: 0%; width: 100%; height: 100%; background-color: #000; text-align: center; color: #ddd; font-family: 'Times New Roman'; z-index: 3">
+		<div style="position: relative; top: 50%; font-size: 5vh">
+			Loading terrain...
+		</div>
+	</div>
+
 	<div id="unit_desc" style="position: fixed; left: 0%; top: 75%; width: 30%; height: 25%; background-color: #4a4aaa; border-top: 5px solid #d9d0d0; border-right: 5px solid #d9d0d0; box-sizing: border-box; z-index: 0; display: none">
 		<div class="unit_desc" id="unit_desc_name" style="left: 6%; top: 10%;">
 		</div>
@@ -518,6 +524,10 @@
 		</div>
 		<br>
 		<input id="soundtrack_button" class="button" type="button" style="position: relative; background-color: #b48888; color: #555; font-family: Source Code Pro; left: 5%; padding: 7px 7px" value="Soundtrack Off" onclick="javascript:handleSoundtrackButton()">
+
+		<input id="gamesave_button" class="button" type="button" style="position: relative; background-color: #8888b4; color: #222; font-family: Source Code Pro; left: 5%; padding: 7px 7px" value="Save Game" onclick="javascript:saveGameData()">
+
+		<input id="gameclear_button" class="button" type="button" style="position: relative; background-color: #333; color: #aaa; font-family: Source Code Pro; left: 5%; padding: 7px 7px" value="Restart Game" onclick="javascript:showCustomAlert('clearGameAlert')">
 	</div>
 
 	<div id="music_holder" style="display: none; position: fixed; left: 3%; top: 5%; width: 25%; height: 20%; background-color: #555; border: 2px solid #999; z-index: 3; color: #999; font-family: Lato; overflow-y: scroll">
@@ -704,11 +714,25 @@
 		<input class="button" type="button" style="position: absolute; left: 50%; top: 60%; transform: translate(-50%, 0); background-color: #88b488; color: #555; font-family: Courier; padding: 0.6vh 0.6vw; font-size: 1.2vh" value="OK" onclick="javascript:closeCustomAlert(this.parentNode)">
 	</div>
 
+	<div class="customalert" id="gamesaved">
+		Game saved!
+
+		<input class="button" type="button" style="position: absolute; left: 50%; top: 60%; transform: translate(-50%, 0); background-color: #88b488; color: #555; font-family: Courier; padding: 0.6vh 0.6vw; font-size: 1.2vh" value="OK" onclick="javascript:closeCustomAlert(this.parentNode)">
+	</div>
+
 
 	<div class="customalert" id="unit_done_alert">
 		Your <span id="unit_done_alert_utype"></span> has finished producing!
 
 		<input class="button" type="button" style="position: absolute; left: 50%; top: 60%; transform: translate(-50%, 0); background-color: #88b488; color: #555; font-family: Courier; padding: 0.6vh 0.6vw; font-size: 1.2vh" value="OK" onclick="javascript:closeCustomAlert(this.parentNode)">
+	</div>
+
+	<div class="customalert" id="clearGameAlert">
+		Are you really sure you want to restart your game? All your progress will be lost.
+
+		<input class="button" type="button" style="position: absolute; left: 25%; top: 60%; transform: translate(-50%, 0); background-color: #b48888; color: #555; font-family: Courier; padding: 0.6vh 0.6vw; font-size: 1.2vh" value="Yes, restart" onclick="javascript:clearGameAndReload()">
+
+		<input class="button" type="button" style="position: absolute; left: 75%; top: 60%; transform: translate(-50%, 0); background-color: #88b488; color: #555; font-family: Courier; padding: 0.6vh 0.6vw; font-size: 1.2vh" value="No, go back." onclick="javascript:closeCustomAlert(this.parentNode)">
 	</div>
 
 </body>
