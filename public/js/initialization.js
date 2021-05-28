@@ -6,6 +6,7 @@
 
 function loadGameFromBrowser(){
 	exploredtiles = window.localStorage.getItem("et").split("|")
+	WORLD_SEED = window.localStorage.getItem("seed") * 1
 	for (var expltile of exploredtiles){
 		var tx = expltile.split(",")[0] * 1
 		var ty = expltile.split(",")[1] * 1
@@ -18,21 +19,28 @@ function loadGameFromBrowser(){
 	if (temp != ""){
 		temp = temp.split("\n")
 		temp.pop()
-		temp[0] = temp[0].replace("xhere", centerx).replace("yhere", centery)
 	}
 	units.push(...temp)
 	//console.log(temp, units)
 	for (var i = 0; i < units.length; i++){
 		//console.log(i)
-		if (i < init_ind){
-			drawUnits(i, false)
-		}
-		else{
-			drawUnits(i, true)
-		}
+		drawUnits(i, true)
 	}
 
 	loadCities()
+
+	addToMiniMap(500, 500)
+
+	hideLoadingScreen()
+	hideTerrainLoadScreen()
+	hideTurnWaitScreen()
+
+	gui.addEventListener( 'click', onMouseClick, false );
+	camera.position.set(camerainitx, camerainity, camerainitz)
+	camera.lookAt(camerainitx, camerainity + 5, camerainitz - 5)
+	animate();
+
+	saveGameData(false)
 }
 
 function initialize(centerx, centery, spawnlocs){
@@ -55,6 +63,10 @@ function initialize(centerx, centery, spawnlocs){
 		filereq.open("GET", "/gamefile/" + room)
 	}
 	else{
+		if (window.localStorage.getItem("sv1") == "t"){
+			loadGameFromBrowser()
+			return
+		}
 		filereq.open("GET", "/numsaves")
 	}
 
@@ -84,16 +96,8 @@ function initialize(centerx, centery, spawnlocs){
 
 					//explreq.onreadystatechange = function(){
 						//if (this.readyState == 4 && this.status == 200){
-							if (window.localStorage.getItem("seed") != undefined && window.localStorage.getItem("seed") != null){
-								WORLD_SEED = window.localStorage.getItem("seed") * 1
-							}
-							if (window.localStorage.getItem("et") != null && !multi){
-								exploredtiles = window.localStorage.getItem("et").split("|")
-							}
-							else{
-								exploredtiles = centerx + "," + centery
-								exploredtiles = exploredtiles.split("\n")
-							}
+							exploredtiles = centerx + "," + centery
+							exploredtiles = exploredtiles.split("\n")
 
 							for (var expltile of exploredtiles){
 								var tx = expltile.split(",")[0] * 1
@@ -122,13 +126,8 @@ function initialize(centerx, centery, spawnlocs){
 									if (init_ind < 0){
 										init_ind = 0
 									}
-
-									if (window.localStorage.getItem("us") == "t" && !multi){
-										var temp = window.localStorage.getItem("units")
-									}
-									else{
-										var temp = this.responseText
-									}
+									
+									var temp = this.responseText
 
 									if (temp != ""){
 										temp = temp.split("\n")
@@ -177,6 +176,8 @@ function initialize(centerx, centery, spawnlocs){
 										if (window.localStorage.getItem("cs") == "t"){
 											loadCities()
 										}
+
+										saveGameData(false)
 									}
 								}
 							}			

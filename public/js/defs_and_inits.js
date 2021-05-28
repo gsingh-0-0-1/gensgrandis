@@ -301,25 +301,30 @@ var paused = false
 var done_init = false
 
 
-
-if (!multi){
-	var filereq = new XMLHttpRequest;
-	filereq.open("GET", "/numsaves")
-	filereq.send()
-	filereq.onreadystatechange = function(){
-		if (this.readyState == 4 && this.status == 200){
-			FILE = "map" + String(Math.ceil(Math.random() * (this.responseText * 1)))
-			var spawnlocreq = new XMLHttpRequest;
-			spawnlocreq.open("GET", "/spawnlocsbyfile/" + FILE)
-			spawnlocreq.send()
-			spawnlocreq.onreadystatechange = function(){
-				if (this.readyState == 4 && this.status == 200){
-					var locs = this.responseText.split("\n")
-					loc = locs[0]
-					loc = loc.split(",")
-					let x = loc[0] * 1
-					let y = loc[1] * 1
-					initialize(x, y, locs)
+function pre_init(){
+	if (!multi){
+		/*if (window.localStorage.getItem("sv1") == "t"){
+			initialize(gamecenterx, gamecentery, ["500,500"])
+			return
+		}*/
+		var filereq = new XMLHttpRequest;
+		filereq.open("GET", "/numsaves")
+		filereq.send()
+		filereq.onreadystatechange = function(){
+			if (this.readyState == 4 && this.status == 200){
+				FILE = "map" + String(Math.ceil(Math.random() * (this.responseText * 1)))
+				var spawnlocreq = new XMLHttpRequest;
+				spawnlocreq.open("GET", "/spawnlocsbyfile/" + FILE)
+				spawnlocreq.send()
+				spawnlocreq.onreadystatechange = function(){
+					if (this.readyState == 4 && this.status == 200){
+						var locs = this.responseText.split("\n")
+						loc = locs[0]
+						loc = loc.split(",")
+						let x = loc[0] * 1
+						let y = loc[1] * 1
+						initialize(x, y, locs)
+					}
 				}
 			}
 		}
@@ -328,7 +333,9 @@ if (!multi){
 
 var ending_game = false
 
-
+document.addEventListener('DOMContentLoaded', function() {
+	pre_init()
+}, false);
 
 
 

@@ -4,48 +4,6 @@
 /* Written by Gurmehar Singh <gurmehar@gmail.com>
 */
 
-var loader = new THREE.GLTFLoader();
-
-var PEOPLE_LOADED_MESH = null
-
-loader.load('/resources/units/people_new.glb',
-	// called when the resource is loaded
-	function ( gltf ) {
-		PEOPLE_LOADED_MESH = gltf.scene
-	}
-)
-
-
-var RIVERBOAT_LOADED_MESH = null
-
-loader.load('/resources/units/riverboat.glb',
-	// called when the resource is loaded
-	function ( gltf ) {
-		RIVERBOAT_LOADED_MESH = gltf.scene
-	}
-)
-
-
-
-var LEGION_LOADED_MESH = null
-
-loader.load('/resources/units/legion.glb',
-	// called when the resource is loaded
-	function ( gltf ) {
-		LEGION_LOADED_MESH = gltf.scene
-	}
-)
-
-
-var SCOUT_LOADED_MESH = null
-
-loader.load('/resources/units/scout_new.glb',
-	function (gltf) {
-		SCOUT_LOADED_MESH = gltf.scene
-	}
-)
-
-
 //PEOPLE
 function addPeople(x, y){
 	//console.log(units)
