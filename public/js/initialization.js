@@ -5,11 +5,16 @@
 */
 
 function loadGameFromBrowser(x, y, z){
-	if (TEXTURE_LIST.includes(null)){
-		setTimeout(function(){
-			loadGameFromBrowser(x, y, z)
-		}, 100)
+
+	for (var tname of TEXTURE_LIST){
+		if (window[tname] === null || window[tname] === undefined){
+			setTimeout(function(){
+				loadGameFromBrowser(x, y, z)
+			}, 500)
+			return
+		}
 	}
+
 	exploredtiles = window.localStorage.getItem("et").split("|")
 	WORLD_SEED = window.localStorage.getItem("seed") * 1
 	for (var expltile of exploredtiles){
