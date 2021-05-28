@@ -174,6 +174,7 @@ function loadCities(){
 
 function saveGameData(){
 	document.getElementById("gamesave_button").value = "Saving Game..."
+	window.localStorage.setItem("seed", WORLD_SEED)
 	saveExploredTiles()
 	saveUnits()
 	saveCities(true)

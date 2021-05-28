@@ -5,7 +5,34 @@
 */
 
 function loadGameFromBrowser(){
+	exploredtiles = window.localStorage.getItem("et").split("|")
+	for (var expltile of exploredtiles){
+		var tx = expltile.split(",")[0] * 1
+		var ty = expltile.split(",")[1] * 1
+		//checkAndLoad(tx, ty)
+		fetchAndRender([tx - 2, ty - 2], [tx + 3, ty + 3])
+	}
 
+	var temp = window.localStorage.getItem("units")
+
+	if (temp != ""){
+		temp = temp.split("\n")
+		temp.pop()
+		temp[0] = temp[0].replace("xhere", centerx).replace("yhere", centery)
+	}
+	units.push(...temp)
+	//console.log(temp, units)
+	for (var i = 0; i < units.length; i++){
+		//console.log(i)
+		if (i < init_ind){
+			drawUnits(i, false)
+		}
+		else{
+			drawUnits(i, true)
+		}
+	}
+
+	loadCities()
 }
 
 function initialize(centerx, centery, spawnlocs){
@@ -57,6 +84,9 @@ function initialize(centerx, centery, spawnlocs){
 
 					//explreq.onreadystatechange = function(){
 						//if (this.readyState == 4 && this.status == 200){
+							if (window.localStorage.getItem("seed") != undefined && window.localStorage.getItem("seed") != null){
+								WORLD_SEED = window.localStorage.getItem("seed") * 1
+							}
 							if (window.localStorage.getItem("et") != null && !multi){
 								exploredtiles = window.localStorage.getItem("et").split("|")
 							}
