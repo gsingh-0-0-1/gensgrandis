@@ -4,7 +4,12 @@
 /* Written by Gurmehar Singh <gurmehar@gmail.com>
 */
 
-function loadGameFromBrowser(){
+function loadGameFromBrowser(x, y, z){
+	if (TEXTURE_LIST.includes(null)){
+		setTimeout(function(){
+			loadGameFromBrowser(x, y, z)
+		}, 100)
+	}
 	exploredtiles = window.localStorage.getItem("et").split("|")
 	WORLD_SEED = window.localStorage.getItem("seed") * 1
 	for (var expltile of exploredtiles){
@@ -36,8 +41,8 @@ function loadGameFromBrowser(){
 	hideTurnWaitScreen()
 
 	gui.addEventListener( 'click', onMouseClick, false );
-	camera.position.set(camerainitx, camerainity, camerainitz)
-	camera.lookAt(camerainitx, camerainity + 5, camerainitz - 5)
+	camera.position.set(x, y, z)
+	camera.lookAt(x, y + 5, z - 5)
 	animate();
 
 	saveGameData(false)
@@ -126,7 +131,7 @@ function initialize(centerx, centery, spawnlocs){
 									if (init_ind < 0){
 										init_ind = 0
 									}
-									
+
 									var temp = this.responseText
 
 									if (temp != ""){

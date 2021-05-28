@@ -212,11 +212,11 @@ const LEAVES_MESH = new THREE.Mesh( leaves_geometry, leaves_material );
 
 var cameralooking = 'front'
 
-var gamecenterx = 550
-var gamecentery = 555
+var gamecenterx = 500
+var gamecentery = 500
 
 var camerainitx = gamecenterx
-var camerainity = gamecentery
+var camerainity = gamecentery - 5
 var camerainitz = 5
 
 const ground_z = -2
@@ -303,10 +303,11 @@ var done_init = false
 
 function pre_init(){
 	if (!multi){
-		/*if (window.localStorage.getItem("sv1") == "t"){
-			initialize(gamecenterx, gamecentery, ["500,500"])
+		if (window.localStorage.getItem("sv1") == "t"){
+			//initialize(gamecenterx, gamecentery, ["500,500"])
+			loadGameFromBrowser(camerainitx, camerainity, camerainitz)
 			return
-		}*/
+		}
 		var filereq = new XMLHttpRequest;
 		filereq.open("GET", "/numsaves")
 		filereq.send()
