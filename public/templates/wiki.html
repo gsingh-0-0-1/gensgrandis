@@ -1,0 +1,309 @@
+<!-- Copyright (C) Gurmehar Singh 2020 - All Rights Reserved
+/* Unauthorized copying or distribution of this file, via any medium is strictly prohibited
+/* Proprietary and confidential
+/* Written by Gurmehar Singh <gurmehar@gmail.com>
+/-->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<!-- Global site tag (gtag.js) - Google Analytics -->
+	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-131520225-3"></script>
+	<script src="/js/googletag.js"></script>
+	
+	<meta name="google-site-verification" content="Wm67db8wTj_MDhFfzwgS_BhR0QvqpNc2fhla6nQm51w" />
+	<meta charset="UTF-8">
+
+	<title>Gēns Grandis</title>
+
+	<link rel="preconnect" href="https://fonts.gstatic.com">
+	<link href="https://fonts.googleapis.com/css2?family=Lato:wght@300&display=swap" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css2?family=Source+Code+Pro:wght@300&display=swap" rel="stylesheet">
+	<link href="css/navbar.css" rel="stylesheet">
+
+	<style>
+		body{
+			background-color: #222;
+			color: #ccc;
+			font-family: Lato;
+			font-size: 20px;
+		}
+		.chatbuttondiv{
+			position: fixed;
+			left: 60%;
+			top: 10%;
+			width: 40%;
+			height: 90%;
+		}
+
+		.input{
+			border: none; 
+			padding: 0.1rem 1rem; 
+			flex-grow: 1; 
+			margin: 0.05rem; 
+		}
+
+		.input:focus{
+			outline: none; 
+		}
+
+		.multibuttons > span:nth-of-type(1n) {background-color: #bb8181;}
+		.multibuttons > span:nth-of-type(2n) {background-color: #81bb81;}
+		.multibuttons{
+			text-align: center;
+		}
+
+		.roombutton:focus{
+			filter: brightness(110%);
+			outline: none;
+		}
+
+
+
+		/* width */
+		::-webkit-scrollbar {
+			width: 10px;
+		}
+
+		/* Track */
+		::-webkit-scrollbar-track {
+			background: #555;
+		}
+
+		/* Handle */
+		::-webkit-scrollbar-thumb {
+			background: #999;
+		}
+
+		/* Handle on hover */
+		::-webkit-scrollbar-thumb:hover {
+			background: #9f9f9f;
+		}
+
+		.spacer{
+			position: relative; 
+			width: 20%; 
+			left: 50%; 
+			height: auto; 
+			transform: translate(-50%, 0); 
+			background-color: transparent; 
+			color: transparent;
+			font-size: 3vh;
+		}
+
+		.desc_container{
+			position: relative; 
+			width: 50%; 
+			left: 50%; 
+			height: auto; 
+			transform: translate(-50%, 0); 
+			font-size: 1.8vh; 
+			background-color: #99d; 
+			color: #000; 
+			padding: 1.5vh 1.5vh
+		}
+
+		.desc_heading{
+			position: relative; 
+			width: 20%; 
+			left: 50%; 
+			height: auto; 
+			transform: translate(-50%, 0); 
+			font-size: 1.7vw; 
+			background-color: #111; 
+			color: #aaa; 
+			text-align: center; 
+			padding: 1vh 1vh; 
+			font-family: Source Code Pro
+		}
+
+		.desc_text{
+			position: relative; 
+			width: 80%; 
+			left: 50%; 
+			height: auto; 
+			transform: translate(-50%, 0); 
+			font-size: 1vw; 
+			background-color: #77a; 
+			color: #111; 
+			text-align: left; 
+			padding: 1vh 1vh; 
+			font-family: Source Code Pro
+		}
+
+		.item_header{
+			text-decoration: underline;
+			color: #fff;
+		}
+
+		a{
+			color: #88d;
+			text-decoration: underline;
+		}
+	</style>
+</head>
+<body>
+
+	<br>
+
+	<div class="spacer" style="font-size: 3vh">
+		Filler
+	</div>
+
+	<div id="whytext" style="position: relative; width: 20%; left: 50%; height: auto; transform: translate(-50%, 0); font-size: 1.7vw; background-color: #8888de; color: #444; text-align: center; padding: 1vh 1vh; font-family: Source Code Pro">
+		001010101101010101
+	</div>
+
+	<div class="spacer" style="font-size: 3vh">
+		Filler
+	</div>
+
+	<div id="city_desc" class="desc_container" style="background-color: #c77">
+		<div class="desc_heading" id="Cities">
+			Cities
+		</div>
+
+		<div class="spacer">
+			Filler
+		</div>
+
+		<div class="desc_text" style="background-color: #000; color: #fff">
+			<span class="item_header" id="City">City</span>
+			<br>
+			&nbsp;&nbsp;&nbsp;&nbsp;Cities are a key component of the game. Cities can be founded by the People unit, one of which players start off with at the beginning of each game. Cities are made up of tiles, each of which can have buildings on it.
+			<br>
+			<br>
+		</div>
+	</div>
+
+	<div class="spacer" style="font-size: 3vh">
+		Filler
+	</div>
+
+	<div id="units_desc" class="desc_container">
+		<div class="desc_heading" id="Units">
+			Units
+		</div>
+
+		<div class="spacer" style="font-size: 3vh">
+			Filler
+		</div>
+
+		<div class="desc_text" style="background-color: #000; color: #ccc">
+			<span class="item_header" id="People">People</span>
+			<br>
+			&nbsp;&nbsp;&nbsp;&nbsp;The People unit allows the player to create a city with 100 initial population. It can move up to five tiles per turn, and can travel only on land. A People unit can be created from a city tile with at least 150 population - 50 will remain on the tile, and 100 will leave to form the unit.
+			<br>
+			<br>
+			<span class="item_header" id="Scout">Scout</span>
+			<br>
+			&nbsp;&nbsp;&nbsp;&nbsp;The Scout unit is best for exploring nearby land. It can be produced in cities, and costs 50 production points to make. Since the Scout is a non-military unit, these points can come from armories or forges. Since it takes so few production points to be made, and can usually be produced within a few turns, it makes a good choice for an early-game unit.
+			<br>
+			&nbsp;&nbsp;&nbsp;&nbsp;Scouts can move up to 8 tiles per turn, making them effective at exploration of nearby land territory.
+			<br>
+			<br>
+			<span class="item_header" id="Riverboat">Riverboat</span>
+			<br>
+			&nbsp;&nbsp;&nbsp;&nbsp;Riverboats are naval units, and allow the player to explore rivers and lakes. They cost 500 production points to make, and so they will take significantly longer to produce than a Scout; thus they are better suited for production in more developed cities. Like all produced units, they appear in the center of the city when finished producing. Since riverboats can only move on water tiles, if a city's center is not adjacent or diagonal to a water tile, the riverboat will be stuck in the city center.
+			<br>
+			<br>
+			<span class="item_header" id="Legion">Legion</span>
+			<br>
+			&nbsp;&nbsp;&nbsp;&nbsp;Legions currently don't serve any practical purpose; they will though, when the soon-to-be-released combat update arrives. They take 250 production points to produce, and can move 3 tiles per turn.
+		</div>
+	</div>
+
+	<div class="spacer" style="font-size: 3vh">
+		Filler
+	</div>
+
+	<div id="buildings_desc" class="desc_container" style="background-color: #77bb77">
+		<div class="desc_heading" id="Buildings">
+			Buildings
+		</div>
+
+		<div class="spacer" style="font-size: 3vh">
+			Filler
+		</div>
+
+		<div class="desc_text" style="background-color: #000; color: #ccc">
+			<span class="item_header" id="Farm">Farm</span>
+			<br>
+		</div>
+	</div>
+
+	<br>
+	<br>
+
+</body>
+
+<script src="/js/socket.io.js"></script>
+<script src="/js/navutils.js"></script>
+
+<script>
+
+	var init_whytext = '001010101101010101'
+
+	var whytexts = {
+		0 : init_whytext,
+		1 : '00101011010101',
+		2 : '010101i010101',
+		3 : '0101wi01101',
+		4 : '0101wi0k11',
+		5 : '01wik11',
+		6 : '0wiki1',
+		7 : 'wiki',
+		8 : 'wiki',
+	}
+
+	var whytextdelays = {
+		0 : 150,
+		1 : 150,
+		2 : 120,
+		3 : 100,
+		4 : 90,
+		5 : 60,
+		6 : 30,
+		7 : 10,
+		8 : 1
+	}
+
+	function revealText(i){
+		var whytextdiv = document.getElementById("whytext")
+		whytextdiv.textContent = whytexts[i]
+		if (i + 1 > 8){
+			return
+		}
+		setTimeout(function(){
+			revealText(i + 1)
+		}, whytextdelays[i])
+	}
+
+
+	function initialize(){
+		var l = document.body.getElementsByTagName("*");
+		var arr = []
+		for (var el of l){
+			if (el.id != null && el.id != undefined && el.id != ""){
+				arr.push(el)
+			}
+		}
+		
+		for (var el of arr){
+			if (el.id == "whytext"){
+				continue
+			}
+			document.body.innerHTML = document.body.innerHTML.replaceAll(" " + el.id, " <a href='/wiki#" + el.id + "'>" + el.id + "</a>")
+			document.body.innerHTML = document.body.innerHTML.replaceAll("&nbsp;" + el.id, "&nbsp;<a href='/wiki#" + el.id + "'>" + el.id + "</a>")
+			document.body.innerHTML = document.body.innerHTML.replaceAll(" " + el.id.toLowerCase(), " <a href='/wiki#" + el.id + "'>" + el.id.toLowerCase() + "</a>")
+		}
+
+		revealText(0)
+	}
+
+	document.addEventListener('DOMContentLoaded', function() {
+		initialize()
+	});
+
+</script>
+</html>

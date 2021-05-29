@@ -173,6 +173,10 @@ function loadCities(){
 
 
 function saveGameData(a = true){
+	if (multi){
+		showCustomAlert("multinogamesave")
+		return
+	}
 	document.getElementById("gamesave_button").value = "Saving Game..."
 	window.localStorage.setItem("seed", WORLD_SEED)
 	saveExploredTiles()

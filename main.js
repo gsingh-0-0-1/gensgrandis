@@ -319,6 +319,10 @@ app.get("/dev", (req, res) => {
 	res.sendFile("public/templates/dev.html", {root: __dirname})
 })
 
+app.get("/wiki", (req, res) => {
+	res.sendFile("public/templates/wiki.html", {root: __dirname})
+})
+
 app.get("/changelog", (req, res) => {
 	res.sendFile("public/templates/changelog.html", {root: __dirname})
 })

@@ -20,7 +20,6 @@ function loadGameFromBrowser(x, y, z){
 	for (var expltile of exploredtiles){
 		var tx = expltile.split(",")[0] * 1
 		var ty = expltile.split(",")[1] * 1
-		//checkAndLoad(tx, ty)
 		fetchAndRender([tx - 2, ty - 2], [tx + 3, ty + 3])
 	}
 
