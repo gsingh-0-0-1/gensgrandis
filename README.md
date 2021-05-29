@@ -9,7 +9,8 @@ I've also made the game effectively open-source - you all can see all the code b
 One note - the multiplayer functionality is extremely experimental right now. There's a lot to juggle as of now, given that I have a ton of development targets I'm trying to work towards. Multiplayer is unfortunately going to take the backburner for the time being (until I get around to implementing combat... that should be fun.)
 
 Currently working on:
-- Saving singleplayer games in browser, so that you can come back to them even after closing your tab
+- Combat / multiplayer update: a more visible fog of war, combat between units, and labels for who units belong to in multiplayer games
+- (possibly also barbarian troops, but this may be more complex)
 
 Some updates coming in the future:
 - Multiplayer consensus algorithm so that game integrity is preserved by the server itself, and not reliant on user-created mods
