@@ -320,6 +320,19 @@ function hideTerrainLoadScreen(){
 	document.getElementById("terrainload").style.display = "none"
 }
 
+function fogTile(x, y){
+	var tile = getTileAt(x, y)
+	var avg = tile.material.color.r + tile.material.color.g + tile.material.color.b
+	avg = avg / 3
+	avg = avg / 2
+	tile.material.color = new THREE.Color(avg, avg, avg)
+}
+
+function unFogTile(x, y){
+	var tile = getTileAt(x, y)
+	tile.material.color = new THREE.Color(tile.origcol.r, tile.origcol.g, tile.origcol.b)
+}
+
 function activateTilesAtCenter(x, y){
 	x = x * 1
 	y = y * 1
@@ -328,6 +341,7 @@ function activateTilesAtCenter(x, y){
 			var tile = (x + xoff) + "," + (y + yoff)
 			if (!activetiles.includes(tile)){
 				activetiles.push(tile)
+				//unFogTile(x + xoff, y + yoff)
 			}
 		}
 	}
@@ -342,6 +356,7 @@ function deActivateTilesAtCenter(x, y){
 				continue
 			}
 			activetiles.splice(activetiles.indexOf((x + xoff) + "," + (y + yoff)), 1)
+			//fogTile(x + xoff, y + yoff)
 		}
 	}
 }
@@ -922,6 +937,8 @@ function buildCity(id = null, name='', owner='self', x = null, y = null){
 	drawTileBorders(this_city.center.x, this_city.center.y, [1, 2, 3, 4], self)
 
 	createTileGrid(this_city.center.x, this_city.center.y, true)
+
+	activateTilesAtCenter(this_city.center.x, this_city.center.y)
 }
 
 function drawUnits(i, emit = true){
@@ -1119,6 +1136,7 @@ function draw(x, y, data){
 		var tilematerial = new THREE.MeshBasicMaterial( {color: col } )
 	}
 	var plane = new THREE.Mesh( geometry, tilematerial );
+	plane.origcol = col
 	plane.istile = true
 	plane.type = type
 	plane.height = height - base_tile_height
@@ -1152,6 +1170,8 @@ function draw(x, y, data){
 	else{
 		plane.visible = false
 	}
+
+	//fogTile(x, y)
 }
 
 
