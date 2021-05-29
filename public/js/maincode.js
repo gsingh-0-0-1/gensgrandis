@@ -324,7 +324,7 @@ function fogTile(x, y){
 	var tile = getTileAt(x, y)
 	var avg = tile.material.color.r + tile.material.color.g + tile.material.color.b
 	avg = avg / 3
-	avg = avg / 2
+	avg = avg / 1.2
 	tile.material.color = new THREE.Color(avg, avg, avg)
 }
 
@@ -333,7 +333,7 @@ function unFogTile(x, y){
 	tile.material.color = new THREE.Color(tile.origcol.r, tile.origcol.g, tile.origcol.b)
 }
 
-function activateTilesAtCenter(x, y){
+function activateTilesAtCenter(x, y, textures = true){
 	x = x * 1
 	y = y * 1
 	for (var xoff = -1; xoff <= 1; xoff++){
@@ -341,7 +341,9 @@ function activateTilesAtCenter(x, y){
 			var tile = (x + xoff) + "," + (y + yoff)
 			if (!activetiles.includes(tile)){
 				activetiles.push(tile)
-				//unFogTile(x + xoff, y + yoff)
+				if (textures){
+					unFogTile(x + xoff, y + yoff)
+				}
 			}
 		}
 	}
@@ -356,7 +358,7 @@ function deActivateTilesAtCenter(x, y){
 				continue
 			}
 			activetiles.splice(activetiles.indexOf((x + xoff) + "," + (y + yoff)), 1)
-			//fogTile(x + xoff, y + yoff)
+			fogTile(x + xoff, y + yoff)
 		}
 	}
 }
@@ -1164,14 +1166,16 @@ function draw(x, y, data){
 		//drawTree([x, y], height)
 	}
 
-	if (exploredtiles.includes(x + "," + y)){
+	if (exploredtiles.includes(x + "," + y) || (x == gamecenterx && y == gamecentery)){
 		addToMiniMap(x * 1, y * 1)
 	}
 	else{
 		plane.visible = false
 	}
 
-	//fogTile(x, y)
+	if (!activetiles.includes(x + "," + y)){
+		fogTile(x, y)
+	}
 }
 
 

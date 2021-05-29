@@ -38,7 +38,7 @@ function loadGameFromBrowser(x, y, z){
 
 	loadCities()
 
-	addToMiniMap(500, 500)
+	//addToMiniMap(500, 500)
 
 	hideLoadingScreen()
 	hideTerrainLoadScreen()
@@ -54,7 +54,7 @@ function loadGameFromBrowser(x, y, z){
 
 function initialize(centerx, centery, spawnlocs){
 
-	activateTilesAtCenter(centerx, centery)
+	activateTilesAtCenter(centerx, centery, false)
 
 	gamecenterx = centerx
 	gamecentery = centery
@@ -168,7 +168,7 @@ function initialize(centerx, centery, spawnlocs){
 										hideTerrainLoadScreen()
 									}
 
-									addToMiniMap(gamecenterx, gamecentery)
+									//addToMiniMap(gamecenterx, gamecentery)
 
 									if (!multi){
 										if (window.localStorage.getItem("tl") != "t"){
