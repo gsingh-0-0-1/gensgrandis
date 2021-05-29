@@ -7,7 +7,6 @@
 
 const express = require('express')
 var fs = require('fs');
-const sqlite3 = require('sqlite3').verbose();
 const {URLSearchParams} = require('url')
 const path = require("path")
 const zlib = require("zlib");
