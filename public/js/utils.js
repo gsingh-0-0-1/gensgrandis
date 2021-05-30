@@ -28,6 +28,20 @@ function isTileAdjacentToWater(x, y){
 	return false
 }
 
+function isTileActiveBySelfUnit(x, y){
+	for (var xoff = -1; xoff <= 1; xoff++){
+		for (var yoff = -1; yoff <= 1; yoff++){
+			var tile = getTileAt(x + xoff, y + yoff)
+			if (tile.hasUnit){
+				if (unitlist[tile.hasUnit_ID].owner == 'self'){
+					return true
+				}
+			}
+		}
+	}
+	return false
+}
+
 function isTileAdjacentToSelfCity(x, y){
 	for (var yoff = -1; yoff <= 1; yoff ++){
 		for (var xoff = -1; xoff <= 1; xoff++){
