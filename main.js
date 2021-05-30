@@ -58,19 +58,14 @@ var files = fs.readdirSync("saves");
 var files = files.filter(file => file.includes("map"));
 var num_maps = files.length
 
-var AUTH_KEY = fs.readFileSync("authkey.txt")
-AUTH_KEY = AUTH_KEY.toString().slice(0, -1)
-console.log(AUTH_KEY)
-
 //first is 0 since rooms start at 1
 const MAX_PLAYERS = [0, 2, 2, 2, 2, 2, 2, 2, 2, 3, 3]
 
-var TRACKED_PAGES = ['/', '/about', '/dev', '/changelog', '/soundtrack', '/mapimgs', '/wiki', '/game', '/darkreunion']
+var TRACKED_PAGES = ['/', '/about', '/dev', '/changelog', '/soundtrack', '/mapimgs', '/wiki', '/game', '/darkreunion', '/ping']
 
 for (var i = 1; i <= approvedrooms; i++){
 	TRACKED_PAGES.push("/room/" + i)
 }
-
 
 //--------------------------------------------------------------------
 const COMMON_EXCHANGES = {
@@ -340,6 +335,10 @@ app.get("/mapimgs", (req, res) => {
 
 app.get("/videos", (req, res) => {
 	res.sendFile("public/templates/videos.html", {root: __dirname})
+})
+
+app.get("/ping", (req, res) => {
+	res.send("pong")
 })
 
 
