@@ -1,3 +1,9 @@
+/* Copyright (C) Gurmehar Singh 2021 - All Rights Reserved
+/* Unauthorized distribution of this file, via any medium is strictly prohibited
+/* Proprietary and confidential
+/* Written by Gurmehar Singh <gurmehar@gmail.com>
+*/
+
 function decompressChunk(data){
 	for (var key of Object.keys(COMMON_COMPRESSES_INV)){
 		data = data.split(key)

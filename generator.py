@@ -1,5 +1,5 @@
 #* Copyright (C) Gurmehar Singh 2020 - All Rights Reserved
-#* Unauthorized copying or distribution of this file, via any medium is strictly prohibited
+#* Unauthorized distribution of this file, via any medium is strictly prohibited
 #* Proprietary and confidential
 #* Written by Gurmehar Singh <gurmehar@gmail.com>
 #*/

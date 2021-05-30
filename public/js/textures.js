@@ -1,3 +1,9 @@
+/* Copyright (C) Gurmehar Singh 2021 - All Rights Reserved
+/* Unauthorized distribution of this file, via any medium is strictly prohibited
+/* Proprietary and confidential
+/* Written by Gurmehar Singh <gurmehar@gmail.com>
+*/
+
 var loader = new THREE.GLTFLoader();
 
 var PEOPLE_LOADED_MESH = null
