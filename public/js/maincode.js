@@ -357,6 +357,9 @@ function deActivateTilesAtCenter(x, y){
 			if (isTileAdjacentToSelfCity(x + xoff, y + yoff)){
 				continue
 			}
+			if (isTileActiveBySelfUnit(x + xoff, y + yoff)){
+				continue
+			}
 			activetiles.splice(activetiles.indexOf((x + xoff) + "," + (y + yoff)), 1)
 			fogTile(x + xoff, y + yoff)
 		}
