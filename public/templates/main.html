@@ -31,6 +31,17 @@
 			background-color: #000;
 		}
 
+		.spacer{
+			position: relative; 
+			width: 20%; 
+			left: 50%; 
+			height: auto; 
+			transform: translate(-50%, 0); 
+			background-color: transparent; 
+			color: transparent;
+			font-size: 3vh;
+		}
+
 		.button {
 			border: none;
 			color: white;
@@ -733,6 +744,46 @@
 		<input class="button" type="button" style="position: absolute; left: 50%; top: 60%; transform: translate(-50%, 0); background-color: #88b488; color: #555; font-family: Courier; padding: 0.6vh 0.6vw; font-size: 1.2vh" value="OK" onclick="javascript:closeCustomAlert(this.parentNode)">
 	</div>
 
+	<div class="customalert" id="you_win_combat">
+		You have won the battle!
+
+		<input class="button" type="button" style="position: absolute; left: 50%; top: 60%; transform: translate(-50%, 0); background-color: #88b488; color: #555; font-family: Courier; padding: 0.6vh 0.6vw; font-size: 1.2vh" value="OK" onclick="javascript:closeCustomAlert(this.parentNode)">
+	</div>
+
+	<div class="customalert" id="you_lose_combat">
+		You have lost the battle!
+
+		<input class="button" type="button" style="position: absolute; left: 50%; top: 60%; transform: translate(-50%, 0); background-color: #88b488; color: #555; font-family: Courier; padding: 0.6vh 0.6vw; font-size: 1.2vh" value="OK" onclick="javascript:closeCustomAlert(this.parentNode)">
+	</div>
+
+	<div class="customalert" id="combat_alert" style="width: 30%; text-align: left">
+		<span id="combat_u1" style="position: relative; margin-top: 5%; width: 40%; text-align: left; float: left">
+			<span id="combat_u1_u" style="text-decoration: underline"></span>
+			<br>
+			<span id="combat_u1_stats" style="font-size: 0.7em"></span>
+			<br>
+			<span id="combat_u1_odds" style="font-size: 0.7em"></span>
+		</span>
+		<span id="combat_u2" style="position: relative; margin-top: 5%; width: 40%; text-align: left; float: right">
+			<span id="combat_u2_u" style="text-decoration: underline"></span>
+			<br>
+			<span id="combat_u2_stats" style="font-size: 0.7em"></span>
+			<br>
+			<span id="combat_u2_odds" style="font-size: 0.7em"></span>
+		</span>
+
+		<span class="spacer" style="font-size: 2em">
+			Filler
+		</span>
+
+		<input class="button" type="button" style="position: absolute; left: 35%; top: 72%; transform: translate(-50%, 0); background-color: #88b488; color: #555; font-family: Courier; padding: 0.6vh 0.6vw; font-size: 1.2vh" value="Proceed" onclick="javascript:commenceCombat(); closeCustomAlert(this.parentNode)">
+
+		<input class="button" type="button" style="position: absolute; left: 65%; top: 72%; transform: translate(-50%, 0); background-color: #b48888; color: #555; font-family: Courier; padding: 0.6vh 0.6vw; font-size: 1.2vh" value="Cancel" onclick="javascript:closeCustomAlert(this.parentNode)">
+
+		<span id="combat_u1_details" style="display: none"></span>
+		<span id="combat_u2_details" style="display: none"></span>
+	</div>
+
 	<div class="customalert" id="clearGameAlert">
 		Are you really sure you want to restart your game? All your progress will be lost.
 
@@ -752,6 +803,8 @@
 <script src="https://threejs.org/examples/js/loaders/GLTFLoader.js"></script>
 <script src="https://threejs.org/examples/js/utils/SkeletonUtils.js"></script>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/9.3.2/math.js"></script>
+
 <script src="/js/textures.js"></script>
 <script src="/js/colors.js"></script>
 <script src="/js/utils.js"></script>
@@ -764,6 +817,8 @@
 <script src="/js/tilelevelutils.js"></script>
 <script src="/js/borderutils.js"></script>
 <script src="/js/saveutils.js"></script>
+<script src="/js/barbarian.js"></script>
+<script src="/js/combat.js"></script>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/3.1.3/socket.io.js"></script>
 

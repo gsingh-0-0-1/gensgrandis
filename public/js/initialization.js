@@ -125,71 +125,62 @@ function initialize(centerx, centery, spawnlocs){
 								}
 							}
 
-							var unitreq = new XMLHttpRequest;
-							unitreq.open("GET", "/units?file=" + FILE)
-							setTimeout( function(){unitreq.send()}, 2000 )
 
-							unitreq.onreadystatechange = function(){
-								if (this.readyState == 4 && this.status == 200){
-									let init_ind = units.length
-									if (init_ind < 0){
-										init_ind = 0
-									}
+							setTimeout(function(){
+								let init_ind = units.length
+								if (init_ind < 0){
+									init_ind = 0
+								}
 
-									var temp = this.responseText
+								var temp = people_template
 
-									if (temp != ""){
-										temp = temp.split("\n")
-										temp.pop()
-										temp[0] = temp[0].replace("xhere", centerx).replace("yhere", centery)
+								temp = temp.replace("xhere", centerx).replace("yhere", centery).replace("ohere", "self")
+								units.push(temp)
+								//console.log(temp, units)
+								for (var i = 0; i < units.length; i++){
+									//console.log(i)
+									if (i < init_ind){
+										drawUnits(i, false)
 									}
-									units.push(...temp)
-									//console.log(temp, units)
-									for (var i = 0; i < units.length; i++){
-										//console.log(i)
-										if (i < init_ind){
-											drawUnits(i, false)
-										}
-										else{
-											drawUnits(i, true)
-										}
+									else{
+										drawUnits(i, true)
 									}
-									
-									if (multi){
-										endTurn()
-									}
-									hideLoadingScreen()
+								}
+								
+								if (multi){
+									endTurn()
+								}
+								hideLoadingScreen()
 
-									if (!multi){
-										hideTurnWaitScreen()
-									}
+								if (!multi){
+									hideTurnWaitScreen()
+								}
 
-									if (multi){
+								if (multi){
+									hideTerrainLoadScreen()
+								}
+
+								//addToMiniMap(gamecenterx, gamecentery)
+
+								if (!multi){
+									if (window.localStorage.getItem("tl") != "t"){
+										loadAndSaveTerrain()
+									}
+									else{
 										hideTerrainLoadScreen()
 									}
 
-									//addToMiniMap(gamecenterx, gamecentery)
-
-									if (!multi){
-										if (window.localStorage.getItem("tl") != "t"){
-											loadAndSaveTerrain()
-										}
-										else{
-											hideTerrainLoadScreen()
-										}
-
-										if (window.localStorage.getItem("us") != "t"){
-											saveUnits()
-										}
-
-										if (window.localStorage.getItem("cs") == "t"){
-											loadCities()
-										}
-
-										saveGameData(false)
+									if (window.localStorage.getItem("us") != "t"){
+										saveUnits()
 									}
+
+									if (window.localStorage.getItem("cs") == "t"){
+										loadCities()
+									}
+
+									saveGameData(false)
 								}
-							}			
+							}, 2000 )		
 						//}
 					//}
 				}

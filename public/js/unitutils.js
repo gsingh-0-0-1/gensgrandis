@@ -4,6 +4,40 @@
 /* Written by Gurmehar Singh <gurmehar@gmail.com>
 */
 
+function moveUnit(targetx, targety, id){
+	var curx = unitlist[id].x
+	var cury = unitlist[id].y
+
+	if (tileHasUnit(targetx, targety)){
+		return
+	}
+
+	assignTileUnitStatus(unitlist[id].mesh.position.x, unitlist[id].mesh.position.y, false)
+	assignTileUnitStatus(targetx, targety, true, id)
+
+	if (unitlist[id].owner == 'self'){
+		deActivateTilesAtCenter(unitlist[selectedunitid].mesh.position.x, unitlist[selectedunitid].mesh.position.y)
+		activateTilesAtCenter(targetx, targety)
+	}
+
+	unitlist[id].x = targetx
+	unitlist[id].y = targety
+
+	unitlist[id].mesh.position.x = targetx
+	unitlist[id].mesh.position.y = targety
+	unitlist[id].mesh.position.z = ground_z + getTileAt(targetx, targety).height + unit_z_offsets[unitlist[id].type]
+
+	if (unitlist[id].owner != 'self' && activetiles.includes(targetx + "," + targety)){
+		unitlist[id].mesh.visible = true
+	}
+
+	if (unitlist[id].owner != 'self' && !activetiles.includes(targetx + "," + targety)){
+		unitlist[id].mesh.visible = false
+	}
+
+	unitlist[id].m -= 1
+}
+
 function assignUnitID(obj, id){
 	for (var i = 0; i < obj.children.length; i++) {
 		var child = obj.children[i];
@@ -30,7 +64,7 @@ function reColorUnit(obj, r, g, b){
 function selectUnit(id){
 	for (var child of unitlist[id].mesh.children){
 		if (child.material != undefined){
-			reColorUnit(child, child.material.emissive.r * selectedcolorfactor, child.material.emissive.g * selectedcolorfactor, child.material.emissive.b * selectedcolorfactor)
+			//reColorUnit(child, child.material.emissive.r * selectedcolorfactor, child.material.emissive.g * selectedcolorfactor, child.material.emissive.b * selectedcolorfactor)
 		}
 	}
 	selectedunitid = id
@@ -40,7 +74,7 @@ function selectUnit(id){
 function unSelectUnit(id){
 	for (var child of unitlist[id].mesh.children){
 		if (child.material != undefined){
-			reColorUnit(child, child.material.emissive.r / selectedcolorfactor, child.material.emissive.g / selectedcolorfactor, child.material.emissive.b / selectedcolorfactor)
+			//reColorUnit(child, child.material.emissive.r / selectedcolorfactor, child.material.emissive.g / selectedcolorfactor, child.material.emissive.b / selectedcolorfactor)
 		}
 	}
 	selectedunitid = 'null'
@@ -56,6 +90,9 @@ function updateUnitBar(id){
 	document.getElementById("unit_desc").style.display = "initial"
 	document.getElementById("unit_desc").style.zIndex = "2"
 	document.getElementById("unit_desc_name").innerHTML = unit_corresponds[unitlist[id].type]
+	if (unit_strengths[unitlist[id].type] != null || unit_strengths[unitlist[id].type] != undefined){
+		document.getElementById("unit_desc_name").innerHTML += " (&#9876; " + (Math.round((unit_strengths[unitlist[id].type] - unitlist[id].damage) * 100) / 100) + ")"
+	}
 	if (unitlist[id].n != undefined){
 		document.getElementById("unit_desc_name").innerHTML += " (" + unitlist[id].n + ")"	
 	}

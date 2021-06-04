@@ -45,7 +45,10 @@ function saveUnits(){
 		if (unit == "removed"){
 			continue
 		}
-		var u = unit.type + "~x:" + unit.x + ",y:" + unit.y + ",m:" + unit.m
+		var u = unit.type + "~x:" + unit.x + ",y:" + unit.y + ",m:" + unit.m + ",damage:" + unit.damage + ",owner:" + unit.owner
+		if (unit.owner == "Barbarian"){
+			var u = u + ",tc:" + unit.tc
+		}
 		if (unit.n != undefined && unit.n != null){
 			u = u + ",n:" + unit.n
 		}
@@ -58,7 +61,9 @@ function saveUnits(){
 function saveExploredTiles(){
 	var s = ''
 	for (var tile of exploredtiles){
-		s = s + tile + "|"
+		if (tile != ""){
+			s = s + tile + "|"
+		}
 	}
 	window.localStorage.setItem("et", s)
 }

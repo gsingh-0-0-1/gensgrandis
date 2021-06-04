@@ -32,7 +32,7 @@ function isTileActiveBySelfUnit(x, y){
 	for (var xoff = -1; xoff <= 1; xoff++){
 		for (var yoff = -1; yoff <= 1; yoff++){
 			var tile = getTileAt(x + xoff, y + yoff)
-			if (tile.hasUnit){
+			if (tileHasUnit(x + xoff, y + yoff)){
 				if (unitlist[tile.hasUnit_ID].owner == 'self'){
 					return true
 				}

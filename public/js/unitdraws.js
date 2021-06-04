@@ -4,10 +4,46 @@
 /* Written by Gurmehar Singh <gurmehar@gmail.com>
 */
 
+function removeUnit(id){
+	scene.remove(unitlist[id].mesh)
+
+	assignTileUnitStatus(unitlist[id].x, unitlist[id].y, false)
+
+	var temp_id = id
+
+	unSelectUnit(temp_id)
+
+	unitlist[temp_id] = 'removed'
+}
+
+function addOwnerSymbol(id){
+	var col = new THREE.Color(0.3, 0.3, 0.7)
+	if (unitlist[id].owner == 'self'){
+		var col = new THREE.Color(0.1, 0.4, 0.1)
+	}
+	if (unitlist[id].owner == 'Barbarian'){
+		var col = new THREE.Color(0.15, 0.15, 0.15)
+	}
+
+	var geo = new THREE.OctahedronGeometry(0.05)
+	var geo = new THREE.BufferGeometry().fromGeometry(geo)
+	var mat = new THREE.MeshBasicMaterial({color: col})
+	var mesh = new THREE.Mesh(geo, mat)
+	mesh.position.set(0, 0.5, 0)
+	unitlist[id].mesh.add(mesh)
+}
+
+function finalizeUnit(unit){
+	if (unit.owner == 'self'){
+		exploreAtCoords(unit.x, unit.y)
+	}
+	addOwnerSymbol(unit.unitid)
+}
+
 //PEOPLE
-function addPeople(x, y){
+function addPeople(x, y, owner = 'self'){
 	//console.log(units)
-	units.push(people_template.replace("xhere", x).replace("yhere", y))
+	units.push(people_template.replace("xhere", x).replace("yhere", y).replace("ohere", owner))
 	drawUnits(units.length - 1)
 }
 
@@ -47,10 +83,7 @@ function drawPeople(x, y, id, vis = true){
 	unitlist[id].mesh = people
 	unitlist[id].naval = false
 
-	//modify explored tiles
-	if (vis){
-		exploreAtCoords(x, y)
-	}
+	finalizeUnit(unitlist[id])
 		//}
 	//)
 
@@ -63,8 +96,8 @@ function drawPeople(x, y, id, vis = true){
 
 
 //RIVERBOAT
-function addRiverboat(x, y){
-	units.push(riverboat_template.replace("xhere", x).replace("yhere", y))
+function addRiverboat(x, y, owner = 'self'){
+	units.push(riverboat_template.replace("xhere", x).replace("yhere", y).replace("ohere", owner))
 	drawUnits(units.length - 1)
 }
 
@@ -104,10 +137,7 @@ function drawRiverboat(x, y, id, vis = true){
 			unitlist[id].mesh = boat
 			unitlist[id].naval = true
 
-			//modify explored tiles
-			if (vis){
-				exploreAtCoords(x, y)
-			}
+			finalizeUnit(unitlist[id])
 		//}
 	//)
 
@@ -120,8 +150,8 @@ function drawRiverboat(x, y, id, vis = true){
 
 
 //LEGION
-function addLegion(x, y){
-	units.push(legion_template.replace("xhere", x).replace("yhere", y))
+function addLegion(x, y, owner = 'self'){
+	units.push(legion_template.replace("xhere", x).replace("yhere", y).replace("ohere", owner))
 	drawUnits(units.length - 1)
 }
 
@@ -160,10 +190,7 @@ function drawLegion(x, y, id, vis = true){
 			unitlist[id].mesh = legion
 			unitlist[id].naval = false
 
-			//modify explored tiles
-			if (vis){
-				exploreAtCoords(x, y)
-			}
+			finalizeUnit(unitlist[id])
 		//}
 	//)
 
@@ -175,8 +202,8 @@ function drawLegion(x, y, id, vis = true){
 
 
 //SCOUT
-function addScout(x, y){
-	units.push(scout_template.replace("xhere", x).replace("yhere", y))
+function addScout(x, y, owner = 'self'){
+	units.push(scout_template.replace("xhere", x).replace("yhere", y).replace("ohere", owner))
 	drawUnits(units.length - 1)
 }
 
@@ -214,10 +241,7 @@ function drawScout(x, y, id, vis = true){
 			unitlist[id].mesh = scout
 			unitlist[id].naval = false
 
-			//modify explored tiles
-			if (vis){
-				exploreAtCoords(x, y)
-			}
+			finalizeUnit(unitlist[id])
 		//}
 	//)
 

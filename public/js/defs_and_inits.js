@@ -88,6 +88,8 @@ var unit_commands = {"P" : "B: Build city",
 					"S" : ""
 				}
 
+var unit_strengths = {"L" : 2}
+
 var unit_produce_times = {"RB" : 500,
 							"L" : 250,
 							"S" : 50
@@ -100,10 +102,10 @@ var unit_z_offsets = {"P" : 0.1,
 				}
 
 //unit templates
-var people_template = "P~x:xhere,y:yhere,n:100,m:" + unit_movements["P"]
-var riverboat_template = "RB~x:xhere,y:yhere,m:" + unit_movements["RB"]
-var legion_template = "L~x:xhere,y:yhere,m:" + unit_movements["L"]
-var scout_template = "S~x:xhere,y:yhere,m:" + unit_movements["S"]
+var people_template = "P~x:xhere,y:yhere,n:100,m:" + unit_movements["P"] + ",owner:ohere"
+var riverboat_template = "RB~x:xhere,y:yhere,m:" + unit_movements["RB"] + ",owner:ohere"
+var legion_template = "L~x:xhere,y:yhere,m:" + unit_movements["L"] + ",owner:ohere,damage:0"
+var scout_template = "S~x:xhere,y:yhere,m:" + unit_movements["S"] + ",owner:ohere"
 
 var moving_unit = false;
 var expanding_city = false;
@@ -299,6 +301,8 @@ var decel_amt = 0.05
 var paused = false
 
 var done_init = false
+
+var TURN_COUNTER = 0
 
 
 function pre_init(){

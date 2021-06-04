@@ -91,6 +91,7 @@ function onMouseClick( event ) {
 					break
 				}
 				if (tileHasUnit(targetx, targety)){
+					unitCombat(selectedunitid, targetx, targety)
 					break
 				}
 				if (unitlist[selectedunitid].m == 0){
@@ -115,6 +116,7 @@ function onMouseClick( event ) {
 									continue
 								}
 								if (activetiles.includes((unitlist[selectedunitid].mesh.position.x + xoff) + "," + (unitlist[selectedunitid].mesh.position.y + yoff))){
+									console.log((unitlist[selectedunitid].mesh.position.x + xoff) + "," + (unitlist[selectedunitid].mesh.position.y + yoff))
 									continue
 								}
 								unitlist[getTileAt(unitlist[selectedunitid].mesh.position.x + xoff, unitlist[selectedunitid].mesh.position.y + yoff).hasUnit_ID].mesh.visible = false
@@ -218,9 +220,9 @@ function onMouseClick( event ) {
 				return
 			}
 			else{
-				showCitySidebar(targetid, targetx, targety)
+				if (targetid != undefined && targetx != undefined && targety != undefined)
+					showCitySidebar(targetid, targetx, targety)
 			}
-
 		}
 	}
 }

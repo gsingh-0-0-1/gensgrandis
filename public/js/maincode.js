@@ -115,24 +115,6 @@ function endTurn(){
 
 		//cities[cityidx].people_turns += getTotalPop(cityidx)
 
-
-		/*//DEAL WITH UNIT PRODUCTION
-		if (cities[cityidx].people_turns >= unit_produce_times[cities[cityidx].producing]){
-			var curprod = cities[cityidx].producing
-			var targetx = cities[cityidx].center.x
-			var targety = cities[cityidx].center.y
-
-			if (curprod == "RB"){
-				addRiverboat(targetx, targety)
-			}
-			if (curprod == "L"){
-				addLegion(targetx, targety)
-			}
-
-			cities[cityidx].producing = null
-			cities[cityidx].people_turns = 0				
-		}*/
-
 		//calculate building numbers
 		var buildingBoosts = [0, 0, 0]
 
@@ -197,11 +179,39 @@ function endTurn(){
 		showCitySidebar(selectedcityid, selectedcitytilex, selectedcitytiley)
 	}
 
+	for (var unit of unitlist){
+		if (unit == "removed"){
+			continue
+		}
+		if (unit_strengths[unit.type] == undefined || unit_strengths[unit.type] == null){
+			continue
+		}
+
+		var heal = unit_strengths[unit.type] - unit.damage
+		heal = heal / 3
+		if (heal < 0.1){
+			heal = 0.1
+		}
+
+		unit.damage = unit.damage - heal
+		if (unit.damage < 0){
+			unit.damage = 0
+		}
+
+		if (selectedunitid != null && selectedunitid != "null"){
+			updateUnitBar(selectedunitid)
+		}
+	}
+
 	socket.emit('turndone')
 
 	if (multi){
 		waitForTurn()
 	}
+
+	barbarianAI()
+
+	TURN_COUNTER += 1
 }
 
 function checkAndLoad(x, y, explore = true){
@@ -248,7 +258,7 @@ function addToMiniMap(x, y){
 	var side = 5
 	//side = side * minimap_w / 100
 	var tile = getTileAt(x, y)
-	var faces = tile.geometry.faces
+	/*var faces = tile.geometry.faces
 	if (faces != undefined){
 		for (var face of geo.faces){
 			if (face.normal.z = 1){
@@ -258,7 +268,8 @@ function addToMiniMap(x, y){
 	}
 	if (col == undefined || col == null){
 		var col = tile.material.color
-	}
+	}*/
+	col = tile.origcol
 
 	var left = (side * minimap_w / 100) * (x - gamecenterx) + (minimap_w / 2)
 	var top = (side * minimap_w / 100) * (gamecentery - y) + (minimap_w / 2)
@@ -836,19 +847,20 @@ function buildCity(id = null, name='', owner='self', x = null, y = null){
 	}
 
 	if (id != null){
-		scene.remove(unitlist[id].mesh)
+		removeUnit(id)
+		//scene.remove(unitlist[id].mesh)
 	}
 
 	assignTileUnitStatus(cityx, cityy, false)
 
-	if (id != null){
+	/*if (id != null){
 		//keep this id temporarily since both pop and unselect will get rid of it
 		var temp_id = id
 
 		unSelectUnit(temp_id)
 
 		unitlist[temp_id] = 'removed'
-	}
+	}*/
 
 	var this_city = new Object()
 	this_city.center = new Object()
@@ -967,13 +979,16 @@ function drawUnits(i, emit = true){
 			thisunit[key] = val
 		}
 
-		if (emit){
-			thisunit.owner = 'self'
+		thisunit.x = thisunit.x * 1
+		thisunit.y = thisunit.y * 1
+
+		checkAndLoad(thisunit.x, thisunit.y, false)
+
+		if (thisunit.owner == 'self'){
 			activateTilesAtCenter(thisunit.x, thisunit.y)
 		}
-		else{
-			thisunit.owner = 'notself'
-		}
+
+		thisunit.damage = 0
 
 		unitlist.push(thisunit)
 		assignTileUnitStatus(thisunit.x, thisunit.y, true, i)
@@ -998,7 +1013,7 @@ function drawUnits(i, emit = true){
 			drawScout(thisunit.x, thisunit.y, thisunit.unitid, vis)
 		}
 
-		if (cities.length > 0){
+		if (cities.length > 0 && thisunit.owner == 'self'){
 			document.getElementById("unit_done_alert_utype").textContent = unit_corresponds[unittype]
 			showCustomAlert("unit_done_alert")
 		}
@@ -1136,12 +1151,15 @@ function draw(x, y, data){
 
 	if (height > MOUNTAIN_SNOWCAP_HEIGHT && height <= MOUNTAIN_SNOW_HEIGHT){
 		var tilematerial = new THREE.MeshBasicMaterial( {color: col, vertexColors: THREE.FaceColors } )//, side: THREE.DoubleSide} );
+		var origcol = getSnowCol(x, y)
+
 	}
 	else{
 		var tilematerial = new THREE.MeshBasicMaterial( {color: col } )
+		origcol = col
 	}
 	var plane = new THREE.Mesh( geometry, tilematerial );
-	plane.origcol = col
+	plane.origcol = origcol
 	plane.istile = true
 	plane.type = type
 	plane.height = height - base_tile_height
