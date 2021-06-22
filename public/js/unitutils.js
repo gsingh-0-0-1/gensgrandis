@@ -12,6 +12,14 @@ function moveUnit(targetx, targety, id){
 		return
 	}
 
+	if (isWater(getTileAt(targetx, targety).type) && unitlist[id].naval == false){
+		return
+	}
+
+	if (!isWater(getTileAt(targetx, targety).type) && unitlist[id].naval == true){
+		return
+	}
+
 	assignTileUnitStatus(unitlist[id].mesh.position.x, unitlist[id].mesh.position.y, false)
 	assignTileUnitStatus(targetx, targety, true, id)
 

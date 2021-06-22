@@ -152,6 +152,10 @@ function endTurn(){
 					var prod = cities[cityidx].producing[type]
 					var targetx = cities[cityidx].center.x
 					var targety = cities[cityidx].center.y
+					if (tileHasUnit(targetx, targety)){
+						showCustomAlert("tileoccupied")
+						continue
+					}
 					if (prod == "L"){
 						addLegion(targetx, targety)
 					}
@@ -355,6 +359,10 @@ function activateTilesAtCenter(x, y, textures = true){
 				if (textures){
 					unFogTile(x + xoff, y + yoff)
 				}
+				if (tileHasUnit(x + xoff, y + yoff)){
+					unitlist[getTileAt(x + xoff, y + yoff).hasUnit_ID].mesh.visible = true
+				}
+				checkForAdjacentCities(x + xoff, y + yoff)
 			}
 		}
 	}
@@ -373,8 +381,20 @@ function deActivateTilesAtCenter(x, y){
 			}
 			activetiles.splice(activetiles.indexOf((x + xoff) + "," + (y + yoff)), 1)
 			fogTile(x + xoff, y + yoff)
+
+			//hide units that are supposed to be invisible now
+			if (tileHasUnit(x + xoff, y + yoff)){
+				if (unitlist[getTileAt(x + xoff, y + yoff).hasUnit_ID].owner == 'self'){
+					continue
+				}
+				if (activetiles.includes((x + xoff) + "," + (y + yoff))){
+					continue
+				}
+				unitlist[getTileAt(x + xoff, y + yoff).hasUnit_ID].mesh.visible = false
+			}
 		}
 	}
+
 }
 
 
@@ -986,6 +1006,10 @@ function drawUnits(i, emit = true){
 
 		if (thisunit.owner == 'self'){
 			activateTilesAtCenter(thisunit.x, thisunit.y)
+		}
+
+		if (thisunit.owner == 'Barbarian'){
+			BARBARIAN_UNIT_IDS.push(thisunit.unitid)
 		}
 
 		thisunit.damage = 0

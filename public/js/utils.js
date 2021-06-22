@@ -72,10 +72,26 @@ function assignCity(x, y, id, mesh){
 }
 
 function isTileCity(x, y){
+	if (grid_dict["tile_" + x + "_" + y] == undefined){
+		return false
+	}
 	if (grid_dict["tile_" + x + "_" + y].hasCity == true){
 		return true
 	}
 	return false
+}
+
+function getCityTileData(x, y){
+	var c_id = getTileAt(x, y).tileCityID
+
+	if (isCityCenter(c_id, x, y)){
+		var data = cities[c_id].center
+	}
+	else{
+		var data = cities[c_id].tiles[x + "_" + y]
+	}
+
+	return data
 }
 
 function tileHasUnit(x, y){

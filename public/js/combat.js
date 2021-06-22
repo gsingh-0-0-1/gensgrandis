@@ -93,7 +93,9 @@ function unitCombat(id, x, y, show = true){
 	document.getElementById("combat_u1_odds").innerHTML += "<br>"
 	document.getElementById("combat_u2_odds").innerHTML += "<br>"
 
-	showCustomAlert("combat_alert")
+	if (show){
+		showCustomAlert("combat_alert")
+	}
 }
 
 function declareWinner(ucode, id_remove){

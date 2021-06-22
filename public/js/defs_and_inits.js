@@ -78,7 +78,7 @@ var unit_corresponds = {"P" : "People",
 
 var unit_movements = {"P" : 5, 
 						"RB" : 10, 
-						"L" : 3,
+						"L" : 1,
 						"S" : 8
 					}
 
@@ -88,7 +88,9 @@ var unit_commands = {"P" : "B: Build city",
 					"S" : ""
 				}
 
-var unit_strengths = {"L" : 2}
+var unit_strengths = {"L" : 2,
+						"S" : 0.5
+}
 
 var unit_produce_times = {"RB" : 500,
 							"L" : 250,
@@ -178,6 +180,8 @@ for (key of Object.keys(COMMON_COMPRESSES)){
 }
 
 //--------------------------------------------------------------------
+
+const SAVE_VERSION = "sv2"
 
 const HEIGHT_DELIMITER = "#"
 const INFO_DELIMITER = "|"
@@ -302,12 +306,12 @@ var paused = false
 
 var done_init = false
 
-var TURN_COUNTER = 0
+var TURN_COUNTER = window.localStorage.getItem("tn")
 
 
 function pre_init(){
 	if (!multi){
-		if (window.localStorage.getItem("sv1") == "t"){
+		if (window.localStorage.getItem(SAVE_VERSION) == "t"){
 			//initialize(gamecenterx, gamecentery, ["500,500"])
 			loadGameFromBrowser(camerainitx, camerainity, camerainitz)
 			return

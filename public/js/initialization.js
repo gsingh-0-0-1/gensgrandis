@@ -72,7 +72,7 @@ function initialize(centerx, centery, spawnlocs){
 		filereq.open("GET", "/gamefile/" + room)
 	}
 	else{
-		if (window.localStorage.getItem("sv1") == "t"){
+		if (window.localStorage.getItem(SAVE_VERSION) == "t"){
 			loadGameFromBrowser()
 			return
 		}
@@ -136,6 +136,10 @@ function initialize(centerx, centery, spawnlocs){
 
 								temp = temp.replace("xhere", centerx).replace("yhere", centery).replace("ohere", "self")
 								units.push(temp)
+
+								var temp = scout_template
+								temp = temp.replace("xhere", centerx + 1).replace("yhere", centery).replace("ohere", "self")
+								units.push(temp)
 								//console.log(temp, units)
 								for (var i = 0; i < units.length; i++){
 									//console.log(i)
@@ -163,23 +167,24 @@ function initialize(centerx, centery, spawnlocs){
 								//addToMiniMap(gamecenterx, gamecentery)
 
 								if (!multi){
-									if (window.localStorage.getItem("tl") != "t"){
-										loadAndSaveTerrain()
-									}
-									else{
-										hideTerrainLoadScreen()
-									}
+									if (window.localStorage.getItem(SAVE_VERSION) == "t"){
+										if (window.localStorage.getItem("tl") != "t"){
+											loadAndSaveTerrain()
+										}
 
-									if (window.localStorage.getItem("us") != "t"){
-										saveUnits()
-									}
+										if (window.localStorage.getItem("us") != "t"){
+											saveUnits()
+										}
 
-									if (window.localStorage.getItem("cs") == "t"){
-										loadCities()
-									}
+										if (window.localStorage.getItem("cs") == "t"){
+											loadCities()
+										}
 
-									saveGameData(false)
+										saveGameData(false)
+									}
 								}
+
+								hideTerrainLoadScreen()
 							}, 2000 )		
 						//}
 					//}

@@ -5,6 +5,14 @@
 */
 
 function removeUnit(id){
+	if (unitlist[id].owner == "Barbarian"){
+		BARBARIAN_UNIT_IDS.splice(BARBARIAN_UNIT_IDS.indexOf(id), -1)
+	}
+
+	if (unitlist[id].owner == 'self'){
+		deActivateTilesAtCenter(unitlist[id].x, unitlist[id].y)
+	}
+
 	scene.remove(unitlist[id].mesh)
 
 	assignTileUnitStatus(unitlist[id].x, unitlist[id].y, false)
@@ -14,6 +22,7 @@ function removeUnit(id){
 	unSelectUnit(temp_id)
 
 	unitlist[temp_id] = 'removed'
+
 }
 
 function addOwnerSymbol(id){
@@ -22,7 +31,7 @@ function addOwnerSymbol(id){
 		var col = new THREE.Color(0.1, 0.4, 0.1)
 	}
 	if (unitlist[id].owner == 'Barbarian'){
-		var col = new THREE.Color(0.15, 0.15, 0.15)
+		var col = new THREE.Color(0.8, 0.15, 0.15)
 	}
 
 	var geo = new THREE.OctahedronGeometry(0.05)

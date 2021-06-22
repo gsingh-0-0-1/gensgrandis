@@ -193,7 +193,8 @@ function saveGameData(a = true){
 	saveExploredTiles()
 	saveUnits()
 	saveCities(a)
-	window.localStorage.setItem("sv1", "t")
+	window.localStorage.setItem("tn", TURN_COUNTER)
+	window.localStorage.setItem(SAVE_VERSION, "t")
 }
 
 

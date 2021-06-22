@@ -108,22 +108,6 @@ function onMouseClick( event ) {
 					deActivateTilesAtCenter(unitlist[selectedunitid].mesh.position.x, unitlist[selectedunitid].mesh.position.y)
 					activateTilesAtCenter(targetx, targety)
 
-					//hide units that are no longer visible
-					for (var xoff = -1; xoff <= 1; xoff++){
-						for (var yoff = -1; yoff <= 1; yoff++){
-							if (tileHasUnit(unitlist[selectedunitid].mesh.position.x + xoff, unitlist[selectedunitid].mesh.position.y + yoff)){
-								if (unitlist[getTileAt(unitlist[selectedunitid].mesh.position.x + xoff, unitlist[selectedunitid].mesh.position.y + yoff).hasUnit_ID].owner == 'self'){
-									continue
-								}
-								if (activetiles.includes((unitlist[selectedunitid].mesh.position.x + xoff) + "," + (unitlist[selectedunitid].mesh.position.y + yoff))){
-									console.log((unitlist[selectedunitid].mesh.position.x + xoff) + "," + (unitlist[selectedunitid].mesh.position.y + yoff))
-									continue
-								}
-								unitlist[getTileAt(unitlist[selectedunitid].mesh.position.x + xoff, unitlist[selectedunitid].mesh.position.y + yoff).hasUnit_ID].mesh.visible = false
-							}
-						}
-					}
-
 					var coord_diff = [targetx - unitlist[selectedunitid].mesh.position.x, targety - unitlist[selectedunitid].mesh.position.y]
 
 					if (unitlist[selectedunitid].type == "RB"){

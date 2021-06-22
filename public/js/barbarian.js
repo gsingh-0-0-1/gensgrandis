@@ -8,6 +8,12 @@ var BARBARIAN_UNIT_IDS = []
 
 const DIR_CHOICES = [-1, 1]
 
+const BARBARIAN_SPAWN_CHANCE = 0.1
+
+const MAX_TOTAL_BARBS = 12
+
+const BARB_SPAWN_EARLIEST = 20
+
 function spawnBarbarian(){
 	var c_id = Math.random() * cities.length
 	var c_id = Math.floor(c_id)
@@ -25,13 +31,41 @@ function spawnBarbarian(){
 		var cury = cury + dir[1]
 	}
 
+	if (isWater(getTileAt(curx, cury).type)){
+		return
+	}
+
 	addLegion(curx, cury, "Barbarian")
 	unitlist[unitlist.length - 1].tc = c_id
 	BARBARIAN_UNIT_IDS.push(unitlist.length - 1)
 }
 
+function meetsPillageReqs(x, y){
+	var data = getCityTileData(x, y)
+
+	//requirements
+	if (data.population <= 30){
+		return false
+	}
+
+	return true
+}
+
+function pillageTile(uid){
+	var x = unitlist[uid].x
+	var y = unitlist[uid].y
+
+	var data = getCityTileData(x, y)
+
+	//decimate the population (literally, decimate; kill 10%)
+	data.population = Math.round(data.population * 0.9)
+	if (selectedunitid != null && selectedunitid != 'null'){
+		updateUnitBar(selectedunitid)
+	}
+}
+
 function barbarianAI(){
-	if (TURN_COUNTER < 0){
+	if (TURN_COUNTER < BARB_SPAWN_EARLIEST){
 		return
 	}
 
@@ -40,12 +74,26 @@ function barbarianAI(){
 	}
 
 	for (var uid of BARBARIAN_UNIT_IDS){
-		let targetvector = []
+		if (unitlist[uid] == 'removed'){
+			continue
+		}
+
+		var targetvector = []
+
+		var ux = unitlist[uid].x
+		var uy = unitlist[uid].y
+
+		if (isTileCity(ux, uy)){
+			if (meetsPillageReqs(ux, uy)){
+				pillageTile(uid)
+				continue
+			}
+		}
 
 		targetvector.push(cities[unitlist[uid].tc].center.x - unitlist[uid].x)
 		targetvector.push(cities[unitlist[uid].tc].center.y - unitlist[uid].y)
-		let sum = Math.abs(targetvector[0]) + Math.abs(targetvector[1])
-
+		var sum = Math.abs(targetvector[0]) + Math.abs(targetvector[1])
+		/*
 		if (sum == 0){
 			var randx = DIR_CHOICES[Math.floor(Math.random() * DIR_CHOICES.length)] * Math.round(Math.random())
 			var randy = DIR_CHOICES[Math.floor(Math.random() * DIR_CHOICES.length)]
@@ -54,24 +102,43 @@ function barbarianAI(){
 			}
 			moveUnit(unitlist[uid].x + randx, unitlist[uid].y + randy, uid)
 			continue
-		}
+		}*/
 
-		let xmov = targetvector[0] / Math.abs(targetvector[0])
-		let ymov = targetvector[1] / Math.abs(targetvector[1])
+		var xmov = targetvector[0] / Math.abs(targetvector[0])
+		var ymov = targetvector[1] / Math.abs(targetvector[1])
 		for (var rep = 0; rep < unit_movements[unitlist[uid].type]; rep++){
+
+			//get all tiles that the unit can move to
+			var ux = unitlist[uid].x
+			var uy = unitlist[uid].y
+
+			for (var xoff = -1; xoff <= 1; xoff++){
+				for (var yoff = -1; yoff <= 1; yoff++){
+
+				}
+			}
+
 			let chance = Math.random()
 			if (chance < (Math.abs(targetvector[0]) / sum)){
-				moveUnit(unitlist[uid].x + xmov, unitlist[uid].y, uid)
+				//var ymov = 0
+				var targetx = unitlist[uid].x + xmov
+				var targety = unitlist[uid].y
 			}
 			else{
-				moveUnit(unitlist[uid].x, unitlist[uid].y + ymov, uid)
+				//var xmov = 0
+				var targetx = unitlist[uid].x
+				var targety = unitlist[uid].y + ymov
 			}
+
+			console.log(targetx, targety, uid)
+
+			moveUnit(targetx, targety, uid)
+
 		}
 	}
 
-	//1 in 5 chance of spawning a new barbarian unit for a city each turn
 	var chance = Math.random()
-	if (chance < 0.2){
+	if (chance < BARBARIAN_SPAWN_CHANCE && BARBARIAN_UNIT_IDS.length < MAX_TOTAL_BARBS){
 		spawnBarbarian()
 	}
 }
