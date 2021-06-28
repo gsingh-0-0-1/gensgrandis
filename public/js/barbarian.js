@@ -14,6 +14,42 @@ const MAX_TOTAL_BARBS = 12
 
 const BARB_SPAWN_EARLIEST = 20
 
+function getAdjacentMovementVectors(xmov, ymov){
+	if (xmov == -1){
+		if (ymov == -1){
+			return [[-1, 0], [0, -1]]
+		}
+		if (ymov == 0){
+			return [[-1, 1], [-1, 1]]
+		}
+		if (ymov == 1){
+			return [[-1, 0], [0, 1]]
+		}
+	}
+	if (xmov == 0){
+		if (ymov == -1){
+			return [[-1, -1], [1, -1]]
+		}
+		if (ymov == 0){
+			return NaN
+		}
+		if (ymov == 1){
+			return [[-1, 1], [1, 1]]
+		}
+	}
+	if (xmov == 1){
+		if (ymov == -1){
+			return [[1, 0], [-1, 0]]
+		}
+		if (ymov == 0){
+			return [[1, 1], [1, -1]]
+		}
+		if (ymov == 1){
+			return [[1, 0], [0, 1]]
+		}
+	}
+}
+
 function spawnBarbarian(){
 	var c_id = Math.random() * cities.length
 	var c_id = Math.floor(c_id)
@@ -111,28 +147,49 @@ function barbarianAI(){
 			//get all tiles that the unit can move to
 			var ux = unitlist[uid].x
 			var uy = unitlist[uid].y
+			var availtiles = []
 
 			for (var xoff = -1; xoff <= 1; xoff++){
 				for (var yoff = -1; yoff <= 1; yoff++){
-
+					if (!tileHasUnit(ux + xoff, uy + yoff) && checkTerrainMoveable(uid, ux + xoff, uy + yoff)){
+						availtiles.push(xoff + "," + yoff)
+					}
 				}
+			}
+
+			if (availtiles.length == 0){
+				continue
 			}
 
 			let chance = Math.random()
 			if (chance < (Math.abs(targetvector[0]) / sum)){
 				//var ymov = 0
-				var targetx = unitlist[uid].x + xmov
-				var targety = unitlist[uid].y
+				var targetx = xmov
+				var targety = 0
 			}
 			else{
 				//var xmov = 0
-				var targetx = unitlist[uid].x
-				var targety = unitlist[uid].y + ymov
+				var targetx = 0
+				var targety = ymov
 			}
 
-			console.log(targetx, targety, uid)
+			if (availtiles.includes(targetx + "," + targety)){
+				moveUnit(unitlist[uid].x + targetx, unitlist[uid].y + targety, uid)
+				continue
+			}
 
-			moveUnit(targetx, targety, uid)
+			if (!availtiles.includes(targetx + "," + targety)){
+				var otheroptions = getAdjacentMovementVectors(targetx, targety)
+				for (var option of otheroptions){
+					if (availtiles.includes(option[0] + "," + option[1])){
+						moveUnit(unitlist[uid].x + option[0], unitlist[uid].y + option[1], uid)
+						continue
+					}
+				}
+				var choice = availtiles[Math.floor(Math.random() * availtiles.length)].split(",")
+				moveUnit(unitlist[uid].x + (choice[0] * 1), unitlist[uid].y + (choice[1] * 1), uid)
+				continue
+			}
 
 		}
 	}

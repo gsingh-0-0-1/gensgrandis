@@ -104,6 +104,25 @@ function tileHasUnit(x, y){
 	return false
 }
 
+function checkTerrainMoveable(id, x, y){
+	if (unitlist[id].naval == true){
+		if (isWater(getTileAt(x, y).type)){
+			return true
+		}
+		else{
+			return false
+		}
+	}
+	else{
+		if (isWater(getTileAt(x, y).type)){
+			return false
+		}
+		else{
+			return true
+		}
+	}
+}
+
 function assignTileUnitStatus(x, y, stat, id='null'){
 	var tile = "tile_" + x + "_" + y
 	var gtile = grid_dict[tile]
