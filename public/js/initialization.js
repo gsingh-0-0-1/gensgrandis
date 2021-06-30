@@ -4,12 +4,12 @@
 /* Written by Gurmehar Singh <gurmehar@gmail.com>
 */
 
-function loadGameFromBrowser(x, y, z){
+function loadGameFromBrowser(){
 
 	for (var tname of TEXTURE_LIST){
 		if (window[tname] === null || window[tname] === undefined){
 			setTimeout(function(){
-				loadGameFromBrowser(x, y, z)
+				loadGameFromBrowser()
 			}, 500)
 			return
 		}
@@ -22,6 +22,8 @@ function loadGameFromBrowser(x, y, z){
 		var ty = expltile.split(",")[1] * 1
 		fetchAndRender([tx - 2, ty - 2], [tx + 3, ty + 3])
 	}
+
+	loadCities()
 
 	var temp = window.localStorage.getItem("units")
 
@@ -36,8 +38,6 @@ function loadGameFromBrowser(x, y, z){
 		drawUnits(i, true)
 	}
 
-	loadCities()
-
 	//addToMiniMap(500, 500)
 
 	hideLoadingScreen()
@@ -45,11 +45,17 @@ function loadGameFromBrowser(x, y, z){
 	hideTurnWaitScreen()
 
 	gui.addEventListener( 'click', onMouseClick, false );
-	camera.position.set(x, y, z)
-	camera.lookAt(x, y + 5, z - 5)
+	camera.position.set(camerainitx, camerainity, camerainitz)
+	camera.lookAt(camerainitx, camerainity + 5, camerainitz - 5)
 	animate();
 
 	saveGameData(false)
+
+	closeCustomAlert(document.getElementById("unit_done_alert"))
+}
+
+function finishLoading(){
+
 }
 
 function initialize(centerx, centery, spawnlocs){
@@ -73,7 +79,7 @@ function initialize(centerx, centery, spawnlocs){
 	}
 	else{
 		if (window.localStorage.getItem(SAVE_VERSION) == "t"){
-			loadGameFromBrowser()
+			loadGameFromBrowser(camerainitx, camerainity, camerainitz)
 			return
 		}
 		filereq.open("GET", "/numsaves")
@@ -167,7 +173,7 @@ function initialize(centerx, centery, spawnlocs){
 								//addToMiniMap(gamecenterx, gamecentery)
 
 								if (!multi){
-									if (window.localStorage.getItem(SAVE_VERSION) == "t"){
+									//if (window.localStorage.getItem(SAVE_VERSION) == "t"){
 										if (window.localStorage.getItem("tl") != "t"){
 											loadAndSaveTerrain()
 										}
@@ -181,7 +187,7 @@ function initialize(centerx, centery, spawnlocs){
 										}
 
 										saveGameData(false)
-									}
+									//}
 								}
 
 								hideTerrainLoadScreen()

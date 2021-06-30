@@ -8,11 +8,86 @@ var BARBARIAN_UNIT_IDS = []
 
 const DIR_CHOICES = [-1, 1]
 
-const BARBARIAN_SPAWN_CHANCE = 0.1
+var BARBARIAN_SPAWN_CHANCE = 0.06
 
-const MAX_TOTAL_BARBS = 12
+var MAX_TOTAL_BARBS = 6
 
-const BARB_SPAWN_EARLIEST = 20
+const BARB_SPAWN_EARLIEST = 30
+
+function changeBarbStats(){
+	var val = document.getElementById("barb_diff_holder").value
+	val = val * 1
+	if (val == 0){
+		BARBARIAN_SPAWN_CHANCE = 0
+		MAX_TOTAL_BARBS = 0
+		return
+	}
+	if (val == 1){
+		BARBARIAN_SPAWN_CHANCE = 0.01
+		MAX_TOTAL_BARBS = 1
+		return
+	}
+	if (val == 2){
+		BARBARIAN_SPAWN_CHANCE = 0.02
+		MAX_TOTAL_BARBS = 2
+		return
+	}
+	if (val == 3){
+		BARBARIAN_SPAWN_CHANCE = 0.03
+		MAX_TOTAL_BARBS = 3
+		return
+	}
+	if (val == 4){
+		BARBARIAN_SPAWN_CHANCE = 0.03
+		MAX_TOTAL_BARBS = 4
+		return
+	}
+	if (val == 5){
+		BARBARIAN_SPAWN_CHANCE = 0.04
+		MAX_TOTAL_BARBS = 5
+		return
+	}
+	if (val == 6){
+		BARBARIAN_SPAWN_CHANCE = 0.05
+		MAX_TOTAL_BARBS = 5
+		return
+	}
+	if (val == 7){
+		BARBARIAN_SPAWN_CHANCE = 0.06
+		MAX_TOTAL_BARBS = 6
+		return
+	}
+	if (val == 8){
+		BARBARIAN_SPAWN_CHANCE = 0.07
+		MAX_TOTAL_BARBS = 7
+		return
+	}
+	if (val == 9){
+		BARBARIAN_SPAWN_CHANCE = 0.07
+		MAX_TOTAL_BARBS = 9
+		return
+	}
+	if (val == 10){
+		BARBARIAN_SPAWN_CHANCE = 0.09
+		MAX_TOTAL_BARBS = 9
+		return
+	}
+}
+
+function modBarbDifficulty(mod){
+	if (isNaN(mod)){
+		return
+	}
+	mod = mod * 1
+	var holder = document.getElementById("barb_diff_holder")
+	var val = holder.value * 1
+	var n = val + mod
+	if (n < 0 || n > 10){
+		return
+	}
+	holder.value = " " + n + " "
+	changeBarbStats()
+}
 
 function getAdjacentMovementVectors(xmov, ymov){
 	if (xmov == -1){
@@ -180,15 +255,19 @@ function barbarianAI(){
 
 			if (!availtiles.includes(targetx + "," + targety)){
 				var otheroptions = getAdjacentMovementVectors(targetx, targety)
+				var moved = false
 				for (var option of otheroptions){
 					if (availtiles.includes(option[0] + "," + option[1])){
 						moveUnit(unitlist[uid].x + option[0], unitlist[uid].y + option[1], uid)
-						continue
+						var moved = true
+						break
 					}
 				}
-				var choice = availtiles[Math.floor(Math.random() * availtiles.length)].split(",")
-				moveUnit(unitlist[uid].x + (choice[0] * 1), unitlist[uid].y + (choice[1] * 1), uid)
-				continue
+				if (!moved){
+					var choice = availtiles[Math.floor(Math.random() * availtiles.length)].split(",")
+					moveUnit(unitlist[uid].x + (choice[0] * 1), unitlist[uid].y + (choice[1] * 1), uid)
+					continue
+				}
 			}
 
 		}

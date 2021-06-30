@@ -70,8 +70,8 @@ function unitCombat(id, x, y, show = true){
 	var u2str = unit_strengths[secondunit.type] - unitlist[secondunit.unitid].damage
 
 	if (show){		
-		document.getElementById("combat_u1_stats").innerHTML = "Strength: " + u1str
-		document.getElementById("combat_u2_stats").innerHTML = "Strength: " + u2str
+		document.getElementById("combat_u1_stats").innerHTML = "Strength: " + (Math.round(u1str * 100) / 100)
+		document.getElementById("combat_u2_stats").innerHTML = "Strength: " + (Math.round(u2str * 100) / 100)
 	}
 
 	var m_strengths = getModifiedStrengths(u1str, firstunit.x, firstunit.y, u2str, secondunit.x, secondunit.y)
@@ -83,8 +83,8 @@ function unitCombat(id, x, y, show = true){
 	var u2odds = (Math.round(odds[1] * 10000) / 100)
 
 	if (show){
-		document.getElementById("combat_u1_odds").innerHTML = "Win Odds: " + u1odds + "%"
-		document.getElementById("combat_u2_odds").innerHTML = "Win Odds: " + u2odds + "%"
+		document.getElementById("combat_u1_odds").innerHTML = "Win Odds: " + (Math.round(u1odds * 100) / 100) + "%"
+		document.getElementById("combat_u2_odds").innerHTML = "Win Odds: " + (Math.round(u2odds * 100) / 100) + "%"
 	}
 
 	document.getElementById("combat_u1_details").innerHTML = u1odds + "," + firstunit.unitid

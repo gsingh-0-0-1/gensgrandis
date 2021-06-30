@@ -140,6 +140,7 @@ function onMouseClick( event ) {
 
 				updateUnitBar(selectedunitid)
 
+				return
 				break
 			}
 		}

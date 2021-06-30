@@ -8,6 +8,10 @@ function moveUnit(targetx, targety, id){
 	var curx = unitlist[id].x
 	var cury = unitlist[id].y
 
+	if (unitlist[id].m <= 0){
+		return
+	}
+
 	if (tileHasUnit(targetx, targety)){
 		return
 	}

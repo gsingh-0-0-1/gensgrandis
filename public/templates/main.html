@@ -72,7 +72,7 @@
 			height: 15px; 
 			color: #daa; 
 			font-family: Lato; 
-			font-size: 1.6vh
+			font-size: 2.1vh
 		}
 
 		.tutorialpanel{
@@ -182,6 +182,36 @@
 			font-size: 1.7vh;
 			color: #fff;
 		}
+
+
+		/* The slider itself */
+		.slider {
+			-webkit-appearance: none;  /* Override default CSS styles */
+			appearance: none;
+			width: 30%; /* Full-width */
+			height: 50%; /* Specified height */
+			background: #444; /* Grey background */
+			outline: none; /* Remove outline */
+			opacity: 0.7; /* Set transparency (for mouse-over effects on hover) */
+			-webkit-transition: .2s; /* 0.2 seconds transition on hover */
+			transition: opacity .2s;
+		}
+
+		/* Mouse-over effects */
+		.slider:hover {
+			opacity: 1; /* Fully shown on mouse-over */
+		}
+
+		/* The slider handle (use -webkit- (Chrome, Opera, Safari, Edge) and -moz- (Firefox) to override default look) */
+		.slider::-webkit-slider-thumb {
+			color: #111;
+			appearance: none;
+			-webkit-appearance: none;
+			width: 10%; /* Set a specific slider handle width */
+			height: 10%; /* Slider handle height */
+			background: #111111;
+			cursor: pointer; /* Cursor on hover */
+		}
 	</style>
 </head>
 <body>
@@ -274,7 +304,7 @@
 			</div>
 		</div>
 
-		<div id="city_info_sidebar_selected_loc" class="city_sidebar_small_cont" style="top: 14%; left: 7%">
+		<div id="city_info_sidebar_selected_loc" class="city_sidebar_small_cont" style="top: 17%; left: 7%">
 			Selected Tile:<span class="button questionmarkbox" type="button">?<span class="hoverinfo">Each tile's population grows each turn. To end your turn, press "t".</span></span>
 
 			<div id="city_info_sidebar_selected_loc_x" style="padding-left: 20px">
@@ -294,41 +324,39 @@
 
 		</div>
 
-		<div id="city_info_sidebar_expand" class="city_sidebar_small_cont" style="top: 27%; left: 7%;">
+		<div id="city_info_sidebar_expand" class="city_sidebar_small_cont" style="top: 34%; left: 7%;">
 			Expand City... 
 
 			<span class="button questionmarkbox" type="button">
 				?<span class="hoverinfo">Use 50 spare population to expand your city to another tile.</span>
 			</span>
 
-			<br>
-
-			<div id="" style="padding-left: 20px">
+			<div id="" style="padding-left: 20px; font-size: 1.35vh">
 
 				&nbsp;&nbsp;
-				<table>
+				<table style="font-family: Source Code Pro">
 
 					<tr>
 						<td></td>
 						<td>
-							<input class="button" type="button" value="N" style="font-size: 1vh; font-family: Lato; background-color: #8c1a1a; padding: 0.4vh 0.4vh" onclick="javascript:expandCity([0, 1])">
+							<input class="button" type="button" value=" N " style="background-color: #8c1a1a; padding: 0.4vh 0.4vh" onclick="javascript:expandCity([0, 1])">
 						</td>
 						<td></td>
 					</tr>
 
 					<tr>
 						<td>
-							<input class="button" type="button" value="W" style="font-size: 1vh; font-family: Lato; background-color: #8c8c1a; padding: 0.4vh 0.4vh" onclick="javascript:expandCity([-1, 0])">
+							<input class="button" type="button" value=" W " style="background-color: #8c8c1a; padding: 0.4vh 0.4vh" onclick="javascript:expandCity([-1, 0])">
 						</td>
 						<td></td>
 						<td>
-							<input class="button" type="button" value="E" style="font-size: 1vh; font-family: Lato; background-color: #1a1a8c; padding: 0.4vh 0.4vh" onclick="javascript:expandCity([1, 0])">	
+							<input class="button" type="button" value=" E " style="background-color: #1a1a8c; padding: 0.4vh 0.4vh" onclick="javascript:expandCity([1, 0])">	
 						</td>
 					</tr>
 					<tr>
 						<td></td>
 						<td>
-							<input class="button" type="button" value="S" style="font-size: 1vh; font-family: Lato; background-color: #1a8c1a; padding: 0.4vh 0.4vh" onclick="javascript:expandCity([0, -1])">
+							<input class="button" type="button" value=" S " style="background-color: #1a8c1a; padding: 0.4vh 0.4vh" onclick="javascript:expandCity([0, -1])">
 						</td>
 						<td></td>
 					</tr>
@@ -338,14 +366,14 @@
 
 		</div>
 
-		<div class="city_sidebar_small_cont" style="top: 45%; left: 7%">
+		<div class="city_sidebar_small_cont" style="top: 57%; left: 7%">
 			<input class="button" type="button" value="Tile Level Interface >>" style="font-size: 16px; font-family: Lato; background-color: #777; padding: 5px 5px" onclick="javascript:showTileLevelInterface()">
 			<span class="button questionmarkbox" type="button">
 				?<span class="hoverinfo">Add buildings to your tile to grow your city and make it more productive.</span>
 			</span>
 		</div>
 
-		<div id="city_info_sidebar_breakoff_people" class="city_sidebar_small_cont" style="top: 50%; left: 7%">
+		<div id="city_info_sidebar_breakoff_people" class="city_sidebar_small_cont" style="top: 65%; left: 7%">
 			Break city off into people...
 
 			<span class="button questionmarkbox" type="button">
@@ -529,16 +557,36 @@
 	</div>
 
 
-	<div id="game_options" style="position: fixed; left: 3%; top: 5%; width: 25%; height: 10%; background-color: #555; border: 2px solid #999; z-index: 3; color: #999; font-family: Lato; overflow-y: scroll">
-		<div style="position: sticky; left: 0%; top: 0%; padding: 5px 5px; background-color: #333; font-size: 1.9vh">
+	<div id="game_options" style="position: fixed; left: 3%; top: 5%; width: 25%; height: 20%; background-color: #555; border: 2px solid #999; z-index: 3; color: #999; font-family: Lato; overflow-y: scroll">
+		<div style="position: sticky; left: 0%; top: 0%; padding: 5px 5px; background-color: #333; font-size: 2.4vh; z-index: 4">
 			Game Options
 		</div>
 		<br>
-		<input id="soundtrack_button" class="button" type="button" style="position: relative; background-color: #b48888; color: #555; font-family: Source Code Pro; left: 5%; padding: 7px 7px" value="Soundtrack Off" onclick="javascript:handleSoundtrackButton()">
+		<input id="soundtrack_button" class="button" type="button" style="position: relative; background-color: #b48888; color: #555; font-family: Source Code Pro; left: 5%; padding: 7px 7px; z-index: 3" value="Soundtrack Off" onclick="javascript:handleSoundtrackButton()">
 
-		<input id="gamesave_button" class="button" type="button" style="position: relative; background-color: #8888b4; color: #222; font-family: Source Code Pro; left: 5%; padding: 7px 7px" value="Save Game" onclick="javascript:saveGameData()">
+		<input id="gamesave_button" class="button" type="button" style="position: relative; background-color: #8888b4; color: #222; font-family: Source Code Pro; left: 5%; padding: 7px 7px; z-index: 3" value="Save Game" onclick="javascript:saveGameData()">
 
-		<input id="gameclear_button" class="button" type="button" style="position: relative; background-color: #333; color: #aaa; font-family: Source Code Pro; left: 5%; padding: 7px 7px" value="Restart Game" onclick="javascript:showCustomAlert('clearGameAlert')">
+		<input id="gameclear_button" class="button" type="button" style="position: relative; background-color: #333; color: #aaa; font-family: Source Code Pro; left: 5%; padding: 7px 7px; z-index: 3" value="Restart Game" onclick="javascript:showCustomAlert('clearGameAlert')">
+
+		<br>
+		<br>
+
+		<div id="barb_diff_div" style="position: relative; left: 5%; z-index: 3; background-color: #777; width: 90%; height: auto; font-size: 0.5vh">
+			<br>
+			<span style="position: relative; left: 5%; font-size: 2.4vh; color: #111">
+				Barbarian Difficulty:&nbsp;&nbsp;
+
+				<input type="button" class="button" style="position: relative; background-color: #99c; padding: 1% 1%; font-family: Source Code Pro" onclick="javascript:modBarbDifficulty(-1)" value=" < ">
+
+				<input type="button" class="button" style="position: relative; background-color: #aaa; padding: 1% 1%; font-family: Source Code Pro" value=" 0 " id="barb_diff_holder">
+
+				<input type="button" class="button" style="position: relative; background-color: #c99; padding: 1% 1%; font-family: Source Code Pro" onclick="javascript:modBarbDifficulty(1)" value=" > ">
+			</span>
+			<br>
+			<br>
+		</div>
+
+		<br>
 	</div>
 
 	<div id="music_holder" style="display: none; position: fixed; left: 3%; top: 5%; width: 25%; height: 20%; background-color: #555; border: 2px solid #999; z-index: 3; color: #999; font-family: Lato; overflow-y: scroll">
@@ -548,7 +596,7 @@
 
 	</div>
 
-	<div id="chatbox" style="position: fixed; left: 3%; top: 20%; width: 25%; height: 20%; background-color: #555; border: 2px solid #999; z-index: 3; color: #999; font-family: Lato; overflow-y: auto">
+	<div id="chatbox" style="position: fixed; left: 3%; top: 30%; width: 25%; height: 20%; background-color: #555; border: 2px solid #999; z-index: 3; color: #999; font-family: Lato; overflow-y: auto">
 		<div style="position: relative; padding: 5px 5px; background-color: #333; font-size: 1.9vh">
 			Game Chat
 		</div>
@@ -560,7 +608,7 @@
 	</form>
 
 
-	<canvas id="minimap" style="position: fixed; left: 3%; top: 45%; width: 20vh; height: 20vh; background-color: #555; border: 2px solid #999; z-index: 3; color: #999; font-family: Lato; overflow: scroll">
+	<canvas id="minimap" style="position: fixed; left: 3%; top: 55%; width: 20vh; height: 20vh; background-color: #555; border: 2px solid #999; z-index: 3; color: #999; font-family: Lato; overflow: scroll">
 	</canvas>
 
 
@@ -762,15 +810,15 @@
 		<input class="button" type="button" style="position: absolute; left: 50%; top: 60%; transform: translate(-50%, 0); background-color: #88b488; color: #555; font-family: Courier; padding: 0.6vh 0.6vw; font-size: 1.2vh" value="OK" onclick="javascript:closeCustomAlert(this.parentNode)">
 	</div>
 
-	<div class="customalert" id="combat_alert" style="width: 30%; text-align: left">
-		<span id="combat_u1" style="position: relative; margin-top: 5%; width: 40%; text-align: left; float: left">
+	<div class="customalert" id="combat_alert" style="width: 45%; text-align: left">
+		<span id="combat_u1" style="position: relative; margin-top: 5%; width: 40%; text-align: left; float: left; font-size: 3vh">
 			<span id="combat_u1_u" style="text-decoration: underline"></span>
 			<br>
 			<span id="combat_u1_stats" style="font-size: 0.7em"></span>
 			<br>
 			<span id="combat_u1_odds" style="font-size: 0.7em"></span>
 		</span>
-		<span id="combat_u2" style="position: relative; margin-top: 5%; width: 40%; text-align: left; float: right">
+		<span id="combat_u2" style="position: relative; margin-top: 5%; width: 40%; text-align: left; float: right; font-size: 3vh">
 			<span id="combat_u2_u" style="text-decoration: underline"></span>
 			<br>
 			<span id="combat_u2_stats" style="font-size: 0.7em"></span>

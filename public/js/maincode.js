@@ -1015,6 +1015,7 @@ function drawUnits(i, emit = true){
 		thisunit.damage = 0
 
 		unitlist.push(thisunit)
+
 		assignTileUnitStatus(thisunit.x, thisunit.y, true, i)
 		if (activetiles.includes(thisunit.x + "," + thisunit.y)){
 			var vis = true
@@ -1047,7 +1048,7 @@ function drawUnits(i, emit = true){
 
 //TILE FETCHING AND DRAWING CODE
 
-function fetchAndRender(coords1, coords2){
+function fetchAndRender(coords1, coords2, finishload = false){
 	for (var y = coords1[1]; y < coords2[1]; y++){
 		for (var x = coords1[0]; x < coords2[0]; x++){
 			if (window.localStorage.getItem("tl") === "t"){
@@ -1075,6 +1076,10 @@ function fetchAndRender(coords1, coords2){
 				}
 			}
 		}
+	}
+
+	if (finishload){
+		finishLoading()
 	}
 }
 

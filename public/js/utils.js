@@ -114,6 +114,9 @@ function checkTerrainMoveable(id, x, y){
 		}
 	}
 	else{
+		if (getTileAt(x, y) == undefined){
+			return false
+		}
 		if (isWater(getTileAt(x, y).type)){
 			return false
 		}

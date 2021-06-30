@@ -378,6 +378,9 @@ app.get("/*", (req, res, next) => {
 
 app.get('/room/:id', function(req, res){
 
+	dealWithNoAuth(res)
+	return
+
 
 	/*console.log(current_clients)
 

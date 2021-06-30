@@ -306,10 +306,14 @@ var paused = false
 
 var done_init = false
 
-var TURN_COUNTER = window.localStorage.getItem("tn")
+var TURN_COUNTER = window.localStorage.getItem("tn") * 1
+if (String(TURN_COUNTER) === "null"){
+	TURN_COUNTER = 0 * 1
+}
 
 
 function pre_init(){
+	changeBarbStats()
 	if (!multi){
 		if (window.localStorage.getItem(SAVE_VERSION) == "t"){
 			//initialize(gamecenterx, gamecentery, ["500,500"])
