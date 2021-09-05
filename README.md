@@ -1,6 +1,8 @@
 Welcome to Gens Grandis!
 
-Gens Grandis is a browser-based, sandbox-style and strategy-oriented game. You can see the game at http://gensgrandis.com.
+~~Gens Grandis is a browser-based, sandbox-style and strategy-oriented game. You can see the game at http://gensgrandis.com.~~
+
+Unfortunately, due to server hosting costs (and relatively low traffic), I'm unable to keep the game up. But I encourage anyone who is interested to clone a copy and play it themselves! (Just please don't use the code to run your own website - see the end of this file.)
 
 Because the game is browser-based, there is no pressure on you, the user, to download or configure any software. It also makes the game entirely free-to-play.
 
