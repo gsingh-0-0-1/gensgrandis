@@ -29,7 +29,7 @@ console.log(host)
 
 var log_file = fs.createWriteStream(__dirname + '/log.txt', {flags : 'a'});
 
-server.listen(port, host);
+server.listen(process.env.PORT || port, host);
 
 const accesscodes = []
 var rooms = []
