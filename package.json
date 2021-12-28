@@ -2,5 +2,8 @@
   "dependencies": {
     "express": "^4.17.2",
     "socket.io": "^4.4.0"
+  },
+  "scripts": {
+    "start": "node node.js 0.0.0.0"
   }
 }
