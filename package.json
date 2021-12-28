@@ -5,8 +5,8 @@
     "start": "node node.js 0.0.0.0"
   },
   "engines":{
-    "node": ">=12.19.0",
-    "npm": "=7.0.8"
+    "node": "12.19.0",
+    "npm": "7.0.8"
   },
   "dependencies": {
     "@sindresorhus/is": {
