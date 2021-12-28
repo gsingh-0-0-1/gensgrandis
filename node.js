@@ -29,6 +29,8 @@ console.log(host)
 
 var log_file = fs.createWriteStream(__dirname + '/log.txt', {flags : 'a'});
 
+var blacklist_file = fs.createWriteStream(__dirname + '/blacklist.txt', {flags : 'a'});
+
 server.listen(process.env.PORT || port, host);
 
 const accesscodes = []
