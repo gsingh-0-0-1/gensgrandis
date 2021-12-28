@@ -4,6 +4,10 @@
   "scripts":{
     "start": "node node.js 0.0.0.0"
   },
+  "engines":{
+    "node": ">=12.19.0",
+    "npm": ">=6.14.8"
+  },
   "dependencies": {
     "@sindresorhus/is": {
       "version": "0.14.0",
