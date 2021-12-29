@@ -126,7 +126,7 @@
 	</div>
 
 	<div style="position: relative; width: 50%; left: 50%; height: auto; transform: translate(-50%, 0); font-size: 1.8vh; background-color: #77ad77; color: #000; padding: 1.5vh 1.5vh">
-		The most important part, though, is that this serves as a demonstration that games of decent complexity can be served to clients without them having to do anything - you don't have to download a file or install dependencies; you don't have to care about what OS you're using; you just need to type <a href="/">gensgrandis.com</a> into your browser.
+		The most important part, though, is that this serves as a demonstration that games of decent complexity can be served to clients without them having to do anything - you don't have to download a file or install dependencies; you don't have to care about what OS you're using; you just need to type <a id="page_url" href="/"></a> into your browser.
 		<br><br>
 		And above all, the game's logic is all available to clients - if you want to modify the game in any way - adding units, modiyfing bonuses - all you have to do is write that code, host it somewhere, and load it in through your browser's console. And you can do this both with singleplayer and multiplayer, all without compromising the integrity of the game's data!
 	</div>
@@ -140,6 +140,7 @@
 <script src="/js/navutils.js"></script>
 
 <script>
+	document.getElementById("page_url").textContent = window.location.origin.split("/").at(-1);
 	var whytextdiv = document.getElementById("whytext")
 
 	var init_whytext = '001010101101010101'

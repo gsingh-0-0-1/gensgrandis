@@ -1268,6 +1268,7 @@ document.onkeypress = function (e) {
 
 	if (letter == 'g' && selectedunitid != 'null'){
 		moving_unit = !moving_unit
+		reColorUnitRings(moving_unit)
 		updateUnitBar(selectedunitid)
 	}
 
@@ -1445,6 +1446,98 @@ function onWindowResize(){
 window.addEventListener( 'resize', onWindowResize, false );
 
 
+function rotateUnitSelectRings(val){
+	for (var ring of unit_select_rings){
+		ring.rotation.z += val
+	}
+}
+
+function showUnitSelectRings(id){
+	var u_ring_offset = 0.1
+	var x = unitlist[id].x
+	var y = unitlist[id].y
+	for (var ind = 0; ind < unit_select_rings.length; ind++){
+		var ring = unit_select_rings[ind]
+		ring.visible = true
+		if (ind == 0){
+			var nx = x - 1
+			var ny = y - 1
+			ring.position.set(nx, ny, ground_z + getTileAt(nx, ny).height + u_ring_offset)
+			continue
+		}
+		if (ind == 1){
+			var nx = x - 1
+			var ny = y
+			ring.position.set(nx, ny, ground_z + getTileAt(nx, ny).height + u_ring_offset)
+			continue
+		}
+		if (ind == 2){
+			var nx = x - 1
+			var ny = y + 1
+			ring.position.set(nx, ny, ground_z + getTileAt(nx, ny).height + u_ring_offset)
+			continue
+		}
+		if (ind == 3){
+			var nx = x
+			var ny = y - 1
+			ring.position.set(nx, ny, ground_z + getTileAt(nx, ny).height + u_ring_offset)
+			continue
+		}
+		if (ind == 4){
+			var nx = x
+			var ny = y
+			ring.position.set(nx, ny, ground_z + getTileAt(nx, ny).height + u_ring_offset)
+			continue
+		}
+		if (ind == 5){
+			var nx = x
+			var ny = y + 1
+			ring.position.set(nx, ny, ground_z + getTileAt(nx, ny).height + u_ring_offset)
+			continue
+		}
+		if (ind == 6){
+			var nx = x + 1
+			var ny = y - 1
+			ring.position.set(nx, ny, ground_z + getTileAt(nx, ny).height + u_ring_offset)
+			continue
+		}
+		if (ind == 7){
+			var nx = x + 1
+			var ny = y
+			ring.position.set(nx, ny, ground_z + getTileAt(nx, ny).height + u_ring_offset)
+			continue
+		}
+		if (ind == 8){
+			var nx = x + 1
+			var ny = y + 1
+			ring.position.set(nx, ny, ground_z + getTileAt(nx, ny).height + u_ring_offset)
+			continue
+		}
+	}
+}
+
+function hideUnitSelectRings(){
+	for (var ring of unit_select_rings){
+		ring.visible = false
+	}
+}
+
+function reColorUnitRings(status){
+	if (status == true){
+		col = 0x77bb77
+	}
+	else{
+		col = 0x888888
+	}
+
+	for (var ind = 0; ind < unit_select_rings.length; ind++){
+		if (ind == 4){
+			continue
+		}
+		unit_select_rings[ind].material.color = new THREE.Color(col)
+	}
+}
+
 function animate() {
 	if (!paused && !in_tile_level_interface){
 		var cameramovement = 0.15
@@ -1520,6 +1613,10 @@ function animate() {
 		renderer.render( scene, camera );
 
 		updateCityLabels()
+
+		if (selectedunitid != null && selectedunitid != "null"){
+			rotateUnitSelectRings(0.015)
+		}
 	}
 
 	if (in_tile_level_interface){

@@ -203,6 +203,8 @@ function getHutOffset(x, y, size){
 
 
 function updateCityCenterTradingPanel(){
+	return
+	//gonna make this defunct soon
 	var citycentertrading = document.getElementById("city_center_trading")
 	citycentertrading.style.display = "initial"
 	citycentertrading.style.zIndex = 2
@@ -374,9 +376,9 @@ function hideCitySidebar(){
 	sidebar.style.display = "none"
 	sidebar.style.zIndex = 0
 
-	var citycentertrading = document.getElementById("city_center_trading")
+	/*var citycentertrading = document.getElementById("city_center_trading")
 	citycentertrading.style.display = "initial"
-	citycentertrading.style.zIndex = 0
+	citycentertrading.style.zIndex = 0*/
 
 	//document.getElementById("city_info_sidebar_name").innerHTML = ''
 }

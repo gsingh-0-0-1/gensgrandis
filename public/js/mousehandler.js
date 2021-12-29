@@ -139,6 +139,7 @@ function onMouseClick( event ) {
 				//moving_unit = false
 
 				updateUnitBar(selectedunitid)
+				showUnitSelectRings(selectedunitid)
 
 				return
 				break

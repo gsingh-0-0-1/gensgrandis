@@ -267,6 +267,23 @@ directionalLight_fromSouth.target.position.set(camerainitx, camerainity + 5, gro
 scene.add(directionalLight_fromSouth);
 scene.add(directionalLight_fromSouth.target)
 
+var unit_select_rings = []
+
+for (var x = -1; x <= 1; x++){
+	for (var y = -1; y <= 1; y++){
+		col = 0x888888
+		if (x == 0 && y == 0){
+			var col = 0xffff00
+		}
+		var ringgeometry = new THREE.RingGeometry( 0.4, 0.45, 48, 1, 0, 4.1 );
+		var ringmaterial = new THREE.MeshBasicMaterial( { color: col, side: THREE.DoubleSide } );
+		var ring = new THREE.Mesh( ringgeometry, ringmaterial );
+		ring.position.set(x, y, ground_z)
+		scene.add(ring)
+		unit_select_rings.push(ring)
+	}
+}
+
 
 var selectedunitid = 'null'
 var selectedcolorfactor = 1.2

@@ -80,6 +80,7 @@ function selectUnit(id){
 		}
 	}
 	selectedunitid = id
+	showUnitSelectRings(id)
 	updateUnitBar(id)
 }
 
@@ -91,6 +92,7 @@ function unSelectUnit(id){
 	}
 	selectedunitid = 'null'
 	moving_unit = false
+	hideUnitSelectRings()
 	document.getElementById("unit_desc").style.zIndex = "0"
 	document.getElementById("unit_desc").style.display = "none"
 
