@@ -68,8 +68,11 @@
 
 		.city_sidebar_small_cont{
 			position: absolute;
-			width: 80%; 
-			height: 15px; 
+			width: 100%; 
+			padding-left: 7%;
+			padding-top: 1.5%;
+			padding-bottom: 1.5%;
+			height: auto; 
 			color: #daa; 
 			font-family: Lato; 
 			font-size: 2.1vh
@@ -178,8 +181,8 @@
 
 		.unit_desc{
 			position: relative;
-			font-family: Lato;
-			font-size: 1.7vh;
+			font-family: Source Code Pro;
+			font-size: 2.3vh;
 			color: #fff;
 		}
 
@@ -289,12 +292,12 @@
 	</div>
 
 
-	<div id="city_info_sidebar" style="position: fixed; left: 80%; top: 0%; width: 20%; height: 100%; background-color: #4a4aaa; border: 5px solid #d9b0b0; box-sizing: border-box; z-index: 0; display: none;">
+	<div id="city_info_sidebar" style="position: fixed; left: 80%; top: 0%; width: 20%; height: 100%; background-color: #4a4aaa; border: 5px solid #d9b0b0; border-right: none; box-sizing: border-box; z-index: 0; display: none;">
 
 		<div id="city_info_sidebar_name" style="position: relative; left: 5%; top: 2%; color: #ddd; font-family: Verdana; font-size: 15px; border-bottom: 2px solid white; height: 20px; width: 80%">
 		</div>
 
-		<div id="city_info_sidebar_center_loc" class="city_sidebar_small_cont" style="top: 7%; left: 7%">
+		<div id="city_info_sidebar_center_loc" class="city_sidebar_small_cont" style="top: 7%; background-color: #111">
 			Center Location:
 
 			<div id="city_info_sidebar_center_loc_x" style="padding-left: 20px">
@@ -304,7 +307,7 @@
 			</div>
 		</div>
 
-		<div id="city_info_sidebar_selected_loc" class="city_sidebar_small_cont" style="top: 17%; left: 7%">
+		<div id="city_info_sidebar_selected_loc" class="city_sidebar_small_cont" style="top: 16.5%; background-color: #131">
 			Selected Tile:<span class="button questionmarkbox" type="button">?<span class="hoverinfo">Each tile's population grows each turn. To end your turn, press "t".</span></span>
 
 			<div id="city_info_sidebar_selected_loc_x" style="padding-left: 20px">
@@ -324,7 +327,7 @@
 
 		</div>
 
-		<div id="city_info_sidebar_expand" class="city_sidebar_small_cont" style="top: 34%; left: 7%;">
+		<div id="city_info_sidebar_expand" class="city_sidebar_small_cont" style="top: 34%; background-color: #225">
 			Expand City... 
 
 			<span class="button questionmarkbox" type="button">
@@ -339,24 +342,24 @@
 					<tr>
 						<td></td>
 						<td>
-							<input class="button" type="button" value=" N " style="background-color: #8c1a1a; padding: 0.4vh 0.4vh" onclick="javascript:expandCity([0, 1])">
+							<input class="button" type="button" value=" &and; " style="background-color: #8c1a1a; padding: 0.4vh 0.4vh" onclick="javascript:expandCity([0, 1])">
 						</td>
 						<td></td>
 					</tr>
 
 					<tr>
 						<td>
-							<input class="button" type="button" value=" W " style="background-color: #8c8c1a; padding: 0.4vh 0.4vh" onclick="javascript:expandCity([-1, 0])">
+							<input class="button" type="button" value=" < " style="background-color: #8c8c1a; padding: 0.4vh 0.4vh" onclick="javascript:expandCity([-1, 0])">
 						</td>
 						<td></td>
 						<td>
-							<input class="button" type="button" value=" E " style="background-color: #1a1a8c; padding: 0.4vh 0.4vh" onclick="javascript:expandCity([1, 0])">	
+							<input class="button" type="button" value=" > " style="background-color: #1a1a8c; padding: 0.4vh 0.4vh" onclick="javascript:expandCity([1, 0])">	
 						</td>
 					</tr>
 					<tr>
 						<td></td>
 						<td>
-							<input class="button" type="button" value=" S " style="background-color: #1a8c1a; padding: 0.4vh 0.4vh" onclick="javascript:expandCity([0, -1])">
+							<input class="button" type="button" value=" &or; " style="background-color: #1a8c1a; padding: 0.4vh 0.4vh" onclick="javascript:expandCity([0, -1])">
 						</td>
 						<td></td>
 					</tr>
@@ -366,29 +369,29 @@
 
 		</div>
 
-		<div class="city_sidebar_small_cont" style="top: 57%; left: 7%">
+		<div class="city_sidebar_small_cont" style="top: 57%">
 			<input class="button" type="button" value="Tile Level Interface >>" style="font-size: 16px; font-family: Lato; background-color: #777; padding: 5px 5px" onclick="javascript:showTileLevelInterface()">
 			<span class="button questionmarkbox" type="button">
 				?<span class="hoverinfo">Add buildings to your tile to grow your city and make it more productive.</span>
 			</span>
 		</div>
 
-		<div id="city_info_sidebar_breakoff_people" class="city_sidebar_small_cont" style="top: 65%; left: 7%">
-			Break city off into people...
+		<div id="city_info_sidebar_breakoff_people" class="city_sidebar_small_cont" style="top: 34%; left: 50%">
+
+
+			<div style="padding-left: 20px">
+
+				<button class="button" style="font-size: 16px; font-family: Lato; background-color: #111; padding: 5px 5px" onclick="javascript:breakCity()">Split<br>People</button>
+
+			</div>
 
 			<span class="button questionmarkbox" type="button">
 				?<span class="hoverinfo">Use 100 spare population to create a People unit.</span>
 			</span>
 
-			<div style="padding-left: 20px">
-
-				<input class="button" type="button" value="Break >>" style="font-size: 16px; font-family: Lato; background-color: #111; padding: 5px 5px" onclick="javascript:breakCity()">
-
-			</div>
-
 		</div>
 
-		<div id="city_info_sidebar_view_city_tiles" class="city_sidebar_small_cont" style="top: 60%; left: 7%; display: none">
+		<div id="city_info_sidebar_view_city_tiles" class="city_sidebar_small_cont" style="top: 60%; display: none">
 			View city...
 
 			<span class="button questionmarkbox" type="button">
@@ -403,7 +406,7 @@
 
 		</div>
 
-		<div id="city_info_sidebar_redirect_food" class="city_sidebar_small_cont" style="top: 67%; left: 7%; display: none">
+		<div id="city_info_sidebar_redirect_food" class="city_sidebar_small_cont" style="top: 67%; display: none">
 			Redirect food...
 
 			<span class="button questionmarkbox" type="button">
@@ -420,7 +423,7 @@
 
 		</div>
 
-		<div id="city_info_sidebar_produce_reg" class="city_sidebar_small_cont" style="top: 80%; left: 7%">
+		<div id="city_info_sidebar_produce_reg" class="city_sidebar_small_cont" style="top: 80%;">
 			Produce unit:<br>Regular<br>
 
 			<select id="select_unit_to_produce_reg">
@@ -447,7 +450,7 @@
 			?<span class="hoverinfo">To produce a unit, select it from the menu and click the Produce button. Each turn, your city will get closer to finishing these production targets.</span>
 		</span>
 
-		<div id="city_info_sidebar_produce_mil" class="city_sidebar_small_cont" style="top: 80%; left: 57%">
+		<div id="city_info_sidebar_produce_mil" class="city_sidebar_small_cont" style="top: 80%; left: 50%">
 			Produce unit:<br>Military<br>
 
 			<select id="select_unit_to_produce_mil">
@@ -608,7 +611,7 @@
 	</form>
 
 
-	<canvas id="minimap" style="position: fixed; left: 3%; top: 55%; width: 20vh; height: 20vh; background-color: #555; border: 2px solid #999; z-index: 3; color: #999; font-family: Lato; overflow: scroll">
+	<canvas id="minimap" style="position: fixed; left: 3%; top: 53%; width: 20vh; height: 20vh; background-color: #555; border: 2px solid #999; z-index: 3; color: #999; font-family: Lato; overflow: scroll">
 	</canvas>
 
 
@@ -810,15 +813,15 @@
 		<input class="button" type="button" style="position: absolute; left: 50%; top: 60%; transform: translate(-50%, 0); background-color: #88b488; color: #555; font-family: Courier; padding: 0.6vh 0.6vw; font-size: 1.2vh" value="OK" onclick="javascript:closeCustomAlert(this.parentNode)">
 	</div>
 
-	<div class="customalert" id="combat_alert" style="width: 45%; text-align: left">
-		<span id="combat_u1" style="position: relative; margin-top: 5%; width: 40%; text-align: left; float: left; font-size: 3vh">
+	<div class="customalert" id="combat_alert" style="width: 45%; height: auto; text-align: left">
+		<span id="combat_u1" style="position: relative; margin-top: 0%; width: 40%; text-align: left; float: left; font-size: 3vh">
 			<span id="combat_u1_u" style="text-decoration: underline"></span>
 			<br>
 			<span id="combat_u1_stats" style="font-size: 0.7em"></span>
 			<br>
 			<span id="combat_u1_odds" style="font-size: 0.7em"></span>
 		</span>
-		<span id="combat_u2" style="position: relative; margin-top: 5%; width: 40%; text-align: left; float: right; font-size: 3vh">
+		<span id="combat_u2" style="position: relative; margin-top: 0%; width: 40%; text-align: left; float: right; font-size: 3vh">
 			<span id="combat_u2_u" style="text-decoration: underline"></span>
 			<br>
 			<span id="combat_u2_stats" style="font-size: 0.7em"></span>
@@ -826,13 +829,9 @@
 			<span id="combat_u2_odds" style="font-size: 0.7em"></span>
 		</span>
 
-		<span class="spacer" style="font-size: 2em">
-			Filler
-		</span>
+		<input class="button" type="button" style="position: absolute; left: 35%; top: 80%; transform: translate(-50%, 0); background-color: #88b488; color: #555; font-family: Courier; padding: 0.6vh 0.6vw; font-size: 1.5vh" value="Proceed" onclick="javascript:commenceCombat(); closeCustomAlert(this.parentNode)">
 
-		<input class="button" type="button" style="position: absolute; left: 35%; top: 72%; transform: translate(-50%, 0); background-color: #88b488; color: #555; font-family: Courier; padding: 0.6vh 0.6vw; font-size: 1.2vh" value="Proceed" onclick="javascript:commenceCombat(); closeCustomAlert(this.parentNode)">
-
-		<input class="button" type="button" style="position: absolute; left: 65%; top: 72%; transform: translate(-50%, 0); background-color: #b48888; color: #555; font-family: Courier; padding: 0.6vh 0.6vw; font-size: 1.2vh" value="Cancel" onclick="javascript:closeCustomAlert(this.parentNode)">
+		<input class="button" type="button" style="position: absolute; left: 65%; top: 80%; transform: translate(-50%, 0); background-color: #b48888; color: #555; font-family: Courier; padding: 0.6vh 0.6vw; font-size: 1.5vh" value="Cancel" onclick="javascript:closeCustomAlert(this.parentNode)">
 
 		<span id="combat_u1_details" style="display: none"></span>
 		<span id="combat_u2_details" style="display: none"></span>
