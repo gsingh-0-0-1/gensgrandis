@@ -1,0 +1,171 @@
+<!-- Copyright (C) Gurmehar Singh 2021 - All Rights Reserved
+/* Unauthorized distribution of this file, via any medium is strictly prohibited
+/* Proprietary and confidential
+/* Written by Gurmehar Singh <gurmehar@gmail.com>
+/-->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<!-- Global site tag (gtag.js) - Google Analytics -->
+	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-131520225-3"></script>
+	<script src="/js/googletag.js"></script>
+	
+	<meta name="google-site-verification" content="Wm67db8wTj_MDhFfzwgS_BhR0QvqpNc2fhla6nQm51w" />
+	<meta charset="UTF-8">
+
+	<title>Gēns Grandis</title>
+
+	<link rel="preconnect" href="https://fonts.gstatic.com">
+	<link href="https://fonts.googleapis.com/css2?family=Lato:wght@300&display=swap" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css2?family=Source+Code+Pro:wght@300&display=swap" rel="stylesheet">
+	<link href="css/navbar.css" rel="stylesheet">
+
+	<style>
+		body{
+			background-color: #222;
+			color: #ccc;
+			font-family: Lato;
+			font-size: 20px;
+		}
+		.chatbuttondiv{
+			position: fixed;
+			left: 60%;
+			top: 10%;
+			width: 40%;
+			height: 90%;
+		}
+
+		.input{
+			border: none; 
+			padding: 0.1rem 1rem; 
+			flex-grow: 1; 
+			margin: 0.05rem; 
+		}
+
+		.input:focus{
+			outline: none; 
+		}
+
+		.multibuttons > span:nth-of-type(1n) {background-color: #bb8181;}
+		.multibuttons > span:nth-of-type(2n) {background-color: #81bb81;}
+		.multibuttons{
+			text-align: center;
+		}
+
+		.roombutton:focus{
+			filter: brightness(110%);
+			outline: none;
+		}
+
+
+
+		/* width */
+		::-webkit-scrollbar {
+			width: 10px;
+		}
+
+		/* Track */
+		::-webkit-scrollbar-track {
+			background: #555;
+		}
+
+		/* Handle */
+		::-webkit-scrollbar-thumb {
+			background: #999;
+		}
+
+		/* Handle on hover */
+		::-webkit-scrollbar-thumb:hover {
+			background: #9f9f9f;
+		}
+
+		.spacer{
+			position: relative; 
+			width: 20%; 
+			left: 50%; 
+			height: auto; 
+			transform: translate(-50%, 0); 
+			background-color: transparent; 
+			color: transparent;
+		}
+	</style>
+</head>
+<body>
+
+	<br>
+
+	<div class="spacer" style="font-size: 3vh">
+		Filler
+	</div>
+
+	<div id="bugtext" style="position: relative; width: 20%; left: 50%; height: auto; transform: translate(-50%, 0); font-size: 1.7vw; background-color: #8888de; color: #444; text-align: center; padding: 1vh 1vh; font-family: Source Code Pro">
+		001010101101010101
+	</div>
+
+	<div class="spacer" style="font-size: 3vh">
+		Filler
+	</div>
+
+	<div style="position: relative; width: 50%; left: 50%; height: auto; transform: translate(-50%, 0); font-size: 2.2vh; background-color: #99d; color: #000; padding: 1.5vh 1.5vh; font-family: Source Code Pro">
+		<span style="color: #000; font-size: 3vh">1.</span>
+		<br><br>
+		<span style="color: #880000">--: Problem: Game fails to load when refreshed quickly after new game is loaded.</span>
+		<br><br>
+		<span style="color: #008800">--: Current Solution: Hit "Restart Game" and wait until terrain loads before closing window.</span>
+	</div>
+
+	<div class="spacer" style="font-size: 3vh">
+		Filler
+	</div>
+
+	<br>
+	<br>
+
+</body>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/3.1.3/socket.io.js"></script>
+<script src="/js/navutils.js"></script>
+
+<script>
+	var bugtextdiv = document.getElementById("bugtext")
+
+	var init_bugtext = '001010101101010101'
+
+	var bugtexts = {
+		0 : init_bugtext,
+		1 : '00101011010101',
+		2 : '001010u10101',
+		3 : '01010bu010',
+		4 : '101bug01',
+		5 : '01bugs1',
+		6 : 'bugs'
+	}
+
+	var bugtextdelays = {
+		0 : 150,
+		1 : 150,
+		2 : 120,
+		3 : 100,
+		4 : 90,
+		5 : 60,
+		6 : 30,
+		7 : 10,
+		8 : 1
+	}
+
+	function revealText(i){
+		bugtextdiv.textContent = bugtexts[i]
+		if (i + 1 > 6){
+			return
+		}
+		setTimeout(function(){
+			revealText(i + 1)
+		}, bugtextdelays[i])
+	}
+
+	revealText(0)
+
+
+</script>
+</html>
