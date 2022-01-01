@@ -1,0 +1,1159 @@
+commit 6277f782f607c4c03d6bb360b16b6bbd37125c58
+Author: Gurmehar Singh <gurmehar@gmail.com>
+Date:   Wed Dec 29 14:00:09 2021 -0800
+
+    some UI cleanup
+
+commit ca47cce3f6523fa4d2b9633fdec0a547640e87c4
+Author: Gurmehar Singh <gurmehar@gmail.com>
+Date:   Tue Dec 28 22:16:19 2021 -0800
+
+    added github link to landing page
+
+commit 163c13d458467920c7bebfce638850969815b50a
+Author: Gurmehar Singh <gurmehar@gmail.com>
+Date:   Tue Dec 28 17:17:05 2021 -0800
+
+    added bug page to keep track of current issues
+
+commit ce368b3478df71c0a99c52203e2e172edec558ce
+Author: Gurmehar Singh <gurmehar@gmail.com>
+Date:   Tue Dec 28 16:50:25 2021 -0800
+
+    updated info on landing page
+
+commit a518cde57d6fdf28be2793c24d976fa7f18e29fd
+Author: Gurmehar Singh <gurmehar@gmail.com>
+Date:   Tue Dec 28 16:48:09 2021 -0800
+
+    new maps + js for unit selection circles + updates to README and site info
+
+commit ecb4cda2dde454fc8fb27d0e4690c16c99bab4f1
+Author: Gurmehar Singh <gurmehar@gmail.com>
+Date:   Tue Dec 28 16:35:33 2021 -0800
+
+    updated start process to make changelog functional, added in some nice unit selection graphics with rotating partial circles
+
+commit 47158fa16e50ea2c2d25cccb5cf680f858423b58
+Author: Gurmehar Singh <gurmehar@gmail.com>
+Date:   Tue Dec 28 15:40:26 2021 -0800
+
+    write error for blacklist file
+
+commit b4aa519bd950960861bdd5ad0dd8c5fa9b74c7e6
+Author: Gurmehar Singh <gurmehar@gmail.com>
+Date:   Tue Dec 28 15:35:51 2021 -0800
+
+    added start script
+
+commit 593ea4bbc19075594c8a00233d7b22ce196fd6f2
+Author: Gurmehar Singh <gurmehar@gmail.com>
+Date:   Tue Dec 28 15:33:54 2021 -0800
+
+    reinstalled dependencies
+
+commit e5e2291585282fc099c41c38512e1b746077cd33
+Author: Gurmehar Singh <gurmehar@gmail.com>
+Date:   Tue Dec 28 15:28:34 2021 -0800
+
+    changed package lock
+
+commit 1191b22ad9defc117c003c66ce3a94531cc102a3
+Author: Gurmehar Singh <gurmehar@gmail.com>
+Date:   Tue Dec 28 15:14:36 2021 -0800
+
+    more problems with npm
+
+commit f4375c86a3df6ec31c99108866b48711efa005b9
+Author: Gurmehar Singh <gurmehar@gmail.com>
+Date:   Tue Dec 28 15:13:45 2021 -0800
+
+    more problems with npm
+
+commit 0bfc2343759ac55dfb755877ce58a6525c3b3925
+Author: Gurmehar Singh <gurmehar@gmail.com>
+Date:   Tue Dec 28 15:12:32 2021 -0800
+
+    more problems with npm
+
+commit cc1e007d49b46f09d70b70d4841713e2b79ef693
+Author: Gurmehar Singh <gurmehar@gmail.com>
+Date:   Tue Dec 28 15:05:07 2021 -0800
+
+    updated npm version, seems to be an issue
+
+commit b433665d7400db2d809655b6e860a6ccf209f52f
+Author: Gurmehar Singh <gurmehar@gmail.com>
+Date:   Tue Dec 28 14:40:03 2021 -0800
+
+    updated engines in package.json
+
+commit 9bb720c32f07f51dc31f8723441f82c9296ad802
+Author: Gurmehar Singh <gurmehar@gmail.com>
+Date:   Tue Dec 28 14:35:42 2021 -0800
+
+    removed node modules
+
+commit d947e02372e57075dad42626cd5158c6a96875fc
+Author: Gurmehar Singh <gurmehar@gmail.com>
+Date:   Tue Dec 28 13:49:11 2021 -0800
+
+    re-added package-lock file
+
+commit eac9568a716c0e7b7a8786652473965b558231f5
+Author: Gurmehar Singh <gurmehar@gmail.com>
+Date:   Tue Dec 28 13:44:51 2021 -0800
+
+    typo... i think
+
+commit 9cb35d1863c09ef671be93ba4cd64b5b52574b32
+Author: Gurmehar Singh <gurmehar@gmail.com>
+Date:   Tue Dec 28 13:43:16 2021 -0800
+
+    added scripts for heroku startup
+
+commit ead1abec35e5ca1343f3355b503002a65d6581e2
+Author: Gurmehar Singh <gurmehar@gmail.com>
+Date:   Tue Dec 28 13:38:33 2021 -0800
+
+    trying to troubleshoot for heroku deployment
+
+commit 9c63dfc52817998880a511e7eadcc62b89c2127c
+Author: Gurmehar Singh <gurmehar@gmail.com>
+Date:   Fri Sep 24 22:24:10 2021 -0700
+
+    quick undo
+
+commit 5d1dce5a3ffe22f0624cf9049638fa1cb7ef0aa6
+Author: Gurmehar Singh <gurmehar@gmail.com>
+Date:   Fri Sep 24 22:17:59 2021 -0700
+
+    port fix
+
+commit 51f99f42a0a0123e6cbb7e88a9dfddb20d1aa36a
+Author: Gurmehar Singh <gurmehar@gmail.com>
+Date:   Fri Sep 24 22:11:57 2021 -0700
+
+    added one game file
+
+commit 04bd9920da5501549ff928239fbe762858c40d13
+Author: Gurmehar Singh <gurmehar@gmail.com>
+Date:   Fri Sep 24 22:10:57 2021 -0700
+
+    added extra favicon file
+
+commit f2fece390ae11656d8db6658e268c1445a333ae7
+Author: Gurmehar Singh <gurmehar@gmail.com>
+Date:   Fri Sep 24 22:06:53 2021 -0700
+
+    renaming
+
+commit 19b781b2e7ca26da920234cb1e7ddb447dcfd520
+Author: Gurmehar Singh <gurmehar@gmail.com>
+Date:   Sat Sep 4 23:30:14 2021 -0700
+
+    well... I think this is goodbye for now. I don't have much time to work on the game right now, and the server costs are a bit high in the context of the low traffic the game is receiving. hopefully I'll be able to come back to this one day :)
+
+commit 2ff25db72492bd56781c21bdce78973748554545
+Author: Gurmehar Singh <gurmehar@gmail.com>
+Date:   Wed Jun 30 10:14:36 2021 -0700
+
+    well, that's the combat / barbarian update done! barbarians now spawn and can pillage your cities, based on the difficult you choose in-game. because of the sheer amount of work I would have to do to integrate this all into multiplayer, I've disabled multiplayer for now. I think I'm going to focus on graphics and the UI next, to make the game a bit more user-friendly.
+
+commit 83e2da40a292cf0993d253192c8d110b16ddeb30
+Author: Gurmehar Singh <gurmehar@gmail.com>
+Date:   Mon Jun 28 09:38:05 2021 -0700
+
+    another mid-update commit. just pushing everything since I'll be on the move for the next couple days.
+
+commit e02499e65c23c5ac84e95d9c3582b4c095513fed
+Author: Gurmehar Singh <gurmehar@gmail.com>
+Date:   Mon Jun 21 22:57:04 2021 -0700
+
+    whew, in the middle of adding barbarians. it's been a hectic past couple of weeks, and i've been moving around all over the place. just pushing my work since i'll be moving around tomorrow. the barbarian AI is coming along well, and I'm playtesting for more bugs. ciao
+
+commit df8ab279a12d5f98d795d4cf559928aa4e6f60fc
+Author: Gurmehar Singh <gurmehar@gmail.com>
+Date:   Fri Jun 4 10:46:44 2021 -0700
+
+    combat is mostly finished, and ive started the barbarian AI. im just pushing for now so that I can work off a different machine for the next couple of days. the full combat / barbarian update should be finished within the next couple of days or the next week, but it could very well take a bit longer given that i have an exam coming up soon
+
+commit 3498433fcc2bcef12a5a7e510d2ae8a5e514e7f9
+Author: Gurmehar Singh <gurmehar@gmail.com>
+Date:   Sun May 30 11:36:32 2021 -0700
+
+    whoops, wrong year in the generator file
+
+commit 89014eedda95099fe8c7291d04af735edb5ec896
+Author: Gurmehar Singh <gurmehar@gmail.com>
+Date:   Sun May 30 11:35:21 2021 -0700
+
+    copyright update + legal/license notice in README
+
+commit c0ee5403b301950a5861b941e4cf17457bb2ae83
+Merge: a239392 cdc9a74
+Author: Gurmehar Singh <gurmehar@gmail.com>
+Date:   Sun May 30 01:02:52 2021 -0700
+
+    Merge branch 'master' of https://github.com/gsingh-0-0-1/gensgrandis
+
+commit a2393925321bd4b08939df53ad2cc6b8cec0d7a2
+Author: Gurmehar Singh <gurmehar@gmail.com>
+Date:   Sun May 30 01:02:43 2021 -0700
+
+    removed some old authkey stuff on the server backend
+
+commit cdc9a748bbdc988ae7aa1182463b26c9d1a1e6ac
+Author: Gurmehar Singh <gurmehar@gmail.com>
+Date:   Sat May 29 23:27:19 2021 -0700
+
+    fixed a bug where tiles next to a unit would get fogged-by-war if another unit passed into the first unit's visibility range and then out of it.
+
+commit 6210a4fece95f6e72e17c272d3dc75f566c629d2
+Author: Gurmehar Singh <gurmehar@gmail.com>
+Date:   Sat May 29 12:25:03 2021 -0700
+
+    removed local dependency on socket.io.js, using cloudflare now
+
+commit a4c3e15380672583fb272a942bed268e632ef466
+Author: Gurmehar Singh <gurmehar@gmail.com>
+Date:   Sat May 29 11:59:52 2021 -0700
+
+    Added a functional fog of war
+
+commit 0ccbb16bf046c9fa8825139d762d52b7766ed7fc
+Author: Gurmehar Singh <gurmehar@gmail.com>
+Date:   Sat May 29 11:51:00 2021 -0700
+
+    fixed minor bug where loaded cities wouldn't remove adjacent tile borders when expanding
+
+commit 6a595b9909813006b9193fbe379ba1d2188d7dc6
+Author: Gurmehar Singh <gurmehar@gmail.com>
+Date:   Sat May 29 10:47:09 2021 -0700
+
+    updated README
+
+commit 920153fa398df3b32219958e005352c9d0596340
+Author: Gurmehar Singh <gurmehar@gmail.com>
+Date:   Sat May 29 01:06:05 2021 -0700
+
+    removed sqlite dependency... shouldve removed this a while ago
+
+commit 0b4e61e52e90944ac569ff6cea15d7bbe3549e43
+Author: Gurmehar Singh <gurmehar@gmail.com>
+Date:   Sat May 29 01:04:54 2021 -0700
+
+    added a wiki, going to keep working on it
+
+commit 3ba201cbd61a917a4aa1907f763f2d5af689bb05
+Author: Gurmehar Singh <gurmehar@gmail.com>
+Date:   Fri May 28 09:23:18 2021 -0700
+
+    fixed a critical bug that nearly botched the entire game's loading of saved games, whew
+
+commit 01da4243a97b8bdd4fc88b8190b150f0f0063cad
+Author: Gurmehar Singh <gurmehar@gmail.com>
+Date:   Fri May 28 09:02:09 2021 -0700
+
+    loading saved games is even faster now and is no longer reliant on any XHR's, except of course ones that run in the background to load textures and all.
+
+commit 71c8a071683f5ba89430037941981a766fd68333
+Author: Gurmehar Singh <gurmehar@gmail.com>
+Date:   Thu May 27 20:32:28 2021 -0700
+
+    loading from browser save should be faster now.
+
+commit c0f7df97ac8ac58c0932cd662cbe51300c4d547d
+Author: Gurmehar Singh <gurmehar@gmail.com>
+Date:   Thu May 27 17:49:11 2021 -0700
+
+    forgot to add seed saving, it should work now
+
+commit 20267188d3716f523b3ac937320088d797a5f664
+Author: Gurmehar Singh <gurmehar@gmail.com>
+Date:   Thu May 27 15:36:33 2021 -0700
+
+    games can now be saved. I still need to iron out things related to storage space, since that might very well run out on some browsers, but that's for later...
+
+commit 1b29156605415d7d76d493b9c334366b45cfa1e3
+Author: Gurmehar Singh <gurmehar@gmail.com>
+Date:   Wed May 26 16:30:41 2021 -0700
+
+    server update, tracking the multiplayer pages now
+
+commit c328e30fdc4b3155c11c722b3c98a639e354972c
+Author: Gurmehar Singh <gurmehar@gmail.com>
+Date:   Wed May 26 16:05:22 2021 -0700
+
+    I'm working through the singleplayer save update right now, but I thought I'd just push everything I have so far out there, since I'm about to open source this whole repository. More coming soon
+
+commit d53ba256e99b974f68817b8780176afbb28865b7
+Author: Gurmehar Singh <gurmehar@gmail.com>
+Date:   Sat May 22 00:13:31 2021 -0700
+
+    minor changes
+
+commit e8db72c691fe5acffc35779c96b01c650d04a134
+Author: Gurmehar Singh <gurmehar@gmail.com>
+Date:   Fri May 21 23:59:59 2021 -0700
+
+    some updates to make gameplay easier. also, removed the visibility of food redirection - seems like it isn't a very interesting mechanic for people
+
+commit 7be2a79985e408ce4e9212fac0c03cebca74026d
+Author: Gurmehar Singh <gurmehar@gmail.com>
+Date:   Fri May 21 23:12:03 2021 -0700
+
+    added some text to the unit info panel
+
+commit e64372824fe8b9f3d657df875bba140d75dc51a4
+Author: Gurmehar Singh <gurmehar@gmail.com>
+Date:   Wed May 19 14:12:41 2021 -0700
+
+    added README
+
+commit 99821e43e5bd7b0bcd57ba53af9b8c082d95f975
+Author: Gurmehar Singh <gurmehar@gmail.com>
+Date:   Wed May 19 14:05:16 2021 -0700
+
+    removed admin console, going to find a more secure solution later
+
+commit a56bd7ea89cb982314ffba80b1c176b22451fbdb
+Author: Gurmehar Singh <gurmehar@gmail.com>
+Date:   Wed May 19 14:04:02 2021 -0700
+
+    copyright notice update, added new models for people textures
+
+commit 79d42647faa0faca860d9626201949f41abb0584
+Author: Gurmehar Singh <gurmehar@gmail.com>
+Date:   Fri Apr 30 23:40:44 2021 -0700
+
+    texture update
+
+commit d3219a0944a17f276490dbaff34ac947b3e5dca3
+Author: Gurmehar Singh <gurmehar@gmail.com>
+Date:   Thu Apr 29 14:46:32 2021 -0700
+
+    updated navbar font
+
+commit ef3c8ef4b686cf6736afee909c9f6b415a28abd0
+Author: Gurmehar Singh <gurmehar@gmail.com>
+Date:   Thu Apr 29 13:24:07 2021 -0700
+
+    added new video
+
+commit 1186625d005091533d8c8089734a44ee78086229
+Author: Gurmehar Singh <gurmehar@gmail.com>
+Date:   Thu Apr 29 12:31:33 2021 -0700
+
+    added basic videos page - upgrades to come. updated hoverinfo for game to make it easier to read, autofocused city name input
+
+commit dff1f3cdf93697db9cb1e62eb9d1e16a9c26a416
+Author: Gurmehar Singh <gurmehar@gmail.com>
+Date:   Thu Apr 29 11:04:24 2021 -0700
+
+    fixed logging error
+
+commit 4fba86de49ae71889444014285eb21bf5c3e40ad
+Author: Gurmehar Singh <gurmehar@gmail.com>
+Date:   Thu Apr 29 10:27:37 2021 -0700
+
+    removed some security code
+
+commit 487af2682e3af9aeb2e50d909596134ddf7967ec
+Author: Gurmehar Singh <gurmehar@gmail.com>
+Date:   Thu Apr 29 10:26:10 2021 -0700
+
+    updated socket blacklisting
+
+commit 439a49896b7d8183e18dfd826a240094bc9bad29
+Author: Gurmehar Singh <gurmehar@gmail.com>
+Date:   Thu Apr 29 09:25:42 2021 -0700
+
+    updated tracking code
+
+commit 661b09a042a7f4f826036ab6a1e0bd886fe86b5e
+Author: Gurmehar Singh <gurmehar@gmail.com>
+Date:   Thu Apr 29 09:25:02 2021 -0700
+
+    updated tracking code
+
+commit 01c12d628a3d8bfbdd51277ec6109f440c7d2f69
+Author: Gurmehar Singh <gurmehar@gmail.com>
+Date:   Thu Apr 29 09:11:37 2021 -0700
+
+    updated server backend
+
+commit fc43734fd76b335b4b893421b8f44194c5440a43
+Author: Gurmehar Singh <gurmehar@gmail.com>
+Date:   Thu Apr 29 08:52:37 2021 -0700
+
+    updated server backend
+
+commit fce312e8335d49b0f676054896895307c282d752
+Author: Gurmehar Singh <gurmehar@gmail.com>
+Date:   Wed Apr 28 15:43:20 2021 -0700
+
+    minor logging update
+
+commit f01ad0c67196ab320052bd6f353a822dbccdc7fa
+Author: Gurmehar Singh <gurmehar@gmail.com>
+Date:   Wed Apr 28 10:50:59 2021 -0700
+
+    more updates to logging and blacklisting
+
+commit ff5a4a51ab70c82c29cfe69057da66321743a9c6
+Author: Gurmehar Singh <gurmehar@gmail.com>
+Date:   Wed Apr 28 10:47:46 2021 -0700
+
+    more server backend updates
+
+commit f56dfcba2a1136a6551e62cab2d97d61abc406df
+Author: Gurmehar Singh <gurmehar@gmail.com>
+Date:   Wed Apr 28 10:45:47 2021 -0700
+
+    added blacklisting for ip's... looks like some crawlers are messing with my logs
+
+commit 7316d55eccbe0ebf1c180e872741feb1a1503b39
+Author: Gurmehar Singh <gurmehar@gmail.com>
+Date:   Wed Apr 28 10:29:37 2021 -0700
+
+    updated server backend, cleaned up logging
+
+commit b1da634bb4a45d44ad5cd526984b79a8c7fb7099
+Author: Gurmehar Singh <gurmehar@gmail.com>
+Date:   Tue Apr 27 17:33:19 2021 -0700
+
+    reduced some texture complexity
+
+commit 8086cea70e1eedf5b0963dfd4789212b47d6c54d
+Author: Gurmehar Singh <gurmehar@gmail.com>
+Date:   Tue Apr 27 15:03:26 2021 -0700
+
+    updated alerts
+
+commit e4ac004410229d05d886e6f565cf5ae1df111a44
+Author: Gurmehar Singh <gurmehar@gmail.com>
+Date:   Tue Apr 27 11:14:42 2021 -0700
+
+    UI update, triggers alert so people sorta know what to do. more UI stuff coming soon
+
+commit ae5937f4dc553f422f052c8a0a32c6b56f7e4a4e
+Author: Gurmehar Singh <gurmehar@gmail.com>
+Date:   Tue Apr 27 08:37:52 2021 -0700
+
+    added an alert that helps people start the game
+
+commit 63538f52825460f031fbf13d91b10b7d23530d57
+Author: Gurmehar Singh <gurmehar@gmail.com>
+Date:   Mon Apr 26 23:56:07 2021 -0700
+
+    removed some old backend functionality
+
+commit d712e0080f349d902142e6f5db76c57d4c83944f
+Author: Gurmehar Singh <gurmehar@gmail.com>
+Date:   Mon Apr 26 19:11:12 2021 -0700
+
+    UI updates
+
+commit 810ce824ef2ff4454f506eac7e1336faecfe6f72
+Author: Gurmehar Singh <gurmehar@gmail.com>
+Date:   Mon Apr 26 16:14:48 2021 -0700
+
+    another easter egg
+
+commit 68e5cbc1c39a3cd5471ddf813ad4d33eeda37b79
+Author: EC2 Default User <gurmehar@gmail.com>
+Date:   Mon Apr 26 22:45:06 2021 +0000
+
+    added a nice easter egg
+
+commit 4e2d1331685acb2a48f5986789c40683a687028e
+Author: Gurmehar Singh <gurmehar@gmail.com>
+Date:   Mon Apr 26 15:04:54 2021 -0700
+
+    performance updates
+
+commit f8e032c53f87b34b5e716a3718f855113f74e6f3
+Author: Gurmehar Singh <gurmehar@gmail.com>
+Date:   Sun Apr 25 19:40:37 2021 -0700
+
+    added the scout unit
+
+commit b164cfe3cd916fa711efd7f7993c50aeb6d34d90
+Author: Gurmehar Singh <gurmehar@gmail.com>
+Date:   Sun Apr 25 18:45:15 2021 -0700
+
+    made rooms 9 and 10 3 players
+
+commit fba639d345cc3e5582f890c86ad54dad45540c63
+Author: Gurmehar Singh <gurmehar@gmail.com>
+Date:   Sun Apr 25 10:08:17 2021 -0700
+
+    changed game soundtrack order / song picks
+
+commit a4b61eef3e35891a7d1912a29922f16d168ef305
+Author: Gurmehar Singh <gurmehar@gmail.com>
+Date:   Sat Apr 24 22:26:13 2021 -0700
+
+    added minimap, removed the elevation limit for unit movement
+
+commit 2cacba8aafa3ca428784b8e55b896050e115fa03
+Author: Gurmehar Singh <gurmehar@gmail.com>
+Date:   Sat Apr 24 19:03:53 2021 -0700
+
+    added basic minimap
+
+commit 33817ef614ff8bb8a437d03b95e3226417d52d1c
+Author: Gurmehar Singh <gurmehar@gmail.com>
+Date:   Sat Apr 24 14:52:35 2021 -0700
+
+    new song - Track 8, Astra
+
+commit 5a094fccf6d5279d53d22b24f926e5a6d75e589c
+Author: Gurmehar Singh <gurmehar@gmail.com>
+Date:   Sat Apr 24 08:58:44 2021 -0700
+
+    boat rotates when moved
+
+commit b76fc40d0c25008981663e57eecbb7855ef37f13
+Author: Gurmehar Singh <gurmehar@gmail.com>
+Date:   Sat Apr 24 00:40:48 2021 -0700
+
+    changed google analytics tag adding, it wont track hits to my development server now
+
+commit 137273481a73945952f683ddaa45714eccac7610
+Author: Gurmehar Singh <gurmehar@gmail.com>
+Date:   Sat Apr 24 00:34:18 2021 -0700
+
+    made soundtrack auto-play and toggleable
+
+commit 08dd87d7da3f5bab12c230aa5129387ae8676cde
+Author: Gurmehar Singh <gurmehar@gmail.com>
+Date:   Fri Apr 23 21:26:08 2021 -0700
+
+    removed tutorial (kinda) and added in these little question mark boxes to let people know what individual buttons do. i think that's a bit better. also, revamped the food redirection mechanic so you can click on tiles without that clunky, icky 2-D view.
+
+commit d7eb94b498c0dc744333d6f3fb5212d93c8af0fd
+Author: Gurmehar Singh <gurmehar@gmail.com>
+Date:   Fri Apr 23 11:06:12 2021 -0700
+
+    google analytics update
+
+commit ed17ff95bbcd3e3369bb3972464d29f8ef8274ea
+Author: Gurmehar Singh <gurmehar@gmail.com>
+Date:   Fri Apr 23 10:46:11 2021 -0700
+
+    google analytics tag + code refactor to get ready for saving game in browser
+
+commit 133f260fdabc7fd647ee4d8ce5f138e6e0a36c53
+Author: Gurmehar Singh <gurmehar@gmail.com>
+Date:   Thu Apr 22 20:58:44 2021 -0700
+
+    i tried to unbreak the multiplayer but in the process of doing so, broke the singleplayer. ive unbroken the singleplayer, and i hope i havent broken the multiplayer again
+
+commit 526c1b525c26a9af1af5b1f311d8847bec8c6a33
+Author: Gurmehar Singh <gurmehar@gmail.com>
+Date:   Thu Apr 22 20:54:22 2021 -0700
+
+    added catch all for nonexistent urls
+
+commit ee63d847cdcb76a8e437de51b96525310ed5c1c3
+Author: Gurmehar Singh <gurmehar@gmail.com>
+Date:   Thu Apr 22 18:23:21 2021 -0700
+
+    made the text color for players per room on the landing page dynamic and easier to read
+
+commit 62d19dcdf6d4a8ea8cdf4804a31280f332225c15
+Author: Gurmehar Singh <gurmehar@gmail.com>
+Date:   Thu Apr 22 18:09:24 2021 -0700
+
+    fixed bug that influenced gameplay while talking in chat, patched some bugs that messed with turns and multiplayer gameplay. will keep testing.
+
+commit a700a4179c2c05f433cca7bce8831c1fa07277af
+Author: Gurmehar Singh <gurmehar@gmail.com>
+Date:   Thu Apr 22 17:54:07 2021 -0700
+
+    changed landing page text color
+
+commit a0a4a8cd2e5c998d4a0113f81bc6cec10b3e0cea
+Author: Gurmehar Singh <gurmehar@gmail.com>
+Date:   Thu Apr 22 17:02:03 2021 -0700
+
+    fixed a critical bug that crashes multiplayer... hopefully it's smooth now
+
+commit 81fc6b6e3bdd4dec8ef1a1ff9d5db3c13a7f715d
+Author: Gurmehar Singh <gurmehar@gmail.com>
+Date:   Thu Apr 22 16:13:20 2021 -0700
+
+    updated landing page
+
+commit 0a55b101bff30808a39a3237fadf65c6a3abfd96
+Author: Gurmehar Singh <gurmehar@gmail.com>
+Date:   Thu Apr 22 15:19:01 2021 -0700
+
+    updated serverside logs, added favicon
+
+commit 272bdf30ef3d07d4e5bbca07ee01f73817276a5e
+Author: Gurmehar Singh <gurmehar@gmail.com>
+Date:   Thu Apr 22 10:28:24 2021 -0700
+
+    Added capability to interact live with server console
+
+commit 2022a243afd26f89c5b59af4af0b01f1a1a030cb
+Author: Gurmehar Singh <gurmehar@gmail.com>
+Date:   Wed Apr 21 20:07:37 2021 -0700
+
+    whoops, fixed a server glitch where someone could crash the game really, really easily.
+
+commit 00e3c054b92d749e9a6b66d3c94a2e72d3e23ddf
+Author: Gurmehar Singh <gurmehar@gmail.com>
+Date:   Wed Apr 21 20:03:29 2021 -0700
+
+    massive terrain generation changes. forests are less frequent, water bodies vary in size, and mountains generate ranges more often than not. I also made moving-mode toggleable, so that you dont have to hit 'g' every time you want to move a unit
+
+commit 4f3af9c7edb5c48016e1571485fc8d7279653cdd
+Author: Gurmehar Singh <gurmehar@gmail.com>
+Date:   Wed Apr 21 11:54:37 2021 -0700
+
+    changed the font size on the front page a bit
+
+commit cc67e410d2ac040846ffe892d7efff60b4219d29
+Author: Gurmehar Singh <gurmehar@gmail.com>
+Date:   Wed Apr 21 11:44:46 2021 -0700
+
+    added a map image visualizer to the website
+
+commit b7e5e28b75b41d5ad34ab451155ad283e22d62cc
+Author: Gurmehar Singh <gurmehar@gmail.com>
+Date:   Wed Apr 21 09:42:58 2021 -0700
+
+    made the generator write image files to two separate folders, so the server can access them
+
+commit 7dc01a22b8603126079af70d66a7c3ef94d26cdd
+Author: Gurmehar Singh <gurmehar@gmail.com>
+Date:   Wed Apr 21 00:02:18 2021 -0700
+
+    added image generation back
+
+commit 86d66959967dd509276ee4125e1df784b0616f34
+Author: Gurmehar Singh <gurmehar@gmail.com>
+Date:   Tue Apr 20 23:59:28 2021 -0700
+
+    some more gen file testing
+
+commit 013995b13b7ab469c8e500e66b41400c7f9f7520
+Author: Gurmehar Singh <gurmehar@gmail.com>
+Date:   Tue Apr 20 23:50:55 2021 -0700
+
+    moving gen file to server
+
+commit 91c8b899be41484c5ba2ff05a6da98a26116baaf
+Author: EC2 Default User <gurmehar@gmail.com>
+Date:   Wed Apr 21 06:48:46 2021 +0000
+
+    the generator is acting up serverside - going to do some debugging.
+
+commit bcb6d56cd4f8bf6c676cff464dfbbc24ad1e7f15
+Author: Gurmehar Singh <gurmehar@gmail.com>
+Date:   Tue Apr 20 23:34:52 2021 -0700
+
+    removed some dependencies that were messing up my code server-side
+
+commit a74b29a84fed6be7422089b0d7b0d8c5581b4f47
+Author: Gurmehar Singh <gurmehar@gmail.com>
+Date:   Tue Apr 20 23:29:20 2021 -0700
+
+    aaaand, as usual, I've forgotten to remove some code that I had only for testing purposes. fixed now
+
+commit 76cbf45c97803b380985c42b876edf97791f7200
+Author: Gurmehar Singh <gurmehar@gmail.com>
+Date:   Tue Apr 20 23:28:09 2021 -0700
+
+    added deserts! took me a while to nail down what seemed to me like a good generation style, but I think I have it. I also figured out that I've been switching x and y coordinates for structure generation this entire time, so, uh... yeah, I fixed that - I mean, it didn't really make much of a difference, but it does explain why there were one-off water or forest tiles hanging around. I only noticed when I started generating deserts in a particular way... but that's a long story. anyhow, that's that.
+
+commit 7e25323e6d5b51e307571b10a81cbb4620d318ef
+Author: Gurmehar Singh <gurmehar@gmail.com>
+Date:   Mon Apr 19 21:48:26 2021 -0700
+
+    made generation a bit faster, going to add deserts to the game pretty soon
+
+commit 8306d8eb26ecdc0e05eae07646e1abbbc2c75357
+Author: Gurmehar Singh <gurmehar@gmail.com>
+Date:   Sun Apr 18 22:49:46 2021 -0700
+
+    added some time delay between disconnects and when users are authorized to enter a room - this should help 'room resets' go more smoothly and greatly decrease the chance of an error / server crash
+
+commit acbf2921bfa3478ca98737d83ed7db2dc76957ce
+Author: Gurmehar Singh <gurmehar@gmail.com>
+Date:   Sun Apr 18 22:44:42 2021 -0700
+
+    fixing some header referer issues with the serverside script
+
+commit eee9243c6d27d2189c52d0de787199199367b414
+Author: Gurmehar Singh <gurmehar@gmail.com>
+Date:   Sun Apr 18 22:38:29 2021 -0700
+
+    alright... new multiplayer interface seems to be kinda done. i've added in a game chat as well, so that's kinda cool. i'll keep testing the multiplayer for glitches and all, though
+
+commit 97a19dee1cbf8d6fbcdee24c3b9d2eabae1cbfb0
+Author: Gurmehar Singh <gurmehar@gmail.com>
+Date:   Sun Apr 18 00:17:21 2021 -0700
+
+    alright... did some major refactoring of the multiplayer backend, and I think things are going to run a whole lot better now. will test more in the coming days.
+
+commit e58f5ed18099e356e31320dcee6869656ba9e48c
+Author: Gurmehar Singh <gurmehar@gmail.com>
+Date:   Thu Apr 15 13:49:41 2021 -0700
+
+    argh, forgot to remove some testing lines. fixed.
+
+commit e350a4a42d69311eb09d026cebc1658efc261153
+Author: Gurmehar Singh <gurmehar@gmail.com>
+Date:   Thu Apr 15 13:48:51 2021 -0700
+
+    fixed music holder issues - added scroll and made the title 'sticky'
+
+commit 19be4a4e32a2e1e54760e79e5c10122faad7a0a8
+Author: Gurmehar Singh <gurmehar@gmail.com>
+Date:   Thu Apr 15 13:46:18 2021 -0700
+
+    whoops, fixed a minor glitch where the new song wouldnt load.
+
+commit a6dd81852223c4b6630ef2c6bffba8b8cfda9a10
+Author: Gurmehar Singh <gurmehar@gmail.com>
+Date:   Thu Apr 15 13:44:24 2021 -0700
+
+    updated soundtrack page to account for audio not loading in sync with page
+
+commit c393c5b3b26f60e892841d178f5a69ce1cc9bcf8
+Author: Gurmehar Singh <gurmehar@gmail.com>
+Date:   Thu Apr 15 13:41:46 2021 -0700
+
+    added Track 6 - Sly. remastered existing songs to sound better.
+
+commit 6425b0f886a885ac4f80659f4ba5d8f891c991f8
+Author: Gurmehar Singh <gurmehar@gmail.com>
+Date:   Wed Apr 14 23:08:52 2021 -0700
+
+    added song durations to the soundtrack page
+
+commit 0dd166e412451d46780e722579c6468d9407f670
+Author: Gurmehar Singh <gurmehar@gmail.com>
+Date:   Wed Apr 14 22:56:44 2021 -0700
+
+    added loop button to audio interface
+
+commit 5a0160de4832571b55c63995e4f9dc1746e3aab4
+Author: Gurmehar Singh <gurmehar@gmail.com>
+Date:   Wed Apr 14 22:42:45 2021 -0700
+
+    added Track 5 - Gens Grandis. added a soundtrack page, and i'm going to start remastering existing songs with different software.
+
+commit e0f24d0767bb469817a48c0c17f704a7d64cdc19
+Author: Gurmehar Singh <gurmehar@gmail.com>
+Date:   Tue Apr 13 16:48:57 2021 -0700
+
+    modified the tile level interface to be a bit better
+
+commit c774dc42751fb9bec9d9a70a34d181a580f29209
+Author: Gurmehar Singh <gurmehar@gmail.com>
+Date:   Mon Apr 12 18:21:09 2021 -0700
+
+    rendering/performance update. updated models to make them a bit more efficient for rendering. changed up the lighting a tad to make that more efficient, and also refactored code so that I can reuse geometries and meshes.
+
+commit 02b7aa677960106e4864196c3f9dd3b02123a077
+Author: Gurmehar Singh <gurmehar@gmail.com>
+Date:   Mon Apr 12 10:32:23 2021 -0700
+
+    changed mountain height generation
+
+commit b5ecac530a12fa0ca2d58fdf0fb3f99d652589df
+Author: Gurmehar Singh <gurmehar@gmail.com>
+Date:   Sun Apr 11 23:47:10 2021 -0700
+
+    frontend updates - added a note that multiplayer is in dev, and changed the changelog page theme... the orange color on the date was bugging me.
+
+commit 6cf7a3ccf485e7734f77c8a6b5308c9d08f45460
+Author: Gurmehar Singh <gurmehar@gmail.com>
+Date:   Sun Apr 11 23:41:27 2021 -0700
+
+    phew, this was one hectic update. I added buildings and such to multiplayer, so now you can see what buildings other players have on their tiles (after having explored their cities). I revamped city borders - they're added onto the city textures directly now, rather than being added to the tiles, so this helps facilitate cities being actually hidden until explored (previously the borders would show). going to do some more testing, but it seems stable for now.
+
+commit 6b8a91d37b2e9c51bb5d0db2715f34f86d1b6819
+Author: Gurmehar Singh <gurmehar@gmail.com>
+Date:   Sun Apr 11 14:45:11 2021 -0700
+
+    updated the UI. added resize-friendliness so that most monitor/computer sizes can handle the game. also updated some element positioning to optimize the look of things. lastly, added farm food info when tile is selected.
+
+commit 4f61055e95b2c768553b2504da73172790a4ff14
+Author: Gurmehar Singh <gurmehar@gmail.com>
+Date:   Sat Apr 10 23:25:52 2021 -0700
+
+    updated changelog page 'animation'
+
+commit 154dff21e4529c91014e10b1bacc03418f2f81bc
+Author: Gurmehar Singh <gurmehar@gmail.com>
+Date:   Sat Apr 10 23:17:22 2021 -0700
+
+    added track 4 - Exploring
+
+commit d6d4649de42bb4a65a6438d25e82cb68a142e67d
+Author: Gurmehar Singh <gurmehar@gmail.com>
+Date:   Sat Apr 10 17:05:47 2021 -0700
+
+    whoops, forgot to add the server script in my previous commit
+
+commit ec575148c84250e39803a3a028bf6c9a15ce341f
+Author: Gurmehar Singh <gurmehar@gmail.com>
+Date:   Sat Apr 10 17:03:57 2021 -0700
+
+    massive frontend update, added About, Dev, and Changelog pages. decided to add some kinda cool animations to some of the page titles, lol
+
+commit dc10c9c0b30f1a791f8326f5c7a8bebe2b246803
+Author: Gurmehar Singh <gurmehar@gmail.com>
+Date:   Thu Apr 8 09:43:49 2021 -0700
+
+    updated people unit texture
+
+commit 9445bc4f796e660706785cdff5fdb467779550be
+Author: Gurmehar Singh <gurmehar@gmail.com>
+Date:   Tue Mar 30 11:10:04 2021 -0700
+
+    well... i've sorta finished the tile-level interface update. i still need to update stuff for multiplayer and all, but, ill probably be taking a break from development for a while, at least heavy development, so im pushing this out.
+
+commit 5ead61686245086327831f69e027f06c97d42263
+Author: Gurmehar Singh <gurmehar@gmail.com>
+Date:   Fri Mar 26 22:20:46 2021 -0700
+
+    kinda in the middle of a massive update, but, functionally, the tile-level interface works. massive car drive tomorrow and i don't have my laptop (thank you, batteries, for outgassing), and I'm working off of a Mac Mini. So, I'm pushing in the hopes I can use my dad's laptop to continue development. might get in one more commit tonight, who knows
+
+commit e44fa03ca5bba74c1a643d64ffb84e0bb56f875a
+Author: Gurmehar Singh <gurmehar@gmail.com>
+Date:   Thu Mar 18 13:59:39 2021 -0700
+
+    new song
+
+commit 61b1b72e2f30213293936006d14fc48451000195
+Author: Gurmehar Singh <gurmehar@gmail.com>
+Date:   Wed Mar 17 22:02:06 2021 -0700
+
+    code 'distribution'
+
+commit abbece945d3a5e4d1f3f8217fe29aea9f524b4d5
+Author: Gurmehar Singh <gurmehar@gmail.com>
+Date:   Wed Mar 17 10:01:39 2021 -0700
+
+    one minor change, not sure if this will fix the 'wrong-turn' bug
+
+commit e640d788a59781992fad4e16c551b5a8332537dd
+Author: Gurmehar Singh <gurmehar@gmail.com>
+Date:   Tue Mar 16 23:52:17 2021 -0700
+
+    bug fix for the inter-city trading menu
+
+commit 5b62e32796eaacafce32fee29bee20fd3b19e31c
+Author: Gurmehar Singh <gurmehar@gmail.com>
+Date:   Tue Mar 16 23:01:06 2021 -0700
+
+    added in food trading to city centers, and added legions. multiplayer should get interesting now :)
+
+commit 6a6679401cb27ac31037c91f8ac2d50f4b09046d
+Author: Gurmehar Singh <gurmehar@gmail.com>
+Date:   Sun Mar 14 21:58:21 2021 -0700
+
+    google site verification
+
+commit 321d6a19ff53d9cd56bbb339d1fb14728642cb1d
+Author: Gurmehar Singh <gurmehar@gmail.com>
+Date:   Sun Mar 14 21:56:56 2021 -0700
+
+    google site verification
+
+commit 7fc1bc058027c99eb7908a813f004b1ce0eb16a9
+Author: Gurmehar Singh <gurmehar@gmail.com>
+Date:   Sun Mar 14 21:43:48 2021 -0700
+
+    added robots.txt
+
+commit ae6a3c1447c69d4553f03564145edb19f67a82fc
+Author: Gurmehar Singh <gurmehar@gmail.com>
+Date:   Sun Mar 14 21:15:54 2021 -0700
+
+    camera movement update
+
+commit 1ab7dce85e179e81e9878134f2067458228e092d
+Author: Gurmehar Singh <gurmehar@gmail.com>
+Date:   Sun Mar 14 12:55:51 2021 -0700
+
+    restructured js
+
+commit e909196d2bd597d0a30fb154f3966d3a3d7c2727
+Author: Gurmehar Singh <gurmehar@gmail.com>
+Date:   Sun Mar 14 12:44:04 2021 -0700
+
+    more audio interface updates
+
+commit bec5be7d29885040b5b56ba97fa761aabe5e5978
+Author: Gurmehar Singh <gurmehar@gmail.com>
+Date:   Sun Mar 14 12:27:45 2021 -0700
+
+    updated soundtrack interface
+
+commit ac55938ae1ed157ebeda575d3b780f4a39ff4f5b
+Author: Gurmehar Singh <gurmehar@gmail.com>
+Date:   Wed Mar 10 09:14:10 2021 -0800
+
+    updated audio display innards, updated people unit
+
+commit 12af4af07b506b0825c859bbde208ad18da26c67
+Author: Gurmehar Singh <gurmehar@gmail.com>
+Date:   Tue Mar 9 23:29:49 2021 -0800
+
+    new song, updated audio interface
+
+commit 2bfa5ce8c5aa10d3aec8ceca82a45c0fa3ca1744
+Author: Gurmehar Singh <gurmehar@gmail.com>
+Date:   Tue Mar 9 20:48:54 2021 -0800
+
+    removed console logging
+
+commit ab3c46db1bfb691f75acbda5a2cfe465afd02bed
+Author: Gurmehar Singh <gurmehar@gmail.com>
+Date:   Tue Mar 9 18:14:49 2021 -0800
+
+    fixed tutorial container boxes
+
+commit be588c398bb182d4d24ee72cd98b41f716b985b3
+Author: Gurmehar Singh <gurmehar@gmail.com>
+Date:   Tue Mar 9 16:26:46 2021 -0800
+
+    added soundtrack
+
+commit 9ce6db1b0cb06fbb4f2cd803ac5340704af20030
+Author: Gurmehar Singh <gurmehar@gmail.com>
+Date:   Mon Mar 8 23:24:01 2021 -0800
+
+    fixed active tiles / unit display glitch on the frontend
+
+commit db21e626d565c13d79f866ea33b3d9885fbb107e
+Author: Gurmehar Singh <gurmehar@gmail.com>
+Date:   Mon Mar 8 22:59:44 2021 -0800
+
+    added resources and models
+
+commit 4738d0ab588b59f22632e0e71e8e0363e233c3aa
+Author: Gurmehar Singh <gurmehar@gmail.com>
+Date:   Mon Mar 8 22:55:50 2021 -0800
+
+    updated server backend, more error handling
+
+commit 9c49a61bbe797013ef55e025c281bb973cd716ef
+Author: Gurmehar Singh <gurmehar@gmail.com>
+Date:   Mon Mar 8 22:35:02 2021 -0800
+
+    added naval units, fixed one minor bug with server architecture
+
+commit 87fc0ee7b506d3ddbf47301bf738c2848202fb80
+Author: Gurmehar Singh <gurmehar@gmail.com>
+Date:   Sun Mar 7 22:47:46 2021 -0800
+
+    updated seed picking
+
+commit 440a87acceb64ecbaf2b88bf1be66c2e89c9e3da
+Author: Gurmehar Singh <gurmehar@gmail.com>
+Date:   Sun Mar 7 22:46:24 2021 -0800
+
+    added seed picking in gen
+
+commit c27dd288e0606955170f1c00fa39d939e6170ba5
+Author: Gurmehar Singh <gurmehar@gmail.com>
+Date:   Sun Mar 7 22:24:38 2021 -0800
+
+    model updates
+
+commit 584df6f717375a97c6621b806a09e17f5d981a9d
+Author: Gurmehar Singh <gurmehar@gmail.com>
+Date:   Sat Mar 6 21:58:55 2021 -0800
+
+    updated backend to account for some more bugs, etc
+
+commit 4612f6241a1a1b4ddc473c0a7a195968ee70efd8
+Author: Gurmehar Singh <gurmehar@gmail.com>
+Date:   Fri Mar 5 21:54:19 2021 -0800
+
+    updated frontpage notice
+
+commit 6f4e5fd60190e2d8f7663dba0f68783c1007fb5e
+Author: Gurmehar Singh <gurmehar@gmail.com>
+Date:   Fri Mar 5 21:35:12 2021 -0800
+
+    update email
+
+commit 8efc0e1b6d7a0b3ede97c0a9dfbca8eec19bf9fc
+Author: Gurmehar Singh <gurmehar@gmail.com>
+Date:   Fri Mar 5 21:17:59 2021 -0800
+
+    patched some more server architecture glitches, added donor page list
+
+commit f0d7bfd121dd10ae99ba4a529005d5c8f277baaa
+Author: Gurmehar Singh <gurmehar@gmail.com>
+Date:   Fri Mar 5 13:26:25 2021 -0800
+
+    minor bug fix
+
+commit fbb3478fccc01f4571f2e99e69eedf7834ced71f
+Author: Gurmehar Singh <gurmehar@gmail.com>
+Date:   Fri Mar 5 12:01:42 2021 -0800
+
+    minor change, hopefully a bug fix
+
+commit 1d5bb838bbd2699f6f7b52b44e3e78bda245b5e6
+Author: Gurmehar Singh <gurmehar@gmail.com>
+Date:   Fri Mar 5 11:18:05 2021 -0800
+
+    added tutorial
+
+commit 7e3ea64f4577e07ab769d361a18017a359cdb4ac
+Author: Gurmehar Singh <gurmehar@gmail.com>
+Date:   Fri Mar 5 00:13:47 2021 -0800
+
+    made spawn locations closer
+
+commit 814300c2dcb2d37136dfd24830457697a4b126b5
+Author: Gurmehar Singh <gurmehar@gmail.com>
+Date:   Fri Mar 5 00:11:15 2021 -0800
+
+    whoops, forgot to add a description of the meaning of I-G
+
+commit 85068bc8b7e673cbdfd713b9c86d636d2e861c89
+Author: Gurmehar Singh <gurmehar@gmail.com>
+Date:   Fri Mar 5 00:10:01 2021 -0800
+
+    multiplayer is all done, server architecture is up
+
+commit 7206187a659fdcad705e1a0edb2e937c8f195c3e
+Author: Gurmehar Singh <gurmehar@gmail.com>
+Date:   Wed Mar 3 23:43:41 2021 -0800
+
+    megaCommit. almost done with multiplayer
+
+commit 3b684bf931c804dbb188a850f4af0e7b7b4b04b4
+Author: Gurmehar Singh <gurmehar@gmail.com>
+Date:   Sun Feb 21 19:24:41 2021 -0800
+
+    more updates
+
+commit 88b2581aa0ba677d16c9207f195ef2f606821c5d
+Author: Gurmehar Singh <gurmehar@gmail.com>
+Date:   Sat Feb 20 13:39:28 2021 -0800
+
+    some more chat updates
+
+commit cced6a56b11f036824ecdeccf31779540a005166
+Author: Gurmehar Singh <gurmehar@gmail.com>
+Date:   Fri Feb 19 23:29:40 2021 -0800
+
+    dumb if condition mistake that I made
+
+commit 66df83b841e2929099e34d1612960f1723f61558
+Author: Gurmehar Singh <gurmehar@gmail.com>
+Date:   Fri Feb 19 23:20:44 2021 -0800
+
+    more chat debugging
+
+commit f9ee52cee408f9845f1f9d01f385d756c469ae03
+Author: Gurmehar Singh <gurmehar@gmail.com>
+Date:   Fri Feb 19 23:16:02 2021 -0800
+
+    finished up the chat interface
+
+commit 1de6c9cba29ecd58bbfc3e7ec9dead1a7d762e59
+Author: Gurmehar Singh <gurmehar@gmail.com>
+Date:   Fri Feb 19 19:46:10 2021 -0800
+
+    some temp stuff
+
+commit 8acecc76d277a9c87797b59064f3aaa44df8bf40
+Author: Gurmehar Singh <gurmehar@gmail.com>
+Date:   Fri Feb 19 19:39:50 2021 -0800
+
+    chat functionality fully done
+
+commit 9aa0a1a32050f2dba8cd0c39b3d0753886488cd6
+Author: Gurmehar Singh <gurmehar@gmail.com>
+Date:   Fri Feb 19 19:15:06 2021 -0800
+
+    updated redirects from home page
+
+commit b1d0d165a351ef88e13a9467734404ef18070c32
+Author: Gurmehar Singh <gurmehar@gmail.com>
+Date:   Fri Feb 19 19:07:04 2021 -0800
+
+    just pushing so that I can get the non-access code version out, in the middle of the multiplayer overhaul
+
+commit d47c3e6f66e9b390b1113bf0c2ce18cc3533f5b6
+Author: Gurmehar Singh <gurmehar@gmail.com>
+Date:   Wed Feb 17 17:50:24 2021 -0800
+
+    logging update
+
+commit dcddd1e69319ea847d6b765e9338bba6bf0d32f2
+Merge: 8584481 46ac747
+Author: Gurmehar Singh <gurmehar@gmail.com>
+Date:   Wed Feb 17 17:44:41 2021 -0800
+
+    Merge branch 'master' of https://github.com/gsingh-0-0-1/gensgrandis
+
+commit 8584481ba368ae28b8e09593423ac90d84f91d56
+Author: Gurmehar Singh <gurmehar@gmail.com>
+Date:   Wed Feb 17 17:44:11 2021 -0800
+
+    updated access codes
+
+commit 46ac7470f57969980bd9d53824e7299bf4b5f443
+Author: EC2 Default User <ec2-user@ip-172-31-49-6.ec2.internal>
+Date:   Wed Feb 17 19:12:19 2021 +0000
+
+    decreased loading time
+
+commit 7a7bc37bf2440932fc6a94054ff0167015c8d7e5
+Author: EC2 Default User <ec2-user@ip-172-31-49-6.ec2.internal>
+Date:   Wed Feb 17 18:06:01 2021 +0000
+
+    some maintenance updates
+
+commit deb8f226c6e6b32f88ac9a11998d95e84bd9efea
+Author: Gurmehar Singh <gurmehar@gmail.com>
+Date:   Wed Feb 17 09:30:17 2021 -0800
+
+    dumb str to int conversion error
+
+commit f8a4eb3f07bcea581d43ee97daceb83d88ed3a77
+Author: Gurmehar Singh <gurmehar@gmail.com>
+Date:   Wed Feb 17 09:22:49 2021 -0800
+
+    second part of security update, forgot to commit
+
+commit 621efaa9417b7c02b6e1531b07a8a7e8df8b1855
+Author: Gurmehar Singh <gurmehar@gmail.com>
+Date:   Wed Feb 17 09:21:58 2021 -0800
+
+    security update.
+
+commit 9f1cd5204c3f1571d836f63f5d9e11df4fb15cd9
+Author: Gurmehar Singh <gurmehar@gmail.com>
+Date:   Mon Feb 15 17:05:43 2021 -0800
+
+    I think this is a solid first alpha version. Food redirection works now! :)
+
+commit 710cc0fd814d64b285fa1433288db9593f70849b
+Author: Gurmehar Singh <gurmehar@gmail.com>
+Date:   Wed Feb 10 10:39:00 2021 -0800
+
+    added modules
+
+commit 34b3d5c15640d9a86114398659313992a0b45765
+Author: Gurmehar Singh <gurmehar@gmail.com>
+Date:   Wed Feb 10 10:37:55 2021 -0800
+
+    initial commit with main files:
