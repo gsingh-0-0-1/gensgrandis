@@ -4,6 +4,6 @@
     "socket.io": "^4.4.0"
   },
   "scripts": {
-    "start": "rm -rf ./*; git init; git clone https://github.com/gsingh-0-0-1/gensgrandis .; git log > gitlog.txt; node node.js 0.0.0.0"
+    "start": "node node.js 0.0.0.0"
   }
 }
