@@ -58,18 +58,6 @@ function addPeople(x, y, owner = 'self'){
 
 function drawPeople(x, y, id, vis = true){
 
-	var col = new THREE.Color(0.4, 0.4, 0.4)//0.6, 0, 0.8)
-
-	//var loader = new THREE.GLTFLoader();
-
-	//loader.load('/resources/people.glb',
-		// called when the resource is loaded
-		//function ( gltf ) {
-
-			//gltf.scene.scale.set( 1, 1, 1 );	
-
-			//gltf.scene.position.set(x, y, ground_z + 1)
-
 	var people = PEOPLE_LOADED_MESH.clone()
 
 	people.scale.set(1, 1, 1)
@@ -112,43 +100,29 @@ function addRiverboat(x, y, owner = 'self'){
 
 function drawRiverboat(x, y, id, vis = true){
 
-	var col = new THREE.Color(0.4, 0.4, 0.4)//0.6, 0, 0.8)
+	var boat = RIVERBOAT_LOADED_MESH.clone()
 
-	var loader = new THREE.GLTFLoader();
-
-	//loader.load('/resources/riverboat.glb',
-		// called when the resource is loaded
-		//function ( gltf ) {
-
-			//gltf.scene.scale.set( 0.07, 0.07, 0.07 );	
-
-			//gltf.scene.position.set(x, y, ground_z + 0.2)
-
-			var boat = RIVERBOAT_LOADED_MESH.clone()
-
-			boat.scale.set(0.07, 0.07, 0.07)
-			boat.position.set(x, y, ground_z + 0.2)
+	boat.scale.set(0.07, 0.07, 0.07)
+	boat.position.set(x, y, ground_z + 0.2)
 
 
-			//var boat = gltf.scene
-			scene.add( boat );
+	//var boat = gltf.scene
+	scene.add( boat );
 
-			var hoffset = getTileAt(x, y).height
+	var hoffset = getTileAt(x, y).height
 
-			boat.position.set(x, y, ground_z + hoffset + unit_z_offsets["RB"])
-			boat.rotation.set(Math.PI / 2, Math.PI / 2, 0)
+	boat.position.set(x, y, ground_z + hoffset + unit_z_offsets["RB"])
+	boat.rotation.set(Math.PI / 2, Math.PI / 2, 0)
 
-			boat.type = "unit"
+	boat.type = "unit"
 
-			boat.visible = vis
-			assignUnitID(boat, id)
+	boat.visible = vis
+	assignUnitID(boat, id)
 
-			unitlist[id].mesh = boat
-			unitlist[id].naval = true
+	unitlist[id].mesh = boat
+	unitlist[id].naval = true
 
-			finalizeUnit(unitlist[id])
-		//}
-	//)
+	finalizeUnit(unitlist[id])
 
 	//get the height of the tile and offset the unit by that
 	if (getTileAt(x, y) == undefined){
@@ -166,42 +140,31 @@ function addLegion(x, y, owner = 'self'){
 
 
 function drawLegion(x, y, id, vis = true){
-	var loader = new THREE.GLTFLoader();
 
-	//loader.load('/resources/legion.glb',
-		// called when the resource is loaded
-		//function ( gltf ) {
+	var legion = LEGION_LOADED_MESH.clone()
 
-			//gltf.scene.scale.set( 1, 1, 1 );	
+	legion.scale.set(1, 1, 1)
 
-			//gltf.scene.position.set(x, y, ground_z + 1)
-
-			var legion = LEGION_LOADED_MESH.clone()
-
-			legion.scale.set(1, 1, 1)
-
-			legion.position.set(x, y, ground_z + 1)
+	legion.position.set(x, y, ground_z + 1)
 
 
-			//var legion = gltf.scene
-			scene.add( legion );
+	//var legion = gltf.scene
+	scene.add( legion );
 
-			var hoffset = getTileAt(x, y).height
+	var hoffset = getTileAt(x, y).height
 
-			legion.position.set(x, y, ground_z + hoffset + unit_z_offsets["L"])
-			legion.rotation.set(Math.PI / 2, Math.PI, 0)
+	legion.position.set(x, y, ground_z + hoffset + unit_z_offsets["L"])
+	legion.rotation.set(Math.PI / 2, Math.PI, 0)
 
-			legion.type = "unit"
+	legion.type = "unit"
 
-			legion.visible = vis
-			assignUnitID(legion, id)
+	legion.visible = vis
+	assignUnitID(legion, id)
 
-			unitlist[id].mesh = legion
-			unitlist[id].naval = false
+	unitlist[id].mesh = legion
+	unitlist[id].naval = false
 
-			finalizeUnit(unitlist[id])
-		//}
-	//)
+	finalizeUnit(unitlist[id])
 
 	//get the height of the tile and offset the unit by that
 	if (getTileAt(x, y) == undefined){
@@ -217,42 +180,31 @@ function addScout(x, y, owner = 'self'){
 }
 
 function drawScout(x, y, id, vis = true){
-	var loader = new THREE.GLTFLoader();
 
-	//loader.load('/resources/legion.glb',
-		// called when the resource is loaded
-		//function ( gltf ) {
+	var scout = SCOUT_LOADED_MESH.clone()
 
-			//gltf.scene.scale.set( 1, 1, 1 );	
+	scout.scale.set(1, 1, 1)
 
-			//gltf.scene.position.set(x, y, ground_z + 1)
-
-			var scout = SCOUT_LOADED_MESH.clone()
-
-			scout.scale.set(1, 1, 1)
-
-			scout.position.set(x, y, ground_z + 1)
+	scout.position.set(x, y, ground_z + 1)
 
 
-			//var legion = gltf.scene
-			scene.add( scout );
+	//var legion = gltf.scene
+	scene.add( scout );
 
-			var hoffset = getTileAt(x, y).height
+	var hoffset = getTileAt(x, y).height
 
-			scout.position.set(x, y, ground_z + hoffset + unit_z_offsets["S"])
-			scout.rotation.set(Math.PI / 2, Math.PI, 0)
+	scout.position.set(x, y, ground_z + hoffset + unit_z_offsets["S"])
+	scout.rotation.set(Math.PI / 2, Math.PI, 0)
 
-			scout.type = "unit"
+	scout.type = "unit"
 
-			scout.visible = vis
-			assignUnitID(scout, id)
+	scout.visible = vis
+	assignUnitID(scout, id)
 
-			unitlist[id].mesh = scout
-			unitlist[id].naval = false
+	unitlist[id].mesh = scout
+	unitlist[id].naval = false
 
-			finalizeUnit(unitlist[id])
-		//}
-	//)
+	finalizeUnit(unitlist[id])
 
 	//get the height of the tile and offset the unit by that
 	if (getTileAt(x, y) == undefined){
@@ -261,3 +213,40 @@ function drawScout(x, y, id, vis = true){
 }
 
 
+//EXPLORER
+function addExplorer(x, y, owner = 'self'){
+	units.push(explorer_template.replace("xhere", x).replace("yhere", y).replace("ohere", owner))
+	drawUnits(units.length - 1)
+}
+
+function drawExplorer(x, y, id, vis = true){
+
+	var exp = EXPLORER_LOADED_MESH.clone()
+
+	exp.scale.set(1, 1, 1)
+
+	exp.position.set(x, y, ground_z + 1)
+
+
+	scene.add( exp );
+
+	var hoffset = getTileAt(x, y).height
+
+	exp.position.set(x, y, ground_z + hoffset + unit_z_offsets["E"])
+	exp.rotation.set(Math.PI / 2, Math.PI, 0)
+
+	exp.type = "unit"
+
+	exp.visible = vis
+	assignUnitID(exp, id)
+
+	unitlist[id].mesh = exp
+	unitlist[id].naval = false
+
+	finalizeUnit(unitlist[id])
+
+	//get the height of the tile and offset the unit by that
+	if (getTileAt(x, y) == undefined){
+		console.log(x, y)
+	}
+}

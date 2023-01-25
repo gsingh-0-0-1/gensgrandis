@@ -73,34 +73,39 @@ var unit_types = ["reg", "mil"]
 var unit_corresponds = {"P" : "People", 
 						"RB" : "Riverboat",
 						"L" : "Legion",
-						"S" : "Scout"
+						"S" : "Scout",
+						"E" : "Explorer"
 					}
 
 var unit_movements = {"P" : 5, 
 						"RB" : 10, 
 						"L" : 1,
-						"S" : 8
+						"S" : 8,
+						"E" : 4
 					}
 
 var unit_commands = {"P" : "B: Build city",
 					"RB" : "",
 					"L" : "",
-					"S" : ""
+					"S" : "",
+					"E" : "O : Outpost"
 				}
 
 var unit_strengths = {"L" : 2,
-						"S" : 0.5
+						"S" : 0.5,
 }
 
 var unit_produce_times = {"RB" : 500,
 							"L" : 250,
-							"S" : 50
+							"S" : 50,
+							"E" : 350
 						}
 
 var unit_z_offsets = {"P" : 0.1,
 					"RB" : 0.2,
 					"L" : 0.1,
-					"S" : 0.1
+					"S" : 0.1,
+					"E" : 0.1
 				}
 
 //unit templates
@@ -108,6 +113,7 @@ var people_template = "P~x:xhere,y:yhere,n:100,m:" + unit_movements["P"] + ",own
 var riverboat_template = "RB~x:xhere,y:yhere,m:" + unit_movements["RB"] + ",owner:ohere"
 var legion_template = "L~x:xhere,y:yhere,m:" + unit_movements["L"] + ",owner:ohere,damage:0"
 var scout_template = "S~x:xhere,y:yhere,m:" + unit_movements["S"] + ",owner:ohere"
+var explorer_template = "E~x:xhere,y:yhere,m:" + unit_movements["E"] + ",owner:ohere"
 
 var moving_unit = false;
 var expanding_city = false;

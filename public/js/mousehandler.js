@@ -92,11 +92,12 @@ function onMouseClick( event ) {
 				}
 				if (tileHasUnit(targetx, targety)){
 					unitCombat(selectedunitid, targetx, targety)
-					break
+					return
 				}
 				if (unitlist[selectedunitid].m == 0){
 					moving_unit = false
 					updateUnitBar(selectedunitid)
+					reColorUnitRings(moving_unit)
 					break
 				}
 				else{
@@ -141,8 +142,13 @@ function onMouseClick( event ) {
 				updateUnitBar(selectedunitid)
 				showUnitSelectRings(selectedunitid)
 
+				//if the unit has no moves left
+				if (unitlist[selectedunitid].m == 0){
+					moving_unit = !moving_unit
+					reColorUnitRings(moving_unit)
+				}
+
 				return
-				break
 			}
 		}
 		//return
