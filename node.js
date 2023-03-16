@@ -13,7 +13,7 @@ const zlib = require("zlib");
 
 const bodyParser = require('body-parser');
 
-
+const https = require('https');
 const http = require('http');
 const app = express();
 
@@ -32,6 +32,15 @@ var log_file = fs.createWriteStream(__dirname + '/log.txt', {flags : 'a'});
 var blacklist_file = fs.createWriteStream(__dirname + '/blacklist.txt', {flags : 'a'});
 
 server.listen(process.env.PORT || port, host);
+
+
+function keepAlive(){
+	https.get("https://gensgrandis.onrender/com", (resp) => {
+	
+	})
+}
+
+setInterval(keepAlive, 5 * 60 * 1000);
 
 const accesscodes = []
 var rooms = []
