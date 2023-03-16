@@ -35,7 +35,7 @@ server.listen(process.env.PORT || port, host);
 
 
 function keepAlive(){
-	https.get("https://gensgrandis.onrender/com", (resp) => {
+	https.get("https://gensgrandis.onrender.com", (resp) => {
 	
 	})
 }
