@@ -989,7 +989,9 @@ function buildCity(id = null, name='', owner='self', x = null, y = null){
 
 	createTileGrid(this_city.center.x, this_city.center.y, true)
 
-	activateTilesAtCenter(this_city.center.x, this_city.center.y)
+	if (owner == 'self') {
+		activateTilesAtCenter(this_city.center.x, this_city.center.y)
+	}
 }
 
 function drawUnits(i, emit = true){
@@ -998,7 +1000,12 @@ function drawUnits(i, emit = true){
 			return
 		}
 		if (emit){
-			socket.emit('unitcreated', units[i])
+			if (multi) {
+				socket.emit('unitcreated', units[i].replaceAll('self', username))
+			}
+			else {
+				socket.emit('unitcreated', units[i])
+			}
 		}
 		var info = units[i].split("~")
 		var unittype = info[0]
@@ -1749,3 +1756,7 @@ socket.on('removebuilding', function(subtile, x, y, id){
 socket.on('server_message', function(msg){
 	alert(msg)
 })
+
+socket.on('remove_unit', function(id) {
+	removeUnit(id)
+}) 

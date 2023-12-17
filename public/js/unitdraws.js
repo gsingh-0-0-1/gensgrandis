@@ -23,6 +23,8 @@ function removeUnit(id){
 
 	unitlist[temp_id] = 'removed'
 
+	socket.emit('removeunit', id)
+
 }
 
 function addOwnerSymbol(id){

@@ -395,17 +395,19 @@ app.get("/*", (req, res, next) => {
 
 app.get('/room/:id', function(req, res){
 
+	/*
 	dealWithNoAuth(res)
 	return
+	*/
 
 
-	/*console.log(current_clients)
+	console.log(current_clients)
 
 	console.log("--------------")
 
 	console.log(gameroom_clients)
 
-	console.log("--------------")*/
+	console.log("--------------")
 
 	var room = req.params.id
 
