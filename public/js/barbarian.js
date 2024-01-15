@@ -23,52 +23,52 @@ function changeBarbStats(){
 		return
 	}
 	if (val == 1){
-		BARBARIAN_SPAWN_CHANCE = 0.01
+		BARBARIAN_SPAWN_CHANCE = 0.1
 		MAX_TOTAL_BARBS = 1
 		return
 	}
 	if (val == 2){
-		BARBARIAN_SPAWN_CHANCE = 0.02
+		BARBARIAN_SPAWN_CHANCE = 0.15
 		MAX_TOTAL_BARBS = 2
 		return
 	}
 	if (val == 3){
-		BARBARIAN_SPAWN_CHANCE = 0.03
+		BARBARIAN_SPAWN_CHANCE = 0.2
 		MAX_TOTAL_BARBS = 3
 		return
 	}
 	if (val == 4){
-		BARBARIAN_SPAWN_CHANCE = 0.03
+		BARBARIAN_SPAWN_CHANCE = 0.25
 		MAX_TOTAL_BARBS = 4
 		return
 	}
 	if (val == 5){
-		BARBARIAN_SPAWN_CHANCE = 0.04
+		BARBARIAN_SPAWN_CHANCE = 0.3
 		MAX_TOTAL_BARBS = 5
 		return
 	}
 	if (val == 6){
-		BARBARIAN_SPAWN_CHANCE = 0.05
+		BARBARIAN_SPAWN_CHANCE = 0.4
 		MAX_TOTAL_BARBS = 5
 		return
 	}
 	if (val == 7){
-		BARBARIAN_SPAWN_CHANCE = 0.06
+		BARBARIAN_SPAWN_CHANCE = 0.45
 		MAX_TOTAL_BARBS = 6
 		return
 	}
 	if (val == 8){
-		BARBARIAN_SPAWN_CHANCE = 0.07
+		BARBARIAN_SPAWN_CHANCE = 0.45
 		MAX_TOTAL_BARBS = 7
 		return
 	}
 	if (val == 9){
-		BARBARIAN_SPAWN_CHANCE = 0.07
+		BARBARIAN_SPAWN_CHANCE = 0.45
 		MAX_TOTAL_BARBS = 9
 		return
 	}
 	if (val == 10){
-		BARBARIAN_SPAWN_CHANCE = 0.09
+		BARBARIAN_SPAWN_CHANCE = 0.5
 		MAX_TOTAL_BARBS = 9
 		return
 	}

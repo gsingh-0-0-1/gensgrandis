@@ -46,6 +46,15 @@ loader.load('/resources/units/scout_new.glb',
 )
 
 
+var EXPLORER_LOADED_MESH = null
+
+loader.load('/resources/units/scout_new.glb',
+	function (gltf) {
+		EXPLORER_LOADED_MESH = gltf.scene
+	}
+)
+
+
 var CITY_HALL_TEXTURE = null
 
 var CODE_TEXTURE_DICT = {}

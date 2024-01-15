@@ -4,6 +4,6 @@
     "socket.io": "^4.4.0"
   },
   "scripts": {
-    "start": "git log > gitlog.txt; node node.js 0.0.0.0"
+    "start": "node node.js 0.0.0.0"
   }
 }

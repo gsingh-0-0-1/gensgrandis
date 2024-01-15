@@ -64,17 +64,11 @@ composer.addPass(outlinePass);*/
 
 //scene.fog = new THREE.Fog(0x888888, 0, 100)
 
-
-function getTileBuildingBoosts(id, x, y, center = false){
+function getTileBuildingCounts(id, x, y, center = false){
 	if (getTileAt(x, y).tile_grid == undefined){
 		return [0, 0, 0]
 	}
-	if (center){
-		var population = cities[id].center.population
-	}
-	else{
-		var population = cities[id].tiles[x + "_" + y].population
-	}
+
 	num_armories = 0
 	num_forges = 0
 	num_barracks = 0
@@ -91,11 +85,28 @@ function getTileBuildingBoosts(id, x, y, center = false){
 		}
 	}
 
+	return [num_armories, num_forges, num_barracks]
+}
+
+
+function getTileBuildingBoosts(id, x, y, center = false){
+	if (center){
+		var population = cities[id].center.population
+	}
+	else{
+		var population = cities[id].tiles[x + "_" + y].population
+	}
+
+	var nums = getTileBuildingCounts(id, x, y, center)
+	num_armories = nums[0]
+	num_forges = nums[1]
+	num_barracks = nums[2]
+
 	var armories_boost = num_armories * 0.04 * population
 	var forges_boost = num_forges * 0.04 * population
 	var barracks_boost = num_barracks * 0.04 * population
 
-	return [Math.round(armories_boost, 1), Math.round(barracks_boost, 1), Math.round(forges_boost, 1)]
+	return [Math.round(10 * armories_boost) / 10, Math.round(10 * barracks_boost) / 10, Math.round(10 * forges_boost) / 10]
 }
 
 
@@ -164,6 +175,9 @@ function endTurn(){
 					}
 					if (prod == "S"){
 						addScout(targetx, targety)
+					}
+					if (prod == "E"){
+						addExplorer(targetx, targety)
 					}
 					cities[cityidx].production_progress[type] -= unit_produce_times[cities[cityidx].producing[type]]
 
@@ -975,7 +989,9 @@ function buildCity(id = null, name='', owner='self', x = null, y = null){
 
 	createTileGrid(this_city.center.x, this_city.center.y, true)
 
-	activateTilesAtCenter(this_city.center.x, this_city.center.y)
+	if (owner == 'self') {
+		activateTilesAtCenter(this_city.center.x, this_city.center.y)
+	}
 }
 
 function drawUnits(i, emit = true){
@@ -984,7 +1000,12 @@ function drawUnits(i, emit = true){
 			return
 		}
 		if (emit){
-			socket.emit('unitcreated', units[i])
+			if (multi) {
+				socket.emit('unitcreated', units[i].replaceAll('self', username))
+			}
+			else {
+				socket.emit('unitcreated', units[i])
+			}
 		}
 		var info = units[i].split("~")
 		var unittype = info[0]
@@ -1036,6 +1057,9 @@ function drawUnits(i, emit = true){
 		}
 		if (unittype == "S"){
 			drawScout(thisunit.x, thisunit.y, thisunit.unitid, vis)
+		}
+		if (unittype == "E"){
+			drawExplorer(thisunit.x, thisunit.y, thisunit.unitid, vis)
 		}
 
 		if (cities.length > 0 && thisunit.owner == 'self'){
@@ -1732,3 +1756,7 @@ socket.on('removebuilding', function(subtile, x, y, id){
 socket.on('server_message', function(msg){
 	alert(msg)
 })
+
+socket.on('remove_unit', function(id) {
+	removeUnit(id)
+}) 

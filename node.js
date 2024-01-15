@@ -13,7 +13,7 @@ const zlib = require("zlib");
 
 const bodyParser = require('body-parser');
 
-
+const https = require('https');
 const http = require('http');
 const app = express();
 
@@ -32,6 +32,15 @@ var log_file = fs.createWriteStream(__dirname + '/log.txt', {flags : 'a'});
 var blacklist_file = fs.createWriteStream(__dirname + '/blacklist.txt', {flags : 'a'});
 
 server.listen(process.env.PORT || port, host);
+
+
+function keepAlive(){
+	https.get("https://gensgrandis.onrender.com", (resp) => {
+	
+	})
+}
+
+setInterval(keepAlive, 5 * 60 * 1000);
 
 const accesscodes = []
 var rooms = []
@@ -319,9 +328,11 @@ app.get("/wiki", (req, res) => {
 	res.sendFile("public/templates/wiki.html", {root: __dirname})
 })
 
+/*
 app.get("/changelog", (req, res) => {
 	res.sendFile("public/templates/changelog.html", {root: __dirname})
 })
+*/
 
 app.get("/soundtrack", (req, res) => {
 	res.sendFile("public/templates/soundtrack.html", {root: __dirname})
@@ -384,17 +395,19 @@ app.get("/*", (req, res, next) => {
 
 app.get('/room/:id', function(req, res){
 
+	/*
 	dealWithNoAuth(res)
 	return
+	*/
 
 
-	/*console.log(current_clients)
+	console.log(current_clients)
 
 	console.log("--------------")
 
 	console.log(gameroom_clients)
 
-	console.log("--------------")*/
+	console.log("--------------")
 
 	var room = req.params.id
 
