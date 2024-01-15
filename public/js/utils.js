@@ -341,12 +341,12 @@ function showCitySidebar(this_city_ID, tilex, tiley){
 	if (cities[this_city_ID].producing["reg"] != null){
 		document.getElementById("city_info_sidebar_progress_reg").textContent = Math.round(cities[this_city_ID].production_progress["reg"] * 100) / 100
 		document.getElementById("city_info_sidebar_prod_target_reg").textContent = Math.round(unit_produce_times[cities[this_city_ID].producing["reg"]] * 100) / 100
-		document.getElementById("city_info_sidebar_prod_unit_reg").textContent = Math.round(unit_corresponds[cities[this_city_ID].producing["reg"]] * 100) / 100
+		document.getElementById("city_info_sidebar_prod_unit_reg").textContent = unit_corresponds[cities[this_city_ID].producing["reg"]]
 	}
 	if (cities[this_city_ID].producing["mil"] != null){
 		document.getElementById("city_info_sidebar_progress_mil").textContent = Math.round(cities[this_city_ID].production_progress["mil"] * 100) / 100
 		document.getElementById("city_info_sidebar_prod_target_mil").textContent = Math.round(unit_produce_times[cities[this_city_ID].producing["mil"]] * 100) / 100
-		document.getElementById("city_info_sidebar_prod_unit_mil").textContent = Math.round(unit_corresponds[cities[this_city_ID].producing["mil"]] * 100) / 100
+		document.getElementById("city_info_sidebar_prod_unit_mil").textContent = unit_corresponds[cities[this_city_ID].producing["mil"]]
 	}
 
 	if (centerx == tilex && centery == tiley){
